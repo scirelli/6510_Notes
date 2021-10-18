@@ -1,0 +1,68 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Tabelle der DOS-Funktionen
+(wird nach $0190-$01BB kopiert)
+
+FF75: F0 B0      W <A HREF="RO81B0F0.HTM">$B0F0</A>        Haupt-Leerschleife
+FF77: FD DA      W <A HREF="RO81DAFD.HTM">$DAFD</A>        Interrupt-Routine
+FF79: CA AF      W <A HREF="RO81AFCA.HTM">$AFCA</A>        Warmstartvector
+FF7B: 62 B2      W <A HREF="RO81B262.HTM">$B262</A>        VALIDATE
+FF7D: C5 8E      W <A HREF="RO818EC5.HTM">$8EC5</A>        INITIALIZE
+FF7F: 81 B7      W <A HREF="RO81B781.HTM">$B781</A>        Partition
+FF81: 2F 89      W <A HREF="RO81892F.HTM">$892F</A>        Memory-Read/Write
+FF83: 5D 8A      W <A HREF="RO818A5D.HTM">$8A5D</A>        Block-Befehle
+FF85: 8F 89      W <A HREF="RO81898F.HTM">$898F</A>        USER
+FF87: A1 A1      W <A HREF="RO81A1A1.HTM">$A1A1</A>        POSITION (RECORD)
+FF89: 56 A9      W <A HREF="RO81A956.HTM">$A956</A>        Utility-Loader (&amp;)
+FF8B: 6E 87      W <A HREF="RO81876E.HTM">$876E</A>        COPY
+FF8D: C5 88      W <A HREF="RO8188C5.HTM">$88C5</A>        RENAME
+FF8F: 88 86      W <A HREF="RO818688.HTM">$8688</A>        SCRATCH
+FF91: 48 B3      W <A HREF="RO81B348.HTM">$B348</A>        NEW
+FF93: AE A7      W <A HREF="RO81A7AE.HTM">$A7AE</A>        Error-Routine des Controllers
+FF95: CF AB      W <A HREF="RO81ABCF.HTM">$ABCF</A>        ATN-bearbeiten
+FF97: 5C AD      W <A HREF="RO81AD5C.HTM">$AD5C</A>        Daten auf ser. Bus
+FF99: B8 AE      W <A HREF="RO81AEB8.HTM">$AEB8</A>        Daten vom ser. Bus
+FF9B: BE C0      W <A HREF="RO81C0BE.HTM">$C0BE</A>        Controller-Routine
+FF9D: DC CE      W <A HREF="RO81CEDC.HTM">$CEDC</A>        log. in phys. Format
+FF9F: F1 A7      W <A HREF="RO81A7F1.HTM">$A7F1</A>        Error-Routine des DOS
+
+FFA1: FF ....
+FFAC: .... FF
+
+Einsprung von <A HREF="RO81AFCA.HTM">$AFD0</A>:
+
+FFAD: A0 2B     LDY #$2B         Vektoren initialisieren
+
+Einsprung von $FFB6:
+
+FFAF: B9 75 FF  LDA $FF75,Y
+FFB2: 99 90 01  STA <A HREF="RA810190.HTM">$0190</A>,Y
+FFB5: 88        DEY
+FFB6: 10 F7     BPL $FFAF
+FFB8: A9 4C     LDA #$4C         ,01fc 4c 40 ba  JMP <A HREF="RO81BA40.HTM">$BA40</A>
+FFBA: 8D FC 01  STA <A HREF="RA8101FC.HTM">$01FC</A>        (Byte auf FSM-Bus ausgeben)
+FFBD: A9 40     LDA #$40
+FFBF: 8D FD 01  STA <A HREF="RA8101FC.HTM">$01FD</A>
+FFC2: A9 BA     LDA #$BA
+FFC4: 8D FE 01  STA <A HREF="RA8101FC.HTM">$01FE</A>
+FFC7: 60        RTS
+
+FFC8: FF ....
+FFE9: .... FF
+
+FFEA: 9A 8B      W <A HREF="RO818B9A.HTM">$8B9A</A>        u1  Block lesen
+FFEC: D7 8B      W <A HREF="RO818BD7.HTM">$8BD7</A>        u2  Block schreiben
+FFEE: 00 05      W <A HREF="RA810500.HTM">$0500</A>        u3  Spruenge in Puffer 2
+FFF0: 03 05      W <A HREF="RA810500.HTM">$0503</A>        u4   &quot;
+FFF2: 06 05      W <A HREF="RA810500.HTM">$0506</A>        u5   &quot;
+FFF4: 09 05      W <A HREF="RA810500.HTM">$0509</A>        u6   &quot;
+FFF6: 0C 05      W <A HREF="RA810500.HTM">$050C</A>        u7   &quot;
+FFF8: 0F 05      W <A HREF="RA810500.HTM">$050F</A>        u8   &quot;
+FFFA: 3C AD      W <A HREF="RO81AD3C.HTM">$AD3C</A>        u9  NMI: Warmstart / Busmodus aendern
+FFFC: 24 AF      W <A HREF="RO81AF24.HTM">$AF24</A>        u:  RESET: Einschaltvektor
+FFFE: 03 FF      W <A HREF="RO81FF00.HTM">$FF03</A>        BRK/IRQ -Vektor
+
+    <A HREF="RO81FF00.HTM">Previous Page</A>
+
+</PRE></BODY></HTML>

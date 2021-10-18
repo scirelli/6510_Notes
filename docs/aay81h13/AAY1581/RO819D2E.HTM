@@ -1,0 +1,18 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Puffer schreiben, wenn er veraendert wurde ($ddf1)
+
+Einsprung von <A HREF="RO81999F.HTM">$99C8</A>, <A HREF="RO81A235.HTM">$A242</A>, <A HREF="RO81A459.HTM">$A45F</A>:
+
+9D2E: 20 1C 9F  JSR <A HREF="RO819F1C.HTM">$9F1C</A>        Aktiven Puffer holen
+9D31: 50 06     BVC $9D39        Puffer unveraendert ? ==&gt;
+9D33: 20 9A 9D  JSR <A HREF="RO819D8E.HTM">$9D9A</A>        Block schreiben
+9D36: 20 ED 94  JSR <A HREF="RO8194DE.HTM">$94ED</A>        Ausfuehrung ueberpruefen
+
+Einsprung von $9D31:
+
+9D39: 60        RTS
+    <A HREF="RO819CF5.HTM">Previous Page</A> / <A HREF="RO819D3A.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

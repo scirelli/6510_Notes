@@ -1,0 +1,32 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $ED67/60775:   Get byte from buffer
+
+Jump from <A HREF="RO41D39B.HTM">$D40E</A>:
+
+ED67: 20 37 D1  JSR <A HREF="RO41D137.HTM">$D137</A>       ; get byte
+ED6A: F0 01     BEQ $ED6D       ; buffer pointer zero?
+ED6C: 60        RTS
+
+Jump from $ED6A:
+
+ED6D: 85 85     STA <A HREF="RA4185.HTM">$85</A>         ; save data byte
+ED6F: A4 82     LDY <A HREF="RA4182.HTM">$82</A>         ; channel number
+ED71: B9 44 02  LDA <A HREF="RA410244.HTM">$0244</A>,Y     ; set end marker
+ED74: F0 08     BEQ $ED7E       ; zero (LOAD $)?
+ED76: A9 80     LDA #$80
+ED78: 99 F2 00  STA <A HREF="RA41F2.HTM">$F2</A>,Y       ; set READ flag
+ED7B: A5 85     LDA <A HREF="RA4185.HTM">$85</A>         ; data byte
+ED7D: 60        RTS
+
+Jump from $ED74:
+
+ED7E: 48        PHA
+ED7F: 20 EA EC  JSR <A HREF="RO41EC9E.HTM">$ECEA</A>       ; create directory line in buffer
+ED82: 68        PLA
+ED83: 60        RTS
+
+    <A HREF="RO41ED59.HTM">Previous Page</A> / <A HREF="RO41ED84.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

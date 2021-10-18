@@ -1,0 +1,173 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+ATN-bearbeiten ($e85b; bei der 1571: $80ce)
+
+Vorbereitung
+
+ABCF: 78        SEI
+ABD0: A5 9D     LDA <A HREF="RA819D.HTM">$9D</A>          Cache-Verzoegerungszaehler initialisieren
+ABD2: 85 9C     STA <A HREF="RA819C.HTM">$9C</A>
+ABD4: A5 76     LDA <A HREF="RA8176.HTM">$76</A>          LISTEN &amp; TALK loeschen
+ABD6: 29 3E     AND #$3E         b0: Flag 'ATN aufgetreten' loeschen
+ABD8: 85 76     STA <A HREF="RA8176.HTM">$76</A>
+ABDA: A6 4F     LDX <A HREF="RA814F.HTM">$4F</A>          Stack initialisieren
+ABDC: 9A        TXS
+ABDD: 20 BB AC  JSR <A HREF="RO81ACB6.HTM">$ACBB</A>        FSM-Bus auf Eingabe stellen
+ABE0: A9 80     LDA #$80         EOI-Flag loeschen
+ABE2: 85 51     STA <A HREF="RA8151.HTM">$51</A>
+
+Bus im ATN-Modus bedienen
+
+ABE4: A5 76     LDA <A HREF="RA8176.HTM">$76</A>          b1=1: ATN-Modus aktivieren
+ABE6: 09 02     ORA #$02
+ABE8: 85 76     STA <A HREF="RA8176.HTM">$76</A>
+ABEA: 20 03 AD  JSR <A HREF="RO81AD03.HTM">$AD03</A>        CLOCK OUT auf Lo
+ABED: 20 F1 AC  JSR <A HREF="RO81ACF1.HTM">$ACF1</A>        DATA OUT auf Hi
+ABF0: AD 01 40  LDA <A HREF="CIA811.HTM">$4001</A>        automatische ATN-Beantwortung ausschalten,
+ABF3: 29 EF     AND #$EF         damit die Software den Bus im ATN-Modus
+ABF5: 8D 01 40  STA <A HREF="CIA811.HTM">$4001</A>        bedienen kann
+
+ - Kommando-Byte vom Computer einlesen
+
+Einsprung von $ABFF:
+
+ABF8: AD 01 40  LDA <A HREF="CIA811.HTM">$4001</A>        liegt kein ATN mehr an ?
+ABFB: 10 5D     BPL $AC5A        ja, ==&gt;
+ABFD: 29 04     AND #$04         Warten bis CLOCK IN = Lo wird
+ABFF: D0 F7     BNE $ABF8        (zeigt an, dass Daten kommen)
+
+Einsprung von $AC58:
+
+AC01: 20 42 AE  JSR <A HREF="RO81AE42.HTM">$AE42</A>        Byte vom seriellen Bus holen
+
+ - UNLISTEN
+
+AC04: C9 3F     CMP #$3F         UNLISTEN
+AC06: D0 09     BNE $AC11        nein, ==&gt;
+AC08: A5 76     LDA <A HREF="RA8176.HTM">$76</A>          Busbetrieb auf
+AC0A: 29 9F     AND #$9F         b5: seriell, langsam
+AC0C: 85 76     STA <A HREF="RA8176.HTM">$76</A>          b6: kein LISTEN
+AC0E: 4C 1B AC  JMP $AC1B        ATN Ende abwarten
+
+ - UNTALK
+
+Einsprung von $AC06:
+
+AC11: C9 5F     CMP #$5F         UNTALK ?
+AC13: D0 09     BNE $AC1E        nein, ==&gt;
+AC15: A5 76     LDA <A HREF="RA8176.HTM">$76</A>          Busbetrieb auf
+AC17: 29 5F     AND #$5F         b5: seriell,langsam
+AC19: 85 76     STA <A HREF="RA8176.HTM">$76</A>          b7: kein TALK
+
+Einsprung von $AC0E:
+
+AC1B: 4C 96 AC  JMP $AC96        ATN Ende abwarten
+
+ - TALK
+
+Einsprung von $AC13:
+
+AC1E: C5 78     CMP <A HREF="RA8178.HTM">$78</A>          TALK ?
+AC20: D0 0A     BNE $AC2C        nein, ==&gt;
+AC22: A5 76     LDA <A HREF="RA8176.HTM">$76</A>          ja,
+AC24: 09 80     ORA #$80         b7: Flag fuer TALK setzen
+AC26: 29 BF     AND #$BF         b6: Flag fuer LISTEN loeschen
+AC28: 85 76     STA <A HREF="RA8176.HTM">$76</A>
+AC2A: D0 29     BNE $AC55        ==&gt;
+ - LISTEN
+
+Einsprung von $AC20:
+
+AC2C: C5 77     CMP <A HREF="RA8177.HTM">$77</A>          LISTEN ?
+AC2E: D0 0A     BNE $AC3A        nein, ==&gt;
+AC30: A5 76     LDA <A HREF="RA8176.HTM">$76</A>          ja,
+AC32: 09 40     ORA #$40         b6: Flag fuer LISTEN setzen
+AC34: 29 7F     AND #$7F         b7: Flag fuer TALK loeschen
+AC36: 85 76     STA <A HREF="RA8176.HTM">$76</A>
+AC38: D0 1B     BNE $AC55
+
+ - Sekundaeradresse einlesen
+
+Einsprung von $AC2E:
+
+AC3A: AA        TAX
+AC3B: 29 60     AND #$60         Sekundaeradresse (b65=11) ?
+AC3D: C9 60     CMP #$60
+AC3F: D0 50     BNE $AC91        nein, (anderes Geraet war gemeint) ==&gt;
+AC41: 8A        TXA              Sekundaeradresse vom Computer
+AC42: 85 53     STA <A HREF="RA8153.HTM">$53</A>          mit Kommandobits merken
+AC44: 29 0F     AND #$0F
+AC46: 85 52     STA <A HREF="RA8152.HTM">$52</A>          SA pur merken
+
+ - CLOSE
+
+AC48: A5 53     LDA <A HREF="RA8153.HTM">$53</A>          Kommando vom Computer
+AC4A: 29 F0     AND #$F0
+AC4C: C9 E0     CMP #$E0         = 'schliessen' ?
+AC4E: D0 46     BNE $AC96        nein, (Datenmodus aktivieren) ==&gt;
+AC50: 58        CLI
+AC51: 20 5C 99  JSR <A HREF="RO81995C.HTM">$995C</A>        aktuellen Kanal schliessen
+AC54: 78        SEI
+
+Einsprung von $AC2A, $AC38:
+
+AC55: 2C 01 40  BIT <A HREF="CIA811.HTM">$4001</A>        ATN testen
+AC58: 30 A7     BMI $AC01        gesetzt, ==&gt;
+
+Bus im Datenmodus bedienen
+
+Einsprung von $ABFB, $AC99, <A HREF="RO81AD15.HTM">$AD2C</A>:
+
+AC5A: A5 76     LDA <A HREF="RA8176.HTM">$76</A>          b1=0: ATN-Modus loeschen
+AC5C: 29 FD     AND #$FD         Datenmodus aktivieren
+AC5E: 85 76     STA <A HREF="RA8176.HTM">$76</A>
+AC60: AD 01 40  LDA <A HREF="CIA811.HTM">$4001</A>        Automatische ATN-Beantwortung einschalten
+AC63: 09 10     ORA #$10
+AC65: 8D 01 40  STA <A HREF="CIA811.HTM">$4001</A>
+
+ - LISTEN bearbeiten
+
+AC68: 24 76     BIT <A HREF="RA8176.HTM">$76</A>          LISTEN ?
+AC6A: 50 0F     BVC $AC7B        nein ==&gt;
+AC6C: A9 20     LDA #$20         FSM-Betrieb ?
+AC6E: 24 76     BIT <A HREF="RA8176.HTM">$76</A>
+AC70: F0 03     BEQ $AC75        nein, ==&gt;
+AC72: 20 9D AC  JSR <A HREF="RO81AC9D.HTM">$AC9D</A>        ja, schnellen Bus-Modus anfordern
+
+Einsprung von $AC70:
+
+AC75: 20 36 FF  JSR <A HREF="RO81FF00.HTM">$FF36</A>        LISTEN behandeln
+AC78: 4C E4 AE  JMP <A HREF="RO81AEDF.HTM">$AEE4</A>        FSM abschliessen, Ende
+
+ - TALK bearbeiten
+
+Einsprung von $AC6A:
+
+AC7B: 24 76     BIT <A HREF="RA8176.HTM">$76</A>          TALK ?
+AC7D: 10 0F     BPL $AC8E        nein, ==&gt;
+AC7F: 20 E8 AC  JSR <A HREF="RO81ACE8.HTM">$ACE8</A>        DATA OUT auf Lo
+AC82: 20 FA AC  JSR <A HREF="RO81ACFA.HTM">$ACFA</A>        CLOCK OUT auf Hi
+AC85: 20 2F AD  JSR <A HREF="RO81AD2F.HTM">$AD2F</A>        kurze Zeit warten
+AC88: 20 33 FF  JSR <A HREF="RO81FF00.HTM">$FF33</A>        TALK behandeln
+AC8B: 20 2F AD  JSR <A HREF="RO81AD2F.HTM">$AD2F</A>        kurze Zeit warten
+
+Einsprung von $AC7D:
+
+AC8E: 4C DF AE  JMP <A HREF="RO81AEDF.HTM">$AEDF</A>        FSM auf Eingabe schalten, Ende
+ - ATN-Modus abwarten, wenn z.B. ein anderes Geraet angesprochen wird
+
+Einsprung von $AC3F:
+
+AC91: A9 00     LDA #$00         Alle Ausgaenge Lo (Laufwerk passiv halten)
+AC93: 8D 01 40  STA <A HREF="CIA811.HTM">$4001</A>
+
+Einsprung von $AC1B, $AC4E, $AC9B:
+
+AC96: 2C 01 40  BIT <A HREF="CIA811.HTM">$4001</A>        Ist ATN noch gesetzt ?
+AC99: 10 BF     BPL $AC5A        nein, ==&gt;
+AC9B: 30 F9     BMI $AC96        Warten bis ATN geloescht ist
+
+    <A HREF="RO81AB1D.HTM">Previous Page</A> / <A HREF="RO81AC9D.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

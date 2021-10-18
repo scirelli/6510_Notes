@@ -1,0 +1,50 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $EF90/61328:   Mark block as allocated
+
+Jump from <A HREF="RO41CD03.HTM">$CD13</A>, <A HREF="RO41EDE5.HTM">$EDE8</A>, <A HREF="RO41EDE5.HTM">$EE04</A>, <A HREF="RO41F11E.HTM">$F19A</A>, <A HREF="RO41F1A9.HTM">$F1F2</A>:
+
+EF90: 20 F1 EF  JSR <A HREF="RO41EFF1.HTM">$EFF1</A>       ; set buffer pointer
+
+Jump from <A HREF="RO41EE0D.HTM">$EE96</A>, <A HREF="RO41EE0D.HTM">$EE9D</A>:
+
+EF93: 20 CF EF  JSR <A HREF="RO41EFCF.HTM">$EFCF</A>       ; erase bit for sector in BAM
+EF96: F0 36     BEQ $EFCE       ; already allocated, then done
+EF98: B1 6D     LDA (<A HREF="RA416D.HTM">$6D</A>),Y
+EF9A: 5D E9 EF  EOR <A HREF="RO41EFE9.HTM">$EFE9</A>,X     ; erase bit for block
+EF9D: 91 6D     STA (<A HREF="RA416D.HTM">$6D</A>),Y
+EF9F: 20 88 EF  JSR <A HREF="RO41EF88.HTM">$EF88</A>       ; set flag for BAM changed
+EFA2: A4 6F     LDY <A HREF="RA416F.HTM">$6F</A>
+EFA4: B1 6D     LDA (<A HREF="RA416D.HTM">$6D</A>),Y
+EFA6: 38        SEC
+EFA7: E9 01     SBC #$01        ; decrement number of blocks per track
+EFA9: 91 6D     STA (<A HREF="RA416D.HTM">$6D</A>),Y
+EFAB: A5 80     LDA <A HREF="RA4180.HTM">$80</A>         ; track
+EFAD: CD 85 FE  CMP <A HREF="RO41FE85.HTM">$FE85</A>       ; 18?
+EFB0: F0 0B     BEQ $EFBD
+EFB2: BD FA 02  LDA <A HREF="RA4102FA.HTM">$02FA</A>,X     ; number of free blocks lo
+EFB5: D0 03     BNE $EFBA
+EFB7: DE FC 02  DEC <A HREF="RA4102FC.HTM">$02FC</A>,X     ; decrement number of free blocks
+
+Jump from $EFB5, <A HREF="RO41EF5C.HTM">$EF7D</A>:
+
+EFBA: DE FA 02  DEC <A HREF="RA4102FA.HTM">$02FA</A>,X
+
+Jump from $EFB0:
+
+EFBD: BD FC 02  LDA <A HREF="RA4102FC.HTM">$02FC</A>,X     ; number of free blocks hi
+EFC0: D0 0C     BNE $EFCE       ; more than 255 blocks free?
+EFC2: BD FA 02  LDA <A HREF="RA4102FA.HTM">$02FA</A>,X     ; free blocks lo
+EFC5: C9 03     CMP #$03
+EFC7: B0 05     BCS $EFCE       ; smaller than 3?
+EFC9: A9 72     LDA #$72
+EFCB: 20 C7 E6  JSR <A HREF="RO41E6C7.HTM">$E6C7</A>       ; 72, 'disk full'
+
+Jump from $EF96, $EFC0, $EFC7:
+
+EFCE: 60        RTS
+
+    <A HREF="RO41EF88.HTM">Previous Page</A> / <A HREF="RO41EFCF.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

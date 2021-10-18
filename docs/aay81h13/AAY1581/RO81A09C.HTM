@@ -1,0 +1,16 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Flag fuer 'Puffer geaendert' loeschen ($e115)
+
+Einsprung von <A HREF="RO819D8E.HTM">$9DC4</A>:
+
+A09C: 20 1C 9F  JSR <A HREF="RO819F1C.HTM">$9F1C</A>        Aktiven Puffer holen
+A09F: 29 BF     AND #$BF         b6=0: 'Puffer geaendert'-Flag loeschen
+A0A1: A6 74     LDX <A HREF="RA8174.HTM">$74</A>          Zeiger auf Puffernummer
+A0A3: 95 D1     STA <A HREF="RA81D1.HTM">$D1</A>,X
+A0A5: 60        RTS
+
+    <A HREF="RO81A08D.HTM">Previous Page</A> / <A HREF="RO81A0A6.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

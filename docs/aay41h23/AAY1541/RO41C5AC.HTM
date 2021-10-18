@@ -1,0 +1,94 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C5AC/50604:   ?
+
+Jump from <A HREF="RO41C44F.HTM">$C457</A>, <A HREF="RO41C48B.HTM">$C4A2</A>, <A HREF="RO41D6E4.HTM">$D70E</A>, <A HREF="RO41ED84.HTM">$ED97</A>:
+
+C5AC: A0 00     LDY #$00
+C5AE: 8C 91 02  STY <A HREF="RA410291.HTM">$0291</A>
+C5B1: 88        DEY
+C5B2: 8C 53 02  STY <A HREF="RA410253.HTM">$0253</A>
+C5B5: AD 85 FE  LDA <A HREF="RO41FE85.HTM">$FE85</A>       ; 18, directory track
+C5B8: 85 80     STA <A HREF="RA4180.HTM">$80</A>
+C5BA: A9 01     LDA #$01
+C5BC: 85 81     STA <A HREF="RA4181.HTM">$81</A>         ; sector 1
+C5BE: 8D 93 02  STA <A HREF="RA410293.HTM">$0293</A>
+C5C1: 20 75 D4  JSR <A HREF="RO41D475.HTM">$D475</A>       ; read sector
+
+Jump from $C62C:
+
+C5C4: AD 93 02  LDA <A HREF="RA410293.HTM">$0293</A>
+C5C7: D0 01     BNE $C5CA
+C5C9: 60        RTS
+
+Jump from $C5C7:
+
+C5CA: A9 07     LDA #$07
+C5CC: 8D 95 02  STA <A HREF="RA410295.HTM">$0295</A>       ; number of directory entries (-1)
+C5CF: A9 00     LDA #$00
+C5D1: 20 F6 D4  JSR <A HREF="RO41D4F6.HTM">$D4F6</A>       ; get pointer from buffer
+C5D4: 8D 93 02  STA <A HREF="RA410293.HTM">$0293</A>       ; save as track number
+
+Jump from $C626:
+
+C5D7: 20 E8 D4  JSR <A HREF="RO41D4E8.HTM">$D4E8</A>       ; set buffer pointer
+C5DA: CE 95 02  DEC <A HREF="RA410295.HTM">$0295</A>       ; decrement counter
+C5DD: A0 00     LDY #$00
+C5DF: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; first byte from directory
+C5E1: D0 18     BNE $C5FB
+C5E3: AD 91 02  LDA <A HREF="RA410291.HTM">$0291</A>
+C5E6: D0 2F     BNE $C617
+C5E8: 20 3B DE  JSR <A HREF="RO41DE3B.HTM">$DE3B</A>       ; get track and sector number
+C5EB: A5 81     LDA <A HREF="RA4181.HTM">$81</A>
+C5ED: 8D 91 02  STA <A HREF="RA410291.HTM">$0291</A>       ; sector number
+C5F0: A5 94     LDA <A HREF="RA4194.HTM">$94</A>
+C5F2: AE 92 02  LDX <A HREF="RA410292.HTM">$0292</A>
+C5F5: 8D 92 02  STA <A HREF="RA410292.HTM">$0292</A>       ; buffer pointer
+C5F8: F0 1D     BEQ $C617
+C5FA: 60        RTS
+
+Jump from $C5E1:
+
+C5FB: A2 01     LDX #$01
+C5FD: EC 92 02  CPX <A HREF="RA410292.HTM">$0292</A>       ; buffer pointer to one?
+C600: D0 2D     BNE $C62F
+C602: F0 13     BEQ $C617
+
+Jump from <A HREF="RO41C48B.HTM">$C48B</A>, <A HREF="RO41EDB3.HTM">$EDD4</A>:
+
+C604: AD 85 FE  LDA <A HREF="RO41FE85.HTM">$FE85</A>       ; 18, track number of BAM
+C607: 85 80     STA <A HREF="RA4180.HTM">$80</A>         ; track number
+C609: AD 90 02  LDA <A HREF="RA410290.HTM">$0290</A>
+C60C: 85 81     STA <A HREF="RA4181.HTM">$81</A>         ; sector number
+C60E: 20 75 D4  JSR <A HREF="RO41D475.HTM">$D475</A>       ; read block
+C611: AD 94 02  LDA <A HREF="RA410294.HTM">$0294</A>
+C614: 20 C8 D4  JSR <A HREF="RO41D4C8.HTM">$D4C8</A>       ; set buffer pointer
+
+Jump from $C5E6, $C5F8, $C602, <A HREF="RO41C44F.HTM">$C470</A>, <A HREF="RO41C48B.HTM">$C4B5</A>, <A HREF="RO41D6E4.HTM">$D72B</A>:
+
+C617: A9 FF     LDA #$FF
+C619: 8D 53 02  STA <A HREF="RA410253.HTM">$0253</A>       ; erase-file found flag
+C61C: AD 95 02  LDA <A HREF="RA410295.HTM">$0295</A>
+C61F: 30 08     BMI $C629       ; all directory entries checked?
+C621: A9 20     LDA #$20
+C623: 20 C6 D1  JSR <A HREF="RO41D1C6.HTM">$D1C6</A>       ; increment buffer ptr by 32, next entry
+C626: 4C D7 C5  JMP $C5D7       ; and continue
+
+Jump from $C61F:
+
+C629: 20 4D D4  JSR <A HREF="RO41D44D.HTM">$D44D</A>       ; set buffer pointer
+C62C: 4C C4 C5  JMP $C5C4       ; read next block
+
+Jump from $C600:
+
+C62F: A5 94     LDA <A HREF="RA4194.HTM">$94</A>
+C631: 8D 94 02  STA <A HREF="RA410294.HTM">$0294</A>
+C634: 20 3B DE  JSR <A HREF="RO41DE3B.HTM">$DE3B</A>       ; get track &amp; sector number from buffer
+C637: A5 81     LDA <A HREF="RA4181.HTM">$81</A>
+C639: 8D 90 02  STA <A HREF="RA410290.HTM">$0290</A>       ; save sector number
+C63C: 60        RTS
+
+    <A HREF="RO41C4D8.HTM">Previous Page</A> / <A HREF="RO41C63D.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

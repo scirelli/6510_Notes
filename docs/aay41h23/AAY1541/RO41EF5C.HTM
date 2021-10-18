@@ -1,0 +1,35 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $EF5C/61276:   Mark block as free
+
+EF5C: 20 F1 EF  JSR <A HREF="RO41EFF1.HTM">$EFF1</A>       ; set buffer pointer
+
+Jump from <A HREF="RO41C87D.HTM">$C87D</A>, <A HREF="RO41C87D.HTM">$C8AD</A>, <A HREF="RO41CCF5.HTM">$CCF8</A>:
+
+EF5F: 20 CF EF  JSR <A HREF="RO41EFCF.HTM">$EFCF</A>       ; erase bit for sector in BAM
+EF62: 38        SEC
+EF63: D0 22     BNE $EF87       ; block already free, then done
+EF65: B1 6D     LDA (<A HREF="RA416D.HTM">$6D</A>),Y     ; bit model of BAM
+EF67: 1D E9 EF  ORA <A HREF="RO41EFE9.HTM">$EFE9</A>,X     ; set bit X, marker for free
+EF6A: 91 6D     STA (<A HREF="RA416D.HTM">$6D</A>),Y
+EF6C: 20 88 EF  JSR <A HREF="RO41EF88.HTM">$EF88</A>       ; set flag for BAM changed
+EF6F: A4 6F     LDY <A HREF="RA416F.HTM">$6F</A>
+EF71: 18        CLC
+EF72: B1 6D     LDA (<A HREF="RA416D.HTM">$6D</A>),Y
+EF74: 69 01     ADC #$01        ; increment number of free blocks/track
+EF76: 91 6D     STA (<A HREF="RA416D.HTM">$6D</A>),Y
+EF78: A5 80     LDA <A HREF="RA4180.HTM">$80</A>         ; track
+EF7A: CD 85 FE  CMP <A HREF="RO41FE85.HTM">$FE85</A>       ; equal to 18?
+EF7D: F0 3B     BEQ <A HREF="RO41EF90.HTM">$EFBA</A>       ; then skip
+EF7F: FE FA 02  INC <A HREF="RA4102FA.HTM">$02FA</A>,X     ; increment number of free blocks in disk
+EF82: D0 03     BNE $EF87
+EF84: FE FC 02  INC <A HREF="RA4102FC.HTM">$02FC</A>,X     ; increment number of blocks hi
+
+Jump from $EF63, $EF82:
+
+EF87: 60        RTS
+
+    <A HREF="RO41EF4D.HTM">Previous Page</A> / <A HREF="RO41EF88.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

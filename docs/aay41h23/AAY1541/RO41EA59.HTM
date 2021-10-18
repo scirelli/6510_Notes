@@ -1,0 +1,30 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $EA59/59993:   Test for ATN
+
+Jump from <A HREF="RO41E909.HTM">$E916</A>, <A HREF="RO41E909.HTM">$E925</A>, <A HREF="RO41E909.HTM">$E937</A>, <A HREF="RO41E909.HTM">$E941</A>, <A HREF="RO41E909.HTM">$E94E</A>, <A HREF="RO41E909.HTM">$E987</A>, <A HREF="RO41E9C9.HTM">$E9CD</A>, <A HREF="RO41E9C9.HTM">$E9DF</A>, <A HREF="RO41E9F2.HTM">$E9FD</A>,
+          <A HREF="RO41E9F2.HTM">$EA1A</A>:
+
+EA59: A5 7D     LDA <A HREF="RA417D.HTM">$7D</A>         ; EOI received?
+EA5B: F0 06     BEQ $EA63       ; yes
+EA5D: AD 00 18  LDA <A HREF="VIA10.HTM">$1800</A>       ; IEEE port
+EA60: 10 09     BPL $EA6B
+
+Jump from $EA66:
+
+EA62: 60        RTS
+
+Jump from $EA5B:
+
+EA63: AD 00 18  LDA <A HREF="VIA10.HTM">$1800</A>       ; IEEE port
+EA66: 10 FA     BPL $EA62
+EA68: 4C 5B E8  JMP <A HREF="RO41E85B.HTM">$E85B</A>       ; to serial bus main loop
+
+Jump from $EA60:
+
+EA6B: 4C D7 E8  JMP <A HREF="RO41E85B.HTM">$E8D7</A>       ; set EOI, serial bus
+
+    <A HREF="RO41EA2E.HTM">Previous Page</A> / <A HREF="RO41EA6E.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

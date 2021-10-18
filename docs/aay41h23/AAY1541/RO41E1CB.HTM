@@ -1,0 +1,55 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $E1CB/57803:   Get last side-sector
+
+Jump from <A HREF="RO41CA35.HTM">$CA56</A>, <A HREF="RO41CA35.HTM">$CA69</A>, <A HREF="RO41DB02.HTM">$DB32</A>, <A HREF="RO41DEF8.HTM">$DF0B</A>, <A HREF="RO41E31C.HTM">$E31F</A>:
+
+E1CB: 20 D2 DE  JSR <A HREF="RO41DED2.HTM">$DED2</A>       ; get number of the side-sector
+E1CE: 85 D5     STA <A HREF="RA41D5.HTM">$D5</A>         ; save
+E1D0: A9 04     LDA #$04
+E1D2: 85 94     STA <A HREF="RA4194.HTM">$94</A>         ; pointer to side-sectors
+E1D4: A0 0A     LDY #$0A
+E1D6: D0 04     BNE $E1DC
+
+Jump from $E1DE:
+
+E1D8: 88        DEY
+E1D9: 88        DEY
+E1DA: 30 26     BMI $E202
+
+Jump from $E1D6:
+
+E1DC: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; track number of the previous block
+E1DE: F0 F8     BEQ $E1D8
+E1E0: 98        TYA
+E1E1: 4A        LSR             ; divide by 2
+E1E2: C5 D5     CMP <A HREF="RA41D5.HTM">$D5</A>         ; = number of the actual block?
+E1E4: F0 09     BEQ $E1EF       ; yes
+E1E6: 85 D5     STA <A HREF="RA41D5.HTM">$D5</A>         ; else save all numbers
+E1E8: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+E1EA: B5 CD     LDA <A HREF="RA41CD.HTM">$CD</A>,X       ; buffer number
+E1EC: 20 1B DF  JSR <A HREF="RO41DF1B.HTM">$DF1B</A>       ; read block
+
+Jump from $E1E4:
+
+E1EF: A0 00     LDY #$00
+E1F1: 84 94     STY <A HREF="RA4194.HTM">$94</A>         ; buffer pointer
+E1F3: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; track number
+E1F5: D0 0B     BNE $E202       ; another block?
+E1F7: C8        INY
+E1F8: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; sector number = end pointer
+E1FA: A8        TAY
+E1FB: 88        DEY
+E1FC: 84 D6     STY <A HREF="RA41D6.HTM">$D6</A>         ; save end pointer
+E1FE: 98        TYA
+E1FF: 4C E9 DE  JMP <A HREF="RO41DEE9.HTM">$DEE9</A>       ; set buffer pointer
+
+Jump from $E1DA, $E1F5, <A HREF="RO41E207.HTM">$E286</A>:
+
+E202: A9 67     LDA #$67
+E204: 20 45 E6  JSR <A HREF="RO41E645.HTM">$E645</A>       ; 67, 'illegal track or sector'
+
+    <A HREF="RO41E120.HTM">Previous Page</A> / <A HREF="RO41E207.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,23 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+JOB $88: MOTONI_DV
+
+C396: 20 B1 CB  JSR <A HREF="RO81CBB1.HTM">$CBB1</A>        Motor einschalten
+
+Einsprung von <A HREF="RO81C390.HTM">$C390</A>, <A HREF="RO81C3A9.HTM">$C3AC</A>, <A HREF="RO81C546.HTM">$C54C</A>, <A HREF="RO81C546.HTM">$C555</A>, <A HREF="RO81C546.HTM">$C55E</A>, <A HREF="RO81C546.HTM">$C567</A>, <A HREF="RO81C56A.HTM">$C586</A>, <A HREF="RO81CF51.HTM">$CF87</A>:
+
+C399: A9 00     LDA #$00
+
+Einsprung von <A HREF="RO81CF51.HTM">$CFA3</A>:
+
+C39B: A4 83     LDY <A HREF="RA8183.HTM">$83</A>          Jobauftrag loeschen
+C39D: 99 02 00  STA <A HREF="RA8102.HTM">$0002</A>,Y
+C3A0: A9 80     LDA #$80         Jobbehandlung neu starten
+C3A2: 85 83     STA <A HREF="RA8183.HTM">$83</A>          Jobnummer: Flag: 'kein Job aktiv' setzen
+C3A4: A0 08     LDY #$08         alle Jobspeicher pruefen
+C3A6: 4C FA CD  JMP <A HREF="RO81CDE2.HTM">$CDFA</A>        ==&gt;
+
+    <A HREF="RO81C393.HTM">Previous Page</A> / <A HREF="RO81C3A9.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

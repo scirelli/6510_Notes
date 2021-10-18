@@ -1,0 +1,34 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Parameter fuer die Partitionerstellung holen
+
+Einsprung von <A HREF="RO81B811.HTM">$B81C</A>, <A HREF="RO81B88D.HTM">$B899</A>, <A HREF="RO81B88D.HTM">$B8A2</A>, <A HREF="RO81B88D.HTM">$B8B2</A>:
+
+B85F: AC 90 02  LDY <A HREF="RA810290.HTM">$0290</A>        Ende des Partitionnamens
+B862: C8        INY              +1 = Position des 1. Parameters
+B863: B9 00 02  LDA <A HREF="RA810200.HTM">$0200</A>,Y      Starttrack
+B866: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>          merken
+B868: C8        INY
+B869: B9 00 02  LDA <A HREF="RA810200.HTM">$0200</A>,Y      Startsektor
+B86C: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>          merken
+B86E: C8        INY
+B86F: B9 00 02  LDA <A HREF="RA810200.HTM">$0200</A>,Y      Laenge des Bereiches
+B872: 8D EE 01  STA <A HREF="RA8101ED.HTM">$01EE</A>        Lo
+B875: C8        INY
+B876: B9 00 02  LDA <A HREF="RA810200.HTM">$0200</A>,Y
+B879: 8D ED 01  STA <A HREF="RA8101ED.HTM">$01ED</A>        Hi
+B87C: 18        CLC
+B87D: AD EE 01  LDA <A HREF="RA8101ED.HTM">$01EE</A>        Laenge = 0 ?
+B880: 6D ED 01  ADC <A HREF="RA8101ED.HTM">$01ED</A>
+B883: F0 03     BEQ $B888        Ja, ==&gt;
+B885: 4C B5 94  JMP <A HREF="RO8194B5.HTM">$94B5</A>        T&amp;S auf gueltigen Bereich testen
+
+Einsprung von $B883:
+
+B888: A9 77     LDA #$77         77, Selected Partition illegal
+B88A: 20 7C 80  JSR <A HREF="RO81807C.HTM">$807C</A>
+
+    <A HREF="RO81B851.HTM">Previous Page</A> / <A HREF="RO81B88D.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,59 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $CA35/51765:   ?
+
+Jump from <A HREF="RO41C9D5.HTM">$C9D8</A>, <A HREF="RO41E7A3.HTM">$E81B</A>, <A HREF="RO41E7A3.HTM">$E839</A>:
+
+CA35: A9 11     LDA #$11        ; 11
+CA37: 85 83     STA <A HREF="RA4183.HTM">$83</A>
+
+Jump from <A HREF="RO41DA2A.HTM">$DA2A</A>:
+
+CA39: 20 9B D3  JSR <A HREF="RO41D39B.HTM">$D39B</A>       ; open channel and get byte
+CA3C: 85 85     STA <A HREF="RA4185.HTM">$85</A>
+CA3E: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+CA40: B5 F2     LDA <A HREF="RA41F2.HTM">$F2</A>,X
+CA42: 29 08     AND #$08        ; isolate end marker
+CA44: 85 F8     STA <A HREF="RA41F8.HTM">$F8</A>
+CA46: D0 0A     BNE $CA52       ; not set?
+CA48: 20 25 D1  JSR <A HREF="RO41D125.HTM">$D125</A>       ; get data type
+CA4B: F0 05     BEQ $CA52       ; rel-file?
+CA4D: A9 80     LDA #$80
+CA4F: 20 97 DD  JSR <A HREF="RO41DD95.HTM">$DD97</A>       ; set bit 7
+
+Jump from $CA46, $CA4B:
+
+CA52: 60        RTS
+
+Jump from <A HREF="RO41C9A7.HTM">$C9CB</A>:
+
+CA53: 20 D3 D1  JSR <A HREF="RO41D1D3.HTM">$D1D3</A>       ; set drive number
+CA56: 20 CB E1  JSR <A HREF="RO41E1CB.HTM">$E1CB</A>
+CA59: A5 D6     LDA <A HREF="RA41D6.HTM">$D6</A>
+CA5B: 48        PHA
+CA5C: A5 D5     LDA <A HREF="RA41D5.HTM">$D5</A>
+CA5E: 48        PHA
+CA5F: A9 12     LDA #$12        ; 18
+CA61: 85 83     STA <A HREF="RA4183.HTM">$83</A>
+CA63: 20 07 D1  JSR <A HREF="RO41D107.HTM">$D107</A>       ; open write channel
+CA66: 20 D3 D1  JSR <A HREF="RO41D1D3.HTM">$D1D3</A>       ; set drive number
+CA69: 20 CB E1  JSR <A HREF="RO41E1CB.HTM">$E1CB</A>
+CA6C: 20 9C E2  JSR <A HREF="RO41E207.HTM">$E29C</A>
+CA6F: A5 D6     LDA <A HREF="RA41D6.HTM">$D6</A>
+CA71: 85 87     STA <A HREF="RA4186.HTM">$87</A>
+CA73: A5 D5     LDA <A HREF="RA41D5.HTM">$D5</A>
+CA75: 85 86     STA <A HREF="RA4186.HTM">$86</A>
+CA77: A9 00     LDA #$00
+CA79: 85 88     STA <A HREF="RA4186.HTM">$88</A>
+CA7B: 85 D4     STA <A HREF="RA41D4.HTM">$D4</A>
+CA7D: 85 D7     STA <A HREF="RA41D7.HTM">$D7</A>
+CA7F: 68        PLA
+CA80: 85 D5     STA <A HREF="RA41D5.HTM">$D5</A>
+CA82: 68        PLA
+CA83: 85 D6     STA <A HREF="RA41D6.HTM">$D6</A>
+CA85: 4C 3B E3  JMP <A HREF="RO41E31C.HTM">$E33B</A>
+
+    <A HREF="RO41C9FA.HTM">Previous Page</A> / <A HREF="RO41CA88.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

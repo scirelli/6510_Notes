@@ -1,0 +1,70 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Schreiben/Lesen mit Cache-Daten
+
+Einsprung von <A HREF="RO81C0BE.HTM">$C0FC</A>:
+
+CF51: A4 99     LDY <A HREF="RA8199.HTM">$99</A>
+CF53: B9 BC 01  LDA <A HREF="RA8101BC.HTM">$01BC</A>,Y      Befindet sich die physikalische Spur im
+CF56: C5 95     CMP <A HREF="RA8195.HTM">$95</A>          Cachepuffer ?
+CF58: D0 09     BNE $CF63        nein, (Ende) ==&gt;
+CF5A: A5 96     LDA <A HREF="RA8196.HTM">$96</A>          Handelt es sich um die richtige Seite ?
+CF5C: C5 97     CMP <A HREF="RA8197.HTM">$97</A>
+CF5E: D0 03     BNE $CF63        nein, (Ende) ==&gt;
+CF60: 4C 64 CF  JMP $CF64        Ja ==&gt;
+
+Einsprung von $CF58, $CF5E:
+
+CF63: 60        RTS
+
+Einsprung von $CF60:
+
+CF64: A6 83     LDX <A HREF="RA8183.HTM">$83</A>          Jobnummer
+CF66: BD F1 01  LDA <A HREF="RA8101F1.HTM">$01F1</A>,X      Pufferadresse holen und als Copy-Zeiger
+CF69: 85 49     STA <A HREF="RA8148.HTM">$49</A>          merken
+CF6B: B5 9F     LDA <A HREF="RA819F.HTM">$9F</A>,X        Position des Blocks im Cache
+CF6D: 29 7F     AND #$7F         b7=0: Flag: 'T&amp;S sind umgewandelt worden'
+CF6F: 18        CLC              ausblenden
+CF70: 65 8C     ADC <A HREF="RA818B.HTM">$8C</A>          + Cacheanfang
+CF72: 85 4B     STA <A HREF="RA814A.HTM">$4B</A>          Als Zeiger in den Cachepuffer merken
+CF74: A0 00     LDY #$00         Am Pufferanfang beginnen
+CF76: 84 48     STY <A HREF="RA8148.HTM">$48</A>
+CF78: 84 4A     STY <A HREF="RA814A.HTM">$4A</A>
+CF7A: A2 01     LDX #$01         256 Bytes kopieren
+CF7C: 06 86     ASL <A HREF="RA8185.HTM">$86</A>          b6=1: keine Daten kopierenn ?
+CF7E: B0 18     BCS $CF98        ja, ==&gt;
+CF80: 06 86     ASL <A HREF="RA8185.HTM">$86</A>          b65=01: Daten in Cache schreiben
+CF82: B0 06     BCS $CF8A        ja, ==&gt;
+CF84: 20 58 D5  JSR <A HREF="RO81D549.HTM">$D558</A>        b65=00: Daten aus Cache in Puffer kopieren
+
+Einsprung von $CF96, $CF9A:
+
+CF87: 4C 99 C3  JMP <A HREF="RO81C396.HTM">$C399</A>        Auftrag loeschen, alle Jobs pruefen
+
+Einsprung von $CF82:
+
+CF8A: AD FA 01  LDA <A HREF="RA8101FA.HTM">$01FA</A>        Schreibschutz an ?
+CF8D: D0 14     BNE $CFA3        Ja, ==&gt;
+CF8F: 20 3E D0  JSR <A HREF="RO81D00D.HTM">$D03E</A>        Daten in Cache schreiben
+
+Einsprung von $CFA1:
+
+CF92: A9 80     LDA #$80         Flag fuer Cache veraendert setzen
+CF94: 85 87     STA <A HREF="RA8187.HTM">$87</A>
+CF96: D0 EF     BNE $CF87        immer ==&gt;
+
+Einsprung von $CF7E:
+
+CF98: 06 86     ASL <A HREF="RA8185.HTM">$86</A>          b65=11: Schreibschutz abfragen
+CF9A: 90 EB     BCC $CF87        nein, ==&gt;
+CF9C: AD FA 01  LDA <A HREF="RA8101FA.HTM">$01FA</A>        Schreibschutz an ?
+CF9F: D0 02     BNE $CFA3        ja, ==&gt;
+CFA1: B0 EF     BCS $CF92        immer ==&gt;
+
+Einsprung von $CF8D, $CF9F:
+
+CFA3: 4C 9B C3  JMP <A HREF="RO81C396.HTM">$C39B</A>        Schreibschutz-Fehler
+    <A HREF="RO81CEDC.HTM">Previous Page</A> / <A HREF="RO81CFA6.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

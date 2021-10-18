@@ -1,0 +1,17 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Verzeichnis-Header in aktuellen Puffer lesen, ggf. BAM lesen
+
+Einsprung von <A HREF="RO81854D.HTM">$862A</A>:
+
+B633: 20 15 B5  JSR <A HREF="RO81B515.HTM">$B515</A>        Bam ggf. abspeichern
+B636: A2 00     LDX #$00         Verzeichnis-Header (x: Sektornummer)
+B638: A5 6C     LDA <A HREF="RA816C.HTM">$6C</A>          in aktuellen Puffer lesen
+B63A: 20 43 B6  JSR <A HREF="RO81B643.HTM">$B643</A>        T&amp;S an DC uebergeben
+B63D: 20 DE 94  JSR <A HREF="RO8194DE.HTM">$94DE</A>        Job ausfuehren und ueberwachen
+B640: 4C F2 B5  JMP <A HREF="RO81B5F2.HTM">$B5F2</A>        Wenn Bam-Puffer leer, Bam lesen
+
+    <A HREF="RO81B612.HTM">Previous Page</A> / <A HREF="RO81B643.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

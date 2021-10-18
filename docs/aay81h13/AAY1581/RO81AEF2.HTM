@@ -1,0 +1,63 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Fehlerblinken nach Selbsttest ($ea6e)
+
+Einsprung von <A HREF="RO81AF24.HTM">$AF5B</A>, <A HREF="RO81AF24.HTM">$AF64</A>, <A HREF="RO81AF24.HTM">$AF6A</A>:
+
+AEF2: A2 00     LDX #$00         &lt;-- einmal blinken
+AEF4: 2C         B $2C
+
+Einsprung von <A HREF="RO81AB1D.HTM">$ABCC</A>, <A HREF="RO81AF24.HTM">$AFC7</A>:
+
+AEF5: A6 40     LDX <A HREF="RA8140.HTM">$40</A>          &lt;-- ($40)+1 mal blinken
+AEF7: 9A        TXS
+
+Einsprung von $AF22:
+
+AEF8: BA        TSX
+
+Einsprung von $AF1C:
+
+AEF9: A9 60     LDA #$60         beide LEDs ein
+AEFB: 0D 00 40  ORA <A HREF="CIA810.HTM">$4000</A>
+AEFE: 8D 00 40  STA <A HREF="CIA810.HTM">$4000</A>
+AF01: 98        TYA              y=0
+
+Einsprung von $AF08:
+
+AF02: 18        CLC              Warten
+
+Einsprung von $AF05:
+
+AF03: 69 01     ADC #$01
+AF05: D0 FC     BNE $AF03
+AF07: 88        DEY
+AF08: D0 F8     BNE $AF02
+AF0A: AD 00 40  LDA <A HREF="CIA810.HTM">$4000</A>        LEDs ausschalten
+AF0D: 29 9F     AND #$9F
+AF0F: 8D 00 40  STA <A HREF="CIA810.HTM">$4000</A>
+
+Einsprung von $AF20:
+
+AF12: 98        TYA              y=0
+
+Einsprung von $AF19:
+
+AF13: 18        CLC              Warten
+
+Einsprung von $AF16:
+
+AF14: 69 01     ADC #$01
+AF16: D0 FC     BNE $AF14
+AF18: 88        DEY
+AF19: D0 F8     BNE $AF13
+AF1B: CA        DEX              Noch mal Blinken ?
+AF1C: 10 DB     BPL $AEF9        ja, ==&gt;
+AF1E: E0 F9     CPX #$F9         Verzoegerung nach dem Blinken
+AF20: D0 F0     BNE $AF12
+AF22: F0 D4     BEQ $AEF8        neu beginnen
+
+    <A HREF="RO81AEEA.HTM">Previous Page</A> / <A HREF="RO81AF24.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

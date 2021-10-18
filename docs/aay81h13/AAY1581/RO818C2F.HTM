@@ -1,0 +1,22 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Kanal oeffnen, Blockparameter holen und testen ($cdf2)
+
+Einsprung von <A HREF="RO818B65.HTM">$8B65</A>, <A HREF="RO818BAE.HTM">$8BAE</A>, <A HREF="RO818BD7.HTM">$8BDA</A>:
+
+8C2F: 20 0F 8C  JSR <A HREF="RO818C0F.HTM">$8C0F</A>        Kanal oeffnen
+
+Einsprung von <A HREF="RO818B23.HTM">$8B26</A>, <A HREF="RO818B2F.HTM">$8B32</A>:
+
+8C32: A6 67     LDX <A HREF="RA8167.HTM">$67</A>          Parameternummer holen
+8C34: BD 9E 02  LDA <A HREF="RA81029C.HTM">$029E</A>,X      T&amp;S des angeforderten Blocks holen
+8C37: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+8C39: BD 9D 02  LDA <A HREF="RA81029C.HTM">$029D</A>,X
+8C3C: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>
+8C3E: 20 B5 94  JSR <A HREF="RO8194B5.HTM">$94B5</A>        auf gueltigen Block pruefen
+8C41: 4C F6 81  JMP <A HREF="RO8181E5.HTM">$81F6</A>        Drive-LED einschalten
+
+    <A HREF="RO818C0F.HTM">Previous Page</A> / <A HREF="RO818C44.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

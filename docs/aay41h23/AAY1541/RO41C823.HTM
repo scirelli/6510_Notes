@@ -1,0 +1,63 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C823/51235:   Perform [S] - Scratch command
+
+C823: 20 98 C3  JSR <A HREF="RO41C398.HTM">$C398</A>       ; ascertain file type
+C826: 20 20 C3  JSR <A HREF="RO41C312.HTM">$C320</A>       ; get drive number
+C829: 20 CA C3  JSR <A HREF="RO41C3CA.HTM">$C3CA</A>       ; initialize drive if needed
+C82C: A9 00     LDA #$00
+C82E: 85 86     STA <A HREF="RA4186.HTM">$86</A>         ; counter for erased files
+C830: 20 9D C4  JSR <A HREF="RO41C48B.HTM">$C49D</A>       ; search for file in directory
+C833: 30 3D     BMI $C872       ; not found?
+
+Jump from $C870:
+
+C835: 20 B7 DD  JSR <A HREF="RO41DDB7.HTM">$DDB7</A>       ; is file open
+C838: 90 33     BCC $C86D       ; yes
+C83A: A0 00     LDY #$00
+C83C: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; file type
+C83E: 29 40     AND #$40        ; scratch protect
+C840: D0 2B     BNE $C86D       ; yes
+C842: 20 B6 C8  JSR <A HREF="RO41C8B6.HTM">$C8B6</A>       ; erase file and note in directory
+C845: A0 13     LDY #$13
+C847: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; track number of the first side-sector
+C849: F0 0A     BEQ $C855       ; none present?
+C84B: 85 80     STA <A HREF="RA4180.HTM">$80</A>         ; note track number
+C84D: C8        INY
+C84E: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; and sector number
+C850: 85 81     STA <A HREF="RA4181.HTM">$81</A>
+C852: 20 7D C8  JSR <A HREF="RO41C87D.HTM">$C87D</A>       ; erase side-sector
+
+Jump from $C849:
+
+C855: AE 53 02  LDX <A HREF="RA410253.HTM">$0253</A>       ; file number
+C858: A9 20     LDA #$20
+C85A: 35 E7     AND <A HREF="RA41E7.HTM">$E7</A>,X       ; bit 5 set?
+C85C: D0 0D     BNE $C86B       ; yes, file not closed
+C85E: BD 80 02  LDA <A HREF="RA410280.HTM">$0280</A>,X     ; get track
+C861: 85 80     STA <A HREF="RA4180.HTM">$80</A>
+C863: BD 85 02  LDA <A HREF="RA410285.HTM">$0285</A>,X     ; and sector
+C866: 85 81     STA <A HREF="RA4181.HTM">$81</A>
+C868: 20 7D C8  JSR <A HREF="RO41C87D.HTM">$C87D</A>       ; erase file
+
+Jump from $C85C:
+
+C86B: E6 86     INC <A HREF="RA4186.HTM">$86</A>         ; increment number of erased files
+
+Jump from $C838, $C840:
+
+C86D: 20 8B C4  JSR <A HREF="RO41C48B.HTM">$C48B</A>       ; search for next file
+C870: 10 C3     BPL $C835       ; if present, erase
+
+Jump from $C833:
+
+C872: A5 86     LDA <A HREF="RA4186.HTM">$86</A>         ; number of erased files
+C874: 85 80     STA <A HREF="RA4180.HTM">$80</A>         ; save as 'track'
+C876: A9 01     LDA #$01        ; 1 as disk status
+C878: A0 00     LDY #$00        ; 0 as 'sector'
+C87A: 4C A3 C1  JMP <A HREF="RO41C194.HTM">$C1A3</A>       ; message 'files scratched'
+
+    <A HREF="RO41C817.HTM">Previous Page</A> / <A HREF="RO41C87D.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

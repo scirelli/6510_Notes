@@ -1,0 +1,30 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+aktuellen Filetyp ermitteln und
+pruefen, ob alle Files nach dem '=' existieren ($cacc)
+
+Einsprung von <A HREF="RO81876E.HTM">$87BE</A>, <A HREF="RO81891E.HTM">$891E</A>:
+
+8903: A5 F5     LDA <A HREF="RA81F4.HTM">$F5</A>          Dateityp des 1. Files hinter dem '=' holen
+8905: 29 07     AND #$07
+8907: 8D 2D 02  STA <A HREF="RA81022D.HTM">$022D</A>        und als aktuellen Filetyp merken
+890A: AE 2F 02  LDX <A HREF="RA81022F.HTM">$022F</A>        vom letzten Fileeintrag bis zum
+
+Einsprung von $8916:
+
+890D: CA        DEX
+890E: EC 2E 02  CPX <A HREF="RA81022E.HTM">$022E</A>        1. Fileeintrag nach dem '='
+8911: 90 0A     BCC $891D        ( fertig, ==&gt; )
+8913: BD 97 02  LDA <A HREF="RA810297.HTM">$0297</A>,X      Tracknummer des aktuellen Files holen
+8916: D0 F5     BNE $890D        &gt;0 (File existiert), ==&gt;
+8918: A9 62     LDA #$62
+891A: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>        62, File not found
+
+Einsprung von $8911:
+
+891D: 60        RTS
+
+    <A HREF="RO8188C5.HTM">Previous Page</A> / <A HREF="RO81891E.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,50 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F4D1/62673:   Read sector
+
+Jump from <A HREF="RO41F4CA.HTM">$F4CC</A>:
+
+F4D1: 20 0A F5  JSR <A HREF="RO41F50A.HTM">$F50A</A>       ; find beginning of data block
+
+Jump from $F4D4, $F4DD:
+
+F4D4: 50 FE     BVC $F4D4       ; byte ready?
+F4D6: B8        CLV
+F4D7: AD 01 1C  LDA <A HREF="VIA21.HTM">$1C01</A>       ; get data byte
+F4DA: 91 30     STA (<A HREF="RA4130.HTM">$30</A>),Y     ; and write in buffer
+F4DC: C8        INY             ; 256 times
+F4DD: D0 F5     BNE $F4D4
+F4DF: A0 BA     LDY #$BA
+
+Jump from $F4E1, $F4EB:
+
+F4E1: 50 FE     BVC $F4E1       ; byte ready?
+F4E3: B8        CLV
+F4E4: AD 01 1C  LDA <A HREF="VIA21.HTM">$1C01</A>       ; read bytes
+F4E7: 99 00 01  STA <A HREF="RA410100.HTM">$0100</A>,Y     ; from $1BA to $1FF
+F4EA: C8        INY
+F4EB: D0 F4     BNE $F4E1
+F4ED: 20 E0 F8  JSR <A HREF="RO41F8E0.HTM">$F8E0</A>
+F4F0: A5 38     LDA <A HREF="RA4138.HTM">$38</A>
+F4F2: C5 47     CMP <A HREF="RA4147.HTM">$47</A>         ; equal 7, beginning of data block?
+F4F4: F0 05     BEQ $F4FB       ; yes
+F4F6: A9 04     LDA #$04        ; 22, 'read error'
+F4F8: 4C 69 F9  JMP <A HREF="RO41F969.HTM">$F969</A>       ; error termination
+
+Jump from $F4F4:
+
+F4FB: 20 E9 F5  JSR <A HREF="RO41F5E9.HTM">$F5E9</A>       ; calculate parity of data block
+F4FE: C5 3A     CMP <A HREF="RA413A.HTM">$3A</A>         ; agreement?
+F500: F0 03     BEQ $F505       ; yes
+F502: A9 05     LDA #$05        ; 23, 'read error'
+F504: 2C        .BYTE $2C
+
+Jump from $F500:
+
+F505: A9 01     LDA #$01        ; ok
+F507: 4C 69 F9  JMP <A HREF="RO41F969.HTM">$F969</A>       ; prepare error message
+
+    <A HREF="RO41F4CA.HTM">Previous Page</A> / <A HREF="RO41F50A.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

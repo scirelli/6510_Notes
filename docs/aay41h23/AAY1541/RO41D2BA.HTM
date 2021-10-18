@@ -1,0 +1,40 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D2BA/53946:   ?
+
+Jump from <A HREF="RO41D28E.HTM">$D292</A>, <A HREF="RO41D28E.HTM">$D298</A>:
+
+D2BA: A2 07     LDX #$07
+
+Jump from $D2C5:
+
+D2BC: B9 4F 02  LDA <A HREF="RA41024F.HTM">$024F</A>,Y
+D2BF: 3D E9 EF  AND <A HREF="RO41EFE9.HTM">$EFE9</A>,X     ; erase bit
+D2C2: F0 04     BEQ $D2C8
+D2C4: CA        DEX
+D2C5: 10 F5     BPL $D2BC
+D2C7: 60        RTS
+
+Jump from $D2C2:
+
+D2C8: B9 4F 02  LDA <A HREF="RA41024F.HTM">$024F</A>,Y
+D2CB: 5D E9 EF  EOR <A HREF="RO41EFE9.HTM">$EFE9</A>,X     ; rotate bit
+D2CE: 99 4F 02  STA <A HREF="RA41024F.HTM">$024F</A>,Y
+D2D1: 8A        TXA             ; buffer number
+D2D2: 88        DEY
+D2D3: 30 03     BMI $D2D8
+D2D5: 18        CLC
+D2D6: 69 08     ADC #$08
+
+Jump from $D2D3:
+
+D2D8: AA        TAX             ; buffer number
+
+Jump from <A HREF="RO41D2DA.HTM">$D2E7</A>, <A HREF="RO41D2DA.HTM">$D2EB</A>:
+
+D2D9: 60        RTS
+
+    <A HREF="RO41D28E.HTM">Previous Page</A> / <A HREF="RO41D2DA.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

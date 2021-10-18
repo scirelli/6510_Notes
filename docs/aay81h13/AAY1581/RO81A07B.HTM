@@ -1,0 +1,21 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Rest eines Records mit $00 auffuellen ($e0f3)
+
+Einsprung von $A089, <A HREF="RO81A033.HTM">$A050</A>:
+
+A07B: A9 20     LDA #$20         b5=1: Record ist voll ?
+A07D: 20 E4 9C  JSR <A HREF="RO819CD3.HTM">$9CE4</A>        Dateistatus testen
+A080: D0 0A     BNE $A08C        ja, ==&gt;
+A082: A9 00     LDA #$00         Fuellbyte festlegen
+A084: 85 54     STA <A HREF="RA8154.HTM">$54</A>
+A086: 20 FC 9F  JSR <A HREF="RO819FFC.HTM">$9FFC</A>        Byte in Recordpuffer schreiben
+A089: 4C 7B A0  JMP $A07B        bis Record voll ist
+
+Einsprung von $A080:
+
+A08C: 60        RTS
+    <A HREF="RO81A033.HTM">Previous Page</A> / <A HREF="RO81A08D.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,24 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D44D/54349:   Read next block
+
+Jump from <A HREF="RO41C5AC.HTM">$C629</A>, <A HREF="RO41C87D.HTM">$C8B0</A>, <A HREF="RO41EDE5.HTM">$EE07</A>:
+
+D44D: 20 93 DF  JSR <A HREF="RO41DF93.HTM">$DF93</A>       ; get buffer number
+D450: 0A        ASL             ; times 2
+D451: AA        TAX
+D452: A9 00     LDA #$00
+D454: 95 99     STA <A HREF="RA4199.HTM">$99</A>,X       ; buffer pointer to zero
+D456: A1 99     LDA (<A HREF="RA4199.HTM">$99</A>,X)     ; get first byte from buffer
+D458: F0 05     BEQ $D45F       ; no block following?
+D45A: D6 99     DEC <A HREF="RA4199.HTM">$99</A>,X       ; buffer pointer to -1
+D45C: 4C 56 D1  JMP <A HREF="RO41D156.HTM">$D156</A>       ; read next block
+
+Jump from $D458:
+
+D45F: 60        RTS
+
+    <A HREF="RO41D39B.HTM">Previous Page</A> / <A HREF="RO41D460.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

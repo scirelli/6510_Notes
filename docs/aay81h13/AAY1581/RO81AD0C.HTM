@@ -1,0 +1,16 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Bus auslesen und entprellen
+
+Einsprung von $AD12, <A HREF="RO81AC9D.HTM">$ACA0</A>, <A HREF="RO81AD5C.HTM">$AD6D</A>, <A HREF="RO81AD5C.HTM">$AD7C</A>, <A HREF="RO81AD5C.HTM">$AD8F</A>, <A HREF="RO81AD5C.HTM">$AD99</A>, <A HREF="RO81AD5C.HTM">$ADA6</A>, <A HREF="RO81AD5C.HTM">$ADEB</A>, <A HREF="RO81AD5C.HTM">$AE2D</A>,
+              <A HREF="RO81AE42.HTM">$AE4C</A>, <A HREF="RO81AE42.HTM">$AE65</A>, <A HREF="RO81AE42.HTM">$AE7C</A>, <A HREF="RO81AE42.HTM">$AEA7</A>:
+
+AD0C: AD 01 40  LDA <A HREF="CIA811.HTM">$4001</A>        Bus-Register auslesen
+AD0F: CD 01 40  CMP <A HREF="CIA811.HTM">$4001</A>        Ist der Wert stabil ?
+AD12: D0 F8     BNE $AD0C        nein, ==&gt;
+AD14: 60        RTS
+
+    <A HREF="RO81AD03.HTM">Previous Page</A> / <A HREF="RO81AD15.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

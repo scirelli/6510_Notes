@@ -1,0 +1,49 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+File zum Schreiben oeffnen ($d8c6)
+
+Einsprung von <A HREF="RO819678.HTM">$9759</A>:
+
+9773: A5 F4     LDA <A HREF="RA81F4.HTM">$F4</A>          b7=1: Jokerflag gesetzt ?
+9775: 29 80     AND #$80         (z.B.: SAVE&quot;@:BEISP*&quot;,ga)
+9777: AA        TAX
+9778: D0 14     BNE $978E        ja, ==&gt;
+977A: A9 20     LDA #$20         b5=1: File nicht geschlossen ?
+977C: 24 F4     BIT <A HREF="RA81F4.HTM">$F4</A>
+977E: F0 06     BEQ $9786        nein ==&gt;
+
+[Ja: In diesem Fall existiert bereits ein File mit dem geforderten Namen,
+ das aber nicht ordnungsgemaess geschlosen worden ist. Dieses muss erst
+ geloescht werden, bevor das neue File angelegt wird.]
+
+9780: 20 3B 87  JSR <A HREF="RO818688.HTM">$873B</A>        altes File als geloescht kennzeichnen
+9783: 4C 90 98  JMP <A HREF="RO819890.HTM">$9890</A>        neues File anlegen
+
+Einsprung von $977E:
+
+9786: AD 97 02  LDA <A HREF="RA810297.HTM">$0297</A>        File bereits vorhanden (Tracknummer &gt;0) ?
+9789: D0 03     BNE $978E        ja, ==&gt;
+978B: 4C 90 98  JMP <A HREF="RO819890.HTM">$9890</A>        neues File anlegen
+
+Einsprung von $9778, $9789:
+
+978E: AD 00 02  LDA <A HREF="RA810200.HTM">$0200</A>        1. Zeichen aus Befehlszeile holen
+9791: C9 40     CMP #$40         SAVE &amp; REPLACE ?
+9793: F0 0D     BEQ <A HREF="RO8197A2.HTM">$97A2</A>        ja, ==&gt;
+9795: 8A        TXA              Jokerflag gesetzt (SAVE&quot;BEISP*&quot;,ga) ?
+9796: D0 05     BNE $979D        ja, (Fehler) ==&gt;
+
+9798: A9 63     LDA #$63         63, FILE EXISTS
+979A: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>
+
+Einsprung von $9796:
+
+979D: A9 33     LDA #$33         33, SYNTAX ERROR
+979F: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>
+
+DOS 4
+
+    <A HREF="RO819678.HTM">Previous Page</A> / <A HREF="RO8197A2.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

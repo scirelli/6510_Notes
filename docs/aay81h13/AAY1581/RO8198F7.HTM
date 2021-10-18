@@ -1,0 +1,71 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Oeffnen des Directory als Basicprogramm ($da55)
+
+Kommandozeile auswerten
+
+Einsprung von <A HREF="RO819678.HTM">$96B8</A>:
+
+98F7: A9 0C     LDA #$0C         Befehlsnummer fuer 'Directory' setzen
+98F9: 8D 2A 02  STA <A HREF="RA81022A.HTM">$022A</A>
+98FC: A9 00     LDA #$00         Default-Drivenummer = 0
+98FE: A6 29     LDX <A HREF="RA8129.HTM">$29</A>          Laenge der Kommandozeile
+9900: CA        DEX              =1 ?
+9901: F0 0B     BEQ $990E        ja (load&quot;$&quot;), ==&gt;
+9903: CA        DEX              =2 ?
+9904: D0 21     BNE $9927        nein, (load&quot;$d:xx*=y&quot;) ==&gt;
+9906: AD 01 02  LDA <A HREF="RA810200.HTM">$0201</A>        Drivenummer aus Kommandozeile holen
+9909: 20 95 82  JSR <A HREF="RO818295.HTM">$8295</A>        und pruefen
+990C: 30 19     BMI $9927        keine Drivenummer gefunden, ==&gt;
+
+Einsprung von $9901:
+
+990E: 85 EF     STA <A HREF="RA81EF.HTM">$EF</A>          Drivenummer merken
+9910: EE 2E 02  INC <A HREF="RA81022E.HTM">$022E</A>        Anzahl Parameter =1 ('*')
+9913: EE 2F 02  INC <A HREF="RA81022F.HTM">$022F</A>        Anzahl Parameter vor '=' =1 ('*')
+9916: EE 91 02  INC <A HREF="RA810291.HTM">$0291</A>        Position des 1. Parameters =1
+9919: A9 80     LDA #$80         Jokerflag setzen
+991B: 85 F4     STA <A HREF="RA81F4.HTM">$F4</A>          (alle Files anzeigen)
+991D: A9 2A     LDA #$2A
+991F: 8D 00 02  STA <A HREF="RA810200.HTM">$0200</A>        '*' als Suchmaske setzen
+9922: 8D 01 02  STA <A HREF="RA810200.HTM">$0201</A>
+9925: D0 18     BNE $993F        immer ==&gt;
+
+Einsprung von $9904, $990C:
+
+9927: 20 99 80  JSR <A HREF="RO818099.HTM">$8099</A>        Zeile bis ':' auswerten
+992A: D0 05     BNE $9931        ':' gefunden ? ja, ==&gt;
+992C: 20 AF 81  JSR <A HREF="RO818165.HTM">$81AF</A>        Kommandozeilenparameter initialisieren
+992F: A0 03     LDY #$03         Drivenummer bei '$0:'
+
+Einsprung von $992A:
+
+9931: 88        DEY
+9932: 88        DEY              (moegliche) Position einer
+9933: 8C 91 02  STY <A HREF="RA810291.HTM">$0291</A>        Drivenummer merken
+9936: 20 B4 80  JSR <A HREF="RO8180A2.HTM">$80B4</A>        Kommandozeile auswerten
+9939: 20 70 82  JSR <A HREF="RO818270.HTM">$8270</A>        gesuchten Dateityp feststellen
+993C: 20 0B 82  JSR <A HREF="RO81820B.HTM">$820B</A>        Laufwerksnummern pruefen
+
+1. Directory Ausgabepuffer fuellen
+
+Einsprung von $9925:
+
+993F: 20 A2 82  JSR <A HREF="RO8182A2.HTM">$82A2</A>        Laufwerk initialisieren
+9942: 20 27 86  JSR <A HREF="RO81854D.HTM">$8627</A>        Disknamen in Dir-Zeilenpuffer schreiben
+
+9945: 20 ED 82  JSR <A HREF="RO8182E6.HTM">$82ED</A>        1. Datei suchen
+9948: 20 7C B1  JSR <A HREF="RO81B17C.HTM">$B17C</A>        Ausgabepuffer fuellen
+994B: 20 71 90  JSR <A HREF="RO819071.HTM">$9071</A>        Byte aus aktuellem Puffer fuer
+994E: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          Ausgabe bereitstellen
+9950: 9D 3B 02  STA <A HREF="RA81023B.HTM">$023B</A>,X
+9953: A9 04     LDA #$04         Dateityp PRG, Drive 0 waehlen
+9955: 95 F9     STA <A HREF="RA81F9.HTM">$F9</A>,X
+9957: A9 00     LDA #$00         Zeiger in Kommandozeile loeschen
+9959: 85 CD     STA <A HREF="RA81CD.HTM">$CD</A>
+995B: 60        RTS
+
+    <A HREF="RO8198CC.HTM">Previous Page</A> / <A HREF="RO81995C.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

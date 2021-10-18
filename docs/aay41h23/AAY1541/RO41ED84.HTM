@@ -1,0 +1,30 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $ED84/60804:   Perform [V] - Validate command
+
+ED84: 20 D1 C1  JSR <A HREF="RO41C1D1.HTM">$C1D1</A>       ; find drive number in input line
+ED87: 20 42 D0  JSR <A HREF="RO41D042.HTM">$D042</A>       ; load BAM
+ED8A: A9 40     LDA #$40
+ED8C: 8D F9 02  STA <A HREF="RA4102F9.HTM">$02F9</A>
+ED8F: 20 B7 EE  JSR <A HREF="RO41EEB7.HTM">$EEB7</A>       ; create new BAM in buffer
+ED92: A9 00     LDA #$00
+ED94: 8D 92 02  STA <A HREF="RA410292.HTM">$0292</A>
+ED97: 20 AC C5  JSR <A HREF="RO41C5AC.HTM">$C5AC</A>       ; load directory, find 1st flag
+ED9A: D0 3D     BNE <A HREF="RO41EDB3.HTM">$EDD9</A>       ; found?
+
+Jump from <A HREF="RO41EDB3.HTM">$EDD7</A>:
+
+ED9C: A9 00     LDA #$00
+ED9E: 85 81     STA <A HREF="RA4181.HTM">$81</A>         ; sector 0
+EDA0: AD 85 FE  LDA <A HREF="RO41FE85.HTM">$FE85</A>       ; 18
+EDA3: 85 80     STA <A HREF="RA4180.HTM">$80</A>         ; track 18 for BAM
+EDA5: 20 E5 ED  JSR <A HREF="RO41EDE5.HTM">$EDE5</A>       ; mark directory blocks as allocated
+EDA8: A9 00     LDA #$00
+EDAA: 8D F9 02  STA <A HREF="RA4102F9.HTM">$02F9</A>
+EDAD: 20 FF EE  JSR <A HREF="RO41EEF4.HTM">$EEFF</A>       ; write BAM back to disk
+EDB0: 4C 94 C1  JMP <A HREF="RO41C194.HTM">$C194</A>       ; done, prepare disk status
+
+    <A HREF="RO41ED67.HTM">Previous Page</A> / <A HREF="RO41EDB3.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

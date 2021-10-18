@@ -1,0 +1,32 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Side-Sektor lesen/schreiben ($df1b)
+E: a      : Puffernummer
+   y      : Nummer des Side-Sektors *2
+   $64-$65: Zeiger auf die Side-Sektoren-Tabelle
+
+Einsprung von <A HREF="RO819E32.HTM">$9E3E</A>, <A HREF="RO81A15C.HTM">$A186</A>, <A HREF="RO81A459.HTM">$A521</A>:
+
+9E56: 85 6C     STA <A HREF="RA816C.HTM">$6C</A>          &lt;-- Side-Sektor lesen
+9E58: A9 80     LDA #$80
+9E5A: D0 04     BNE $9E60
+
+9E5C: 85 6C     STA <A HREF="RA816C.HTM">$6C</A>          &lt;-- Side-Sektor schreiben
+9E5E: A9 90     LDA #$90
+
+Einsprung von $9E5A:
+
+9E60: 85 28     STA <A HREF="RA8128.HTM">$28</A>          T&amp;S des Side-Sektors holen
+9E62: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y
+9E64: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>
+9E66: C8        INY
+9E67: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y
+9E69: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+9E6B: A5 6C     LDA <A HREF="RA816C.HTM">$6C</A>          Puffernummer holen
+9E6D: 20 88 95  JSR <A HREF="RO819585.HTM">$9588</A>        T&amp;S an DC uebergeben
+9E70: A6 6C     LDX <A HREF="RA816C.HTM">$6C</A>          Puffernummer holen
+9E72: 4C E8 94  JMP <A HREF="RO8194DE.HTM">$94E8</A>        Side-Sektor lesen/schreiben
+    <A HREF="RO819E32.HTM">Previous Page</A> / <A HREF="RO819E75.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

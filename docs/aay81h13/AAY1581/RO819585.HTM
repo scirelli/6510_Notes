@@ -1,0 +1,25 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+T&amp;S an DC uebergeben ($d6d0)
+E: $50: Kanalnummer
+
+Einsprung von <A HREF="RO818FD6.HTM">$8FD6</A>, <A HREF="RO818FEA.HTM">$8FF5</A>, <A HREF="RO819112.HTM">$9130</A>, <A HREF="RO819BC3.HTM">$9BCB</A>, <A HREF="RO819D8E.HTM">$9DB8</A>, <A HREF="RO81A2D6.HTM">$A397</A>, <A HREF="RO81A2D6.HTM">$A3A9</A>:
+
+9585: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        Puffernummer holen
+
+Einsprung von <A HREF="RO818746.HTM">$874E</A>, <A HREF="RO818EDC.HTM">$8EEE</A>, <A HREF="RO8193BD.HTM">$93C7</A>, <A HREF="RO819B0D.HTM">$9B5D</A>, <A HREF="RO819BC3.HTM">$9C19</A>, <A HREF="RO819E56.HTM">$9E6D</A>, <A HREF="RO81A574.HTM">$A59A</A>,
+              <A HREF="RO81A5C0.HTM">$A5F1</A>, <A HREF="RO81B643.HTM">$B64C</A>, <A HREF="RO81BD12.HTM">$BDD3</A>, <A HREF="RO81BFE3.HTM">$BFF3</A>:
+
+9588: 0A        ASL              &lt;-- a: Puffernummer
+9589: A8        TAY
+958A: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          T&amp;S in entsprechenden
+958C: 99 0B 00  STA <A HREF="RA810B.HTM">$000B</A>,Y      Jobspeicher schreiben
+958F: A5 4E     LDA <A HREF="RA814E.HTM">$4E</A>
+9591: 99 0C 00  STA <A HREF="RA810B.HTM">$000C</A>,Y
+9594: A9 00     LDA #$00
+9596: AA        TAX
+9597: 60        RTS
+    <A HREF="RO8194F8.HTM">Previous Page</A> / <A HREF="RO819598.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

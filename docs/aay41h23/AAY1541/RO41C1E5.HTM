@@ -1,0 +1,15 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C1E5/49637:   Check ':' on input line
+
+Jump from <A HREF="RO41C1EE.HTM">$C1EE</A>, <A HREF="RO41C8F0.HTM">$C904</A>, <A HREF="RO41D815.HTM">$D82B</A>, <A HREF="RO41DA55.HTM">$DA86</A>:
+
+C1E5: A0 00     LDY #$00        ; pointer to input buffer
+C1E7: A2 00     LDX #$00        ; counter for commas
+C1E9: A9 3A     LDA #$3A        ; ':'
+C1EB: 4C 68 C2  JMP <A HREF="RO41C268.HTM">$C268</A>       ; test line to colon or to end
+
+    <A HREF="RO41C1D1.HTM">Previous Page</A> / <A HREF="RO41C1EE.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,46 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $CACC/51916:   Check if file present
+
+Jump from $CAE7, <A HREF="RO41C8F0.HTM">$C96E</A>:
+
+CACC: A5 E8     LDA <A HREF="RA41E7.HTM">$E8</A>         ; file type
+CACE: 29 07     AND #$07
+CAD0: 8D 4A 02  STA <A HREF="RA41024A.HTM">$024A</A>       ; save
+CAD3: AE 78 02  LDX <A HREF="RA410278.HTM">$0278</A>
+
+Jump from $CADF:
+
+CAD6: CA        DEX
+CAD7: EC 77 02  CPX <A HREF="RA410277.HTM">$0277</A>
+CADA: 90 0A     BCC $CAE6
+CADC: BD 80 02  LDA <A HREF="RA410280.HTM">$0280</A>,X     ; track number
+CADF: D0 F5     BNE $CAD6       ; not zero?
+CAE1: A9 62     LDA #$62
+CAE3: 4C C8 C1  JMP <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 62, 'file not found'
+
+Jump from $CADA:
+
+CAE6: 60        RTS
+
+Jump from <A HREF="RO41C9A7.HTM">$C9A7</A>, <A HREF="RO41CA88.HTM">$CA9C</A>:
+
+CAE7: 20 CC CA  JSR $CACC       ; does file exist with old name?
+
+Jump from $CAF5:
+
+CAEA: BD 80 02  LDA <A HREF="RA410280.HTM">$0280</A>,X     ; track number of new file
+CAED: F0 05     BEQ $CAF4       ; file erased?
+CAEF: A9 63     LDA #$63
+CAF1: 4C C8 C1  JMP <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 63, 'file exists'
+
+Jump from $CAED:
+
+CAF4: CA        DEX
+CAF5: 10 F3     BPL $CAEA
+CAF7: 60        RTS
+
+    <A HREF="RO41CA88.HTM">Previous Page</A> / <A HREF="RO41CAF8.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

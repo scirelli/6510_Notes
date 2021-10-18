@@ -1,0 +1,68 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D940/55616:   ?
+
+Jump from <A HREF="RO41D815.HTM">$D8AE</A>:
+
+D940: AD 80 02  LDA <A HREF="RA410280.HTM">$0280</A>       ; first track number
+D943: D0 05     BNE $D94A       ; file not erased?
+D945: A9 62     LDA #$62
+D947: 4C C8 C1  JMP <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 62, 'file not found'
+
+Jump from $D943:
+
+D94A: AD 97 02  LDA <A HREF="RA410297.HTM">$0297</A>       ; control mode
+D94D: C9 03     CMP #$03        ; 'M'
+D94F: F0 0B     BEQ $D95C       ; yes, then no test of unclosed file
+D951: A9 20     LDA #$20        ; bit 5
+D953: 24 E7     BIT <A HREF="RA41E7.HTM">$E7</A>         ; test in file type
+D955: F0 05     BEQ $D95C       ; not set, ok
+D957: A9 60     LDA #$60
+D959: 4C C8 C1  JMP <A HREF="RO41C1C8.HTM">$C1C8</A>
+
+Jump from $D94F, $D955:
+
+D95C: A5 E7     LDA <A HREF="RA41E7.HTM">$E7</A>
+D95E: 29 07     AND #$07        ; isolate file type
+D960: CD 4A 02  CMP <A HREF="RA41024A.HTM">$024A</A>
+D963: F0 05     BEQ $D96A
+
+Jump from $D978, <A HREF="RO41D8F5.HTM">$D8FC</A>, <A HREF="RO41D8F5.HTM">$D900</A>:
+
+D965: A9 64     LDA #$64
+D967: 4C C8 C1  JMP <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 64, 'file type mismatch'
+
+Jump from $D963:
+
+D96A: A0 00     LDY #$00
+D96C: 8C 79 02  STY <A HREF="RA410279.HTM">$0279</A>
+D96F: AE 97 02  LDX <A HREF="RA410297.HTM">$0297</A>       ; control mode
+D972: E0 02     CPX #$02        ; 'A', append
+D974: D0 1A     BNE $D990       ; no
+D976: C9 04     CMP #$04        ; rel-file?
+D978: F0 EB     BEQ $D965
+D97A: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y
+D97C: 29 4F     AND #$4F
+D97E: 91 94     STA (<A HREF="RA4194.HTM">$94</A>),Y
+D980: A5 83     LDA <A HREF="RA4183.HTM">$83</A>
+D982: 48        PHA
+D983: A9 11     LDA #$11
+D985: 85 83     STA <A HREF="RA4183.HTM">$83</A>         ; channel 17
+D987: 20 3B DE  JSR <A HREF="RO41DE3B.HTM">$DE3B</A>       ; get track and sector number
+D98A: 20 64 D4  JSR <A HREF="RO41D464.HTM">$D464</A>       ; write block
+D98D: 68        PLA
+D98E: 85 83     STA <A HREF="RA4183.HTM">$83</A>         ; get channel number back
+
+Jump from $D974:
+
+D990: 20 A0 D9  JSR <A HREF="RO41D9A0.HTM">$D9A0</A>
+D993: AD 97 02  LDA <A HREF="RA410297.HTM">$0297</A>       ; control mode
+D996: C9 02     CMP #$02
+D998: D0 55     BNE <A HREF="RO41D9E3.HTM">$D9EF</A>
+D99A: 20 2A DA  JSR <A HREF="RO41DA2A.HTM">$DA2A</A>
+D99D: 4C 94 C1  JMP <A HREF="RO41C194.HTM">$C194</A>       ; done
+
+    <A HREF="RO41D8F5.HTM">Previous Page</A> / <A HREF="RO41D9A0.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

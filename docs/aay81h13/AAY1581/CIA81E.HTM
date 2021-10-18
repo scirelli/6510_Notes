@@ -1,0 +1,24 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+ $400E/16398/CIA+14:      CIA Control Register A
+
+   +-------+--------------------------------------------------------+
+   | Bit 7 |   Unused                                               |
+   | Bit 6 |   Serial Port (<A HREF="CIA81C.HTM">$400C</A>) I/O Mode: 1 = Output, 0 = Input  |
+   | Bit 5 |   Timer A Counts: 1 = CNT Signals, 0 = System 02 Clock |
+   | Bit 4 |   Force Load Timer A: 1 = Now! (Write only Strobe Bit) |
+   | Bit 3 |   Timer A Run Mode: 1 = One-Shot, 0 = Continuous       |
+   | Bit 2 |   Timer A Output Mode to PB6: 1 = Toggle, 0 = Pulse    |
+   | Bit 1 |   Timer A Output on PB6: 1 = Yes, 0 = No               |
+   | Bit 0 |   Start/Stop Timer A: 1 = Start, 0 = Stop              |
+   +-------+--------------------------------------------------------+
+
+   Default Value: $x1/... (%0x000001)
+
+ROM-Reference:
+
+ LDA $400E  : <A HREF="RO81ACB6.HTM">$ACBD</A> <A HREF="RO81ACCF.HTM">$ACDE</A> <A HREF="RO81AD5C.HTM">$ADBB</A> <A HREF="RO81AD5C.HTM">$ADD5</A> <A HREF="RO81DBC7.HTM">$DBD2</A>
+ STA $400E  : <A HREF="RO81AD5C.HTM">$ADC0</A> <A HREF="RO81AD5C.HTM">$ADDA</A> <A HREF="RO81AF24.HTM">$AF46</A> <A HREF="RO81DBC7.HTM">$DBC7</A> <A HREF="RO81DBC7.HTM">$DBD7</A> <A HREF="RO81DBC7.HTM">$DBDC</A> <A HREF="RO81DBC7.HTM">$DBE0</A> <A HREF="RO81DBC7.HTM">$DBE5</A> <A HREF="RO81DBC7.HTM">$DBEA</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,43 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $E6C7/59079:   Print error on current track to error buffer
+
+Jump from <A HREF="RO41C194.HTM">$C1A7</A>, <A HREF="RO41E60A.HTM">$E63B</A>, <A HREF="RO41E645.HTM">$E645</A>, <A HREF="RO41EF90.HTM">$EFCB</A>:
+
+E6C7: A0 00     LDY #$00        ; buffer pointer
+E6C9: A2 D5     LDX #$D5
+E6CB: 86 A5     STX <A HREF="RA41A5.HTM">$A5</A>         ; pointer $A5/$A6 to $2D5
+E6CD: A2 02     LDX #$02
+E6CF: 86 A6     STX <A HREF="RA41A5.HTM">$A6</A>
+E6D1: 20 AB E6  JSR <A HREF="RO41E6AB.HTM">$E6AB</A>       ; error number to ASCII and in buffer
+E6D4: A9 2C     LDA #$2C        ; ',' comma
+E6D6: 91 A5     STA (<A HREF="RA41A5.HTM">$A5</A>),Y     ; write in buffer
+E6D8: C8        INY             ; increment buffer pointer
+E6D9: AD D5 02  LDA <A HREF="RA4102D5.HTM">$02D5</A>       ; first digit of the disk status
+E6DC: 8D 43 02  STA <A HREF="RA41022E.HTM">$0243</A>       ; in output register
+E6DF: 8A        TXA             ; error number in accumulator
+E6E0: 20 06 E7  JSR <A HREF="RO41E706.HTM">$E706</A>       ; error message in buffer
+E6E3: A9 2C     LDA #$2C        ; ',' comma
+E6E5: 91 A5     STA (<A HREF="RA41A5.HTM">$A5</A>),Y     ; write in buffer
+E6E7: C8        INY             ; and increment buffer pointer
+E6E8: A5 80     LDA <A HREF="RA4180.HTM">$80</A>         ; track number
+E6EA: 20 9B E6  JSR <A HREF="RO41E69B.HTM">$E69B</A>       ; to ASCII and in buffer
+E6ED: A9 2C     LDA #$2C        ; ',' comma
+E6EF: 91 A5     STA (<A HREF="RA41A5.HTM">$A5</A>),Y     ; write in buffer
+E6F1: C8        INY             ; increment buffer pointer
+E6F2: A5 81     LDA <A HREF="RA4181.HTM">$81</A>         ; sector
+E6F4: 20 9B E6  JSR <A HREF="RO41E69B.HTM">$E69B</A>       ; convert to ASCII and in buffer
+E6F7: 88        DEY
+E6F8: 98        TYA
+E6F9: 18        CLC
+E6FA: 69 D5     ADC #$D5
+E6FC: 8D 49 02  STA <A HREF="RA410244.HTM">$0249</A>       ; end pointer
+E6FF: E6 A5     INC <A HREF="RA41A5.HTM">$A5</A>
+E701: A9 88     LDA #$88        ; set READ flag
+E703: 85 F7     STA <A HREF="RA41F2.HTM">$F7</A>
+E705: 60        RTS
+
+    <A HREF="RO41E6C1.HTM">Previous Page</A> / <A HREF="RO41E706.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

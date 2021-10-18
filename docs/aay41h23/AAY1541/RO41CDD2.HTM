@@ -1,0 +1,33 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $CDD2/52690:   Open channel
+
+Jump from <A HREF="RO41CDBD.HTM">$CDBD</A>, <A HREF="RO41CDF2.HTM">$CDF2</A>:
+
+CDD2: A6 D3     LDX <A HREF="RA41D3.HTM">$D3</A>
+CDD4: E6 D3     INC <A HREF="RA41D3.HTM">$D3</A>
+CDD6: BD 85 02  LDA <A HREF="RA410285.HTM">$0285</A>,X     ; buffer number
+CDD9: A8        TAY
+CDDA: 88        DEY
+CDDB: 88        DEY
+CDDC: C0 0C     CPY #$0C        ; buffer number smaller than 14?
+CDDE: 90 05     BCC $CDE5       ; yes
+
+Jump from $CDEA:
+
+CDE0: A9 70     LDA #$70
+CDE2: 4C C8 C1  JMP <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 70, 'no channel'
+
+Jump from $CDDE:
+
+CDE5: 85 83     STA <A HREF="RA4183.HTM">$83</A>         ; secondary address
+CDE7: 20 EB D0  JSR <A HREF="RO41D0EB.HTM">$D0EB</A>       ; open channel
+CDEA: B0 F4     BCS $CDE0       ; already allocated, 'no channel'
+CDEC: 20 93 DF  JSR <A HREF="RO41DF93.HTM">$DF93</A>       ; buffer number
+CDEF: 85 F9     STA <A HREF="RA41F9.HTM">$F9</A>         ; set
+CDF1: 60        RTS
+
+    <A HREF="RO41CDBD.HTM">Previous Page</A> / <A HREF="RO41CDF2.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

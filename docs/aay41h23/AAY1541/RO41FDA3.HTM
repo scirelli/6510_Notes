@@ -1,0 +1,30 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $FDA3/64931:   Write SYNC 10240 times, erase track
+
+Jump from <A HREF="RO41FAC7.HTM">$FB0C</A>:
+
+FDA3: AD 0C 1C  LDA <A HREF="VIA2C.HTM">$1C0C</A>
+FDA6: 29 1F     AND #$1F        ; switch PCR to writing
+FDA8: 09 C0     ORA #$C0
+FDAA: 8D 0C 1C  STA <A HREF="VIA2C.HTM">$1C0C</A>
+FDAD: A9 FF     LDA #$FF
+FDAF: 8D 03 1C  STA <A HREF="VIA23.HTM">$1C03</A>       ; port A (read/write head) to output
+FDB2: 8D 01 1C  STA <A HREF="VIA21.HTM">$1C01</A>       ; write $FF to disk
+FDB5: A2 28     LDX #$28        ; 40
+FDB7: A0 00     LDY #$00
+
+Jump from $FDB9, $FDBD, $FDC0:
+
+FDB9: 50 FE     BVC $FDB9       ; byte ready?
+FDBB: B8        CLV
+FDBC: 88        DEY
+FDBD: D0 FA     BNE $FDB9
+FDBF: CA        DEX
+FDC0: D0 F7     BNE $FDB9
+FDC2: 60        RTS
+
+    <A HREF="RO41FAC7.HTM">Previous Page</A> / <A HREF="RO41FDC3.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

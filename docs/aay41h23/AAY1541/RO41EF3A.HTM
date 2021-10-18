@@ -1,0 +1,20 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $EF3A/61242:   Set buffer pointer for BAM
+
+Jump from <A HREF="RO41D075.HTM">$D075</A>, <A HREF="RO41EEF4.HTM">$EF0C</A>, <A HREF="RO41F005.HTM">$F005</A>:
+
+EF3A: 20 0F F1  JSR <A HREF="RO41F10F.HTM">$F10F</A>       ; get 6 for drive 0
+EF3D: AA        TAX
+EF3E: 20 DF F0  JSR <A HREF="RO41F0DF.HTM">$F0DF</A>       ; allocate buffer
+EF41: A6 F9     LDX <A HREF="RA41F9.HTM">$F9</A>         ; buffer number
+EF43: BD E0 FE  LDA <A HREF="RO41FEE0.HTM">$FEE0</A>,X     ; buffer address, hi byte
+EF46: 85 6E     STA <A HREF="RA416D.HTM">$6E</A>
+EF48: A9 00     LDA #$00        ; lo byte
+EF4A: 85 6D     STA <A HREF="RA416D.HTM">$6D</A>         ; pointer to $6D/$6E
+EF4C: 60        RTS
+
+    <A HREF="RO41EEF4.HTM">Previous Page</A> / <A HREF="RO41EF4D.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

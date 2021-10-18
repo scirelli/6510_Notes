@@ -1,0 +1,57 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Daten zwischen Cache und Puffer transferieren
+
+Einsprung von <A HREF="RO81C589.HTM">$C5A0</A>:
+
+CEA4: 24 39     BIT <A HREF="RA8139.HTM">$39</A>          Modus von BUFMOV_DV
+CEA6: 50 03     BVC $CEAB        b6=0, ==&gt;
+CEA8: A9 80     LDA #$80         b6=1: Flag: b7=1: Cache wurde veraendert
+CEAA: 2C         B $2C
+
+Einsprung von $CEA6:
+
+CEAB: A9 00     LDA #$00         Flag: b7=0: Cache wurde nicht veraendert
+CEAD: 85 87     STA <A HREF="RA8187.HTM">$87</A>          Flag setzen
+
+Einsprung von <A HREF="RO81C589.HTM">$C5A6</A>:
+
+CEAF: A9 20     LDA #$20         b5=1: Transfer durchfuehren ?
+CEB1: 24 37     BIT <A HREF="RA8137.HTM">$37</A>
+
+[Warum $37 ??? Der Modus steht doch in $39 !!! Dieser Fehler fuehrt dazu,
+ dass normalerweise mit dem BUFMOV-Befehl gar keine Daten kopiert werden
+ koennen. Da $37 aber sonst keine Bedeutung hat, kann man dort das b5 von
+ Hand setzen und den Befehl dann trotzdem verwenden.]
+
+CEB3: D0 01     BNE $CEB6        ja, ==&gt;
+CEB5: 60        RTS
+
+Einsprung von $CEB3:
+
+CEB6: A4 99     LDY <A HREF="RA8199.HTM">$99</A>
+CEB8: B9 0B 00  LDA <A HREF="RA810B.HTM">$000B</A>,Y      Sektornummer
+CEBB: 18        CLC
+CEBC: 65 8C     ADC <A HREF="RA818B.HTM">$8C</A>          + Cache-Start
+CEBE: 85 4B     STA <A HREF="RA814A.HTM">$4B</A>          = Zeiger in Cache
+CEC0: A0 00     LDY #$00         Lo-Bytes = 0
+CEC2: 84 48     STY <A HREF="RA8148.HTM">$48</A>          Zeiger in DOS-Puffer
+CEC4: 84 4A     STY <A HREF="RA814A.HTM">$4A</A>          Zeiger in Cache
+CEC6: A6 83     LDX <A HREF="RA8183.HTM">$83</A>          Pufferadresse holen
+CEC8: BD F1 01  LDA <A HREF="RA8101F1.HTM">$01F1</A>,X
+CECB: 85 49     STA <A HREF="RA8148.HTM">$49</A>
+CECD: A5 39     LDA <A HREF="RA8139.HTM">$39</A>          Modus von BUFMOV_DV
+CECF: 29 1F     AND #$1F         Anzahl der zu kopierenden Bloecke merken
+CED1: AA        TAX
+CED2: 24 39     BIT <A HREF="RA8139.HTM">$39</A>          Modus von BUFMOV_DV:
+CED4: 10 03     BPL $CED9        b7=0, ==&gt;
+CED6: 4C 3E D0  JMP <A HREF="RO81D00D.HTM">$D03E</A>        b7=1: Daten vom Puffer in Cache kopieren
+
+Einsprung von $CED4:
+
+CED9: 4C 58 D5  JMP <A HREF="RO81D549.HTM">$D558</A>        b7=0: Daten vom Cache in Puffer kopieren
+
+    <A HREF="RO81CE71.HTM">Previous Page</A> / <A HREF="RO81CEDC.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

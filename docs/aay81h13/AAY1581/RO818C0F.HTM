@@ -1,0 +1,32 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Kanal oeffnen ($cdd2)
+
+Einsprung von <A HREF="RO818BFA.HTM">$8BFA</A>, <A HREF="RO818C2F.HTM">$8C2F</A>, <A HREF="RO818C44.HTM">$8C44</A>:
+
+8C0F: A6 67     LDX <A HREF="RA8167.HTM">$67</A>          Parameternummer holen (1 Parameter=1 Byte)
+8C11: E6 67     INC <A HREF="RA8167.HTM">$67</A>          auf naechsten Parameter schalten
+8C13: BD 9C 02  LDA <A HREF="RA81029C.HTM">$029C</A>,X      Wert aus Kommandozeile
+8C16: A8        TAY              (SA des Direktzugriffkanals)
+8C17: 88        DEY
+8C18: 88        DEY              &gt;=2 und &lt;=14 ?
+8C19: C0 0D     CPY #$0D
+8C1B: 90 05     BCC $8C22        ja, ==&gt;
+
+Einsprung von $8C27:
+
+8C1D: A9 70     LDA #$70
+8C1F: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>        70, No Channel
+
+Einsprung von $8C1B:
+
+8C22: 85 52     STA <A HREF="RA8152.HTM">$52</A>          als aktuelle SA merken
+8C24: 20 27 90  JSR <A HREF="RO819027.HTM">$9027</A>        Kanalnummer holen
+8C27: B0 F4     BCS $8C1D        Kanal in Ordnung ? nein, ==&gt;
+8C29: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        aktiven Puffer holen
+8C2C: 85 6C     STA <A HREF="RA816C.HTM">$6C</A>          und merken
+8C2E: 60        RTS
+    <A HREF="RO818BFA.HTM">Previous Page</A> / <A HREF="RO818C2F.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

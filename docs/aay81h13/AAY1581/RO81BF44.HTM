@@ -1,0 +1,26 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Kopf ggf. auf die angegebene Spur setzen (bei der 1571: $891b)
+
+Einsprung von <A HREF="RO81BAAE.HTM">$BAF4</A>, <A HREF="RO81BB74.HTM">$BBF3</A>:
+
+BF44: CE 06 02  DEC <A HREF="RA810200.HTM">$0206</A>        Tracknummer in phy. Format umwandeln
+
+Einsprung von <A HREF="RO81BB11.HTM">$BB71</A>, <A HREF="RO81BC01.HTM">$BC96</A>:
+
+BF47: A5 29     LDA <A HREF="RA8129.HTM">$29</A>          Laenge der Befehlszeile holen
+BF49: C9 07     CMP #$07         ist eine Folgespur angegeben ?
+BF4B: 90 0C     BCC $BF59        nein, ==&gt;
+BF4D: A2 00     LDX #$00         Jobnummer 0 setzen
+BF4F: AD 06 02  LDA <A HREF="RA810200.HTM">$0206</A>        neue Tracknummer holen
+BF52: 95 0B     STA <A HREF="RA810B.HTM">$0B</A>,X        und in Jobspeicher schreiben
+BF54: A9 A8     LDA #$A8         PSEEK_DV: Sucht den angegebenen phy. Sektor
+BF56: 4C 9D 95  JMP <A HREF="RO819598.HTM">$959D</A>        Job aufrufen
+
+Einsprung von $BF4B:
+
+BF59: 60        RTS
+    <A HREF="RO81BF02.HTM">Previous Page</A> / <A HREF="RO81BF5A.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

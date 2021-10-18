@@ -1,0 +1,54 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Cachepuffer auf Diskette schreiben
+E: x: zu verwendender Jobspeicher
+
+Einsprung von <A HREF="RO81FF00.HTM">$FF6C</A>:
+
+BFE3: A9 A2     LDA #$A2         TRKWRT_DV (Cache schreiben)
+BFE5: 9D 72 02  STA <A HREF="RA810272.HTM">$0272</A>,X
+BFE8: A5 95     LDA <A HREF="RA8195.HTM">$95</A>          Track im Cache
+BFEA: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>          = aktueller Track
+BFEC: A5 94     LDA <A HREF="RA8194.HTM">$94</A>          1. Sektornummer auf Track
+BFEE: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>          = aktuelle Sektornummer
+BFF0: 86 6C     STX <A HREF="RA816C.HTM">$6C</A>          Jobnummer merken
+BFF2: 8A        TXA
+BFF3: 20 88 95  JSR <A HREF="RO819585.HTM">$9588</A>        T&amp;S an DC uebergeben
+BFF6: A6 6C     LDX <A HREF="RA816C.HTM">$6C</A>          Jobnummer
+BFF8: A5 30     LDA <A HREF="RA8130.HTM">$30</A>          Anzahl Schreibversuche
+BFFA: 29 3F     AND #$3F
+BFFC: 85 28     STA <A HREF="RA8128.HTM">$28</A>          in Zaehler
+BFFE: 20 1D C0  JSR $C01D        Schreibjob ausfuehren
+C001: 90 15     BCC $C018        kein Fehler, ==&gt;
+
+Einsprung von $C00A:
+
+C003: 20 19 C0  JSR $C019        Schreibflag setzen, neuer Versuch
+C006: 90 10     BCC $C018        kein Fehler, ==&gt;
+C008: C6 28     DEC <A HREF="RA8128.HTM">$28</A>          Naechster Versuch
+C00A: D0 F7     BNE $C003
+C00C: 24 81     BIT <A HREF="RA8181.HTM">$81</A>          Fehlermeldung unterdruecken (Burst) ?
+C00E: 30 08     BMI $C018        ja, ==&gt;
+C010: 2C A8 02  BIT <A HREF="RA8102A8.HTM">$02A8</A>        Fehlermeldung unterdruecken (DOS-Flag) ?
+C013: 30 03     BMI $C018        ja, ==&gt;
+C015: 4C 2F 95  JMP <A HREF="RO8194F8.HTM">$952F</A>        Fehlermeldung ausgeben
+
+Einsprung von $C001, $C006, $C00E, $C013:
+
+C018: 60        RTS
+
+Einsprung von $C003:
+
+C019: A9 80     LDA #$80         Flag: 'Cache veraendert' setzen
+C01B: 85 87     STA <A HREF="RA8187.HTM">$87</A>
+
+Einsprung von $BFFE:
+
+C01D: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          aktuellen Track
+C01F: 85 95     STA <A HREF="RA8195.HTM">$95</A>          als Track im Cachepuffer setzen
+C021: A0 01     LDY #$01         1 Schreibversuch
+C023: 4C 69 95  JMP <A HREF="RO8194F8.HTM">$9569</A>        Cache schreiben
+    <A HREF="RO81BFB0.HTM">Previous Page</A> / <A HREF="RO81C026.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

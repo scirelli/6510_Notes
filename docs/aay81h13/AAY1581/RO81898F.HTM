@@ -1,0 +1,68 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+User-Befehle ($cb5c)
+
+898F: AC 01 02  LDY <A HREF="RA810200.HTM">$0201</A>        u0-Befehle ?
+8992: C0 30     CPY #$30
+8994: D0 36     BNE $89CC        nein ==&gt;
+8996: A5 29     LDA <A HREF="RA8129.HTM">$29</A>          'u0' ?
+8998: C9 03     CMP #$03
+899A: 90 27     BCC $89C3        ja, Tabelle $ffea aktivieren ==&gt;
+899C: 78        SEI              'u0...'
+899D: AD 02 02  LDA <A HREF="RA810200.HTM">$0202</A>        Befehl holen
+89A0: 85 7C     STA <A HREF="RA817C.HTM">$7C</A>          und merken
+89A2: 29 1F     AND #$1F         b0-4: Befehlsnummer
+89A4: AA        TAX
+89A5: 0A        ASL              16-Bit Index
+89A6: A8        TAY
+89A7: B9 36 DB  LDA <A HREF="RO81DAFD.HTM">$DB36</A>,Y      Sprungadresse des Userbefehls holen
+89AA: 85 46     STA <A HREF="RA8146.HTM">$46</A>
+89AC: B9 37 DB  LDA <A HREF="RO81DAFD.HTM">$DB37</A>,Y
+89AF: 85 47     STA <A HREF="RA8146.HTM">$47</A>
+89B1: 20 F6 81  JSR <A HREF="RO8181E5.HTM">$81F6</A>        Drive-LED einschalten
+89B4: A5 76     LDA <A HREF="RA8176.HTM">$76</A>          b2=0: Burst-Clock Zustand loeschen
+89B6: 29 FB     AND #$FB
+89B8: 85 76     STA <A HREF="RA8176.HTM">$76</A>
+89BA: 20 C0 89  JSR $89C0        Userbefehl aufrufen
+89BD: 4C 4C 80  JMP <A HREF="RO81804C.HTM">$804C</A>        DOS-Meldung ausgeben
+
+Einsprung von $89BA:
+
+89C0: 6C 46 00  JMP (<A HREF="RA8146.HTM">$0046</A>)
+
+Einsprung von $899A, <A HREF="RO81AFE9.HTM">$B065</A>:
+
+89C3: A9 EA     LDA #$EA         Standardtabelle fuer u1-u: ($ffea) setzen
+89C5: 85 33     STA <A HREF="RA8133.HTM">$33</A>
+89C7: A9 FF     LDA #$FF
+89C9: 85 34     STA <A HREF="RA8133.HTM">$34</A>
+
+Burst-Befehle $18,$19: (RTS)
+
+89CB: 60        RTS
+
+USER-Befehle '1' - ':' aufrufen
+
+Einsprung von $8994:
+
+89CC: 20 D2 89  JSR $89D2        'u1' - 'u:' aufrufen
+89CF: 4C 4C 80  JMP <A HREF="RO81804C.HTM">$804C</A>
+
+Einsprung von $89CC:
+
+89D2: 88        DEY              Beginn mit 1 (nicht 0)
+89D3: 98        TYA
+89D4: 29 0F     AND #$0F
+89D6: 0A        ASL
+89D7: A8        TAY              Adresse holen
+89D8: B1 33     LDA (<A HREF="RA8133.HTM">$33</A>),Y
+89DA: 85 46     STA <A HREF="RA8146.HTM">$46</A>
+89DC: C8        INY
+89DD: B1 33     LDA (<A HREF="RA8133.HTM">$33</A>),Y
+89DF: 85 47     STA <A HREF="RA8146.HTM">$47</A>
+89E1: 6C 46 00  JMP (<A HREF="RA8146.HTM">$0046</A>)      und anspringen
+
+    <A HREF="RO81892F.HTM">Previous Page</A> / <A HREF="RO8189E4.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

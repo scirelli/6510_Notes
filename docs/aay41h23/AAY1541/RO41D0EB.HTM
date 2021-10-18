@@ -1,0 +1,37 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D0EB/53483:   Open channel for reading
+
+Jump from <A HREF="RO41C6DE.HTM">$C6E2</A>, <A HREF="RO41C9A7.HTM">$C9C3</A>, <A HREF="RO41CB20.HTM">$CB45</A>, <A HREF="RO41CDD2.HTM">$CDE7</A>, <A HREF="RO41D39B.HTM">$D39B</A>, <A HREF="RO41D8F5.HTM">$D90E</A>, <A HREF="RO41DE3B.HTM">$DE3B</A>, <A HREF="RO41E207.HTM">$E20F</A>, <A HREF="RO41E680.HTM">$E680</A>,
+          <A HREF="RO41E909.HTM">$E90A</A>:
+
+D0EB: A5 83     LDA <A HREF="RA4183.HTM">$83</A>         ; secondary address
+D0ED: C9 13     CMP #$13        ; 19
+D0EF: 90 02     BCC $D0F3       ; smaller?
+D0F1: 29 0F     AND #$0F
+
+Jump from $D0EF:
+
+D0F3: C9 0F     CMP #$0F
+D0F5: D0 02     BNE $D0F9
+D0F7: A9 10     LDA #$10        ; 16
+
+Jump from $D0F5:
+
+D0F9: AA        TAX
+D0FA: 38        SEC
+D0FB: BD 2B 02  LDA <A HREF="RA41022B.HTM">$022B</A>,X
+D0FE: 30 06     BMI $D106
+D100: 29 0F     AND #$0F
+D102: 85 82     STA <A HREF="RA4182.HTM">$82</A>
+D104: AA        TAX
+D105: 18        CLC             ; flag for ok
+
+Jump from $D0FE:
+
+D106: 60        RTS
+
+    <A HREF="RO41D0C7.HTM">Previous Page</A> / <A HREF="RO41D107.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

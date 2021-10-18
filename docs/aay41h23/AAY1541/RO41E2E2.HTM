@@ -1,0 +1,37 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $E2E2/58082:   Divide data blocks into records
+
+Jump from <A HREF="RO41DCDA.HTM">$DD7B</A>, <A HREF="RO41E31C.HTM">$E3C2</A>, <A HREF="RO41E31C.HTM">$E3CE</A>:
+
+E2E2: 20 2B DE  JSR <A HREF="RO41DE2B.HTM">$DE2B</A>       ; set buffer pointer
+E2E5: A0 02     LDY #$02
+E2E7: A9 00     LDA #$00
+
+Jump from $E2EC:
+
+E2E9: 91 94     STA (<A HREF="RA4194.HTM">$94</A>),Y     ; erase buffer
+E2EB: C8        INY
+E2EC: D0 FB     BNE $E2E9
+E2EE: 20 04 E3  JSR <A HREF="RO41E304.HTM">$E304</A>       ; set pointer to next record
+
+Jump from $E2FB:
+
+E2F1: 95 C1     STA <A HREF="RA41C1.HTM">$C1</A>,X
+E2F3: A8        TAY
+E2F4: A9 FF     LDA #$FF
+E2F6: 91 94     STA (<A HREF="RA4194.HTM">$94</A>),Y     ; $FF as 1st character in record
+E2F8: 20 04 E3  JSR <A HREF="RO41E304.HTM">$E304</A>       ; set pointer to next record
+E2FB: 90 F4     BCC $E2F1       ; done in this block?
+E2FD: D0 04     BNE $E303       ; block full?
+E2FF: A9 00     LDA #$00
+E301: 95 C1     STA <A HREF="RA41C1.HTM">$C1</A>,X       ; write pointer to zero
+
+Jump from $E2FD:
+
+E303: 60        RTS
+
+    <A HREF="RO41E207.HTM">Previous Page</A> / <A HREF="RO41E304.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

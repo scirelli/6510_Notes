@@ -1,0 +1,41 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $CA88/51848:   Perform [R] - Rename command
+
+CA88: 20 20 C3  JSR <A HREF="RO41C312.HTM">$C320</A>       ; get drive number from command line
+CA8B: A5 E3     LDA <A HREF="RA41E2.HTM">$E3</A>
+CA8D: 29 01     AND #$01
+CA8F: 85 E3     STA <A HREF="RA41E2.HTM">$E3</A>         ; 2nd drive number
+CA91: C5 E2     CMP <A HREF="RA41E2.HTM">$E2</A>         ; compare with 1st drive number
+CA93: F0 02     BEQ $CA97       ; same?
+CA95: 09 80     ORA #$80
+
+Jump from $CA93:
+
+CA97: 85 E2     STA <A HREF="RA41E2.HTM">$E2</A>
+CA99: 20 4F C4  JSR <A HREF="RO41C44F.HTM">$C44F</A>       ; search for file in directory
+CA9C: 20 E7 CA  JSR <A HREF="RO41CACC.HTM">$CAE7</A>       ; does name exist?
+CA9F: A5 E3     LDA <A HREF="RA41E2.HTM">$E3</A>
+CAA1: 29 01     AND #$01
+CAA3: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+CAA5: A5 D9     LDA <A HREF="RA41D8.HTM">$D9</A>
+CAA7: 85 81     STA <A HREF="RA4181.HTM">$81</A>         ; sector number
+CAA9: 20 57 DE  JSR <A HREF="RO41DE57.HTM">$DE57</A>       ; read block from directory
+CAAC: 20 99 D5  JSR <A HREF="RO41D599.HTM">$D599</A>       ; ok?
+CAAF: A5 DE     LDA <A HREF="RA41DD.HTM">$DE</A>         ; pointer to directory entry
+CAB1: 18        CLC
+CAB2: 69 03     ADC #$03        ; pointer plus 3 to file name
+CAB4: 20 C8 D4  JSR <A HREF="RO41D4C8.HTM">$D4C8</A>       ; set buffer pointer
+CAB7: 20 93 DF  JSR <A HREF="RO41DF93.HTM">$DF93</A>       ; get buffer number
+CABA: A8        TAY
+CABB: AE 7A 02  LDX <A HREF="RA41027A.HTM">$027A</A>
+CABE: A9 10     LDA #$10        ; 16 characters
+CAC0: 20 6E C6  JSR <A HREF="RO41C66E.HTM">$C66E</A>       ; write name in buffer
+CAC3: 20 5E DE  JSR <A HREF="RO41DE5E.HTM">$DE5E</A>       ; write block to directory
+CAC6: 20 99 D5  JSR <A HREF="RO41D599.HTM">$D599</A>       ; ok?
+CAC9: 4C 94 C1  JMP <A HREF="RO41C194.HTM">$C194</A>       ; done, prepare disk status
+
+    <A HREF="RO41CA35.HTM">Previous Page</A> / <A HREF="RO41CACC.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,59 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $CE2C/52780:   ?
+
+Jump from <A HREF="RO41CE0E.HTM">$CE0E</A>:
+
+CE2C: 20 D9 CE  JSR <A HREF="RO41CED9.HTM">$CED9</A>       ; erase work storage
+CE2F: 85 92     STA <A HREF="RA418F.HTM">$92</A>
+CE31: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+CE33: B5 B5     LDA <A HREF="RA41B5.HTM">$B5</A>,X       ; record number lo
+CE35: 85 90     STA <A HREF="RA418F.HTM">$90</A>
+CE37: B5 BB     LDA <A HREF="RA41BB.HTM">$BB</A>,X       ; record number hi
+CE39: 85 91     STA <A HREF="RA418F.HTM">$91</A>
+CE3B: D0 04     BNE $CE41
+CE3D: A5 90     LDA <A HREF="RA418F.HTM">$90</A>
+CE3F: F0 0B     BEQ $CE4C       ; record number not zero?
+
+Jump from $CE3B:
+
+CE41: A5 90     LDA <A HREF="RA418F.HTM">$90</A>
+CE43: 38        SEC
+CE44: E9 01     SBC #$01        ; then subtract one
+CE46: 85 90     STA <A HREF="RA418F.HTM">$90</A>
+CE48: B0 02     BCS $CE4C
+CE4A: C6 91     DEC <A HREF="RA418F.HTM">$91</A>
+
+Jump from $CE3F, $CE48:
+
+CE4C: B5 C7     LDA <A HREF="RA41C7.HTM">$C7</A>,X       ; record length
+CE4E: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>
+
+Jump from $CE5C:
+
+CE50: 46 6F     LSR <A HREF="RA416F.HTM">$6F</A>
+CE52: 90 03     BCC $CE57
+CE54: 20 ED CE  JSR <A HREF="RO41CEED.HTM">$CEED</A>       ; record number * record length
+
+Jump from $CE52:
+
+CE57: 20 E5 CE  JSR <A HREF="RO41CEE5.HTM">$CEE5</A>       ; shift register left
+CE5A: A5 6F     LDA <A HREF="RA416F.HTM">$6F</A>
+CE5C: D0 F2     BNE $CE50
+CE5E: A5 D4     LDA <A HREF="RA41D4.HTM">$D4</A>
+CE60: 18        CLC
+CE61: 65 8B     ADC <A HREF="RA418B.HTM">$8B</A>
+CE63: 85 8B     STA <A HREF="RA418B.HTM">$8B</A>
+CE65: 90 06     BCC $CE6D       ; result in $8B/$8C/$8D
+CE67: E6 8C     INC <A HREF="RA418B.HTM">$8C</A>
+CE69: D0 02     BNE $CE6D
+CE6B: E6 8D     INC <A HREF="RA418B.HTM">$8D</A>
+
+Jump from $CE65, $CE69:
+
+CE6D: 60        RTS
+
+    <A HREF="RO41CE0E.HTM">Previous Page</A> / <A HREF="RO41CE6E.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

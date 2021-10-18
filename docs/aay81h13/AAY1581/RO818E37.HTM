@@ -1,0 +1,25 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Falls dem Kanal ein Puffer fehlt, einen neuen zuordnen ($cf7b)
+Einsprung bei $8e3c
+
+Einsprung von $8E47:
+
+8E37: A9 70     LDA #$70         70, No Channel
+8E39: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>
+
+8E3C: 20 68 8D  JSR <A HREF="RO818D59.HTM">$8D68</A>        &lt;-- Kanalnummer ans Tabellenende
+8E3F: 20 33 9F  JSR <A HREF="RO819F33.HTM">$9F33</A>        Besitzt Kanal nur einen Puffer
+8E42: D0 08     BNE $8E4C        nein, ==&gt;
+8E44: 20 04 92  JSR <A HREF="RO819204.HTM">$9204</A>        neuen Puffer suchen
+8E47: 30 EE     BMI $8E37        keinen gefunden ? ja, ==&gt;
+8E49: 4C 3E 9F  JMP <A HREF="RO819F3E.HTM">$9F3E</A>        Dem Kanal neuen Puffer zuordnen
+
+Einsprung von $8E42:
+
+8E4C: 60        RTS
+
+    <A HREF="RO818D7D.HTM">Previous Page</A> / <A HREF="RO818E4D.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,80 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+'#', oeffnen eines Direktzugriffkanals ($cb84)
+
+Einsprung von <A HREF="RO819678.HTM">$96D3</A>:
+
+89E4: A5 52     LDA <A HREF="RA8152.HTM">$52</A>          aktuelle SA merken
+89E6: 48        PHA
+89E7: 20 AE 84  JSR <A HREF="RO8184AE.HTM">$84AE</A>        ggf. Drive initialisieren
+89EA: 68        PLA
+89EB: 85 52     STA <A HREF="RA8152.HTM">$52</A>          SA zurueckholen
+89ED: A6 29     LDX <A HREF="RA8129.HTM">$29</A>
+89EF: CA        DEX              nur '#' ?
+89F0: D0 0D     BNE $89FF        '#x' ==&gt;
+89F2: A9 01     LDA #$01
+89F4: 20 5A 91  JSR <A HREF="RO819157.HTM">$915A</A>        Kanal oeffnen und 1 Puffer belegen
+89F7: 4C 35 8A  JMP $8A35
+
+Einsprung von $8A09, $8A19:
+
+89FA: A9 70     LDA #$70          70, no Channel
+89FC: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>
+
+Einsprung von $89F0:
+
+89FF: A0 01     LDY #$01         Zeiger auf 2. Zeichen im INPUT-Puffer
+8A01: 20 AC 8A  JSR <A HREF="RO818A9F.HTM">$8AAC</A>        setzen und Zahl holen
+8A04: AE 9C 02  LDX <A HREF="RA81029C.HTM">$029C</A>        Puffernummer &gt;= 8 ?
+8A07: E0 08     CPX #$08
+8A09: B0 EF     BCS $89FA        ja, ==&gt;
+8A0B: A9 00     LDA #$00         Pruefen, ob Puffer frei ist
+8A0D: 85 40     STA <A HREF="RA8140.HTM">$40</A>
+8A0F: 38        SEC              1-Bit x-mal shiften
+
+Einsprung von $8A13:
+
+8A10: 26 40     ROL <A HREF="RA8140.HTM">$40</A>
+8A12: CA        DEX              bis gewuenschte Position erreicht ist
+8A13: 10 FB     BPL $8A10
+8A15: A5 40     LDA <A HREF="RA8140.HTM">$40</A>          und entsprechendes Bit der Pufferbelegung
+8A17: 25 6D     AND <A HREF="RA816D.HTM">$6D</A>          testen; ist das Bit=1, dann ist der
+8A19: D0 DF     BNE $89FA        Puffer belegt: 70, no Channel ==&gt;
+8A1B: A5 40     LDA <A HREF="RA8140.HTM">$40</A>
+8A1D: 05 6D     ORA <A HREF="RA816D.HTM">$6D</A>          Bit setzen und dadurch Puffer belegen
+8A1F: 85 6D     STA <A HREF="RA816D.HTM">$6D</A>
+8A21: A9 00     LDA #$00
+8A23: 20 5A 91  JSR <A HREF="RO819157.HTM">$915A</A>        Lesekanal oeffnen und keinen Puffer belegen
+8A26: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+8A28: AD 9C 02  LDA <A HREF="RA81029C.HTM">$029C</A>        Puffernummer holen
+8A2B: 95 D1     STA <A HREF="RA81D1.HTM">$D1</A>,X        Puffer dem Kanal zuordnen
+8A2D: AA        TAX
+8A2E: A9 00     LDA #$00         Jobcodes des Puffers loeschen
+8A30: 95 02     STA <A HREF="RA8102.HTM">$02</A>,X
+8A32: 9D 72 02  STA <A HREF="RA810272.HTM">$0272</A>,X
+
+Einsprung von $89F7:
+
+8A35: A6 52     LDX <A HREF="RA8152.HTM">$52</A>
+8A37: B5 A8     LDA <A HREF="RA81A8.HTM">$A8</A>,X        b76=01: Kanal zum Lesen/Schreiben oeffnen
+8A39: 09 40     ORA #$40
+8A3B: 95 A8     STA <A HREF="RA81A8.HTM">$A8</A>,X        in Sekundaeradressentabelle setzen
+8A3D: A4 50     LDY <A HREF="RA8150.HTM">$50</A>
+8A3F: A9 FF     LDA #$FF         Anzahl gueltige Bytes = 256
+8A41: 99 42 02  STA <A HREF="RA810242.HTM">$0242</A>,Y      (der ganze Puffer)
+8A44: A9 89     LDA #$89         Kanalstatus: Schreiben, Lesen, kein EOI
+8A46: 99 34 02  STA <A HREF="RA810234.HTM">$0234</A>,Y
+8A49: B9 D1 00  LDA <A HREF="RA81D1.HTM">$00D1</A>,Y      Puffernummer fuer Ausgabe
+8A4C: 99 3B 02  STA <A HREF="RA81023B.HTM">$023B</A>,Y      bereitstellen
+8A4F: 0A        ASL              16-Bit Index
+8A50: AA        TAX
+8A51: A9 01     LDA #$01         Pufferzeiger auf 2. Byte setzen
+8A53: 95 BB     STA <A HREF="RA81BB.HTM">$BB</A>,X        (wegen Blocklaenge bei B-R, B-W)
+8A55: A9 0E     LDA #$0E         b1-3: Dateityp $07: Direktzugriff
+8A57: 99 F9 00  STA <A HREF="RA81F9.HTM">$00F9</A>,Y
+8A5A: 4C 4C 80  JMP <A HREF="RO81804C.HTM">$804C</A>
+
+    <A HREF="RO81898F.HTM">Previous Page</A> / <A HREF="RO818A5D.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

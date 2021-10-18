@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Anzahl der benoetigten Blocks einer REL-Datei berechnen ($df4c)
+(alte Version: Anzahl der Blocks innerhalb einer Gruppe)
+E: x  : Anzahl der gefuellten Side-Sektoren
+   $43: Anzahl Datenbloecke im letzten Side-Sektor *2
+   $44: Anzahl Side-Sektoren
+A: $41-$42: Anzahl der belegten Blocks
+
+Einsprung von $9E83:
+
+9E7D: A9 78     LDA #$78         120 Datenbloecke pro gefuelltem Side-Sektor
+9E7F: 20 8D 9E  JSR $9E8D        addieren
+
+Einsprung von <A HREF="RO81999F.HTM">$99E9</A>, <A HREF="RO81A2D6.HTM">$A336</A>:
+
+9E82: CA        DEX              &lt;-- (Einsprung)
+9E83: 10 F8     BPL $9E7D
+9E85: A5 43     LDA <A HREF="RA8140.HTM">$43</A>          Anzahl Datenbloecke im letzten Side-Sektor*2
+9E87: 4A        LSR              /2
+9E88: 20 8D 9E  JSR $9E8D        addieren
+9E8B: A5 44     LDA <A HREF="RA8140.HTM">$44</A>          Anzahl Side-Sektoren addieren
+
+Einsprung von $9E7F, $9E88:
+
+9E8D: 18        CLC              Addition
+9E8E: 65 41     ADC <A HREF="RA8140.HTM">$41</A>
+9E90: 85 41     STA <A HREF="RA8140.HTM">$41</A>
+9E92: 90 02     BCC $9E96
+9E94: E6 42     INC <A HREF="RA8140.HTM">$42</A>
+
+Einsprung von $9E92:
+
+9E96: 60        RTS
+
+    <A HREF="RO819E75.HTM">Previous Page</A> / <A HREF="RO819E97.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,82 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Burst-Befehl $1e: CHGUTL (bei der 1571: $8fe5)
+
+AA3C: 78        SEI
+AA3D: A6 29     LDX <A HREF="RA8129.HTM">$29</A>
+AA3F: E0 04     CPX #$04
+AA41: 90 40     BCC $AA83        31, SYNTAX ERROR
+AA43: AD 03 02  LDA <A HREF="RA810200.HTM">$0203</A>
+AA46: C9 49     CMP #$49         Cache-Verzoegerung einstellen
+AA48: F0 E9     BEQ <A HREF="RO81AA33.HTM">$AA33</A>
+AA4A: AD 03 02  LDA <A HREF="RA810200.HTM">$0203</A>
+AA4D: C9 42     CMP #$42         Busmodus waehlen
+AA4F: F0 37     BEQ $AA88
+AA51: C9 53     CMP #$53         Sektorversatz einstellen
+AA53: F0 D2     BEQ <A HREF="RO81AA27.HTM">$AA27</A>
+AA55: C9 52     CMP #$52         Leseversuche setzen
+AA57: F0 D4     BEQ <A HREF="RO81AA2D.HTM">$AA2D</A>
+AA59: C9 54     CMP #$54         ROM-Test aufrufen
+AA5B: F0 DC     BEQ <A HREF="RO81AA39.HTM">$AA39</A>
+AA5D: C9 4D     CMP #$4D         Memory-Read/Write
+AA5F: F0 47     BEQ <A HREF="RO81AAA8.HTM">$AAA8</A>
+AA61: C9 56     CMP #$56         Disk-Verify ein/aus
+AA63: F0 35     BEQ $AA9A
+AA65: A8        TAY
+AA66: C0 04     CPY #$04         Geraeteadresse einstellen
+AA68: 90 19     BCC $AA83        31, Syntax Error
+AA6A: C0 1F     CPY #$1F
+AA6C: B0 15     BCS $AA83        31, Syntax Error
+Geraeteadresse einstellen
+
+AA6E: A9 40     LDA #$40         TALK
+AA70: 85 78     STA <A HREF="RA8178.HTM">$78</A>          und
+AA72: A9 20     LDA #$20         LISTEN
+AA74: 85 77     STA <A HREF="RA8177.HTM">$77</A>          Geraeteadressen loeschen
+AA76: 98        TYA
+AA77: 18        CLC              und mit neuer Geraeteadresse
+AA78: 65 78     ADC <A HREF="RA8178.HTM">$78</A>          addieren
+AA7A: 85 78     STA <A HREF="RA8178.HTM">$78</A>          (Talk)
+AA7C: 98        TYA
+AA7D: 18        CLC
+AA7E: 65 77     ADC <A HREF="RA8177.HTM">$77</A>          (Listen)
+AA80: 85 77     STA <A HREF="RA8177.HTM">$77</A>
+AA82: 60        RTS
+
+Einsprung von $AA41, $AA68, $AA6C, <A HREF="RO81AAA8.HTM">$AB00</A>, <A HREF="RO81AB09.HTM">$AB14</A>:
+
+AA83: A9 31     LDA #$31         31, Syntax Error
+AA85: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>
+
+Busmode waehlen
+
+Einsprung von $AA4F:
+
+AA88: A5 76     LDA <A HREF="RA8176.HTM">$76</A>          b3=0: auf langsamen Bus schalten
+AA8A: 29 F7     AND #$F7
+AA8C: 85 76     STA <A HREF="RA8176.HTM">$76</A>
+AA8E: 20 09 AB  JSR <A HREF="RO81AB09.HTM">$AB09</A>        Parameter holen
+AA91: 4A        LSR
+AA92: 4A        LSR
+AA93: 4A        LSR
+AA94: 4A        LSR
+AA95: 05 76     ORA <A HREF="RA8176.HTM">$76</A>          Bit gesetzt, dann b3=1: FSM
+AA97: 85 76     STA <A HREF="RA8176.HTM">$76</A>
+AA99: 60        RTS
+
+Verify ein/ausschalten
+
+Einsprung von $AA63:
+
+AA9A: A5 8D     LDA <A HREF="RA818D.HTM">$8D</A>          b7=0: Verify aus
+AA9C: 29 7F     AND #$7F
+AA9E: 85 8D     STA <A HREF="RA818D.HTM">$8D</A>
+AAA0: 20 09 AB  JSR <A HREF="RO81AB09.HTM">$AB09</A>        Parameter holen (in Bit 7)
+AAA3: 05 8D     ORA <A HREF="RA818D.HTM">$8D</A>          Bit gesetzt, dann b7=1: Verify ein
+AAA5: 85 8D     STA <A HREF="RA818D.HTM">$8D</A>
+AAA7: 60        RTS
+
+    <A HREF="RO81AA39.HTM">Previous Page</A> / <A HREF="RO81AAA8.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

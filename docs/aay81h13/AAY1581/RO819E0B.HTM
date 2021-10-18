@@ -1,0 +1,18 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Nummer des aktuellen Side-Sektors holen ($ded2)
+E: $50: Kanalnummer
+A: a: Nummer des Side-Sektors
+
+Einsprung von <A HREF="RO819ED3.HTM">$9EE4</A>, <A HREF="RO81A15C.HTM">$A164</A>:
+
+9E0B: A9 00     LDA #$00         Zeiger auf
+9E0D: 20 15 9E  JSR <A HREF="RO819E15.HTM">$9E15</A>        Side-Sektor-Pufferanfang setzen
+9E10: A0 02     LDY #$02         2. Byte enthaelt die
+9E12: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y      Side-Sektor-Nummer
+9E14: 60        RTS
+
+    <A HREF="RO819DFA.HTM">Previous Page</A> / <A HREF="RO819E15.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

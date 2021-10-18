@@ -1,0 +1,26 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $E105/57605:   Write buffer number in table
+
+Jump from <A HREF="RO41DDFD.HTM">$DE09</A>, <A HREF="RO41E07C.HTM">$E07C</A>:
+
+E105: A9 40     LDA #$40
+E107: 20 97 DD  JSR <A HREF="RO41DD95.HTM">$DD97</A>       ; set bit 6
+E10A: 20 9E DF  JSR <A HREF="RO41DF9E.HTM">$DF9E</A>       ; get buffer number
+E10D: 09 40     ORA #$40        ; set bit 6
+E10F: AE 57 02  LDX <A HREF="RA410257.HTM">$0257</A>       ; channel number + 7
+E112: 95 A7     STA <A HREF="RA41A7.HTM">$A7</A>,X       ; write in table
+E114: 60        RTS
+
+Jump from <A HREF="RO41DE73.HTM">$DE8B</A>:
+
+E115: 20 9E DF  JSR <A HREF="RO41DF9E.HTM">$DF9E</A>       ; get buffer number
+E118: 29 BF     AND #$BF        ; erase bit 6
+E11A: AE 57 02  LDX <A HREF="RA410257.HTM">$0257</A>       ; channel number
+E11D: 95 A7     STA <A HREF="RA41A7.HTM">$A7</A>,X       ; write in table
+E11F: 60        RTS
+
+    <A HREF="RO41E0F3.HTM">Previous Page</A> / <A HREF="RO41E120.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

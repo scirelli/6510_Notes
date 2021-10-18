@@ -1,0 +1,28 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+FSM auf Ausgabe schalten
+
+ACCF: EA        NOP              [s. 1571-DOS:
+ACD0: EA        NOP             81E0  A9 08     LDA #$08
+ACD1: EA        NOP             81E2  8D 0D 40  STA $400D
+ACD2: EA        NOP               Interrupt bei FSM-Ein-/Ausgabe verhindern
+ACD3: EA        NOP               haette genau die richtige Laenge.]
+
+Einsprung von <A HREF="RO81AAA8.HTM">$AAC3</A>, <A HREF="RO81AC9D.HTM">$ACA7</A>, <A HREF="RO81AEEA.HTM">$AEEF</A>, <A HREF="RO81B8D2.HTM">$B8DB</A>, <A HREF="RO81BB11.HTM">$BB15</A>, <A HREF="RO81BE06.HTM">$BE7C</A>, <A HREF="RO81BEBB.HTM">$BEBF</A>,
+              <A HREF="RO81BF5A.HTM">$BF5A</A>:
+
+ACD4: 08        PHP              &lt;-- I-Flag retten
+ACD5: 78        SEI
+ACD6: AD 01 40  LDA <A HREF="CIA811.HTM">$4001</A>        Bustreiber auf Ausgang schalten
+ACD9: 09 20     ORA #$20
+ACDB: 8D 01 40  STA <A HREF="CIA811.HTM">$4001</A>
+ACDE: AD 0E 40  LDA <A HREF="CIA81E.HTM">$400E</A>        SDR auf Ausgabe schalten
+ACE1: 09 40     ORA #$40
+ACE3: 20 E0 DB  JSR <A HREF="RO81DBC7.HTM">$DBE0</A>        Schiebezaehler initialisieren
+ACE6: 28        PLP
+ACE7: 60        RTS
+
+    <A HREF="RO81ACB6.HTM">Previous Page</A> / <A HREF="RO81ACE8.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

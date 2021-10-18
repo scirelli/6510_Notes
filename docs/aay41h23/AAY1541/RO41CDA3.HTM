@@ -1,0 +1,22 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $CDA3/52643:   B-E block execute
+
+CDA3: 20 58 F2  JSR <A HREF="RO41F258.HTM">$F258</A>       ; (RTS)
+CDA6: 20 36 CD  JSR <A HREF="RO41CD36.HTM">$CD36</A>       ; open channel and read block
+CDA9: A9 00     LDA #$00
+CDAB: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>         ; address low
+CDAD: A6 F9     LDX <A HREF="RA41F9.HTM">$F9</A>         ; buffer number
+CDAF: BD E0 FE  LDA <A HREF="RO41FEE0.HTM">$FEE0</A>,X     ; buffer address high
+CDB2: 85 70     STA <A HREF="RA416F.HTM">$70</A>
+CDB4: 20 BA CD  JSR $CDBA       ; execute routine
+CDB7: 4C 94 C1  JMP <A HREF="RO41C194.HTM">$C194</A>       ; done
+
+Jump from $CDB4:
+
+CDBA: 6C 6F 00  JMP (<A HREF="RA416F.HTM">$006F</A>)     ; jump to routine
+
+    <A HREF="RO41CD97.HTM">Previous Page</A> / <A HREF="RO41CDBD.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,18 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $FA3B/64059:   Move stepper motor short distance
+
+FA3B: A5 4A     LDA <A HREF="RA414A.HTM">$4A</A>         ; step counter for head transport
+FA3D: D0 EF     BNE <A HREF="RO41FA1C.HTM">$FA2E</A>       ; not yet zero?
+FA3F: A9 4E     LDA #$4E
+FA41: 85 62     STA <A HREF="RA4162.HTM">$62</A>
+FA43: A9 FA     LDA #$FA        ; pointer $62/$63 to $FA4E
+FA45: 85 63     STA <A HREF="RA4162.HTM">$63</A>
+FA47: A9 05     LDA #$05
+FA49: 85 60     STA <A HREF="RA415F.HTM">$60</A>         ; counter to 5
+FA4B: 4C BE FA  JMP <A HREF="RO41FAA5.HTM">$FABE</A>
+
+    <A HREF="RO41FA1C.HTM">Previous Page</A> / <A HREF="RO41FA4E.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

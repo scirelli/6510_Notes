@@ -1,0 +1,52 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $E9F2/59890:   Accept byte with EOI
+
+Jump from <A HREF="RO41E9C9.HTM">$E9E7</A>:
+
+E9F2: 20 A5 E9  JSR <A HREF="RO41E9A5.HTM">$E9A5</A>       ; DATA OUT bit '0' hi
+E9F5: A2 0A     LDX #$0A        ; 10
+
+Jump from $E9F8:
+
+E9F7: CA        DEX             ; delay loop, approx 50 micro sec.
+E9F8: D0 FD     BNE $E9F7
+E9FA: 20 9C E9  JSR <A HREF="RO41E99C.HTM">$E99C</A>       ; DATA OUT, bit '1', lo
+
+Jump from $EA05:
+
+E9FD: 20 59 EA  JSR <A HREF="RO41EA59.HTM">$EA59</A>       ; check EOI
+EA00: 20 C0 E9  JSR <A HREF="RO41E9C0.HTM">$E9C0</A>       ; read IEEE
+EA03: 29 04     AND #$04        ; CLOCK IN?
+EA05: F0 F6     BEQ $E9FD       ; no, wait
+EA07: A9 00     LDA #$00
+EA09: 85 F8     STA <A HREF="RA41F8.HTM">$F8</A>         ; set EOI flag
+
+Jump from $EA13, $EA26, <A HREF="RO41E9C9.HTM">$E9F0</A>:
+
+EA0B: AD 00 18  LDA <A HREF="VIA10.HTM">$1800</A>       ; IEEE port
+EA0E: 49 01     EOR #$01        ; invert data byte
+EA10: 4A        LSR
+EA11: 29 02     AND #$02
+EA13: D0 F6     BNE $EA0B       ; CLOCK IN?
+EA15: EA        NOP
+EA16: EA        NOP
+EA17: EA        NOP
+EA18: 66 85     ROR <A HREF="RA4185.HTM">$85</A>         ; prepare next bit
+
+Jump from $EA22:
+
+EA1A: 20 59 EA  JSR <A HREF="RO41EA59.HTM">$EA59</A>       ; check EOI
+EA1D: 20 C0 E9  JSR <A HREF="RO41E9C0.HTM">$E9C0</A>       ; read IEEE port
+EA20: 29 04     AND #$04        ; CLOCK IN?
+EA22: F0 F6     BEQ $EA1A       ; no
+EA24: C6 98     DEC <A HREF="RA4196.HTM">$98</A>         ; decrement bit counter
+EA26: D0 E3     BNE $EA0B       ; all bits output?
+EA28: 20 A5 E9  JSR <A HREF="RO41E9A5.HTM">$E9A5</A>       ; DATA OUT, bit '0', hi
+EA2B: A5 85     LDA <A HREF="RA4185.HTM">$85</A>         ; load data byte again
+EA2D: 60        RTS
+
+    <A HREF="RO41E9C9.HTM">Previous Page</A> / <A HREF="RO41EA2E.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

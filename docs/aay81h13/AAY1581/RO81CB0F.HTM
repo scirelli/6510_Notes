@@ -1,0 +1,17 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+JOB $c0: RESTORE_DV
+
+CB0F: AD DA 01  LDA <A HREF="RA8101DA.HTM">$01DA</A>        Controller-Befehl: Restore
+CB12: 20 F4 CB  JSR <A HREF="RO81CBF4.HTM">$CBF4</A>        Kommando an Controller uebergeben
+CB15: 20 EC CB  JSR <A HREF="RO81CBEC.HTM">$CBEC</A>        Auf Controller-Ready warten
+CB18: A5 8E     LDA <A HREF="RA818E.HTM">$8E</A>          Nummer der 1. physikalischen Spur holen
+CB1A: 85 27     STA <A HREF="RA8127.HTM">$27</A>          = Aktuelle Kopfposition
+CB1C: 85 88     STA <A HREF="RA8188.HTM">$88</A>          = Solltrack
+CB1E: A4 98     LDY <A HREF="RA8198.HTM">$98</A>          Kopfberuhigungszeit
+CB20: 20 D5 CB  JSR <A HREF="RO81CBD5.HTM">$CBD5</A>        Zeit abwarten
+CB23: 4C 8B C3  JMP <A HREF="RO81C163.HTM">$C38B</A>        Ok. Ende
+    <A HREF="RO81CAE4.HTM">Previous Page</A> / <A HREF="RO81CB26.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

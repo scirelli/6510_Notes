@@ -1,0 +1,37 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C368/50024:   Get drive number
+
+Jump from <A HREF="RO41C1D1.HTM">$C1E2</A>:
+
+C368: A9 00     LDA #$00
+C36A: 8D 8B 02  STA <A HREF="RA41028A.HTM">$028B</A>       ; erase syntax flag
+C36D: AC 7A 02  LDY <A HREF="RA41027A.HTM">$027A</A>       ; position in command line
+
+Jump from $C381:
+
+C370: B1 A3     LDA (<A HREF="RA41A3.HTM">$A3</A>),Y     ; get chars from command buffer
+C372: 20 BD C3  JSR <A HREF="RO41C3BD.HTM">$C3BD</A>       ; get drive number
+C375: 10 11     BPL $C388       ; certain number?
+C377: C8        INY             ; increment pointer
+C378: CC 74 02  CPY <A HREF="RA410274.HTM">$0274</A>       ; line end?
+C37B: B0 06     BCS $C383       ; yes
+C37D: AC 74 02  LDY <A HREF="RA410274.HTM">$0274</A>
+C380: 88        DEY
+C381: D0 ED     BNE $C370       ; search line for drive number
+
+Jump from $C37B:
+
+C383: CE 8B 02  DEC <A HREF="RA41028A.HTM">$028B</A>
+C386: A9 00     LDA #$00
+
+Jump from $C375:
+
+C388: 29 01     AND #$01
+C38A: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+C38C: 4C 00 C1  JMP <A HREF="RO41C100.HTM">$C100</A>       ; turn LED on
+
+    <A HREF="RO41C33C.HTM">Previous Page</A> / <A HREF="RO41C38F.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

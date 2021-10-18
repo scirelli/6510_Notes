@@ -1,0 +1,27 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Lesen/Schreiben des aktuellen Puffers ($d460)
+E: $6c    : Puffernummer
+   $4d,$4e: T&amp;S
+
+Einsprung von <A HREF="RO818B65.HTM">$8B68</A>, <A HREF="RO818B8E.HTM">$8B91</A>, <A HREF="RO8195AB.HTM">$95E1</A>, <A HREF="RO819A72.HTM">$9A90</A>:
+
+93BD: A9 80     LDA #$80         &lt;-- Puffer lesen
+93BF: D0 02     BNE $93C3
+
+Einsprung von <A HREF="RO818BAE.HTM">$8BC7</A>, <A HREF="RO818BD7.HTM">$8BDD</A>, <A HREF="RO8195AB.HTM">$9656</A>, <A HREF="RO8197A2.HTM">$97E7</A>, <A HREF="RO8197ED.HTM">$9837</A>, <A HREF="RO81B390.HTM">$B3F0</A>, <A HREF="RO81B390.HTM">$B408</A>:
+
+93C1: A9 90     LDA #$90         &lt;-- Puffer schreiben
+
+Einsprung von $93BF:
+
+93C3: 85 28     STA <A HREF="RA8128.HTM">$28</A>
+93C5: A5 6C     LDA <A HREF="RA816C.HTM">$6C</A>          Puffernummer holen
+93C7: 20 88 95  JSR <A HREF="RO819585.HTM">$9588</A>        T&amp;S an Controller uebergeben
+93CA: A6 6C     LDX <A HREF="RA816C.HTM">$6C</A>          Puffernummer holen
+93CC: 4C E8 94  JMP <A HREF="RO8194DE.HTM">$94E8</A>        Puffer lesen/schreiben
+
+    <A HREF="RO8193AA.HTM">Previous Page</A> / <A HREF="RO8193CF.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

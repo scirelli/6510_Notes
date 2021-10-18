@@ -1,0 +1,48 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D25A/53850:   Free buffer
+
+Jump from <A HREF="RO41D1E2.HTM">$D20F</A>, <A HREF="RO41D227.HTM">$D246</A>:
+
+D25A: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+D25C: B5 A7     LDA <A HREF="RA41A7.HTM">$A7</A>,X       ; buffer number
+D25E: C9 FF     CMP #$FF
+D260: F0 09     BEQ $D26B       ; not associated?
+D262: 48        PHA
+D263: A9 FF     LDA #$FF
+D265: 95 A7     STA <A HREF="RA41A7.HTM">$A7</A>,X       ; erase buffer association
+D267: 68        PLA
+D268: 20 F3 D2  JSR <A HREF="RO41D2DA.HTM">$D2F3</A>       ; erase buffer allocation register
+
+Jump from $D260:
+
+D26B: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+D26D: B5 AE     LDA <A HREF="RA41AE.HTM">$AE</A>,X
+D26F: C9 FF     CMP #$FF        ; associated in second table?
+D271: F0 09     BEQ $D27C       ; no
+D273: 48        PHA
+D274: A9 FF     LDA #$FF
+D276: 95 AE     STA <A HREF="RA41AE.HTM">$AE</A>,X       ; erase association
+D278: 68        PLA
+D279: 20 F3 D2  JSR <A HREF="RO41D2DA.HTM">$D2F3</A>       ; erase buffer in allocation register
+
+Jump from $D271:
+
+D27C: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+D27E: B5 CD     LDA <A HREF="RA41CD.HTM">$CD</A>,X
+D280: C9 FF     CMP #$FF        ; associated in 3rd table?
+D282: F0 09     BEQ $D28D       ; no
+D284: 48        PHA
+D285: A9 FF     LDA #$FF
+D287: 95 CD     STA <A HREF="RA41CD.HTM">$CD</A>,X       ; erase association
+D289: 68        PLA
+D28A: 20 F3 D2  JSR <A HREF="RO41D2DA.HTM">$D2F3</A>       ; erase buffer in allocation register
+
+Jump from $D282:
+
+D28D: 60        RTS
+
+    <A HREF="RO41D227.HTM">Previous Page</A> / <A HREF="RO41D28E.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

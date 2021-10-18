@@ -1,0 +1,17 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Prueft den Jobcode des aktuellen Puffers auf 'Schreiben' ($ddab)
+
+Einsprung von <A HREF="RO818D7D.HTM">$8E02</A>, <A HREF="RO819FBF.HTM">$9FD2</A>, <A HREF="RO819FBF.HTM">$9FE0</A>:
+
+9CE9: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        Nummer des aktiven Puffers holen
+9CEC: AA        TAX
+9CED: BD 72 02  LDA <A HREF="RA810272.HTM">$0272</A>,X      aktuellen Jobcode holen
+9CF0: 29 FE     AND #$FE         Drivenummer entfernen
+9CF2: C9 90     CMP #$90         'Schreiben' ?
+9CF4: 60        RTS
+
+    <A HREF="RO819CD3.HTM">Previous Page</A> / <A HREF="RO819CF5.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

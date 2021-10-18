@@ -1,0 +1,30 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D19D/53661:   Write byte in buffer and block
+
+Jump from <A HREF="RO41CF9B.HTM">$CFC6</A>:
+
+D19D: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>       ; byte in buffer
+D1A0: F0 01     BEQ $D1A3       ; buffer full?
+D1A2: 60        RTS
+
+Jump from $D1A0, <A HREF="RO41DA2A.HTM">$DA3D</A>:
+
+D1A3: 20 D3 D1  JSR <A HREF="RO41D1D3.HTM">$D1D3</A>       ; get drive number
+D1A6: 20 1E F1  JSR <A HREF="RO41F11E.HTM">$F11E</A>       ; find free block in BAM
+D1A9: A9 00     LDA #$00
+D1AB: 20 C8 D4  JSR <A HREF="RO41D4C8.HTM">$D4C8</A>       ; buffer pointer to zero
+D1AE: A5 80     LDA <A HREF="RA4180.HTM">$80</A>
+D1B0: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>       ; track number as first byte
+D1B3: A5 81     LDA <A HREF="RA4181.HTM">$81</A>
+D1B5: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>       ; sector number as second byte
+D1B8: 20 C7 D0  JSR <A HREF="RO41D0C7.HTM">$D0C7</A>       ; write block
+D1BB: 20 1E CF  JSR <A HREF="RO41CF1E.HTM">$CF1E</A>       ; change buffer
+D1BE: 20 D0 D6  JSR <A HREF="RO41D6D0.HTM">$D6D0</A>       ; parameter to disk controller
+D1C1: A9 02     LDA #$02
+D1C3: 4C C8 D4  JMP <A HREF="RO41D4C8.HTM">$D4C8</A>       ; buffer pointer to 2
+
+    <A HREF="RO41D156.HTM">Previous Page</A> / <A HREF="RO41D1C6.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

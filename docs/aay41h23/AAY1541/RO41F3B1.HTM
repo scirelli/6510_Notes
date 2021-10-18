@@ -1,0 +1,72 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F3B1/62385:   Read block header, verify ID
+
+Jump from <A HREF="RO41F2F9.HTM">$F36B</A>, <A HREF="RO41F575.HTM">$F5E6</A>:
+
+F3B1: A2 5A     LDX #$5A        ; 90
+F3B3: 86 4B     STX <A HREF="RA414B.HTM">$4B</A>         ; counter
+F3B5: A2 00     LDX #$00
+F3B7: A9 52     LDA #$52        ; 82
+F3B9: 85 24     STA <A HREF="RA4124.HTM">$24</A>
+
+Jump from $F409:
+
+F3BB: 20 56 F5  JSR <A HREF="RO41F556.HTM">$F556</A>       ; wait for SYNC
+
+Jump from $F3BE:
+
+F3BE: 50 FE     BVC $F3BE       ; byte ready?
+F3C0: B8        CLV
+F3C1: AD 01 1C  LDA <A HREF="VIA21.HTM">$1C01</A>       ; data from read head
+F3C4: C5 24     CMP <A HREF="RA4124.HTM">$24</A>
+F3C6: D0 3F     BNE $F407       ; 20, 'read error'
+
+Jump from $F3C8, $F3D3:
+
+F3C8: 50 FE     BVC $F3C8       ; byte ready?
+F3CA: B8        CLV
+F3CB: AD 01 1C  LDA <A HREF="VIA21.HTM">$1C01</A>       ; data byte from disk (block header)
+F3CE: 95 25     STA <A HREF="RA4124.HTM">$25</A>,X       ; save 7 bytes
+F3D0: E8        INX
+F3D1: E0 07     CPX #$07
+F3D3: D0 F3     BNE $F3C8       ; continue reading
+F3D5: 20 97 F4  JSR <A HREF="RO41F423.HTM">$F497</A>
+F3D8: A0 04     LDY #$04        ; 4 bytes plus parity
+F3DA: A9 00     LDA #$00
+
+Jump from $F3E0:
+
+F3DC: 59 16 00  EOR <A HREF="RA4116.HTM">$16</A>,Y       ; form checksum for header
+F3DF: 88        DEY
+F3E0: 10 FA     BPL $F3DC
+F3E2: C9 00     CMP #$00        ; parity ok?
+F3E4: D0 38     BNE <A HREF="RO41F41E.HTM">$F41E</A>       ; 27, 'read error'
+F3E6: A6 3E     LDX <A HREF="RA413E.HTM">$3E</A>         ; drive number
+F3E8: A5 18     LDA <A HREF="RA4118.HTM">$18</A>         ; track number of header
+F3EA: 95 22     STA <A HREF="RA4122.HTM">$22</A>,X       ; use as actual track number
+F3EC: A5 45     LDA <A HREF="RA4145.HTM">$45</A>
+F3EE: C9 30     CMP #$30        ; code for 'preserve header'
+F3F0: F0 1E     BEQ <A HREF="RO41F410.HTM">$F410</A>       ; preserve header
+F3F2: A5 3E     LDA <A HREF="RA413E.HTM">$3E</A>
+F3F4: 0A        ASL
+F3F5: A8        TAY
+F3F6: B9 12 00  LDA <A HREF="RA4112.HTM">$12</A>,Y
+F3F9: C5 16     CMP <A HREF="RA4116.HTM">$16</A>         ; command with ID1
+F3FB: D0 1E     BNE <A HREF="RO41F41B.HTM">$F41B</A>
+F3FD: B9 13 00  LDA <A HREF="RA4112.HTM">$13</A>,Y
+F400: C5 17     CMP <A HREF="RA4116.HTM">$17</A>         ; command with ID2
+F402: D0 17     BNE <A HREF="RO41F41B.HTM">$F41B</A>       ; &lt;&gt;, then 29, 'disk id mismatch'
+F404: 4C 23 F4  JMP <A HREF="RO41F423.HTM">$F423</A>
+
+Jump from $F3C6:
+
+F407: C6 4B     DEC <A HREF="RA414B.HTM">$4B</A>         ; decrement counter for attempts
+F409: D0 B0     BNE $F3BB       ; and try again
+F40B: A9 02     LDA #$02        ; else
+F40D: 20 69 F9  JSR <A HREF="RO41F969.HTM">$F969</A>       ; 20, 'read error'
+
+    <A HREF="RO41F393.HTM">Previous Page</A> / <A HREF="RO41F410.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

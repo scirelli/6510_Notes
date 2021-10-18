@@ -1,0 +1,16 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Partition in Bam belegen
+
+Einsprung von $B345, <A HREF="RO81B262.HTM">$B2BB</A>:
+
+B33C: 20 B5 94  JSR <A HREF="RO8194B5.HTM">$94B5</A>        auf gueltigen Block testen
+B33F: 20 72 B5  JSR <A HREF="RO81B572.HTM">$B572</A>        und in Bam belegen
+B342: 20 EF B2  JSR <A HREF="RO81B2EF.HTM">$B2EF</A>        naechsten Block holen
+B345: D0 F5     BNE $B33C        noch einer uebrig ? ja, ==&gt;
+B347: 60        RTS
+
+    <A HREF="RO81B323.HTM">Previous Page</A> / <A HREF="RO81B348.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

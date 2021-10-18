@@ -1,0 +1,17 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+JOB $8c: SEEK_DV
+
+C3AF: A5 88     LDA <A HREF="RA8188.HTM">$88</A>          Solltrack
+C3B1: C5 27     CMP <A HREF="RA8127.HTM">$27</A>          = Isttrack ?
+C3B3: F0 03     BEQ $C3B8        ja, (Ende) ==&gt;
+C3B5: 4C 00 CE  JMP <A HREF="RO81CE00.HTM">$CE00</A>        Zur Steuerroutine
+
+Einsprung von $C3B3:
+
+C3B8: 4C 8B C3  JMP <A HREF="RO81C163.HTM">$C38B</A>        OK, ENDE
+
+    <A HREF="RO81C3A9.HTM">Previous Page</A> / <A HREF="RO81C3BB.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

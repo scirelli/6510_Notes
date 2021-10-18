@@ -1,0 +1,43 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Oeffnen eines Files mit Ueberschreiben ($d8f5)
+
+Einsprung von <A HREF="RO819773.HTM">$9793</A>:
+
+97A2: A5 F4     LDA <A HREF="RA81F4.HTM">$F4</A>          Dateityp des 1. Files holen
+97A4: 29 07     AND #$07         (B0-2: Dateityp)
+97A6: CD 2D 02  CMP <A HREF="RA81022D.HTM">$022D</A>        und mit Dateityp des gefundenen Files
+97A9: D0 67     BNE <A HREF="RO8197ED.HTM">$9812</A>        vergleichen; ungleich ? ja, (Fehler) ==&gt;
+97AB: C9 04     CMP #$04         Ist es eine REL-Datei ?
+97AD: F0 63     BEQ <A HREF="RO8197ED.HTM">$9812</A>        ja, ==&gt;
+97AF: 20 C3 9B  JSR <A HREF="RO819BC3.HTM">$9BC3</A>        File zum Schreiben oeffnen
+97B2: A5 50     LDA <A HREF="RA8150.HTM">$50</A>          Kanalnummer merken
+97B4: 8D 8C 02  STA <A HREF="RA81028C.HTM">$028C</A>
+97B7: A9 11     LDA #$11         17: SA des internen Lesekanals
+97B9: 85 52     STA <A HREF="RA8152.HTM">$52</A>
+97BB: 20 27 90  JSR <A HREF="RO819027.HTM">$9027</A>        Kanal zum Lesen holen
+97BE: AD 32 02  LDA <A HREF="RA810232.HTM">$0232</A>        Pufferzeiger auf den Dir-Eintrag setzen
+97C1: 20 22 94  JSR <A HREF="RO819422.HTM">$9422</A>
+97C4: A0 00     LDY #$00
+97C6: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y
+97C8: 09 20     ORA #$20         b5=1: Flag 'File wird ersetzt' im Directory
+97CA: 91 64     STA (<A HREF="RA8164.HTM">$64</A>),Y      setzen
+97CC: A0 1A     LDY #$1A
+97CE: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          T&amp;S des neuen Files merken
+97D0: 91 64     STA (<A HREF="RA8164.HTM">$64</A>),Y
+97D2: C8        INY
+97D3: A5 4E     LDA <A HREF="RA814E.HTM">$4E</A>
+97D5: 91 64     STA (<A HREF="RA8164.HTM">$64</A>),Y
+97D7: AE 8C 02  LDX <A HREF="RA81028C.HTM">$028C</A>        Kanalnummer des Files holen
+97DA: A5 E5     LDA <A HREF="RA81E5.HTM">$E5</A>          Direktory-Block
+97DC: 9D 7D 02  STA <A HREF="RA81027D.HTM">$027D</A>,X      merken
+97DF: A5 EA     LDA <A HREF="RA81EA.HTM">$EA</A>          Position des Fileeintrages im Dir-Block
+97E1: 9D 84 02  STA <A HREF="RA810284.HTM">$0284</A>,X      in Kanaltabelle merken
+97E4: 20 79 9D  JSR <A HREF="RO819D79.HTM">$9D79</A>        T&amp;S setzen
+97E7: 20 C1 93  JSR <A HREF="RO8193BD.HTM">$93C1</A>        Directory-Block schreiben
+97EA: 4C 96 98  JMP <A HREF="RO819896.HTM">$9896</A>        T&amp;S des neuen Files merken ('*')
+
+    <A HREF="RO819773.HTM">Previous Page</A> / <A HREF="RO8197ED.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

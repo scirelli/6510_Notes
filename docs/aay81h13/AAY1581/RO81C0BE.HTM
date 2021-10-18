@@ -1,0 +1,150 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+JLCC: Controller-Routine
+[Zuerst werden alle Jobspeicher getestet (Job8 zuerst), ob Jobauftraege
+ vorliegen. Bei den entsprechenden Jobs werden ggf. die T&amp;S in das phy.
+ Format umgewandelt. Jobs, die sich mit den aktuellen Cachedaten bearbeiten
+ lassen, werden sofort bearbeitet.
+ Anschliessend wird der Job mit der niedrigsten Nummer bearbeitet:
+ ggf. werden der Motor eingeschaltet, der Kopf positioniert, u.s.w. Wenn
+ eine neue Spur in den Cache geladen worden ist, beginnt anschliessend die
+ Jobauswertung wieder von Vorne (mit den neuen Cache-Daten).
+ Schliesslich wird die eigentliche Job-Routine aufgerufen.
+ Wenn kein aktiver Job mehr anliegt, oder der Schreib-/Lesekopf bewegt
+ werden muss, wird in die Hauptsteuer-Routine verzweigt, die fuer die Motor-
+ und LED-Steuerung zustaendig ist.
+ Im Gegensatz zu frueheren Commodore-Laufwerken uebergibt das Controller-
+ programm die Regie nicht an das DOS, solange der Schreib-/Lesekopf
+ positioniert wird. Damit koennen Bloecke (bei der 1581 Spuren) nicht mehr
+ 'im Hintergrund' eingelesen werden.
+ Achtung: Wenn die Jobroutine mehrere Jobs 'gleichzeitig' bekommt, kann sie
+ sich in der Seitenauswahl irren, da fuer alle Jobs zusammen nur ein
+ Seitenregister ($96) existiert und dieses bei mehreren Jobs gnadenlos
+ ueberschrieben wird !!!]
+
+C0BE: BA        TSX              Stackpointer retten fuer Funktionsabbruch
+C0BF: 86 2C     STX <A HREF="RA812C.HTM">$2C</A>          und fuer Break-Flag pruefen
+
+Jobspeicher pruefen
+
+C0C1: A9 80     LDA #$80         Flag fuer 'kein Job aktiv' setzen
+C0C3: 85 83     STA <A HREF="RA8183.HTM">$83</A>
+C0C5: A0 08     LDY #$08         mit Jobpuffer 8 beginnen
+
+Einsprung von $C0D5, <A HREF="RO81CDE2.HTM">$CDFD</A>:
+
+C0C7: B9 02 00  LDA <A HREF="RA8102.HTM">$0002</A>,Y      &lt;--  Jobspeicher pruefen
+C0CA: 30 12     BMI $C0DE        liegt Job an, dann ==&gt;
+C0CC: B9 9F 00  LDA <A HREF="RA819F.HTM">$009F</A>,Y      Zeiger in Cachepuffer (Hi)
+C0CF: 29 7F     AND #$7F         b7=0: Flag: 'T&amp;S wurden noch nicht ins
+C0D1: 99 9F 00  STA <A HREF="RA819F.HTM">$009F</A>,Y      phy. Format umgewandelt' setzen
+
+Einsprung von $C101:
+
+C0D4: 88        DEY              naechsten Jobspeicher pruefen
+C0D5: 10 F0     BPL $C0C7
+C0D7: A4 83     LDY <A HREF="RA8183.HTM">$83</A>          b7=0: aktiven Job gefunden ?
+C0D9: 10 29     BPL $C104        ja, ==&gt;
+C0DB: 4C 00 CE  JMP <A HREF="RO81CE00.HTM">$CE00</A>        Zur Hauptsteuer-Routine ==&gt;
+
+Jobcode analysieren und ggf. Job mit Cachedaten durchfuehren
+
+Einsprung von $C0CA:
+
+C0DE: 84 83     STY <A HREF="RA8183.HTM">$83</A>          Aktuelle Jobnummer merken
+C0E0: AA        TAX              Jobcode merken
+C0E1: 98        TYA              Index fuer 2-Byte Puffer berechnen
+C0E2: 0A        ASL
+C0E3: 85 99     STA <A HREF="RA8199.HTM">$99</A>
+C0E5: BD E7 C1  LDA $C1E7,X      Nummer der Jobroutine nach $84
+C0E8: 85 84     STA <A HREF="RA8184.HTM">$84</A>
+C0EA: AA        TAX
+C0EB: BD 63 C1  LDA <A HREF="RO81C163.HTM">$C163</A>,X      Job-Kommandobits holen
+C0EE: 85 85     STA <A HREF="RA8185.HTM">$85</A>
+C0F0: BD 84 C1  LDA <A HREF="RO81C163.HTM">$C184</A>,X
+C0F3: 85 86     STA <A HREF="RA8185.HTM">$86</A>
+C0F5: 20 3C FF  JSR <A HREF="RO81FF00.HTM">$FF3C</A>        logisches in physikalisches Format wandeln
+C0F8: 06 85     ASL <A HREF="RA8185.HTM">$85</A>          b6=1: Cachedaten verwenden ?
+C0FA: 90 03     BCC $C0FF        nein, ==&gt;
+C0FC: 20 51 CF  JSR <A HREF="RO81CF51.HTM">$CF51</A>        Wenn moeglich, Cache verwenden
+
+Einsprung von $C0FA:
+
+C0FF: A4 83     LDY <A HREF="RA8183.HTM">$83</A>          aktuelle Jobnummer zurueckholen
+C101: 4C D4 C0  JMP $C0D4        naechsten Jobspeicher testen
+Der Job kann nicht mit Cachedaten durchgefuehrt werden
+
+Einsprung von $C0D9:
+
+C104: 06 85     ASL <A HREF="RA8185.HTM">$85</A>          b5=1: Motor einschalten ?
+C106: 90 03     BCC $C10B        nein, ==&gt;
+C108: 20 63 CD  JSR <A HREF="RO81CD63.HTM">$CD63</A>        Motor einschalten
+
+Einsprung von $C106:
+
+C10B: 06 85     ASL <A HREF="RA8185.HTM">$85</A>          b4=1: Anlaufzeit abwarten ?
+C10D: 90 03     BCC $C112        nein, ==&gt;
+C10F: 20 7B CD  JSR <A HREF="RO81CD7B.HTM">$CD7B</A>        Motor-Anlaufzeit abwarten
+
+Einsprung von $C10D:
+
+C112: 06 85     ASL <A HREF="RA8185.HTM">$85</A>          b3=1: Diskettenformat abfragen ?
+C114: 90 03     BCC $C119        nein, ==&gt;
+C116: 20 A6 CF  JSR <A HREF="RO81CFA6.HTM">$CFA6</A>        Diskettenformat abfragen
+
+Einsprung von $C114:
+
+C119: 06 85     ASL <A HREF="RA8185.HTM">$85</A>          b2=1: Cache ggf. schreiben ?
+C11B: 90 14     BCC $C131        nein, ==&gt;
+C11D: A5 87     LDA <A HREF="RA8187.HTM">$87</A>          b7=1: wurde Cache veraendert ?
+C11F: 10 10     BPL $C131        nein, ==&gt;
+C121: A5 95     LDA <A HREF="RA8195.HTM">$95</A>          aktueller Track im Cache
+C123: 85 88     STA <A HREF="RA8188.HTM">$88</A>          = Solltrack bei Kopfbewegung
+C125: C5 27     CMP <A HREF="RA8127.HTM">$27</A>          steht Kopf schon auf der richtigen Spur ?
+C127: D0 17     BNE $C140        nein, (Spur anfahren) ==&gt;
+C129: A5 97     LDA <A HREF="RA8197.HTM">$97</A>          Seitennummer der aktuellen Cachedaten holen
+C12B: 20 C0 CF  JSR <A HREF="RO81CFC0.HTM">$CFC0</A>        Seite anwaehlen
+C12E: 4C 00 C6  JMP <A HREF="RO81C600.HTM">$C600</A>        Cache auf Diskette schreiben
+
+Einsprung von $C11B, $C11F:
+
+C131: 06 85     ASL <A HREF="RA8185.HTM">$85</A>          b1=1: Kopf ggf. positionieren ?
+C133: 90 14     BCC $C149        nein, ==&gt;
+C135: A4 99     LDY <A HREF="RA8199.HTM">$99</A>          Jobnummer*2 holen
+C137: B9 BC 01  LDA <A HREF="RA8101BC.HTM">$01BC</A>,Y      physikalische Spurnummer holen (HDRS2)
+C13A: 85 88     STA <A HREF="RA8188.HTM">$88</A>          und als Sollspur merken
+C13C: C5 27     CMP <A HREF="RA8127.HTM">$27</A>          = aktuelle Spurnummer ?
+C13E: F0 09     BEQ $C149        ja, ==&gt;
+
+Einsprung von $C127:
+
+C140: A5 26     LDA <A HREF="RA8126.HTM">$26</A>          b6=1: 'Schrittmotor ist aktiv'
+C142: 09 40     ORA #$40         im Drivestatus setzen
+C144: 85 26     STA <A HREF="RA8126.HTM">$26</A>
+C146: 4C 00 CE  JMP <A HREF="RO81CE00.HTM">$CE00</A>        Zur Hauptsteuer-Routine ==&gt;
+
+Einsprung von $C133, $C13E:
+
+C149: 06 85     ASL <A HREF="RA8185.HTM">$85</A>          b0=1: Seite anwaehlen ?
+C14B: 90 05     BCC $C152        nein, ==&gt;
+C14D: A5 96     LDA <A HREF="RA8196.HTM">$96</A>          aktuelle Diskettenseite holen
+C14F: 20 C0 CF  JSR <A HREF="RO81CFC0.HTM">$CFC0</A>        und anwaehlen
+
+Einsprung von $C14B:
+
+C152: A5 84     LDA <A HREF="RA8184.HTM">$84</A>          Befehlsnummer
+C154: 0A        ASL              als Index auf eine 2-Byte-Tabelle
+C155: AA        TAX
+C156: BD A5 C1  LDA <A HREF="RO81C163.HTM">$C1A5</A>,X      Adresse der Jobroutine holen
+C159: 85 48     STA <A HREF="RA8148.HTM">$48</A>
+C15B: BD A6 C1  LDA <A HREF="RO81C163.HTM">$C1A6</A>,X
+C15E: 85 49     STA <A HREF="RA8148.HTM">$49</A>
+C160: 4C AF C5  JMP <A HREF="RO81C5AF.HTM">$C5AF</A>        Zum Patch springen
+
+<B>* Old ROM:
+C160: 6C 48 00  JMP (<A HREF="RA8148.HTM">$0048</A>)      Job aufrufen
+</B>
+    <A HREF="RO81C097.HTM">Previous Page</A> / <A HREF="RO81C163.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

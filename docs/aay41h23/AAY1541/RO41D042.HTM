@@ -1,0 +1,36 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D042/53314:   Load BAM
+
+Jump from <A HREF="RO41C63D.HTM">$C666</A>, <A HREF="RO41D005.HTM">$D008</A>, <A HREF="RO41D815.HTM">$D828</A>, <A HREF="RO41E60A.HTM">$E63E</A>, <A HREF="RO41ED84.HTM">$ED87</A>, <A HREF="RO41EE0D.HTM">$EE46</A>:
+
+D042: 20 D1 F0  JSR <A HREF="RO41F0D1.HTM">$F0D1</A>
+D045: 20 13 D3  JSR <A HREF="RO41D313.HTM">$D313</A>
+D048: 20 0E D0  JSR <A HREF="RO41D00E.HTM">$D00E</A>       ; read block
+D04B: A6 7F     LDX <A HREF="RA417F.HTM">$7F</A>         ; drive number
+D04D: A9 00     LDA #$00
+D04F: 9D 51 02  STA <A HREF="RA410251.HTM">$0251</A>,X     ; reset flag for &quot;BAM changed'
+D052: 8A        TXA
+D053: 0A        ASL
+D054: AA        TAX
+D055: A5 16     LDA <A HREF="RA4116.HTM">$16</A>
+D057: 95 12     STA <A HREF="RA4112.HTM">$12</A>,X
+D059: A5 17     LDA <A HREF="RA4116.HTM">$17</A>         ; save ID
+D05B: 95 13     STA <A HREF="RA4112.HTM">$13</A>,X
+D05D: 20 86 D5  JSR <A HREF="RO41D586.HTM">$D586</A>
+D060: A5 F9     LDA <A HREF="RA41F9.HTM">$F9</A>         ; buffer number
+D062: 0A        ASL
+D063: AA        TAX
+D064: A9 02     LDA #$02        ; buffer pointer to $200
+D066: 95 99     STA <A HREF="RA4199.HTM">$99</A>,X
+D068: A1 99     LDA (<A HREF="RA4199.HTM">$99</A>,X)     ; get character from buffer
+D06A: A6 7F     LDX <A HREF="RA417F.HTM">$7F</A>         ; drive number
+D06C: 9D 01 01  STA <A HREF="RA410101.HTM">$0101</A>,X
+D06F: A9 00     LDA #$00
+D071: 95 1C     STA <A HREF="RA411C.HTM">$1C</A>,X       ; flag for write protect
+D073: 95 FF     STA <A HREF="RA41FF.HTM">$FF</A>,X       ; flag for read error
+
+    <A HREF="RO41D00E.HTM">Previous Page</A> / <A HREF="RO41D075.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

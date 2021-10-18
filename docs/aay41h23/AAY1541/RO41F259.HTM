@@ -1,0 +1,49 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F259/62041:   Initialise disk controller
+
+Jump from <A HREF="RO41EAA0.HTM">$EBC2</A>:
+
+F259: A9 6F     LDA #$6F        ; bit 4 (write prot) &amp; 7 (SYNC)
+F25B: 8D 02 1C  STA <A HREF="VIA22.HTM">$1C02</A>       ; data direction register port B
+F25E: 29 F0     AND #$F0
+F260: 8D 00 1C  STA <A HREF="VIA20.HTM">$1C00</A>       ; port B, control port
+F263: AD 0C 1C  LDA <A HREF="VIA2C.HTM">$1C0C</A>       ; PCR, control register
+F266: 29 FE     AND #$FE
+F268: 09 0E     ORA #$0E
+F26A: 09 E0     ORA #$E0
+F26C: 8D 0C 1C  STA <A HREF="VIA2C.HTM">$1C0C</A>
+F26F: A9 41     LDA #$41
+F271: 8D 0B 1C  STA <A HREF="VIA2B.HTM">$1C0B</A>       ; timer 1 free running, enable
+F274: A9 00     LDA #$00        ; port A latch
+F276: 8D 06 1C  STA <A HREF="VIA26.HTM">$1C06</A>       ; timer 1 lo latch
+F279: A9 3A     LDA #$3A
+F27B: 8D 07 1C  STA <A HREF="VIA27.HTM">$1C07</A>       ; timer 1 hi latch
+F27E: 8D 05 1C  STA <A HREF="VIA25.HTM">$1C05</A>       ; timer 1 hi
+F281: A9 7F     LDA #$7F
+F283: 8D 0E 1C  STA <A HREF="VIA2E.HTM">$1C0E</A>       ; erase IRQs
+F286: A9 C0     LDA #$C0
+F288: 8D 0D 1C  STA <A HREF="VIA2D.HTM">$1C0D</A>
+F28B: 8D 0E 1C  STA <A HREF="VIA2E.HTM">$1C0E</A>       ; IER, allow interrupts
+F28E: A9 FF     LDA #$FF
+F290: 85 3E     STA <A HREF="RA413E.HTM">$3E</A>
+F292: 85 51     STA <A HREF="RA4151.HTM">$51</A>         ; track counter for formatting
+F294: A9 08     LDA #$08        ; 8
+F296: 85 39     STA <A HREF="RA4139.HTM">$39</A>         ; constants for block header
+F298: A9 07     LDA #$07        ; 7
+F29A: 85 47     STA <A HREF="RA4147.HTM">$47</A>         ; constants for data block
+F29C: A9 05     LDA #$05
+F29E: 85 62     STA <A HREF="RA4162.HTM">$62</A>
+F2A0: A9 FA     LDA #$FA        ; pointer $62/$63 to $FA05
+F2A2: 85 63     STA <A HREF="RA4162.HTM">$63</A>
+F2A4: A9 C8     LDA #$C8        ; 200
+F2A6: 85 64     STA <A HREF="RA4164.HTM">$64</A>
+F2A8: A9 04     LDA #$04
+F2AA: 85 5E     STA <A HREF="RA415E.HTM">$5E</A>
+F2AC: A9 04     LDA #$04
+F2AE: 85 5F     STA <A HREF="RA415F.HTM">$5F</A>
+
+    <A HREF="RO41F258.HTM">Previous Page</A> / <A HREF="RO41F2B0.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,148 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C6DE/50910:   ?
+
+Jump from <A HREF="RO41C6CE.HTM">$C6D4</A>:
+
+C6DE: A9 11     LDA #$11        ; 17
+C6E0: 85 83     STA <A HREF="RA4183.HTM">$83</A>         ; secondary address
+C6E2: 20 EB D0  JSR <A HREF="RO41D0EB.HTM">$D0EB</A>       ; open channel to read
+C6E5: 20 E8 D4  JSR <A HREF="RO41D4E8.HTM">$D4E8</A>       ; set buffer pointer
+C6E8: AD 53 02  LDA <A HREF="RA410253.HTM">$0253</A>
+C6EB: 10 0A     BPL $C6F7       ; not yet last entry?
+C6ED: AD 8D 02  LDA <A HREF="RA41028D.HTM">$028D</A>
+C6F0: D0 0A     BNE $C6FC
+C6F2: 20 06 C8  JSR <A HREF="RO41C806.HTM">$C806</A>       ; write 'blocks free.'
+C6F5: 18        CLC
+C6F6: 60        RTS
+
+Jump from $C6EB:
+
+C6F7: AD 8D 02  LDA <A HREF="RA41028D.HTM">$028D</A>
+C6FA: F0 1F     BEQ $C71B
+
+Jump from $C6F0:
+
+C6FC: CE 8D 02  DEC <A HREF="RA41028D.HTM">$028D</A>
+C6FF: D0 0D     BNE $C70E
+C701: CE 8D 02  DEC <A HREF="RA41028D.HTM">$028D</A>
+C704: 20 8F C3  JSR <A HREF="RO41C38F.HTM">$C38F</A>       ; change drive
+C707: 20 06 C8  JSR <A HREF="RO41C806.HTM">$C806</A>       ; write 'blocks free.'
+C70A: 38        SEC
+C70B: 4C 8F C3  JMP <A HREF="RO41C38F.HTM">$C38F</A>       ; change drive
+
+Jump from $C6FF:
+
+C70E: A9 00     LDA #$00
+C710: 8D 73 02  STA <A HREF="RA410272.HTM">$0273</A>       ; drive no. for header, hi-byte
+C713: 8D 8D 02  STA <A HREF="RA41028D.HTM">$028D</A>
+C716: 20 B7 C7  JSR <A HREF="RO41C7B7.HTM">$C7B7</A>       ; write header
+C719: 38        SEC
+C71A: 60        RTS
+
+Jump from $C6FA:
+
+C71B: A2 18     LDX #$18
+C71D: A0 1D     LDY #$1D
+C71F: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; number of blocks hi
+C721: 8D 73 02  STA <A HREF="RA410272.HTM">$0273</A>       ; in buffer
+C724: F0 02     BEQ $C728       ; zero?
+C726: A2 16     LDX #$16
+
+Jump from $C724:
+
+C728: 88        DEY
+C729: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; number of blocks lo
+C72B: 8D 72 02  STA <A HREF="RA410272.HTM">$0272</A>       ; in buffer
+C72E: E0 16     CPX #$16
+C730: F0 0A     BEQ $C73C
+C732: C9 0A     CMP #$0A        ; 10
+C734: 90 06     BCC $C73C
+C736: CA        DEX
+C737: C9 64     CMP #$64        ; 100
+C739: 90 01     BCC $C73C
+C73B: CA        DEX
+
+Jump from $C730, $C734, $C739:
+
+C73C: 20 AC C7  JSR <A HREF="RO41C7AC.HTM">$C7AC</A>       ; erase buffer
+C73F: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; file type
+C741: 48        PHA
+C742: 0A        ASL             ; bit 7 in carry
+C743: 10 05     BPL $C74A       ; bit 6 not set?
+C745: A9 3C     LDA #$3C        ; '&lt;' for protected file
+C747: 9D B2 02  STA <A HREF="RA4102B1.HTM">$02B2</A>,X     ; write behind file type
+
+Jump from $C743:
+
+C74A: 68        PLA
+C74B: 29 0F     AND #$0F        ; isolate bits 0-3
+C74D: A8        TAY             ; as file type marker
+C74E: B9 C5 FE  LDA <A HREF="RO41FEC5.HTM">$FEC5</A>,Y     ; 3rd letter of the file type
+C751: 9D B1 02  STA <A HREF="RA4102B1.HTM">$02B1</A>,X     ; in buffer
+C754: CA        DEX
+C755: B9 C0 FE  LDA <A HREF="RO41FEC0.HTM">$FEC0</A>,Y     ; 2nd letter of the file type
+C758: 9D B1 02  STA <A HREF="RA4102B1.HTM">$02B1</A>,X     ; in buffer
+C75B: CA        DEX
+C75C: B9 BB FE  LDA <A HREF="RO41FEBB.HTM">$FEBB</A>,Y     ; 1st letter of the file type
+C75F: 9D B1 02  STA <A HREF="RA4102B1.HTM">$02B1</A>,X     ; in buffer
+C762: CA        DEX
+C763: CA        DEX
+C764: B0 05     BCS $C76B       ; file not closed?
+C766: A9 2A     LDA #$2A        ; '*'
+C768: 9D B2 02  STA <A HREF="RA4102B1.HTM">$02B2</A>,X     ; before file type in buffer
+
+Jump from $C764:
+
+C76B: A9 A0     LDA #$A0        ; pad with 'shift blank'
+C76D: 9D B1 02  STA <A HREF="RA4102B1.HTM">$02B1</A>,X     ; in buffer
+C770: CA        DEX
+C771: A0 12     LDY #$12
+
+Jump from $C77C:
+
+C773: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; filenames
+C775: 9D B1 02  STA <A HREF="RA4102B1.HTM">$02B1</A>,X     ; write in buffer
+C778: CA        DEX
+C779: 88        DEY
+C77A: C0 03     CPY #$03
+C77C: B0 F5     BCS $C773
+C77E: A9 22     LDA #$22        ; '='
+C780: 9D B1 02  STA <A HREF="RA4102B1.HTM">$02B1</A>,X     ; write before file type
+
+Jump from $C791:
+
+C783: E8        INX
+C784: E0 20     CPX #$20
+C786: B0 0B     BCS $C793
+C788: BD B1 02  LDA <A HREF="RA4102B1.HTM">$02B1</A>,X     ; character from buffer
+C78B: C9 22     CMP #$22        ; '='?
+C78D: F0 04     BEQ $C793
+C78F: C9 A0     CMP #$A0        ; 'shift blank' at end of name
+C791: D0 F0     BNE $C783
+
+Jump from $C786, $C78D:
+
+C793: A9 22     LDA #$22        ; fill through '='
+C795: 9D B1 02  STA <A HREF="RA4102B1.HTM">$02B1</A>,X
+
+Jump from $C7A5:
+
+C798: E8        INX
+C799: E0 20     CPX #$20
+C79B: B0 0A     BCS $C7A7
+C79D: A9 7F     LDA #$7F        ; bit 7
+C79F: 3D B1 02  AND <A HREF="RA4102B1.HTM">$02B1</A>,X
+C7A2: 9D B1 02  STA <A HREF="RA4102B1.HTM">$02B1</A>,X     ; erase in the remaining chars
+C7A5: 10 F1     BPL $C798
+
+Jump from $C79B:
+
+C7A7: 20 B5 C4  JSR <A HREF="RO41C48B.HTM">$C4B5</A>       ; search for the directory entry
+C7AA: 38        SEC
+C7AB: 60        RTS
+
+    <A HREF="RO41C6CE.HTM">Previous Page</A> / <A HREF="RO41C7AC.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,105 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Partition-Befehl
+
+B781: 20 AE 84  JSR <A HREF="RO8184AE.HTM">$84AE</A>        testet auf Diskettenwechsel
+B784: A5 29     LDA <A HREF="RA8129.HTM">$29</A>          Laenge der Befehlszeile
+B786: C9 02     CMP #$02         &lt; 2 ('/') ?
+B788: 90 6D     BCC $B7F7        ja, ==&gt;
+B78A: A9 01     LDA #$01         Position der moeglichen Drivenummer setzen
+B78C: 8D 91 02  STA <A HREF="RA810291.HTM">$0291</A>
+B78F: 20 FD 81  JSR <A HREF="RO8181FD.HTM">$81FD</A>        Drivenummer holen
+B792: 20 B9 82  JSR <A HREF="RO8182B9.HTM">$82B9</A>        Datei im Directory suchen
+B795: AD 97 02  LDA <A HREF="RA810297.HTM">$0297</A>        gefunden ?
+B798: F0 13     BEQ $B7AD        nein ==&gt;
+
+B79A: 20 51 B8  JSR <A HREF="RO81B851.HTM">$B851</A>        Partition-Namen holen
+B79D: 90 20     BCC $B7BF        Partition erstellen ? nein, ==&gt;
+B79F: A9 63     LDA #$63         63, File exists
+B7A1: 2C         B $2C
+
+Einsprung von $B7B0, $B7C5:
+
+B7A2: A9 62     LDA #$62         62, File not found
+B7A4: 2C         B $2C
+
+Einsprung von $B7BA:
+
+B7A5: A9 30     LDA #$30         30, Syntax error
+B7A7: 2C         B $2C
+
+Einsprung von $B7D2, $B7D8, $B7E2, $B7E4:
+
+B7A8: A9 77     LDA #$77         77, Selected Partition illegal
+B7AA: 20 7C 80  JSR <A HREF="RO81807C.HTM">$807C</A>        Fehlermeldung (T&amp;S=0) ausgeben
+
+Testen, ob die nicht vorhandene Partition erstellt werden soll
+
+Einsprung von $B798:
+
+B7AD: 20 51 B8  JSR <A HREF="RO81B851.HTM">$B851</A>        Partition-Namen holen
+B7B0: 90 F0     BCC $B7A2        Partition erstellen ? nein, ==&gt;
+B7B2: AE 90 02  LDX <A HREF="RA810290.HTM">$0290</A>        Ende des Partition-Namens ('/xxx,abcdC')
+B7B5: BD 06 02  LDA <A HREF="RA810200.HTM">$0206</A>,X      +6: ist Befehl zum Erstellen der Partition
+B7B8: C9 43     CMP #$43         (Create) vorhanden ?
+B7BA: D0 E9     BNE $B7A5        nein, ==&gt;
+B7BC: 4C 8D B8  JMP <A HREF="RO81B88D.HTM">$B88D</A>        Parameter holen, Partition erstellen
+
+Partition anwaehlen
+
+Einsprung von $B79D:
+
+B7BF: A5 F4     LDA <A HREF="RA81F4.HTM">$F4</A>          Dateityp feststellen
+B7C1: 29 07     AND #$07
+B7C3: C9 05     CMP #$05         CBM-Datei ?
+B7C5: D0 DB     BNE $B7A2        nein, ==&gt;
+B7C7: 20 23 B3  JSR <A HREF="RO81B323.HTM">$B323</A>        Partition-Parameter holen
+
+Einsprung von $B7D0:
+
+B7CA: 20 B5 94  JSR <A HREF="RO8194B5.HTM">$94B5</A>        Auf gueltigen Block testen
+B7CD: 20 EF B2  JSR <A HREF="RO81B2EF.HTM">$B2EF</A>        Naechten Block der Partition holen
+B7D0: D0 F8     BNE $B7CA        gehoert Block noch zur Partition, ==&gt;
+B7D2: 90 D4     BCC $B7A8        Trackwechsel erfolgt ? nein, ==&gt;
+B7D4: A0 02     LDY #$02         Startsektor holen
+B7D6: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y
+B7D8: D0 CE     BNE $B7A8        &lt;&gt;0, (P. muss am Trackanfang beginnen) ==&gt;
+B7DA: 88        DEY
+B7DB: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          aktuelle Tracknummer (1. Track nach der P.)
+B7DD: AA        TAX
+B7DE: F1 64     SBC (<A HREF="RA8164.HTM">$64</A>),Y      - Starttrack (= Anzahl Tracks der P.))
+B7E0: C9 02     CMP #$02         muss &gt; 2 sein (entspricht &gt;=120 Blocks)
+B7E2: F0 C4     BEQ $B7A8        Partition zu klein, ==&gt;
+B7E4: 90 C2     BCC $B7A8        ja, ==&gt;
+B7E6: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y      Starttrack
+B7E8: 8D 2B 02  STA <A HREF="RA81022B.HTM">$022B</A>        = Track des Directorys
+B7EB: 85 90     STA <A HREF="RA8190.HTM">$90</A>          = Start der Partition
+B7ED: 8E 2C 02  STX <A HREF="RA81022C.HTM">$022C</A>        Ende der Partition +1 merken
+B7F0: CA        DEX              -1 = Ende der Partition
+B7F1: CA        DEX              -1 = physikalische Spurnummer
+B7F2: 86 8F     STX <A HREF="RA818F.HTM">$8F</A>          letzte physikalische Spurnummer merken
+B7F4: 4C FA B7  JMP $B7FA        P. initialisieren, Meldung ausgeben
+
+Wurzelverzeichnis anwaehlen
+
+Einsprung von $B788:
+
+B7F7: 20 B3 B0  JSR <A HREF="RO81B0B3.HTM">$B0B3</A>        ganze Diskette als Partition
+
+Einsprung von $B7F4:
+
+B7FA: 20 62 92  JSR <A HREF="RO819262.HTM">$9262</A>        Kanaele der SA 1-14 freigeben
+B7FD: 20 03 8F  JSR <A HREF="RO818F03.HTM">$8F03</A>        Partition initialisieren
+B800: A5 90     LDA <A HREF="RA8190.HTM">$90</A>          Partitionanfang
+B802: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>          = Track (fuer Meldung)
+B804: AC 2C 02  LDY <A HREF="RA81022C.HTM">$022C</A>        Partitionende+1
+B807: 88        DEY              - 1
+B808: 84 4E     STY <A HREF="RA814E.HTM">$4E</A>          = 'Sektor'
+B80A: A9 02     LDA #$02         02, Selected Partition, $4d, $4e
+B80C: A0 00     LDY #$00         Zeiger in INPUT-Puffer = 0
+B80E: 4C 5F 80  JMP <A HREF="RO81804C.HTM">$805F</A>        Meldung ausgeben
+
+    <A HREF="RO81B75E.HTM">Previous Page</A> / <A HREF="RO81B811.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

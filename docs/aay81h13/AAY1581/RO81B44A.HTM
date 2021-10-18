@@ -1,0 +1,135 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+neue BAM erzeugen ($eeb7)
+
+Einsprung von <A HREF="RO81B262.HTM">$B268</A>, <A HREF="RO81B390.HTM">$B40B</A>:
+
+B44A: A9 00     LDA #$00         beim Erzeugen der Bam mit der
+B44C: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>          ersten Spur beginnen
+B44E: AD 2B 02  LDA <A HREF="RA81022B.HTM">$022B</A>        Link-Zeiger der BAM-Bloecke setzen
+B451: 8D 00 0A  STA <A HREF="RA810A00.HTM">$0A00</A>        im 1. BAM-Puffer:  tt, $02
+B454: A9 00     LDA #$00
+B456: 8D 00 0B  STA <A HREF="RA810B00.HTM">$0B00</A>        im 2. BAM-Puffer: $00, $ff
+B459: A9 02     LDA #$02
+B45B: 8D 01 0A  STA <A HREF="RA810A00.HTM">$0A01</A>
+B45E: A9 FF     LDA #$FF
+B460: 8D 01 0B  STA <A HREF="RA810B00.HTM">$0B01</A>
+B463: AD EB 01  LDA <A HREF="RA8101EB.HTM">$01EB</A>        1581-Formatkennzeichen abspeichern
+B466: 8D 02 0A  STA <A HREF="RA810A00.HTM">$0A02</A>
+B469: 8D 02 0B  STA <A HREF="RA810B00.HTM">$0B02</A>
+B46C: 49 FF     EOR #$FF         negiert
+B46E: 8D 03 0A  STA <A HREF="RA810A00.HTM">$0A03</A>        ergibt das ergaenzende Formatkennzeichen
+B471: 8D 03 0B  STA <A HREF="RA810B00.HTM">$0B03</A>
+B474: A5 1D     LDA <A HREF="RA811D.HTM">$1D</A>          ID1 und
+B476: 8D 04 0A  STA <A HREF="RA810A00.HTM">$0A04</A>
+B479: 8D 04 0B  STA <A HREF="RA810B00.HTM">$0B04</A>
+B47C: A5 1E     LDA <A HREF="RA811D.HTM">$1E</A>          ID2 abspeichern
+B47E: 8D 05 0A  STA <A HREF="RA810A00.HTM">$0A05</A>
+B481: 8D 05 0B  STA <A HREF="RA810B00.HTM">$0B05</A>
+B484: A5 8D     LDA <A HREF="RA818D.HTM">$8D</A>          E/A-Byte
+B486: 8D 06 0A  STA <A HREF="RA810A00.HTM">$0A06</A>
+B489: 8D 06 0B  STA <A HREF="RA810B00.HTM">$0B06</A>
+B48C: A9 00     LDA #$00         Auto-Boot ausschalten
+B48E: 8D 07 0A  STA <A HREF="RA810A00.HTM">$0A07</A>
+B491: 8D 07 0B  STA <A HREF="RA810B00.HTM">$0B07</A>
+
+Bloecke, die zur Partition gehoeren, freigeben
+alle anderen als belegt kennzeichnen
+
+B494: 20 52 B6  JSR <A HREF="RO81B64F.HTM">$B652</A>        Zeiger auf 1. BAM-Eintrag setzen ($4d = 0)
+
+Einsprung von $B4E9:
+
+B497: A0 10     LDY #$10         $10: Start der BAM im BAM-Block
+
+Einsprung von $B4DF:
+
+B499: E6 4D     INC <A HREF="RA814D.HTM">$4D</A>          naechsten Track waehlen
+B49B: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          aktuelle Tracknummer
+B49D: C5 90     CMP <A HREF="RA8190.HTM">$90</A>          mit Start der Partition vergleichen
+B49F: F0 0B     BEQ $B4AC        = : Blocks freigeben ==&gt;
+B4A1: 90 07     BCC $B4AA        &lt; : Blocks belegen ==&gt;
+B4A3: CD 2C 02  CMP <A HREF="RA81022C.HTM">$022C</A>        &gt;= Ende der Partition ?
+B4A6: F0 02     BEQ $B4AA
+B4A8: 90 02     BCC $B4AC        nein, (Blocks freigeben) ==&gt;
+
+Einsprung von $B4A1, $B4A6:
+
+B4AA: 18        CLC              ja: Blocks belegen
+B4AB: 24         B $24
+
+Einsprung von $B49F, $B4A8:
+
+B4AC: 38        SEC              Blocks freigeben
+B4AD: 08        PHP
+B4AE: A9 00     LDA #$00         Bam-Muster: 'Alle Blocks belegt'
+B4B0: 85 40     STA <A HREF="RA8140.HTM">$40</A>
+B4B2: 85 41     STA <A HREF="RA8140.HTM">$41</A>
+B4B4: 85 42     STA <A HREF="RA8140.HTM">$42</A>
+B4B6: 85 43     STA <A HREF="RA8140.HTM">$43</A>
+B4B8: 85 44     STA <A HREF="RA8140.HTM">$44</A>
+B4BA: A6 75     LDX <A HREF="RA8175.HTM">$75</A>          Anzahl Sektoren pro Track holen
+B4BC: 8A        TXA
+B4BD: B0 02     BCS $B4C1        c=1, ==&gt;
+B4BF: A9 00     LDA #$00         c=0: 0 Blocks frei
+
+Einsprung von $B4BD:
+
+B4C1: 91 31     STA (<A HREF="RA8131.HTM">$31</A>),Y      Anzahl der freien Blocks
+B4C3: C8        INY
+
+Einsprung von $B4D1:
+
+B4C4: 28        PLP              [Diese Routine ist fuer Disketten gedacht,
+B4C5: 08        PHP               die eine flexible Zahl Blocks/Track haben
+B4C6: 26 40     ROL <A HREF="RA8140.HTM">$40</A>           haben und bei denen die Blockzahl kein
+B4C8: 26 41     ROL <A HREF="RA8140.HTM">$41</A>           Vielfaches von 8 ist (1541: 17-21 Blocks).
+B4CA: 26 42     ROL <A HREF="RA8140.HTM">$42</A>           Bei der 1581 (40 Blocks / Track) werden:
+B4CC: 26 43     ROL <A HREF="RA8140.HTM">$43</A>           bei c=1 alle Bytes = $ff,
+B4CE: 26 44     ROL <A HREF="RA8140.HTM">$44</A>           bei c=0 alle Bytes = $00]
+B4D0: CA        DEX              Anzahl zu belegender Sektoren -1
+B4D1: D0 F1     BNE $B4C4        naechsten Sektor belegen, ==&gt;
+B4D3: 28        PLP
+
+Einsprung von $B4DC:
+
+B4D4: B5 40     LDA <A HREF="RA8140.HTM">$40</A>,X        Bitmuster in BAM kopieren
+B4D6: 91 31     STA (<A HREF="RA8131.HTM">$31</A>),Y
+B4D8: C8        INY
+B4D9: E8        INX
+B4DA: E0 05     CPX #$05         (5 Bytes)
+B4DC: 90 F6     BCC $B4D4
+B4DE: 98        TYA              Ende des BAM-Puffers erreicht ?
+B4DF: D0 B8     BNE $B499        nein, ==&gt;
+B4E1: A5 32     LDA <A HREF="RA8131.HTM">$32</A>          War es bereits der 2. Puffer ?
+B4E3: C9 0B     CMP #$0B
+B4E5: F0 04     BEQ $B4EB        ja, ==&gt;
+B4E7: E6 32     INC <A HREF="RA8131.HTM">$32</A>          naechsten BAM-Puffer waehlen
+B4E9: D0 AC     BNE $B497        immer ==&gt;
+
+Directory-Bloecke in BAM belegen und 'Blocks free' berechnen
+
+Einsprung von $B4E5:
+
+B4EB: A9 01     LDA #$01         Flag 'BAM abspeichern' setzen
+B4ED: 85 35     STA <A HREF="RA8135.HTM">$35</A>
+B4EF: A9 00     LDA #$00         'Blocks Free' Lo =0 (wozu ?)
+B4F1: 8D A9 02  STA <A HREF="RA8102A9.HTM">$02A9</A>
+B4F4: AD 2B 02  LDA <A HREF="RA81022B.HTM">$022B</A>        Directory-Track holen
+B4F7: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>
+B4F9: A9 00     LDA #$00         Verzeichnis-Header
+B4FB: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+B4FD: 20 72 B5  JSR <A HREF="RO81B572.HTM">$B572</A>        belegen
+B500: E6 4E     INC <A HREF="RA814E.HTM">$4E</A>          1. BAM-Block
+B502: 20 72 B5  JSR <A HREF="RO81B572.HTM">$B572</A>        belegen
+B505: E6 4E     INC <A HREF="RA814E.HTM">$4E</A>          2. BAM-Block
+B507: 20 72 B5  JSR <A HREF="RO81B572.HTM">$B572</A>        belegen
+B50A: AD E5 01  LDA <A HREF="RA8101E5.HTM">$01E5</A>        1. Verzeichnis-Block
+B50D: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+B50F: 20 72 B5  JSR <A HREF="RO81B572.HTM">$B572</A>        belegen
+B512: 4C 85 8F  JMP <A HREF="RO818F03.HTM">$8F85</A>        Anzahl 'Blocks free' berechnen
+
+    <A HREF="RO81B43D.HTM">Previous Page</A> / <A HREF="RO81B515.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

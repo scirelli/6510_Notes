@@ -1,0 +1,270 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Bloecke zu REL-File hinzufuegen ($e31c)
+(Super-) Side-Sektoren aktualisieren
+
+Einsprung von <A HREF="RO81A033.HTM">$A06D</A>:
+
+A2D6: 20 38 A4  JSR <A HREF="RO81A438.HTM">$A438</A>        Ende der REL-Datei suchen
+A2D9: 20 89 8C  JSR <A HREF="RO818C89.HTM">$8C89</A>        Position des neuen Records berechnen
+
+Einsprung von <A HREF="RO818895.HTM">$88C2</A>:
+
+A2DC: 20 5B B6  JSR <A HREF="RO81B65B.HTM">$B65B</A>        Anzahl 'Blocks free' merken
+
+Zeiger auf letztes Zeichen im neuen Record setzen
+
+A2DF: A4 50     LDY <A HREF="RA8150.HTM">$50</A>
+A2E1: BE 5E 02  LDX <A HREF="RA81025E.HTM">$025E</A>,Y      aktuelle Recordlaenge holen
+A2E4: CA        DEX              -1:
+A2E5: 8A        TXA              (das letzte Zeichen im Record wird gesucht)
+A2E6: 18        CLC              Position des Records im Datenblock addieren
+A2E7: 65 6B     ADC <A HREF="RA816B.HTM">$6B</A>
+A2E9: 90 0C     BCC $A2F7        c=0: Record passt in den aktuellen Block
+A2EB: E6 6A     INC <A HREF="RA816A.HTM">$6A</A>          Side-Sektor-Zeiger auf T&amp;S des naechsten
+A2ED: E6 6A     INC <A HREF="RA816A.HTM">$6A</A>          Datenblocks setzen
+A2EF: D0 06     BNE $A2F7        Zeiger ist im selben SS, ==&gt;
+A2F1: E6 69     INC <A HREF="RA8169.HTM">$69</A>          naechsten Side-Sektor nehmen
+A2F3: A9 10     LDA #$10         Zeiger auf T&amp;S des 1. Datenblocks im neuen
+A2F5: 85 6A     STA <A HREF="RA816A.HTM">$6A</A>          Side-Sektor setzen
+
+Einsprung von $A2E9, $A2EF:
+
+A2F7: A5 56     LDA <A HREF="RA8156.HTM">$56</A>          Zeiger auf T&amp;S des aktuellen Side-Sektors
+A2F9: 18        CLC              +2 nehmen
+A2FA: 69 02     ADC #$02         (zeigt nun auf naechste T&amp;S)
+A2FC: 20 23 9E  JSR <A HREF="RO819E23.HTM">$9E23</A>        Side-Sektor-Pufferzeiger setzen
+A2FF: A5 69     LDA <A HREF="RA8169.HTM">$69</A>          Nummer des Side-Sektors holen
+A301: C9 06     CMP #$06         &lt;6, (Gruppe noch nicht voll) ?
+A303: 90 11     BCC $A316        ja, ==&gt;
+A305: 20 6E A5  JSR <A HREF="RO81A56E.HTM">$A56E</A>        Super-Side-Sektor verwenden ?
+A308: D0 07     BNE $A311        nein, ==&gt;
+A30A: 85 69     STA <A HREF="RA8169.HTM">$69</A>          a=0: Side-Sektor-Nummer =0
+A30C: EE 00 01  INC <A HREF="RA810100.HTM">$0100</A>        Gruppennummer erhoehen
+A30F: D0 05     BNE $A316        immer ==&gt;
+
+Einsprung von $A308, $A371, $A378:
+
+A311: A9 52     LDA #$52
+A313: 20 7C 80  JSR <A HREF="RO81807C.HTM">$807C</A>        52, File too large
+
+Anzahl benoetigter Blocks berechnen
+
+Einsprung von $A303, $A30F:
+
+A316: A5 6A     LDA <A HREF="RA816A.HTM">$6A</A>          Zeiger auf T&amp;S des neuen Datenblocks mit
+A318: 38        SEC              dem alten Wert vergleichen
+A319: E5 56     SBC <A HREF="RA8156.HTM">$56</A>
+A31B: B0 03     BCS $A320        groesser, ==&gt;
+A31D: E9 0F     SBC #$0F         $10 (CLC) abziehen (das ist die
+                                Startposition der Tabelle im SS)
+A31F: 18        CLC              Flag: 'Side-Sektor nicht voll' setzen
+
+Einsprung von $A31B:
+
+A320: 48        PHA              a: Anzahl anzulegender Datenblocks * 2
+                                modulo 120 (max. 119 Blocks)
+A321: 20 6E A5  JSR <A HREF="RO81A56E.HTM">$A56E</A>        Super-Side-Sektor verwenden ?
+A324: F0 1E     BEQ $A344        ja, ==&gt;
+
+- REL-Dateien ohne Super-Side-Sektor
+
+A326: 68        PLA              Anzahl der Datenblocks modulo 120
+A327: 85 43     STA <A HREF="RA8140.HTM">$43</A>          merken
+A329: A5 69     LDA <A HREF="RA8169.HTM">$69</A>          neue Side-Sektor Nummer
+A32B: E5 55     SBC <A HREF="RA8155.HTM">$55</A>          - alte Side-Sektor Nummer (ggf. -1, wenn
+                                der SS nicht voll ist)
+A32D: 85 44     STA <A HREF="RA8140.HTM">$44</A>          = Anzahl gefuellter SS
+                                [In $44 soll aber die Anzahl benoetigter
+                                 Side-Sektoren stehen !!!]
+A32F: A2 00     LDX #$00         Anzahl benoetigter Blocks = 0
+A331: 86 41     STX <A HREF="RA8140.HTM">$41</A>
+A333: 86 42     STX <A HREF="RA8140.HTM">$42</A>
+A335: AA        TAX              x= Anzahl gefuellter Side-Sektoren
+A336: 20 82 9E  JSR <A HREF="RO819E7D.HTM">$9E82</A>        Anzahl benoetigter Blocks berechnen
+A339: A5 42     LDA <A HREF="RA8140.HTM">$42</A>          benoetigte Blocks (Hi)
+A33B: D0 2F     BNE $A36C        &gt;0, (mehrere Blocks anlegen) ==&gt;
+A33D: A6 41     LDX <A HREF="RA8140.HTM">$41</A>          (Lo)
+A33F: CA        DEX
+A340: D0 2A     BNE $A36C        &gt;1, (mehrere Blocks anlegen) ==&gt;
+A342: F0 26     BEQ $A36A        (einen neuen Block anlegen), ==&gt;
+
+- mit Super-Side-Sektor
+
+Einsprung von $A324:
+
+A344: 68        PLA              (c=0: Die Blocks mod120 passen in alten SS)
+A345: 85 43     STA <A HREF="RA8140.HTM">$43</A>          Anzahl der Datenblocks modulo 120 merken
+A347: A5 69     LDA <A HREF="RA8169.HTM">$69</A>          neue Side-Sektor Nummer
+A349: E5 55     SBC <A HREF="RA8155.HTM">$55</A>          - alte Side-Sektor-Nummer (ggf. -1)
+A34B: B0 04     BCS $A351        &gt;0, ==&gt;
+A34D: E6 58     INC <A HREF="RA8158.HTM">$58</A>          Anzahl anzulegender Gruppen -1 (!)
+A34F: 69 06     ADC #$06         anzulegende Side-Sektoren +6
+                                [Die Gesamtzahl anzulegender SS mod 6 passt
+                                 noch in die alte Gruppe.]
+
+Einsprung von $A34B:
+
+A351: 85 44     STA <A HREF="RA8140.HTM">$44</A>          Anzahl SS mod 6 merken
+A353: AD 00 01  LDA <A HREF="RA810100.HTM">$0100</A>        Nummer der neuen letzten Gruppe
+A356: 38        SEC              - Nummer der alten letzten Gruppe
+A357: E5 58     SBC <A HREF="RA8158.HTM">$58</A>
+A359: 85 58     STA <A HREF="RA8158.HTM">$58</A>          = Anzahl der anzulegenden Gruppen
+A35B: 20 97 9E  JSR <A HREF="RO819E97.HTM">$9E97</A>        Anzahl benoetigter Blocks berechnen
+A35E: A5 5C     LDA <A HREF="RA815B.HTM">$5C</A>          Anzahl Blocks (Hi)
+A360: D0 0A     BNE $A36C        &gt;0, mehrere Blocks anlegen ==&gt;
+A362: A6 5B     LDX <A HREF="RA815B.HTM">$5B</A>          (Lo)
+A364: D0 01     BNE $A367        &gt;0, ==&gt;
+A366: 60        RTS              kein neuer Block anzulegen ==&gt;
+
+Einsprung von $A364:
+
+A367: CA        DEX              &gt;1
+A368: D0 02     BNE $A36C        ja, mehrere Blocks anlegen
+
+Pruefen, ob der benoetigte Platz frei ist
+[Die Routine enthaelt einen schlimmen Fehler und kann sich deshalb um
+ +/- 255 Blocks irren !!!]
+
+Einsprung von $A342:
+
+A36A: E6 57     INC <A HREF="RA8157.HTM">$57</A>          Flag 'Nur noch einen Datenblock anlegen'
+
+Einsprung von $A33B, $A340, $A360, $A368:
+
+A36C: CD 8E 02  CMP <A HREF="RA81028E.HTM">$028E</A>        sind genug 'Blocks free' ?
+A36F: 90 09     BCC $A37A        ja, ==&gt;
+A371: D0 9E     BNE $A311        nein, 52, File too large ==&gt;
+A373: AD 8D 02  LDA <A HREF="RA81028D.HTM">$028D</A>        (Lo)
+A376: C5 41     CMP <A HREF="RA8140.HTM">$41</A>          [Wenn Super-Side-Sektoren verwendet werden,
+                                 steht das Lo-Byte doch in $5b !?!]
+A378: 90 97     BCC $A311        nein, 52, File too large ==&gt;
+
+neue Datenbloecke und ggf. Side-Sektoren anhaengen
+
+Einsprung von $A36F:
+
+A37A: A9 01     LDA #$01         Position des letzten gebrauchten Bytes
+A37C: 20 50 94  JSR <A HREF="RO819450.HTM">$9450</A>        aus aktuellem Puffer holen
+A37F: 18        CLC
+A380: 69 01     ADC #$01         +1
+A382: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+A384: 9D 57 02  STA <A HREF="RA810257.HTM">$0257</A>,X      = Position des neuen Records
+A387: 20 68 B6  JSR <A HREF="RO81B668.HTM">$B668</A>        Folgeblock suchen
+A38A: 20 3A 9D  JSR <A HREF="RO819D3A.HTM">$9D3A</A>        und in der Blockverkettung eintragen
+A38D: A5 57     LDA <A HREF="RA8157.HTM">$57</A>          soll nur ein neuer Block angelegt werden ?
+A38F: D0 15     BNE $A3A6        ja, ==&gt;
+A391: 20 9A 9D  JSR <A HREF="RO819D8E.HTM">$9D9A</A>        Block schreiben
+
+ - Blocks anhaengen
+
+Einsprung von $A3F1, $A3F7, $A3FE:
+
+A394: 20 7D 8D  JSR <A HREF="RO818D7D.HTM">$8D7D</A>        Puffer wechseln
+A397: 20 85 95  JSR <A HREF="RO819585.HTM">$9585</A>        T&amp;S des neuen Blocks an DC uebergeben
+A39A: 20 68 B6  JSR <A HREF="RO81B668.HTM">$B668</A>        Folgeblock suchen
+A39D: 20 3A 9D  JSR <A HREF="RO819D3A.HTM">$9D3A</A>        und in der Blockverkettung eintragen
+A3A0: 20 98 A2  JSR <A HREF="RO81A298.HTM">$A298</A>        Block mit Datensaetzen anlegen
+A3A3: 4C B2 A3  JMP $A3B2        ==&gt;
+
+ - letzten Block anhaengen
+
+Einsprung von $A38F, $A400:
+
+A3A6: 20 7D 8D  JSR <A HREF="RO818D7D.HTM">$8D7D</A>        Puffer wechseln
+A3A9: 20 85 95  JSR <A HREF="RO819585.HTM">$9585</A>        T&amp;S des neuen Blocks an DC uebergeben
+A3AC: 20 98 A2  JSR <A HREF="RO81A298.HTM">$A298</A>        Block mit Datensaetzen anlegen
+A3AF: 20 56 9D  JSR <A HREF="RO819D56.HTM">$9D56</A>        Blocklaenge setzen
+
+ - ggf. neuen Side-Sektor anlegen
+
+Einsprung von $A3A3:
+
+A3B2: 20 9A 9D  JSR <A HREF="RO819D8E.HTM">$9D9A</A>        Block schreiben
+A3B5: 20 49 9D  JSR <A HREF="RO819D49.HTM">$9D49</A>        T&amp;S des Folgeblocks holen
+A3B8: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          und merken
+A3BA: 48        PHA
+A3BB: A5 4E     LDA <A HREF="RA814E.HTM">$4E</A>
+A3BD: 48        PHA
+A3BE: 20 7C 9D  JSR <A HREF="RO819D79.HTM">$9D7C</A>        T&amp;S des aktuellen Blocks holen
+A3C1: A5 4E     LDA <A HREF="RA814E.HTM">$4E</A>          und merken
+A3C3: 48        PHA
+A3C4: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>
+A3C6: 48        PHA
+A3C7: 20 75 9E  JSR <A HREF="RO819E75.HTM">$9E75</A>        Side-Sektor-Pufferzeiger holen
+A3CA: AA        TAX              Zeiger (Lo) &gt; 0 ?
+A3CB: D0 0A     BNE $A3D7        Ja, (T&amp;S passen noch in den alten SS) ==&gt;
+A3CD: 20 59 A4  JSR <A HREF="RO81A459.HTM">$A459</A>        neuen Side-Sektor anlegen
+A3D0: A9 10     LDA #$10         Side-Sektor-Zeiger auf 1. Feld der
+A3D2: 20 23 9E  JSR <A HREF="RO819E23.HTM">$9E23</A>        Datenblock-Tabelle setzen
+A3D5: E6 55     INC <A HREF="RA8155.HTM">$55</A>          Side-Sektor Nummer +1
+
+Einsprung von $A3CB:
+
+A3D7: 68        PLA              T&amp;S des aktuellen Datenblocks
+A3D8: 20 CA 9C  JSR <A HREF="RO819CCA.HTM">$9CCA</A>        in Side-Sektor schreiben
+A3DB: 68        PLA
+A3DC: 20 CA 9C  JSR <A HREF="RO819CCA.HTM">$9CCA</A>
+A3DF: 68        PLA
+A3E0: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>          T&amp;S des Folgeblocks zurueckholen
+A3E2: 68        PLA
+A3E3: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>          kein Folgeblock vorhanden ?
+A3E5: F0 1B     BEQ $A402        ja, ==&gt;
+
+ - Pruefen, ob der letzte anzulegende Datenblock erreicht ist
+
+A3E7: 20 6E A5  JSR <A HREF="RO81A56E.HTM">$A56E</A>        Super-Side-Sektor verwenden ?
+A3EA: D0 07     BNE $A3F3        nein, ==&gt;
+A3EC: A5 5A     LDA <A HREF="RA815A.HTM">$5A</A>          Aktuelle Gruppennummer
+A3EE: CD 00 01  CMP <A HREF="RA810100.HTM">$0100</A>        &lt; angewaehlte Gruppennummer ?
+A3F1: 90 A1     BCC $A394        ja, ==&gt;
+
+Einsprung von $A3EA:
+
+A3F3: A5 55     LDA <A HREF="RA8155.HTM">$55</A>          Aktuelle Side-Sektor-Nummer
+A3F5: C5 69     CMP <A HREF="RA8169.HTM">$69</A>          = angewaehlte Side-Sektor-Nummer ?
+A3F7: D0 9B     BNE $A394        nein, ==&gt;
+A3F9: 20 75 9E  JSR <A HREF="RO819E75.HTM">$9E75</A>        Side-Sektor-Pufferzeiger holen
+A3FC: C5 6A     CMP <A HREF="RA816A.HTM">$6A</A>          Angewaehlter Datenblock erreicht ?
+A3FE: 90 94     BCC $A394        nein, ==&gt;
+A400: F0 A4     BEQ $A3A6        ja, letzten Block anlegen ==&gt;
+
+ - Ende-Kennzeichen setzen und Side-Sektoren speichern
+
+Einsprung von $A3E5:
+
+A402: 20 75 9E  JSR <A HREF="RO819E75.HTM">$9E75</A>        Side-Sektor-Pufferzeiger (Lo) holen
+A405: 48        PHA              und merken
+A406: A9 00     LDA #$00         Side-Sektor-Pufferzeiger $64-$65 auf
+A408: 20 15 9E  JSR <A HREF="RO819E15.HTM">$9E15</A>        Pufferanfang setzen
+A40B: A9 00     LDA #$00
+A40D: A8        TAY              Blockverkettung setzen:
+A40E: 91 64     STA (<A HREF="RA8164.HTM">$64</A>),Y      Flag 'letzter Side-Sektor' setzen
+A410: C8        INY
+A411: 68        PLA              letztes benutztes Byte im
+A412: 38        SEC              Side-Sektor merken
+A413: E9 01     SBC #$01         (-1, da der Zeiger auf dem 1. unbenutzten
+A415: 91 64     STA (<A HREF="RA8164.HTM">$64</A>),Y      Byte stand)
+A417: 20 A6 9D  JSR <A HREF="RO819D8E.HTM">$9DA6</A>        Side-Sektor schreiben
+A41A: 20 ED 94  JSR <A HREF="RO8194DE.HTM">$94ED</A>        Jobausfuehrung pruefen
+A41D: 20 15 B5  JSR <A HREF="RO81B515.HTM">$B515</A>        BAM abspeichern
+
+auf erfolgreiche Arbeit testen; Record anwaehlen
+
+A420: 20 89 8C  JSR <A HREF="RO818C89.HTM">$8C89</A>        Position des Records berechnen
+A423: 20 7D 8D  JSR <A HREF="RO818D7D.HTM">$8D7D</A>        Puffer wechseln
+A426: 20 32 9E  JSR <A HREF="RO819E32.HTM">$9E32</A>        Gruppe anwaehlen und Side-Sektor laden
+A429: 70 03     BVS $A42E        Record nicht vorhanden ?, ==&gt;
+A42B: 4C 0D A2  JMP <A HREF="RO81A20D.HTM">$A20D</A>        Record zur Ausgabe bereitstellen
+
+Einsprung von $A429:
+
+A42E: A9 80     LDA #$80         b7=1: Flag: 'Record existiert nicht'
+A430: 20 D5 9C  JSR <A HREF="RO819CD3.HTM">$9CD5</A>        im Dateistatus setzen
+A433: A9 50     LDA #$50
+A435: 20 7C 80  JSR <A HREF="RO81807C.HTM">$807C</A>        50, Record not present
+
+    <A HREF="RO81A2BC.HTM">Previous Page</A> / <A HREF="RO81A438.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

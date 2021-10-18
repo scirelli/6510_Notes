@@ -1,0 +1,22 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DFC2/57282:   ?
+
+Jump from <A HREF="RO41CF1E.HTM">$CF2E</A>, <A HREF="RO41CF1E.HTM">$CF88</A>:
+
+DFC2: A6 82     LDX <A HREF="RA4182.HTM">$82</A>
+DFC4: 09 80     ORA #$80
+DFC6: B4 A7     LDY <A HREF="RA41A7.HTM">$A7</A>,X
+DFC8: 10 03     BPL $DFCD
+DFCA: 95 A7     STA <A HREF="RA41A7.HTM">$A7</A>,X
+DFCC: 60        RTS
+
+Jump from $DFC8:
+
+DFCD: 95 AE     STA <A HREF="RA41AE.HTM">$AE</A>,X
+DFCF: 60        RTS
+
+    <A HREF="RO41DFB7.HTM">Previous Page</A> / <A HREF="RO41DFD0.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

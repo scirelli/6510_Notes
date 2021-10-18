@@ -1,0 +1,18 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DDFD/56829:   Write bytes for following track
+
+Jump from <A HREF="RO41E31C.HTM">$E3AC</A>, <A HREF="RO41E31C.HTM">$E3BF</A>:
+
+DDFD: 20 2B DE  JSR <A HREF="RO41DE2B.HTM">$DE2B</A>       ; set buffer pointer
+DE00: A5 80     LDA <A HREF="RA4180.HTM">$80</A>         ; track number
+DE02: 91 94     STA (<A HREF="RA4194.HTM">$94</A>),Y     ; in buffer
+DE04: C8        INY
+DE05: A5 81     LDA <A HREF="RA4181.HTM">$81</A>         ; sector number
+DE07: 91 94     STA (<A HREF="RA4194.HTM">$94</A>),Y     ; in buffer
+DE09: 4C 05 E1  JMP <A HREF="RO41E105.HTM">$E105</A>       ; set rel-flag
+
+    <A HREF="RO41DDF1.HTM">Previous Page</A> / <A HREF="RO41DE0C.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

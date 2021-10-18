@@ -1,0 +1,28 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Job $a0: WRTVER_DV
+
+Einsprung von <A HREF="RO81C600.HTM">$C6D4</A>:
+
+C9E1: 24 8D     BIT <A HREF="RA818D.HTM">$8D</A>          E/A-Byte: b7=1: 'Verify ein' ?
+C9E3: 10 0B     BPL $C9F0        nein, ==&gt;
+C9E5: 20 DC CB  JSR <A HREF="RO81CBD5.HTM">$CBDC</A>        1,6 ms warten
+C9E8: 20 00 CA  JSR <A HREF="RO81CA00.HTM">$CA00</A>        Spur mit Cachedaten vergleichen
+
+Einsprung von $C9F3:
+
+C9EB: 06 87     ASL <A HREF="RA8187.HTM">$87</A>          Flag: 'Cache veraendert' loeschen
+C9ED: 4C E2 CD  JMP <A HREF="RO81CDE2.HTM">$CDE2</A>        Ende; naechsten Job pruefen ==&gt;
+
+Einsprung von $C9E3:
+
+C9F0: 20 DC CB  JSR <A HREF="RO81CBD5.HTM">$CBDC</A>        1,6 ms warten
+C9F3: 4C EB C9  JMP $C9EB        Flag: 'Cache veraendert' loeschen
+
+C9F6: FF  ....
+C9FF: ....  FF
+
+    <A HREF="RO81C900.HTM">Previous Page</A> / <A HREF="RO81CA00.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,21 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C6CE/50894:   ?
+
+Jump from <A HREF="RO41EC9E.HTM">$ECF2</A>:
+
+C6CE: A5 83     LDA <A HREF="RA4183.HTM">$83</A>
+C6D0: 48        PHA             ; secondary address and channel number
+C6D1: A5 82     LDA <A HREF="RA4182.HTM">$82</A>
+C6D3: 48        PHA
+C6D4: 20 DE C6  JSR <A HREF="RO41C6DE.HTM">$C6DE</A>       ; create file entry for directory
+C6D7: 68        PLA
+C6D8: 85 82     STA <A HREF="RA4182.HTM">$82</A>
+C6DA: 68        PLA             ; get data back
+C6DB: 85 83     STA <A HREF="RA4183.HTM">$83</A>
+C6DD: 60        RTS
+
+    <A HREF="RO41C6A6.HTM">Previous Page</A> / <A HREF="RO41C6DE.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

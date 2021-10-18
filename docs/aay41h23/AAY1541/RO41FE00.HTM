@@ -1,0 +1,17 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $FE00/65024:   Switch to reading
+
+Jump from <A HREF="RO41FAC7.HTM">$FB1A</A>, <A HREF="RO41FAC7.HTM">$FD24</A>:
+
+FE00: AD 0C 1C  LDA <A HREF="VIA2C.HTM">$1C0C</A>
+FE03: 09 E0     ORA #$E0        ; switch PCR to reading
+FE05: 8D 0C 1C  STA <A HREF="VIA2C.HTM">$1C0C</A>
+FE08: A9 00     LDA #$00
+FE0A: 8D 03 1C  STA <A HREF="VIA23.HTM">$1C03</A>       ; port A to input
+FE0D: 60        RTS
+
+    <A HREF="RO41FDF5.HTM">Previous Page</A> / <A HREF="RO41FE0E.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

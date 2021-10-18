@@ -1,0 +1,23 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Wenn BAM-Puffer leer, dann BAM einlesen ($f0df)
+
+Einsprung von <A HREF="RO81B633.HTM">$B640</A>, <A HREF="RO81B64F.HTM">$B64F</A>:
+
+B5F2: A5 6C     LDA <A HREF="RA816C.HTM">$6C</A>          aktuellen Puffer merken
+B5F4: 85 3F     STA <A HREF="RA813F.HTM">$3F</A>
+B5F6: AD 00 0A  LDA <A HREF="RA810A00.HTM">$0A00</A>        ist eine Bam im Speicher
+B5F9: D0 2F     BNE <A HREF="RO81B612.HTM">$B62A</A>        ja, ==&gt;
+B5FB: A9 07     LDA #$07         in Puffer 7 den Block tt,01 laden
+B5FD: A2 01     LDX #$01         (tt = Dir-Track)
+B5FF: 20 43 B6  JSR <A HREF="RO81B643.HTM">$B643</A>        T&amp;S und Puffernummer an DC
+B602: 20 DE 94  JSR <A HREF="RO8194DE.HTM">$94DE</A>        Job ausfuehren und ueberwachen
+B605: A9 08     LDA #$08         in Puffer 8 den Block tt,02 laden
+B607: A2 02     LDX #$02
+B609: 20 43 B6  JSR <A HREF="RO81B643.HTM">$B643</A>        T&amp;S und Puffernummer an DC
+B60C: 20 DE 94  JSR <A HREF="RO8194DE.HTM">$94DE</A>        Job ausfuehren und ueberwachen
+B60F: 4C 2A B6  JMP <A HREF="RO81B612.HTM">$B62A</A>        aktuelle Puffernummer zurueckholen
+    <A HREF="RO81B5D8.HTM">Previous Page</A> / <A HREF="RO81B612.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

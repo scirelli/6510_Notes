@@ -1,0 +1,29 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $FA1C/64028:   Calculate number of head steps
+
+Jump from <A HREF="RO41FA05.HTM">$FA10</A>:
+
+FA1C: E5 5E     SBC <A HREF="RA415E.HTM">$5E</A>
+FA1E: E5 5E     SBC <A HREF="RA415E.HTM">$5E</A>
+FA20: 85 61     STA <A HREF="RA415F.HTM">$61</A>
+FA22: A5 5E     LDA <A HREF="RA415E.HTM">$5E</A>
+FA24: 85 60     STA <A HREF="RA415F.HTM">$60</A>
+FA26: A9 7B     LDA #$7B
+FA28: 85 62     STA <A HREF="RA4162.HTM">$62</A>
+FA2A: A9 FA     LDA #$FA        ; pointer $62/$63 to $FA7B
+FA2C: 85 63     STA <A HREF="RA4162.HTM">$63</A>
+
+Jump from <A HREF="RO41F99C.HTM">$F9C8</A>, <A HREF="RO41FA05.HTM">$FA1A</A>, <A HREF="RO41FA3B.HTM">$FA3D</A>, <A HREF="RO41FA7B.HTM">$FA94</A>:
+
+FA2E: A5 4A     LDA <A HREF="RA414A.HTM">$4A</A>         ; step counter for head transport
+FA30: 10 31     BPL <A HREF="RO41FA63.HTM">$FA63</A>
+FA32: E6 4A     INC <A HREF="RA414A.HTM">$4A</A>         ; increment
+FA34: AE 00 1C  LDX <A HREF="VIA20.HTM">$1C00</A>
+FA37: CA        DEX
+FA38: 4C 69 FA  JMP <A HREF="RO41FA63.HTM">$FA69</A>
+
+    <A HREF="RO41FA05.HTM">Previous Page</A> / <A HREF="RO41FA3B.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

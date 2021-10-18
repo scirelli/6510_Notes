@@ -1,0 +1,37 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C2B3/49843:   Check line length
+
+Jump from <A HREF="RO41C146.HTM">$C160</A>, <A HREF="RO41D7B4.HTM">$D7B9</A>, <A HREF="RO41E207.HTM">$E207</A>:
+
+C2B3: A4 A3     LDY <A HREF="RA41A3.HTM">$A3</A>         ; pointer to command input buffer
+C2B5: F0 14     BEQ $C2CB       ; zero?
+C2B7: 88        DEY
+C2B8: F0 10     BEQ $C2CA       ; one?
+C2BA: B9 00 02  LDA <A HREF="RA410200.HTM">$0200</A>,Y     ; pointer to input buffer
+C2BD: C9 0D     CMP #$0D        ; 'CR'
+C2BF: F0 0A     BEQ $C2CB       ; yes, line end
+C2C1: 88        DEY
+C2C2: B9 00 02  LDA <A HREF="RA410200.HTM">$0200</A>,Y     ; preceding character
+C2C5: C9 0D     CMP #$0D        ; 'CR'
+C2C7: F0 02     BEQ $C2CB       ; yes
+C2C9: C8        INY
+
+Jump from $C2B8:
+
+C2CA: C8        INY             ; pointer to old value again
+
+Jump from $C2B5, $C2BF, $C2C7:
+
+C2CB: 8C 74 02  STY <A HREF="RA410274.HTM">$0274</A>       ; same line length
+C2CE: C0 2A     CPY #$2A        ; compare with 42 characters
+C2D0: A0 FF     LDY #$FF
+C2D2: 90 08     BCC <A HREF="RO41C2DC.HTM">$C2DC</A>       ; smaller, ok
+C2D4: 8C 2A 02  STY <A HREF="RA41022A.HTM">$022A</A>
+C2D7: A9 32     LDA #$32
+C2D9: 4C C8 C1  JMP <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 32, 'syntax error' line too long
+
+    <A HREF="RO41C268.HTM">Previous Page</A> / <A HREF="RO41C2DC.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

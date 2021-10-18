@@ -1,0 +1,20 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+INPUT-Puffer loeschen ($c1bd)
+
+Einsprung von <A HREF="RO81804C.HTM">$806B</A>, <A HREF="RO81A7F1.HTM">$A7F4</A>:
+
+8071: A0 28     LDY #$28
+8073: A9 00     LDA #$00         Puffer mit $00 fuellen
+
+Einsprung von $8079:
+
+8075: 99 00 02  STA <A HREF="RA810200.HTM">$0200</A>,Y
+8078: 88        DEY
+8079: 10 FA     BPL $8075
+807B: 60        RTS
+
+    <A HREF="RO81804C.HTM">Previous Page</A> / <A HREF="RO81807C.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

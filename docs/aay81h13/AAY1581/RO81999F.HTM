@@ -1,0 +1,100 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Datei schliessen ($db02)
+E: $52: Sekundaeradresse der Datei
+
+Einsprung von <A HREF="RO81876E.HTM">$883E</A>, <A HREF="RO81995C.HTM">$996F</A>, <A HREF="RO819986.HTM">$998A</A>, <A HREF="RO81B88D.HTM">$B8CC</A>:
+
+999F: A6 52     LDX <A HREF="RA8152.HTM">$52</A>          SA testen
+99A1: B5 A8     LDA <A HREF="RA81A8.HTM">$A8</A>,X        ist ein Kanal zugeordnet ?
+99A3: C9 FF     CMP #$FF
+99A5: D0 01     BNE $99A8        ja, ==&gt;
+99A7: 60        RTS
+
+Einsprung von $99A5:
+
+99A8: 29 0F     AND #$0F         Kanalnummer isolieren
+99AA: 85 50     STA <A HREF="RA8150.HTM">$50</A>
+99AC: 20 5F 90  JSR <A HREF="RO81905F.HTM">$905F</A>        aktuellen Filetyp holen
+99AF: C9 07     CMP #$07         Direktzugriff ?
+99B1: F0 0F     BEQ $99C2        ja, ==&gt;
+99B3: C9 04     CMP #$04         REL-Datei ?
+99B5: F0 11     BEQ $99C8        ja, ==&gt;
+99B7: 20 42 90  JSR <A HREF="RO819042.HTM">$9042</A>        auf Schreibkanal testen
+99BA: B0 09     BCS $99C5        kein Schreibkanal, ==&gt;
+99BC: 20 2A 9A  JSR <A HREF="RO819A2A.HTM">$9A2A</A>        letzten Block abspeichern
+99BF: 20 72 9A  JSR <A HREF="RO819A72.HTM">$9A72</A>        Eintrag im Directory updaten
+
+Einsprung von $99B1:
+
+99C2: 20 15 B5  JSR <A HREF="RO81B515.HTM">$B515</A>        BAM abspeichern
+
+Einsprung von $99BA:
+
+99C5: 4C 9E 91  JMP <A HREF="RO81919E.HTM">$919E</A>        SA freigeben
+
+REL-Datei schliessen
+
+Einsprung von $99B5:
+
+99C8: 20 2E 9D  JSR <A HREF="RO819D2E.HTM">$9D2E</A>        ggf. Puffer schreiben
+99CB: 20 7D 8D  JSR <A HREF="RO818D7D.HTM">$8D7D</A>        Puffer wechseln
+99CE: 20 5C A1  JSR <A HREF="RO81A15C.HTM">$A15C</A>        letzten Datenblock suchen
+99D1: A6 69     LDX <A HREF="RA8169.HTM">$69</A>          letzte Side-Sektor-Nummer merken
+99D3: 86 44     STX <A HREF="RA8140.HTM">$44</A>
+99D5: 20 6E A5  JSR <A HREF="RO81A56E.HTM">$A56E</A>        Super-Side-Sektor verwenden ?
+99D8: F0 2B     BEQ $9A05        ja, ==&gt;
+
+Rel-Dateilaenge berechnen (ohne Super-Side-Sektoren)
+
+99DA: E6 44     INC <A HREF="RA8140.HTM">$44</A>          letzte Side-Sektor-Nummer+1 =
+99DC: A9 00     LDA #$00         Anzahl der Side-Sektoren
+99DE: 85 41     STA <A HREF="RA8140.HTM">$41</A>          Dateilaenge = 0
+99E0: 85 42     STA <A HREF="RA8140.HTM">$42</A>
+99E2: A5 6A     LDA <A HREF="RA816A.HTM">$6A</A>          Position der T&amp;S des letzten Datenblocks
+99E4: 38        SEC              im Side-Sektor
+99E5: E9 0E     SBC #$0E         - 14 = 'Anzahl der Datenbloecke im letzten
+99E7: 85 43     STA <A HREF="RA8140.HTM">$43</A>          Side-Sektor' * 2
+99E9: 20 82 9E  JSR <A HREF="RO819E7D.HTM">$9E82</A>        Laenge der REL-Datei berechnen
+99EC: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+99EE: A5 41     LDA <A HREF="RA8140.HTM">$41</A>          Dateilaenge in Kanaltabelle merken
+99F0: 9D 49 02  STA <A HREF="RA810249.HTM">$0249</A>,X
+99F3: A5 42     LDA <A HREF="RA8140.HTM">$42</A>
+99F5: 9D 50 02  STA <A HREF="RA810250.HTM">$0250</A>,X
+
+Einsprung von $9A27:
+
+99F8: A9 40     LDA #$40         b6=1: 'REL-Datei veraendert' ?
+99FA: 20 E4 9C  JSR <A HREF="RO819CD3.HTM">$9CE4</A>        Dateistatus testen
+99FD: F0 03     BEQ $9A02        nein, ==&gt;
+99FF: 20 72 9A  JSR <A HREF="RO819A72.HTM">$9A72</A>        Directory updaten
+
+Einsprung von $99FD:
+
+9A02: 4C 9E 91  JMP <A HREF="RO81919E.HTM">$919E</A>        SA freigeben
+
+Rel-Dateilaenge berechnen (mit Super-Side-Sektoren)
+
+Einsprung von $99D8:
+
+9A05: A5 6A     LDA <A HREF="RA816A.HTM">$6A</A>          Position der T&amp;S des letzten Datenblocks
+9A07: 38        SEC              im Side-Sektor
+9A08: E9 0E     SBC #$0E         - 14 = 'Anzahl der Datenbloecke im letzten
+9A0A: 85 43     STA <A HREF="RA8140.HTM">$43</A>          Side-Sektor' * 2
+9A0C: AD 00 01  LDA <A HREF="RA810100.HTM">$0100</A>        letzte Gruppennummer merken
+9A0F: 85 58     STA <A HREF="RA8158.HTM">$58</A>
+9A11: 20 97 9E  JSR <A HREF="RO819E97.HTM">$9E97</A>        Laenge der REL-Datei berechnen
+9A14: A2 00     LDX #$00         und + 2 nehmen
+9A16: A9 02     LDA #$02         [1 Super-SS und der letzte (noch nicht
+9A18: 20 CC 9E  JSR <A HREF="RO819E97.HTM">$9ECC</A>         ganz gefuellte) SS]
+9A1B: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          Kanalnummer holen
+9A1D: A5 5B     LDA <A HREF="RA815B.HTM">$5B</A>          Dateilaenge in Kanaltabelle merken
+9A1F: 9D 49 02  STA <A HREF="RA810249.HTM">$0249</A>,X
+9A22: A5 5C     LDA <A HREF="RA815B.HTM">$5C</A>
+9A24: 9D 50 02  STA <A HREF="RA810250.HTM">$0250</A>,X
+9A27: 4C F8 99  JMP $99F8        Datei schliessen
+
+    <A HREF="RO819986.HTM">Previous Page</A> / <A HREF="RO819A2A.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

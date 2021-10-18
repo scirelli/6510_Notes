@@ -1,0 +1,22 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DE19/56857:   Following track for last block
+
+Jump from <A HREF="RO41DCDA.HTM">$DD7E</A>, <A HREF="RO41E31C.HTM">$E3D1</A>:
+
+DE19: 20 2B DE  JSR <A HREF="RO41DE2B.HTM">$DE2B</A>       ; set buffer pointer
+DE1C: A9 00     LDA #$00        ; zero
+DE1E: 91 94     STA (<A HREF="RA4194.HTM">$94</A>),Y     ; as track number
+DE20: C8        INY
+DE21: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+DE23: B5 C1     LDA <A HREF="RA41C1.HTM">$C1</A>,X       ; pointer in block
+DE25: AA        TAX
+DE26: CA        DEX             ; minus 1
+DE27: 8A        TXA
+DE28: 91 94     STA (<A HREF="RA4194.HTM">$94</A>),Y     ; as pointer in block
+DE2A: 60        RTS
+
+    <A HREF="RO41DE0C.HTM">Previous Page</A> / <A HREF="RO41DE2B.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

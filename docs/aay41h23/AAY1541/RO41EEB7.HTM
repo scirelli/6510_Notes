@@ -1,0 +1,56 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $EEB7/61111:   Create BAM
+
+Jump from <A HREF="RO41ED84.HTM">$ED8F</A>, <A HREF="RO41EE0D.HTM">$EE56</A>:
+
+EEB7: 20 D1 F0  JSR <A HREF="RO41F0D1.HTM">$F0D1</A>
+EEBA: A0 00     LDY #$00
+EEBC: A9 12     LDA #$12        ; 18
+EEBE: 91 6D     STA (<A HREF="RA416D.HTM">$6D</A>),Y     ; pointer to directory track
+EEC0: C8        INY
+EEC1: 98        TYA             ; 1
+EEC2: 91 6D     STA (<A HREF="RA416D.HTM">$6D</A>),Y     ; pointer to directory sector
+EEC4: C8        INY
+EEC5: C8        INY
+EEC6: C8        INY
+
+Jump from $EEEF:
+
+EEC7: A9 00     LDA #$00
+EEC9: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>
+EECB: 85 70     STA <A HREF="RA416F.HTM">$70</A>         ; 3 bytes = 24 bits for sectors
+EECD: 85 71     STA <A HREF="RA4171.HTM">$71</A>
+EECF: 98        TYA             ; byte position
+EED0: 4A        LSR
+EED1: 4A        LSR             ; divided by 4 = track number
+EED2: 20 4B F2  JSR <A HREF="RO41F24B.HTM">$F24B</A>       ; get number of sectors
+EED5: 91 6D     STA (<A HREF="RA416D.HTM">$6D</A>),Y     ; and in BAM
+EED7: C8        INY
+EED8: AA        TAX
+
+Jump from $EEE1:
+
+EED9: 38        SEC
+EEDA: 26 6F     ROL <A HREF="RA416F.HTM">$6F</A>
+EEDC: 26 70     ROL <A HREF="RA416F.HTM">$70</A>         ; create bit model
+EEDE: 26 71     ROL <A HREF="RA4171.HTM">$71</A>
+EEE0: CA        DEX
+EEE1: D0 F6     BNE $EED9
+
+Jump from $EEEB:
+
+EEE3: B5 6F     LDA <A HREF="RA416F.HTM">$6F</A>,X       ; 3 bytes
+EEE5: 91 6D     STA (<A HREF="RA416D.HTM">$6D</A>),Y     ; the BAM in buffer
+EEE7: C8        INY
+EEE8: E8        INX
+EEE9: E0 03     CPX #$03
+EEEB: 90 F6     BCC $EEE3
+EEED: C0 90     CPY #$90        ; position 144?
+EEEF: 90 D6     BCC $EEC7       ; no, next track
+EEF1: 4C 75 D0  JMP <A HREF="RO41D075.HTM">$D075</A>       ; calculate number of free blocks
+
+    <A HREF="RO41EE0D.HTM">Previous Page</A> / <A HREF="RO41EEF4.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

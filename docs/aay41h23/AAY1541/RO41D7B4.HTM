@@ -1,0 +1,18 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D7B4/55220:   OPEN command, secondary addr 15
+
+Jump from <A HREF="RO41C146.HTM">$C15D</A>:
+
+D7B4: A5 83     LDA <A HREF="RA4183.HTM">$83</A>         ; secondary address
+D7B6: 8D 4C 02  STA <A HREF="RA41024C.HTM">$024C</A>
+D7B9: 20 B3 C2  JSR <A HREF="RO41C2B3.HTM">$C2B3</A>       ; get line length, erase flags
+D7BC: 8E 2A 02  STX <A HREF="RA41022A.HTM">$022A</A>
+D7BF: AE 00 02  LDX <A HREF="RA410200.HTM">$0200</A>       ; first character from buffer
+D7C2: AD 4C 02  LDA <A HREF="RA41024C.HTM">$024C</A>       ; secondary address
+D7C5: D0 2C     BNE <A HREF="RO41D7F3.HTM">$D7F3</A>       ; not equal 0 (LOAD)?
+
+    <A HREF="RO41D6E4.HTM">Previous Page</A> / <A HREF="RO41D7C7.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

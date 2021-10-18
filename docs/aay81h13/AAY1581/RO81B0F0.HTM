@@ -1,0 +1,93 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+JIDLE - Hauptleerschleife ($ebe7)
+
+B0F0: 78        SEI
+B0F1: A9 10     LDA #$10         automatische ATN-Beantwortung einschalten
+B0F3: 8D 01 40  STA <A HREF="CIA811.HTM">$4001</A>        Bus-Leitungen freigeben
+B0F6: 58        CLI
+B0F7: A5 7B     LDA <A HREF="RA817B.HTM">$7B</A>          Ist das Befehlsmodus-Flag gesetzt ?
+B0F9: F0 0A     BEQ $B105        nein, ==&gt;
+B0FB: A9 00     LDA #$00         Flag loeschen
+B0FD: 85 7B     STA <A HREF="RA817B.HTM">$7B</A>
+B0FF: 20 04 80  JSR <A HREF="RO818004.HTM">$8004</A>        und Befehl auswerten
+B102: 20 BB AC  JSR <A HREF="RO81ACB6.HTM">$ACBB</A>        FSM abschliessen
+
+Einsprung von $B0F9, $B158:
+
+B105: 58        CLI
+B106: A9 01     LDA #$01         Bus-Modus-Flag testen
+B108: 24 76     BIT <A HREF="RA8176.HTM">$76</A>          b0=1: Ist ein ATN aufgetreten ?
+B10A: F0 03     BEQ $B10F        nein, ==&gt;
+B10C: 4C 30 FF  JMP <A HREF="RO81FF00.HTM">$FF30</A>        JATNSRV: ATN bedienen
+
+Drive-LED ein-/ausschalten
+
+Einsprung von $B10A:
+
+B10F: A5 87     LDA <A HREF="RA8187.HTM">$87</A>          Ist der Cachepuffer veraendert ?
+B111: D0 1E     BNE $B131        ja, (LED an) ==&gt;
+B113: A0 09     LDY #$09         8 Jobpuffer pruefen
+B115: A2 0E     LDX #$0E         14 Kanaele pruefen
+
+Einsprung von $B126:
+
+B117: B5 A8     LDA <A HREF="RA81A8.HTM">$A8</A>,X        ist der Kanal aktiv ?
+B119: C9 FF     CMP #$FF         &lt;&gt; $ff
+B11B: D0 14     BNE $B131        ja, ==&gt;
+B11D: 88        DEY
+B11E: 30 05     BMI $B125        sind alle Jobpuffer getestet ? ja, ==&gt;
+B120: B9 02 00  LDA <A HREF="RA8102.HTM">$0002</A>,Y      b7=1: ist Job noch aktiv ?
+B123: 30 0C     BMI $B131        ja, ==&gt;
+
+Einsprung von $B11E:
+
+B125: CA        DEX
+B126: 10 EF     BPL $B117        sind noch Kanaele zu pruefen ? ja, ==&gt;
+B128: A5 79     LDA <A HREF="RA8179.HTM">$79</A>          b6=0: Drive-LED ausschalten
+B12A: 29 BF     AND #$BF
+B12C: 85 79     STA <A HREF="RA8179.HTM">$79</A>
+B12E: 4C 37 B1  JMP $B137        ==&gt;
+
+Einsprung von $B111, $B11B, $B123:
+
+B131: A5 79     LDA <A HREF="RA8179.HTM">$79</A>          b6=1: Drive-LED einschalten
+B133: 09 40     ORA #$40
+B135: 85 79     STA <A HREF="RA8179.HTM">$79</A>
+
+Fehlerblinken ein-/ausschalten
+
+Einsprung von $B12E:
+
+B137: A5 25     LDA <A HREF="RA8125.HTM">$25</A>          wurde die Diskette gewechselt ?
+B139: F0 03     BEQ $B13E        nein, ==&gt;
+B13B: 20 6E 92  JSR <A HREF="RO81926E.HTM">$926E</A>        alle SA freigeben
+
+Einsprung von $B139:
+
+B13E: AE AB 02  LDX <A HREF="RA8102AB.HTM">$02AB</A>        Fehlerflag pruefen
+B141: F0 08     BEQ $B14B        =0: kein Fehler aufgetreten, ==&gt;
+B143: A5 79     LDA <A HREF="RA8179.HTM">$79</A>          b5=1: Fehlerblinken einschalten
+B145: 09 20     ORA #$20
+B147: 85 79     STA <A HREF="RA8179.HTM">$79</A>
+B149: D0 06     BNE $B151
+
+Einsprung von $B141:
+
+B14B: A5 79     LDA <A HREF="RA8179.HTM">$79</A>          b5=0: Fehlerblinken ausschalten
+B14D: 29 DF     AND #$DF
+B14F: 85 79     STA <A HREF="RA8179.HTM">$79</A>
+
+Einsprung von $B149:
+
+B151: A5 9C     LDA <A HREF="RA819C.HTM">$9C</A>          Verzoegerungszeit fuer 'Cache schreiben'
+B153: D0 03     BNE $B158        vorbei ? nein, ==&gt;
+B155: 20 5B B1  JSR <A HREF="RO81B15B.HTM">$B15B</A>        ja: Cache schreiben
+
+Einsprung von $B153:
+
+B158: 4C 05 B1  JMP $B105        weiter warten ==&gt;
+    <A HREF="RO81B0CF.HTM">Previous Page</A> / <A HREF="RO81B15B.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

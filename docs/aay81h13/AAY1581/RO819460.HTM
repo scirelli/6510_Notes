@@ -1,0 +1,23 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Prueft auf Diskettenwechsel
+und stellt ggf. das 1581-Format ein
+
+Einsprung von <A HREF="RO81FF00.HTM">$FF69</A>:
+
+9460: A9 01     LDA #$01         Diskettenwechsel ?
+9462: 24 25     BIT <A HREF="RA8125.HTM">$25</A>
+9464: F0 0A     BEQ $9470        nein, ==&gt;
+9466: 49 01     EOR #$01         Flag loeschen
+9468: 85 25     STA <A HREF="RA8125.HTM">$25</A>
+946A: 20 CF B0  JSR <A HREF="RO81B0CF.HTM">$B0CF</A>        Physikalisches 1581-Format einstellen
+946D: 4C B3 B0  JMP <A HREF="RO81B0B3.HTM">$B0B3</A>        Ganze Diskette als Partition setzen
+
+Einsprung von $9464:
+
+9470: 60        RTS
+
+    <A HREF="RO819450.HTM">Previous Page</A> / <A HREF="RO819471.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

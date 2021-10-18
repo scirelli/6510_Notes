@@ -1,0 +1,16 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $CD5F/52575:   U1, Block read without changing buffer pointer
+
+CD5F: 20 6F CC  JSR <A HREF="RO41CC6F.HTM">$CC6F</A>       ; get parameters of the command
+CD62: 20 42 CD  JSR <A HREF="RO41CD42.HTM">$CD42</A>       ; read block from disk
+CD65: B9 44 02  LDA <A HREF="RA410244.HTM">$0244</A>,Y     ; end pointer
+CD68: 99 3E 02  STA <A HREF="RA41022E.HTM">$023E</A>,Y     ; save as data byte
+CD6B: A9 FF     LDA #$FF
+CD6D: 99 44 02  STA <A HREF="RA410244.HTM">$0244</A>,Y     ; end pointer to $FF
+CD70: 4C 94 C1  JMP <A HREF="RO41C194.HTM">$C194</A>       ; done, prepare error message
+
+    <A HREF="RO41CD56.HTM">Previous Page</A> / <A HREF="RO41CD73.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

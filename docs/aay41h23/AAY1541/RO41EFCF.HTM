@@ -1,0 +1,30 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $EFCF/61391:   Erase bit for sector in BAM entry
+
+Jump from <A HREF="RO41EF5C.HTM">$EF5F</A>, <A HREF="RO41EF90.HTM">$EF93</A>:
+
+EFCF: 20 11 F0  JSR <A HREF="RO41F011.HTM">$F011</A>       ; find BAM field for this track
+EFD2: 98        TYA
+EFD3: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>
+
+Jump from <A HREF="RO41F1FA.HTM">$F214</A>:
+
+EFD5: A5 81     LDA <A HREF="RA4181.HTM">$81</A>         ; sector
+EFD7: 4A        LSR
+EFD8: 4A        LSR             ; divide by 8
+EFD9: 4A        LSR
+EFDA: 38        SEC
+EFDB: 65 6F     ADC <A HREF="RA416F.HTM">$6F</A>
+EFDD: A8        TAY             ; byte number in BAM entry
+EFDE: A5 81     LDA <A HREF="RA4181.HTM">$81</A>         ; sector number
+EFE0: 29 07     AND #$07
+EFE2: AA        TAX             ; bit number in BAM entry
+EFE3: B1 6D     LDA (<A HREF="RA416D.HTM">$6D</A>),Y     ; byte in BAM
+EFE5: 3D E9 EF  AND <A HREF="RO41EFE9.HTM">$EFE9</A>,X     ; erase bit for corresponding sector
+EFE8: 60        RTS
+
+    <A HREF="RO41EF90.HTM">Previous Page</A> / <A HREF="RO41EFE9.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

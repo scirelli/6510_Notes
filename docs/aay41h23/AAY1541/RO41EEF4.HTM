@@ -1,0 +1,55 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $EEF4/61172:   Write BAM if needed
+
+Jump from <A HREF="RO41C87D.HTM">$C8A7</A>, <A HREF="RO41DB02.HTM">$DB26</A>, <A HREF="RO41DCDA.HTM">$DD87</A>, <A HREF="RO41E31C.HTM">$E433</A>:
+
+EEF4: 20 93 DF  JSR <A HREF="RO41DF93.HTM">$DF93</A>       ; get buffer number
+EEF7: AA        TAX
+EEF8: BD 5B 02  LDA <A HREF="RA41025B.HTM">$025B</A>,X     ; command for disk controller
+EEFB: 29 01     AND #$01
+EEFD: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>         ; isolate drive number
+
+Jump from <A HREF="RO41ED84.HTM">$EDAD</A>, <A HREF="RO41EE0D.HTM">$EEA0</A>:
+
+EEFF: A4 7F     LDY <A HREF="RA417F.HTM">$7F</A>
+EF01: B9 51 02  LDA <A HREF="RA410251.HTM">$0251</A>,Y     ; BAM-changed flag set?
+EF04: D0 01     BNE $EF07       ; yes
+EF06: 60        RTS
+
+Jump from $EF04:
+
+EF07: A9 00     LDA #$00
+EF09: 99 51 02  STA <A HREF="RA410251.HTM">$0251</A>,Y     ; reset BAM-changed flag
+EF0C: 20 3A EF  JSR <A HREF="RO41EF3A.HTM">$EF3A</A>       ; set buffer pointer for BAM
+EF0F: A5 7F     LDA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+EF11: 0A        ASL             ; times 2
+EF12: 48        PHA
+EF13: 20 A5 F0  JSR <A HREF="RO41F05B.HTM">$F0A5</A>       ; verify BAM entry
+EF16: 68        PLA
+EF17: 18        CLC
+EF18: 69 01     ADC #$01        ; inrement track number
+EF1A: 20 A5 F0  JSR <A HREF="RO41F05B.HTM">$F0A5</A>       ; verify BAM entry
+EF1D: A5 80     LDA <A HREF="RA4180.HTM">$80</A>         ; track
+EF1F: 48        PHA
+EF20: A9 01     LDA #$01        ; track 1
+EF22: 85 80     STA <A HREF="RA4180.HTM">$80</A>
+
+Jump from $EF32:
+
+EF24: 0A        ASL             ; times 4
+EF25: 0A        ASL
+EF26: 85 6D     STA <A HREF="RA416D.HTM">$6D</A>
+EF28: 20 20 F2  JSR <A HREF="RO41F220.HTM">$F220</A>       ; verify BAM
+EF2B: E6 80     INC <A HREF="RA4180.HTM">$80</A>         ; increment track number
+EF2D: A5 80     LDA <A HREF="RA4180.HTM">$80</A>
+EF2F: CD D7 FE  CMP <A HREF="RO41FED7.HTM">$FED7</A>       ; and compare with max val + 1 = 36
+EF32: 90 F0     BCC $EF24       ; ok, next track
+EF34: 68        PLA
+EF35: 85 80     STA <A HREF="RA4180.HTM">$80</A>         ; get track number back
+EF37: 4C 8A D5  JMP <A HREF="RO41D58A.HTM">$D58A</A>       ; write BAM to disk
+
+    <A HREF="RO41EEB7.HTM">Previous Page</A> / <A HREF="RO41EF3A.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

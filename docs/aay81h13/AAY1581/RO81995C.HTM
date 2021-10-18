@@ -1,0 +1,47 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+CLOSE-Routine: aktuelle Sekundaeradresse schliessen ($dac0)
+E: $50: SA der zu schliessenden Datei
+[Diese Routine wird aufgerufen, wenn ueber den BUS ein Close-Kommando kommt.
+ Geschlossen werden:
+ - 'normale' Dateien
+ - REL-Dateien
+ - Direktzugriffe
+ - Directory
+ Wenn die SA 15 angegeben wird, werden alle Dateien geschlossen.
+ Veraenderte Puffer werden auf die Diskette geschrieben und die Directory-
+ Eintraege ggf. aktualisiert.]
+
+Einsprung von <A HREF="RO81ABCF.HTM">$AC51</A>:
+
+995C: A5 52     LDA <A HREF="RA8152.HTM">$52</A>          Ist die aktuelle SA = 0 ?
+995E: D0 0B     BNE $996B        nein, ==&gt;
+9960: A9 00     LDA #$00         Flag: 'Directory wird ausgegeben' loeschen
+9962: 8D 6E 02  STA <A HREF="RA81026E.HTM">$026E</A>
+9965: 20 9E 91  JSR <A HREF="RO81919E.HTM">$919E</A>        SA schliessen
+
+Einsprung von $9976:
+
+9968: 4C 34 94  JMP <A HREF="RO819434.HTM">$9434</A>        interne Kanaele freigeben ==&gt;
+
+Einsprung von $995E:
+
+996B: C9 0F     CMP #$0F         SA=15 (Kommandokanal) ?
+996D: F0 17     BEQ <A HREF="RO819986.HTM">$9986</A>        ja, (alle Dateien schliessen) ==&gt;
+996F: 20 9F 99  JSR <A HREF="RO81999F.HTM">$999F</A>        Datei schliessen
+9972: A5 52     LDA <A HREF="RA8152.HTM">$52</A>          SA &lt; 2 ?
+9974: C9 02     CMP #$02
+9976: 90 F0     BCC $9968        ja, ==&gt;
+9978: AD AB 02  LDA <A HREF="RA8102AB.HTM">$02AB</A>        Ist ein Fehler aufgetreten ?
+997B: D0 06     BNE $9983        ja, ==&gt;
+997D: 20 15 B5  JSR <A HREF="RO81B515.HTM">$B515</A>        BAM abspeichern
+9980: 4C 4C 80  JMP <A HREF="RO81804C.HTM">$804C</A>
+
+Einsprung von $997B:
+
+9983: 4C 67 80  JMP <A HREF="RO81804C.HTM">$8067</A>        Fehlermeldung ausgeben
+
+    <A HREF="RO8198F7.HTM">Previous Page</A> / <A HREF="RO819986.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

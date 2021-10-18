@@ -1,0 +1,25 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $FA7B/64123:   Prepare fast head movement
+
+FA7B: 38        SEC
+FA7C: AD 07 1C  LDA <A HREF="VIA27.HTM">$1C07</A>
+FA7F: E5 5F     SBC <A HREF="RA415F.HTM">$5F</A>
+FA81: 8D 05 1C  STA <A HREF="VIA25.HTM">$1C05</A>
+FA84: C6 60     DEC <A HREF="RA415F.HTM">$60</A>         ; decrement counter
+FA86: D0 0C     BNE $FA94       ; not yet zero?
+FA88: A5 5E     LDA <A HREF="RA415E.HTM">$5E</A>
+FA8A: 85 60     STA <A HREF="RA415F.HTM">$60</A>
+FA8C: A9 97     LDA #$97
+FA8E: 85 62     STA <A HREF="RA4162.HTM">$62</A>
+FA90: A9 FA     LDA #$FA        ; pointer $62/$63 to $FA97
+FA92: 85 63     STA <A HREF="RA4162.HTM">$63</A>
+
+Jump from $FA86, <A HREF="RO41FA97.HTM">$FA99</A>, <A HREF="RO41FA97.HTM">$FAA3</A>, <A HREF="RO41FAA5.HTM">$FAB0</A>:
+
+FA94: 4C 2E FA  JMP <A HREF="RO41FA1C.HTM">$FA2E</A>
+
+    <A HREF="RO41FA63.HTM">Previous Page</A> / <A HREF="RO41FA97.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

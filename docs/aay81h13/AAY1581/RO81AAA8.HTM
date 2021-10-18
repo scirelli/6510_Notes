@@ -1,0 +1,75 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Burst-Memory-Read/Write
+
+Einsprung von <A HREF="RO81AA3C.HTM">$AA5F</A>:
+
+AAA8: 78        SEI
+AAA9: A5 76     LDA <A HREF="RA8176.HTM">$76</A>          b2=0: Burst-Clock initialisieren
+AAAB: 29 FB     AND #$FB
+AAAD: 85 76     STA <A HREF="RA8176.HTM">$76</A>
+AAAF: A0 00     LDY #$00         Memory-Adresse setzen
+AAB1: 84 46     STY <A HREF="RA8146.HTM">$46</A>
+AAB3: AD 05 02  LDA <A HREF="RA810200.HTM">$0205</A>        ($xx00)
+AAB6: 85 47     STA <A HREF="RA8146.HTM">$47</A>
+AAB8: AD 04 02  LDA <A HREF="RA810200.HTM">$0204</A>        Befehl
+AABB: C9 57     CMP #$57
+AABD: F0 18     BEQ $AAD7        U0&gt;MW, ==&gt;
+AABF: C9 52     CMP #$52         U0&gt;MR ?
+AAC1: D0 3D     BNE $AB00        nicht R/W ==&gt; 31, Syntax Error
+Memory-Read
+
+AAC3: 20 D4 AC  JSR <A HREF="RO81ACCF.HTM">$ACD4</A>        FSM-vorbereiten (auf Ausgabe schalten)
+
+Einsprung von $AACC, $AAD3:
+
+AAC6: B1 46     LDA (<A HREF="RA8146.HTM">$46</A>),Y      Byte aus Memory holen
+AAC8: 20 86 BF  JSR <A HREF="RO81BF83.HTM">$BF86</A>        und auf FSM-Bus ausgeben
+AACB: C8        INY              naechste Adresse
+AACC: D0 F8     BNE $AAC6        ganze Speicherseite ausgeben, ==&gt;
+AACE: E6 47     INC <A HREF="RA8146.HTM">$47</A>          naechste Seite auswaehlen
+AAD0: CE 06 02  DEC <A HREF="RA810200.HTM">$0206</A>        noch eine Seite ausgeben ?
+AAD3: D0 F1     BNE $AAC6        ja, ==&gt;
+AAD5: F0 26     BEQ $AAFD        nein ==&gt;
+
+Memory-Write
+
+Einsprung von $AABD, $AAF4, $AAFB:
+
+AAD7: AD 01 40  LDA <A HREF="CIA811.HTM">$4001</A>        'Naechstes Byte bitte'
+AADA: 49 08     EOR #$08         (Clock-Ausgang kippen)
+AADC: 2C 0D 40  BIT <A HREF="CIA81D.HTM">$400D</A>        Schieberegister vorbereiten
+AADF: 8D 01 40  STA <A HREF="CIA811.HTM">$4001</A>
+AAE2: A9 08     LDA #$08
+
+Einsprung von $AAEC, $AB06:
+
+AAE4: 2C 01 40  BIT <A HREF="CIA811.HTM">$4001</A>        ATN aufgetreten?
+AAE7: 30 1A     BMI $AB03        Ja, ==&gt;
+AAE9: 2C 0D 40  BIT <A HREF="CIA81D.HTM">$400D</A>        b3=1: ist das Byte uebertragen ?
+AAEC: F0 F6     BEQ $AAE4        nein, ==&gt;
+AAEE: AD 0C 40  LDA <A HREF="CIA81C.HTM">$400C</A>        ja, Byte holen
+AAF1: 91 46     STA (<A HREF="RA8146.HTM">$46</A>),Y      und abspeichern
+AAF3: C8        INY
+AAF4: D0 E1     BNE $AAD7        ganze Seite einlesen
+AAF6: E6 47     INC <A HREF="RA8146.HTM">$47</A>
+AAF8: CE 06 02  DEC <A HREF="RA810200.HTM">$0206</A>        ($0206) Seiten uebertragen
+AAFB: D0 DA     BNE $AAD7        noch nicht fertig, ==&gt;
+
+Einsprung von $AAD5:
+
+AAFD: 4C 4C 80  JMP <A HREF="RO81804C.HTM">$804C</A>        Ende ==&gt;
+
+Einsprung von $AAC1:
+
+AB00: 4C 83 AA  JMP <A HREF="RO81AA3C.HTM">$AA83</A>        31, Syntax Error
+
+Einsprung von $AAE7:
+
+AB03: 20 15 AD  JSR <A HREF="RO81AD15.HTM">$AD15</A>        ATN testen und bearbeiten ==&gt;
+AB06: 4C E4 AA  JMP $AAE4
+
+    <A HREF="RO81AA3C.HTM">Previous Page</A> / <A HREF="RO81AB09.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,32 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Position des naechsten Records berechnen ($e304)
+A: a: Position des naechsten Records
+
+Einsprung von <A HREF="RO819F4C.HTM">$9F87</A>, <A HREF="RO81A298.HTM">$A2A4</A>, <A HREF="RO81A298.HTM">$A2AF</A>:
+
+A2BC: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+A2BE: BD 57 02  LDA <A HREF="RA810257.HTM">$0257</A>,X      'Zeiger auf naechsten Record' =0 ?
+A2C1: 38        SEC
+A2C2: F0 0E     BEQ $A2D2        ja, (Zeiger auf 2 setzen) ==&gt;
+A2C4: 18        CLC
+A2C5: 7D 5E 02  ADC <A HREF="RA81025E.HTM">$025E</A>,X      Recordlaenge zum Zeiger addieren
+A2C8: 90 0B     BCC $A2D5        Record passt in den Block, ==&gt;
+A2CA: D0 06     BNE $A2D2        Record steht in zwei Bloecken, ==&gt;
+A2CC: A9 02     LDA #$02         Record passt genau in den Block
+A2CE: 2C BD DB  BIT <A HREF="RO81DAFD.HTM">$DBBD</A>        z-Flag setzen
+A2D1: 60        RTS
+
+Einsprung von $A2C2, $A2CA:
+
+A2D2: 69 01     ADC #$01         Blockverkettung ueberspringen
+A2D4: 38        SEC              c=1: Zeiger steht im neuen Block
+
+Einsprung von $A2C8:
+
+A2D5: 60        RTS
+
+    <A HREF="RO81A298.HTM">Previous Page</A> / <A HREF="RO81A2D6.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

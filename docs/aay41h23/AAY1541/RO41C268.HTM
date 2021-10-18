@@ -1,0 +1,67 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C268/49768:   Search character in input buffer
+
+Jump from <A HREF="RO41C1D1.HTM">$C1D8</A>, <A HREF="RO41C1E5.HTM">$C1EB</A>, <A HREF="RO41C1EE.HTM">$C202</A>, <A HREF="RO41C1EE.HTM">$C236</A>, <A HREF="RO41CC1B.HTM">$CC21</A>, <A HREF="RO41CC6F.HTM">$CC75</A>, <A HREF="RO41D815.HTM">$D845</A>, <A HREF="RO41E7A3.HTM">$E7A5</A>:
+
+C268: 8D 75 02  STA <A HREF="RA410275.HTM">$0275</A>       ; save character
+
+Jump from $C285, $C29C:
+
+C26B: CC 74 02  CPY <A HREF="RA410274.HTM">$0274</A>       ; already done?
+C26E: B0 2E     BCS $C29E       ; yes
+C270: B1 A3     LDA (<A HREF="RA41A3.HTM">$A3</A>),Y     ; get char from buffer
+C272: C8        INY
+C273: CD 75 02  CMP <A HREF="RA410275.HTM">$0275</A>       ; compared with char
+C276: F0 28     BEQ $C2A0       ; found
+C278: C9 2A     CMP #$2A        ; '*'
+C27A: F0 04     BEQ $C280
+C27C: C9 3F     CMP #$3F        ; '?'
+C27E: D0 03     BNE $C283
+
+Jump from $C27A:
+
+C280: EE 8A 02  INC <A HREF="RA41028A.HTM">$028A</A>       ; set wildcard flag
+
+Jump from $C27E:
+
+C283: C9 2C     CMP #$2C        ; ','
+C285: D0 E4     BNE $C26B
+C287: 98        TYA
+C288: 9D 7B 02  STA <A HREF="RA41027A.HTM">$027B</A>,X     ; note comma position
+C28B: AD 8A 02  LDA <A HREF="RA41028A.HTM">$028A</A>       ; wildcard flag
+C28E: 29 7F     AND #$7F
+C290: F0 07     BEQ $C299       ; no wildcard
+C292: A9 80     LDA #$80
+C294: 95 E7     STA <A HREF="RA41E7.HTM">$E7</A>,X       ; note flag
+C296: 8D 8A 02  STA <A HREF="RA41028A.HTM">$028A</A>       ; and save as wildcard flag
+
+Jump from $C290:
+
+C299: E8        INX             ; increment comma counter
+C29A: E0 04     CPX #$04        ; 4 commas already?
+C29C: 90 CD     BCC $C26B       ; no, continue
+
+Jump from $C26E:
+
+C29E: A0 00     LDY #$00
+
+Jump from $C276:
+
+C2A0: AD 74 02  LDA <A HREF="RA410274.HTM">$0274</A>       ; set flag for line end
+C2A3: 9D 7B 02  STA <A HREF="RA41027A.HTM">$027B</A>,X
+C2A6: AD 8A 02  LDA <A HREF="RA41028A.HTM">$028A</A>       ; wildcard flag
+C2A9: 29 7F     AND #$7F
+C2AB: F0 04     BEQ $C2B1       ; no wildcard
+C2AD: A9 80     LDA #$80
+C2AF: 95 E7     STA <A HREF="RA41E7.HTM">$E7</A>,X       ; set flag
+
+Jump from $C2AB:
+
+C2B1: 98        TYA
+C2B2: 60        RTS
+
+    <A HREF="RO41C1EE.HTM">Previous Page</A> / <A HREF="RO41C2B3.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

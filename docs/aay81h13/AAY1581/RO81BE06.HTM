@@ -1,0 +1,125 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Burst-Befehle $0a,$1a: Query Disk Format (bei der 1571: $8517)
+
+BE06: 20 B2 BC  JSR <A HREF="RO81BCB2.HTM">$BCB2</A>        Burst-Befehl: INQUIRE-DISK
+
+(bei der 1571: $8f5f)
+
+BE09: A2 00     LDX #$00         Anzahl gefundener Sektoren = 0 setzen
+BE0B: 86 3D     STX <A HREF="RA813D.HTM">$3D</A>
+BE0D: A9 C0     LDA #$C0         RESTORE_DV ('BUMP')
+BE0F: 20 F4 DB  JSR <A HREF="RO81DBC7.HTM">$DBF4</A>        Nummer der ersten Spur ermitteln
+BE12: C9 02     CMP #$02         Fehler ?
+BE14: B0 59     BCS $BE6F        ja, ==&gt;
+BE16: A5 1F     LDA <A HREF="RA811F.HTM">$1F</A>          gefundene Spurnummer aus Blockheader als
+BE18: 85 8E     STA <A HREF="RA818E.HTM">$8E</A>          '1. physikalische Spurnummer' uebernehmen
+BE1A: 24 7C     BIT <A HREF="RA817C.HTM">$7C</A>          Burst-Kommandobyte holen
+BE1C: 10 0F     BPL $BE2D        F-Flag (b7): bestimmte Spur abfragen ?
+BE1E: AD 03 02  LDA <A HREF="RA810200.HTM">$0203</A>        ja:
+BE21: 8D BC 01  STA <A HREF="RA8101BC.HTM">$01BC</A>        Tracknummer in HDRS2 des Jobs0 schreiben
+BE24: A9 8C     LDA #$8C         SEEK_DV: sucht physikalischn Zylinder
+BE26: 20 9D 95  JSR <A HREF="RO819598.HTM">$959D</A>        Job aufrufen
+BE29: C9 02     CMP #$02         Fehler ?
+BE2B: B0 42     BCS $BE6F        ja, ==&gt;
+
+Einsprung von $BE1C:
+
+BE2D: A5 7C     LDA <A HREF="RA817C.HTM">$7C</A>          Burst-Kommandobyte holen
+BE2F: 29 10     AND #$10         S-Flag holen (Seitenauswahl)
+BE31: 4A        LSR              und nach b0 verschieben
+BE32: 4A        LSR
+BE33: 4A        LSR
+BE34: 4A        LSR              x=0
+BE35: 9D CE 01  STA <A HREF="RA8101CE.HTM">$01CE</A>,X      in den Job-Seitenspeicher (SIDS) schreiben
+BE38: A9 9C     LDA #$9C         SIDE_DV: Seite auswaehlen
+BE3A: 20 9D 95  JSR <A HREF="RO819598.HTM">$959D</A>        Job aufrufen
+BE3D: A9 B0     LDA #$B0         SEEKHD_DV: erstbesten Sektor suchen
+BE3F: 20 9D 95  JSR <A HREF="RO819598.HTM">$959D</A>        Job aufrufen
+BE42: C9 02     CMP #$02         ist ein Fehler aufgetreten ?
+BE44: B0 29     BCS $BE6F        ja, ==&gt;
+BE46: A5 21     LDA <A HREF="RA8121.HTM">$21</A>          gefundene Sektornummer
+BE48: 85 3E     STA <A HREF="RA813E.HTM">$3E</A>          merken
+
+[Jetzt werden so lange Blockheader gesucht und die Sektornummer gemerkt,
+ bis die zuerst gefundene Nummer wieder auftaucht.]
+
+Einsprung von $BE64:
+
+BE4A: A2 00     LDX #$00         Job0 benutzen
+BE4C: A9 B0     LDA #$B0         SEEKHD_DV: naechsten Sektor suchen
+BE4E: 20 9D 95  JSR <A HREF="RO819598.HTM">$959D</A>        Job aufrufen
+BE51: C9 02     CMP #$02         Fehler ?
+BE53: B0 1A     BCS $BE6F        ja, ==&gt;
+BE55: A5 21     LDA <A HREF="RA8121.HTM">$21</A>          Sektornummer aus dem Blockheader holen
+BE57: A4 3D     LDY <A HREF="RA813D.HTM">$3D</A>          Anzahl gefundener Sektoren holen
+BE59: 99 0B 02  STA <A HREF="RA810200.HTM">$020B</A>,Y      Sektor in die Sektorentabelle eintragen
+BE5C: E6 3D     INC <A HREF="RA813D.HTM">$3D</A>          Sektorenzahl erhoehen
+BE5E: C0 1F     CPY #$1F         Ende des 'Kommandopuffers' erreicht ?
+BE60: B0 0B     BCS $BE6D        ja, ==&gt;
+BE62: C5 3E     CMP <A HREF="RA813E.HTM">$3E</A>          erste Sektornummer wieder erreicht ?
+BE64: D0 E4     BNE $BE4A        nein, ==&gt;
+
+Daten auswerten
+
+BE66: A5 3D     LDA <A HREF="RA813D.HTM">$3D</A>
+BE68: 85 92     STA <A HREF="RA8192.HTM">$92</A>          Anzahl Sektoren merken
+BE6A: A9 00     LDA #$00         Ok.
+BE6C: 2C         B $2C
+
+Einsprung von $BE60:
+
+BE6D: A9 02     LDA #$02         Header nicht gefunden (meint, Tabelle voll)
+
+Einsprung von $BE14, $BE2B, $BE44, $BE53:
+
+BE6F: 20 66 BF  JSR <A HREF="RO81BF66.HTM">$BF66</A>        Burst-Status setzen
+(bei der 1571: $8523)
+
+BE72: C9 02     CMP #$02         Fehler ?
+BE74: 90 03     BCC $BE79        nein, ==&gt;
+BE76: 4C FC BA  JMP <A HREF="RO81BAFC.HTM">$BAFC</A>        Status ausgeben ==&gt;
+
+Einsprung von $BE74:
+
+BE79: 20 97 C0  JSR <A HREF="RO81C097.HTM">$C097</A>        groesste/kleinste Sektornummer suchen
+BE7C: 20 D4 AC  JSR <A HREF="RO81ACCF.HTM">$ACD4</A>        FSM auf Ausgabe schalten
+BE7F: AD EF 01  LDA <A HREF="RA8101EF.HTM">$01EF</A>        kleinste gefundene Sektornummer
+BE82: 85 94     STA <A HREF="RA8194.HTM">$94</A>          als 1. Sektornummer der Spur merken
+BE84: AD F0 01  LDA <A HREF="RA8101F0.HTM">$01F0</A>        groesste gefundene Sektornummer
+BE87: 85 93     STA <A HREF="RA8193.HTM">$93</A>          als letzten Sektor der Spur merken
+
+Spurinformation an Computer senden
+
+BE89: 20 AB BF  JSR <A HREF="RO81BFAB.HTM">$BFAB</A>        Burst-Status ausgeben
+BE8C: A5 92     LDA <A HREF="RA8192.HTM">$92</A>          Anzahl der Sektoren
+BE8E: 20 86 BF  JSR <A HREF="RO81BF83.HTM">$BF86</A>        ausgeben
+BE91: A5 1F     LDA <A HREF="RA811F.HTM">$1F</A>          Tracknummer
+BE93: 20 86 BF  JSR <A HREF="RO81BF83.HTM">$BF86</A>        ausgeben
+BE96: AD EF 01  LDA <A HREF="RA8101EF.HTM">$01EF</A>        kleinste Sektornummer
+BE99: 20 86 BF  JSR <A HREF="RO81BF83.HTM">$BF86</A>        ausgeben
+BE9C: AD F0 01  LDA <A HREF="RA8101F0.HTM">$01F0</A>        groesste Sektornummer
+BE9F: 20 86 BF  JSR <A HREF="RO81BF83.HTM">$BF86</A>        ausgeben
+BEA2: A9 01     LDA #$01         1 (soll Sektorversatz sein)
+BEA4: 20 86 BF  JSR <A HREF="RO81BF83.HTM">$BF86</A>        ausgeben
+BEA7: A9 20     LDA #$20         Sektorentabelle senden (T-Flag (b5)=1) ?
+BEA9: 24 7C     BIT <A HREF="RA817C.HTM">$7C</A>
+BEAB: F0 0D     BEQ $BEBA        nein, ==&gt;
+BEAD: A0 00     LDY #$00         Tabelle ausgeben
+
+Einsprung von $BEB8:
+
+BEAF: B9 0B 02  LDA <A HREF="RA810200.HTM">$020B</A>,Y
+BEB2: 20 86 BF  JSR <A HREF="RO81BF83.HTM">$BF86</A>        Byte an Computer senden
+BEB5: C8        INY
+BEB6: C4 92     CPY <A HREF="RA8192.HTM">$92</A>          Anzahl Sektoren auf der Spur
+BEB8: D0 F5     BNE $BEAF
+
+Einsprung von $BEAB:
+
+BEBA: 60        RTS
+
+    <A HREF="RO81BDFC.HTM">Previous Page</A> / <A HREF="RO81BEBB.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

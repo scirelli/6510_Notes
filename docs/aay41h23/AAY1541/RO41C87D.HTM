@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C87D/51325:   Erase file
+
+Jump from <A HREF="RO41C823.HTM">$C852</A>, <A HREF="RO41C823.HTM">$C868</A>, <A HREF="RO41DBA5.HTM">$DC1B</A>:
+
+C87D: 20 5F EF  JSR <A HREF="RO41EF5C.HTM">$EF5F</A>       ; free block in BAM
+C880: 20 75 D4  JSR <A HREF="RO41D475.HTM">$D475</A>
+C883: 20 19 F1  JSR <A HREF="RO41F119.HTM">$F119</A>       ; get buffer number in BAM
+C886: B5 A7     LDA <A HREF="RA41A7.HTM">$A7</A>,X
+C888: C9 FF     CMP #$FF
+C88A: F0 08     BEQ $C894
+C88C: AD F9 02  LDA <A HREF="RA4102F9.HTM">$02F9</A>
+C88F: 09 40     ORA #$40
+C891: 8D F9 02  STA <A HREF="RA4102F9.HTM">$02F9</A>
+
+Jump from $C88A, $C8B3:
+
+C894: A9 00     LDA #$00
+C896: 20 C8 D4  JSR <A HREF="RO41D4C8.HTM">$D4C8</A>       ; buffer pointer to zero
+C899: 20 56 D1  JSR <A HREF="RO41D156.HTM">$D156</A>       ; get track
+C89C: 85 80     STA <A HREF="RA4180.HTM">$80</A>
+C89E: 20 56 D1  JSR <A HREF="RO41D156.HTM">$D156</A>       ; get sector
+C8A1: 85 81     STA <A HREF="RA4181.HTM">$81</A>
+C8A3: A5 80     LDA <A HREF="RA4180.HTM">$80</A>         ; track number
+C8A5: D0 06     BNE $C8AD       ; not equal to zero
+C8A7: 20 F4 EE  JSR <A HREF="RO41EEF4.HTM">$EEF4</A>       ; write BAM
+C8AA: 4C 27 D2  JMP <A HREF="RO41D227.HTM">$D227</A>       ; close channel
+
+Jump from $C8A5:
+
+C8AD: 20 5F EF  JSR <A HREF="RO41EF5C.HTM">$EF5F</A>       ; free block in BAM
+C8B0: 20 4D D4  JSR <A HREF="RO41D44D.HTM">$D44D</A>       ; read next block
+C8B3: 4C 94 C8  JMP $C894       ; and continue
+
+    <A HREF="RO41C823.HTM">Previous Page</A> / <A HREF="RO41C8B6.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

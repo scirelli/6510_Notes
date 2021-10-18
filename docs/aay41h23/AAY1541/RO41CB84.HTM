@@ -1,0 +1,90 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $CB84/52100:   Open direct access channel, number
+
+Jump from <A HREF="RO41D815.HTM">$D819</A>:
+
+CB84: AD 8E 02  LDA <A HREF="RA41028E.HTM">$028E</A>       ; last drive number
+CB87: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+CB89: A5 83     LDA <A HREF="RA4183.HTM">$83</A>         ; channel number
+CB8B: 48        PHA
+CB8C: 20 3D C6  JSR <A HREF="RO41C63D.HTM">$C63D</A>       ; check drive and initialize
+CB8F: 68        PLA
+CB90: 85 83     STA <A HREF="RA4183.HTM">$83</A>
+CB92: AE 74 02  LDX <A HREF="RA410274.HTM">$0274</A>       ; length of filename
+CB95: CA        DEX
+CB96: D0 0D     BNE $CBA5       ; greater than one?
+CB98: A9 01     LDA #$01
+CB9A: 20 E2 D1  JSR <A HREF="RO41D1E2.HTM">$D1E2</A>       ; layout buffer and channel
+CB9D: 4C F1 CB  JMP $CBF1       ; set flags, done
+
+Jump from $CBAF, $CBC4, $CBCB:
+
+CBA0: A9 70     LDA #$70
+CBA2: 4C C8 C1  JMP <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 70, 'no channel'
+
+Jump from $CB96:
+
+CBA5: A0 01     LDY #$01
+CBA7: 20 7C CC  JSR <A HREF="RO41CC6F.HTM">$CC7C</A>       ; get buffer number
+CBAA: AE 85 02  LDX <A HREF="RA410285.HTM">$0285</A>       ; buffer number
+CBAD: E0 05     CPX #$05        ; bigger than 5?
+CBAF: B0 EF     BCS $CBA0       ; 70, 'no channel'
+CBB1: A9 00     LDA #$00
+CBB3: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>
+CBB5: 85 70     STA <A HREF="RA416F.HTM">$70</A>
+CBB7: 38        SEC
+
+Jump from $CBBD:
+
+CBB8: 26 6F     ROL <A HREF="RA416F.HTM">$6F</A>
+CBBA: 26 70     ROL <A HREF="RA416F.HTM">$70</A>
+CBBC: CA        DEX
+CBBD: 10 F9     BPL $CBB8
+CBBF: A5 6F     LDA <A HREF="RA416F.HTM">$6F</A>
+CBC1: 2D 4F 02  AND <A HREF="RA41024F.HTM">$024F</A>
+CBC4: D0 DA     BNE $CBA0
+CBC6: A5 70     LDA <A HREF="RA416F.HTM">$70</A>
+CBC8: 2D 50 02  AND <A HREF="RA41024F.HTM">$0250</A>
+CBCB: D0 D3     BNE $CBA0
+CBCD: A5 6F     LDA <A HREF="RA416F.HTM">$6F</A>
+CBCF: 0D 4F 02  ORA <A HREF="RA41024F.HTM">$024F</A>
+CBD2: 8D 4F 02  STA <A HREF="RA41024F.HTM">$024F</A>
+CBD5: A5 70     LDA <A HREF="RA416F.HTM">$70</A>
+CBD7: 0D 50 02  ORA <A HREF="RA41024F.HTM">$0250</A>
+CBDA: 8D 50 02  STA <A HREF="RA41024F.HTM">$0250</A>
+CBDD: A9 00     LDA #$00
+CBDF: 20 E2 D1  JSR <A HREF="RO41D1E2.HTM">$D1E2</A>       ; search channel
+CBE2: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+CBE4: AD 85 02  LDA <A HREF="RA410285.HTM">$0285</A>       ; buffer number
+CBE7: 95 A7     STA <A HREF="RA41A7.HTM">$A7</A>,X
+CBE9: AA        TAX
+CBEA: A5 7F     LDA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+CBEC: 95 00     STA <A HREF="RA4100.HTM">$00</A>,X
+CBEE: 9D 5B 02  STA <A HREF="RA41025B.HTM">$025B</A>,X
+
+Jump from $CB9D:
+
+CBF1: A6 83     LDX <A HREF="RA4183.HTM">$83</A>         ; secondary address
+CBF3: BD 2B 02  LDA <A HREF="RA41022B.HTM">$022B</A>,X
+CBF6: 09 40     ORA #$40        ; set READ and WRITE flags
+CBF8: 9D 2B 02  STA <A HREF="RA41022B.HTM">$022B</A>,X
+CBFB: A4 82     LDY <A HREF="RA4182.HTM">$82</A>         ; channel number
+CBFD: A9 FF     LDA #$FF
+CBFF: 99 44 02  STA <A HREF="RA410244.HTM">$0244</A>,Y     ; end pointer
+CC02: A9 89     LDA #$89
+CC04: 99 F2 00  STA <A HREF="RA41F2.HTM">$F2</A>,Y       ; set READ and WRITE flags
+CC07: B9 A7 00  LDA <A HREF="RA41A7.HTM">$A7</A>,Y       ; buffer number
+CC0A: 99 3E 02  STA <A HREF="RA41022E.HTM">$023E</A>,Y
+CC0D: 0A        ASL             ; times 2
+CC0E: AA        TAX
+CC0F: A9 01     LDA #$01
+CC11: 95 99     STA <A HREF="RA4199.HTM">$99</A>,X       ; buffer pointer to one
+CC13: A9 0E     LDA #$0E
+CC15: 99 EC 00  STA <A HREF="RA41EC.HTM">$EC</A>,Y       ; flag for direct access
+CC18: 4C 94 C1  JMP <A HREF="RO41C194.HTM">$C194</A>       ; done
+
+    <A HREF="RO41CB5C.HTM">Previous Page</A> / <A HREF="RO41CC1B.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

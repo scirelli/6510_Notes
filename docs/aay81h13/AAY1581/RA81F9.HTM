@@ -1,0 +1,25 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+ $F9-$FF/249-255:  Dateitypentabelle
+
+  b0  : Drivenummer
+  b1-3: Dateityp (siehe $f4-$f8)
+  b4  : ???
+  b5  : 1=aktueller Record ist voll
+  b6  : 1=REL-Datei wurde geaendert (Dir. updaten)
+  b7  : 1=gesuchter Record existiert nicht /
+          Fileende erreicht
+
+ROM-Reference:
+
+ AND $F9,X  : <A HREF="RO819CD3.HTM">$9CDF</A> <A HREF="RO819CD3.HTM">$9CE6</A>
+ LDA $00F9,Y: <A HREF="RO819CF5.HTM">$9D0C</A>
+ LDA $F9,X  : <A HREF="RO81905F.HTM">$9061</A>
+ ORA $F9,X  : <A HREF="RO819CD3.HTM">$9CD7</A>
+ STA $00F9,Y: <A HREF="RO8189E4.HTM">$8A57</A> <A HREF="RO819678.HTM">$96AA</A>
+ STA $F9,X  : <A HREF="RO8198F7.HTM">$9955</A> <A HREF="RO819B0D.HTM">$9B1A</A> <A HREF="RO819BC3.HTM">$9BD8</A> <A HREF="RO819CD3.HTM">$9CE1</A>
+
+    <A HREF="RA81F4.HTM">Previous Page</A> / <A HREF="RA810100.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

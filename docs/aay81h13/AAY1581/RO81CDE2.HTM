@@ -1,0 +1,30 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Ruecksprung von Jobroutine, den selben Job nochmal pruefen
+
+Einsprung von <A HREF="RO81C900.HTM">$C9DB</A>, <A HREF="RO81C9E1.HTM">$C9ED</A>:
+
+CDE2: A4 83     LDY <A HREF="RA8183.HTM">$83</A>
+CDE4: A5 26     LDA <A HREF="RA8126.HTM">$26</A>          Drivemodus: Drive inaktiv ?
+CDE6: F0 12     BEQ $CDFA        ja, Ende ==&gt;
+CDE8: 29 10     AND #$10         Ist Motor am Nachlaufen ?
+CDEA: D0 0E     BNE $CDFA        ja, ==&gt;
+CDEC: A5 26     LDA <A HREF="RA8126.HTM">$26</A>          Nachlaufmodus initialisieren
+CDEE: 09 10     ORA #$10
+CDF0: 85 26     STA <A HREF="RA8126.HTM">$26</A>
+CDF2: A9 FF     LDA #$FF         Zaehler fuer Hochlaufzeit ist nun Lo-Byte
+CDF4: 85 2A     STA <A HREF="RA812A.HTM">$2A</A>          der Nachlaufzeit
+CDF6: A9 04     LDA #$04         Nachlaufzeit (Hi)
+CDF8: 85 2B     STA <A HREF="RA812A.HTM">$2B</A>          $04ff: 12,8 sec Nachlaufen
+
+Einsprung von $CDE6, $CDEA, <A HREF="RO81C396.HTM">$C3A6</A>, <A HREF="RO81CB35.HTM">$CB73</A>:
+
+CDFA: A6 2C     LDX <A HREF="RA812C.HTM">$2C</A>          Stackpointer auf den Wert setzen,
+CDFC: 9A        TXS              den er beim Aufruf der
+                                Controller-Routine hatte
+CDFD: 4C C7 C0  JMP <A HREF="RO81C0BE.HTM">$C0C7</A>        Naechsten Jobpuffer pruefen
+
+    <A HREF="RO81CDCC.HTM">Previous Page</A> / <A HREF="RO81CE00.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

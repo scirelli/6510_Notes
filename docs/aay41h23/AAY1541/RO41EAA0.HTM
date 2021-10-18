@@ -1,0 +1,237 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $EAA0/60064:   Power-up RESET routine
+
+EAA0: 78        SEI
+EAA1: D8        CLD
+EAA2: A2 FF     LDX #$FF
+EAA4: 4C 10 FF  JMP <A HREF="RO41FF10.HTM">$FF10</A>       ; port A to output
+
+Jump from <A HREF="RO41FF10.HTM">$FF1D</A>:
+
+EAA7: E8        INX
+EAA8: A0 00     LDY #$00
+EAAA: A2 00     LDX #$00
+
+Jump from $EAB0:
+
+EAAC: 8A        TXA
+EAAD: 95 00     STA <A HREF="RA4100.HTM">$00</A>,X       ; erase zero page
+EAAF: E8        INX
+EAB0: D0 FA     BNE $EAAC
+
+Jump from $EAC7:
+
+EAB2: 8A        TXA
+EAB3: D5 00     CMP <A HREF="RA4100.HTM">$00</A>,X       ; is byte erased?
+EAB5: D0 B7     BNE <A HREF="RO41EA6E.HTM">$EA6E</A>       ; no, then to error display (blink)
+
+Jump from $EABA:
+
+EAB7: F6 00     INC <A HREF="RA4100.HTM">$00</A>,X
+EAB9: C8        INY
+EABA: D0 FB     BNE $EAB7
+EABC: D5 00     CMP <A HREF="RA4100.HTM">$00</A>,X
+EABE: D0 AE     BNE <A HREF="RO41EA6E.HTM">$EA6E</A>       ; error
+EAC0: 94 00     STY <A HREF="RA4100.HTM">$00</A>,X
+EAC2: B5 00     LDA <A HREF="RA4100.HTM">$00</A>,X
+EAC4: D0 A8     BNE <A HREF="RO41EA6E.HTM">$EA6E</A>       ; error
+EAC6: E8        INX
+EAC7: D0 E9     BNE $EAB2
+
+Jump from $EAE8:
+
+EAC9: E6 6F     INC <A HREF="RA416F.HTM">$6F</A>
+EACB: 86 76     STX <A HREF="RA4175.HTM">$76</A>
+EACD: A9 00     LDA #$00
+EACF: 85 75     STA <A HREF="RA4175.HTM">$75</A>
+EAD1: A8        TAY
+EAD2: A2 20     LDX #$20        ; test 32 pages
+EAD4: 18        CLC
+
+Jump from $EADD:
+
+EAD5: C6 76     DEC <A HREF="RA4175.HTM">$76</A>
+
+Jump from $EADA:
+
+EAD7: 71 75     ADC (<A HREF="RA4175.HTM">$75</A>),Y
+EAD9: C8        INY
+EADA: D0 FB     BNE $EAD7
+EADC: CA        DEX
+EADD: D0 F6     BNE $EAD5       ; test ROM
+EADF: 69 00     ADC #$00
+EAE1: AA        TAX
+EAE2: C5 76     CMP <A HREF="RA4175.HTM">$76</A>
+EAE4: D0 39     BNE $EB1F       ; ROM error
+EAE6: E0 C0     CPX #$C0
+EAE8: D0 DF     BNE $EAC9
+EAEA: A9 01     LDA #$01
+EAEC: 85 76     STA <A HREF="RA4175.HTM">$76</A>
+EAEE: E6 6F     INC <A HREF="RA416F.HTM">$6F</A>
+EAF0: A2 07     LDX #$07        ; test RAM, beginning at page 7
+
+Jump from $EAF9, $EAFE:
+
+EAF2: 98        TYA
+EAF3: 18        CLC
+EAF4: 65 76     ADC <A HREF="RA4175.HTM">$76</A>
+EAF6: 91 75     STA (<A HREF="RA4175.HTM">$75</A>),Y
+EAF8: C8        INY
+EAF9: D0 F7     BNE $EAF2
+EAFB: E6 76     INC <A HREF="RA4175.HTM">$76</A>
+EAFD: CA        DEX
+EAFE: D0 F2     BNE $EAF2
+EB00: A2 07     LDX #$07
+
+Jump from $EB1B:
+
+EB02: C6 76     DEC <A HREF="RA4175.HTM">$76</A>
+
+Jump from $EB18:
+
+EB04: 88        DEY
+EB05: 98        TYA
+EB06: 18        CLC
+EB07: 65 76     ADC <A HREF="RA4175.HTM">$76</A>
+EB09: D1 75     CMP (<A HREF="RA4175.HTM">$75</A>),Y
+EB0B: D0 12     BNE $EB1F       ; RAM error
+EB0D: 49 FF     EOR #$FF
+EB0F: 91 75     STA (<A HREF="RA4175.HTM">$75</A>),Y
+EB11: 51 75     EOR (<A HREF="RA4175.HTM">$75</A>),Y
+EB13: 91 75     STA (<A HREF="RA4175.HTM">$75</A>),Y
+EB15: D0 08     BNE $EB1F       ; RAM error
+EB17: 98        TYA
+EB18: D0 EA     BNE $EB04
+EB1A: CA        DEX
+EB1B: D0 E5     BNE $EB02       ; continue test
+EB1D: F0 03     BEQ $EB22       ; ok
+
+Jump from $EAE4, $EB0B, $EB15:
+
+EB1F: 4C 71 EA  JMP <A HREF="RO41EA6E.HTM">$EA71</A>       ; to error display
+
+Jump from $EB1D:
+
+EB22: A2 45     LDX #$45
+EB24: 9A        TXS             ; initialize stack pointer
+EB25: AD 00 1C  LDA <A HREF="VIA20.HTM">$1C00</A>
+EB28: 29 F7     AND #$F7        ; turn LED off
+EB2A: 8D 00 1C  STA <A HREF="VIA20.HTM">$1C00</A>
+EB2D: A9 01     LDA #$01
+EB2F: 8D 0C 18  STA <A HREF="VIA1C.HTM">$180C</A>       ; CA1 (ATN IN) trigger on positive edge
+EB32: A9 82     LDA #$82
+EB34: 8D 0D 18  STA <A HREF="VIA1D.HTM">$180D</A>       ; interrupt possible through ATN IN
+EB37: 8D 0E 18  STA <A HREF="VIA1E.HTM">$180E</A>
+EB3A: AD 00 18  LDA <A HREF="VIA10.HTM">$1800</A>       ; read port B
+EB3D: 29 60     AND #$60        ; isolate bits 5 &amp; 6 (device number)
+EB3F: 0A        ASL
+EB40: 2A        ROL
+EB41: 2A        ROL             ; rotate to bit positions 0 &amp; 1
+EB42: 2A        ROL
+EB43: 09 48     ORA #$48        ; add offset from 8 + $40 for TALK
+EB45: 85 78     STA <A HREF="RA4178.HTM">$78</A>         ; device number for TALK (send)
+EB47: 49 60     EOR #$60        ; erase bit 6, set bit 5
+EB49: 85 77     STA <A HREF="RA4177.HTM">$77</A>         ; device number + $20 for LISTEN
+EB4B: A2 00     LDX #$00
+EB4D: A0 00     LDY #$00
+
+Jump from $EB5D:
+
+EB4F: A9 00     LDA #$00
+EB51: 95 99     STA <A HREF="RA4199.HTM">$99</A>,X       ; low-byte of buffer address
+EB53: E8        INX
+EB54: B9 E0 FE  LDA <A HREF="RO41FEE0.HTM">$FEE0</A>,Y     ; high-byte of address from table
+EB57: 95 99     STA <A HREF="RA4199.HTM">$99</A>,X       ; save
+EB59: E8        INX
+EB5A: C8        INY
+EB5B: C0 05     CPY #$05
+EB5D: D0 F0     BNE $EB4F
+EB5F: A9 00     LDA #$00
+EB61: 95 99     STA <A HREF="RA4199.HTM">$99</A>,X
+EB63: E8        INX             ; pointer $A3/$A4 to $200, input buffer
+EB64: A9 02     LDA #$02
+EB66: 95 99     STA <A HREF="RA4199.HTM">$99</A>,X
+EB68: E8        INX
+EB69: A9 D5     LDA #$D5
+EB6B: 95 99     STA <A HREF="RA4199.HTM">$99</A>,X
+EB6D: E8        INX             ; pointer $A5/$A6 to $2D5, error
+EB6E: A9 02     LDA #$02        ; message pointer
+EB70: 95 99     STA <A HREF="RA4199.HTM">$99</A>,X
+EB72: A9 FF     LDA #$FF
+EB74: A2 12     LDX #$12
+
+Jump from $EB7A:
+
+EB76: 9D 2B 02  STA <A HREF="RA41022B.HTM">$022B</A>,X     ; fill channel table with $FF
+EB79: CA        DEX
+EB7A: 10 FA     BPL $EB76
+EB7C: A2 05     LDX #$05
+
+Jump from $EB85:
+
+EB7E: 95 A7     STA <A HREF="RA41A7.HTM">$A7</A>,X       ; erase buffer table
+EB80: 95 AE     STA <A HREF="RA41AE.HTM">$AE</A>,X
+EB82: 95 CD     STA <A HREF="RA41CD.HTM">$CD</A>,X       ; erase side-sector table
+EB84: CA        DEX
+EB85: 10 F7     BPL $EB7E
+EB87: A9 05     LDA #$05        ; buffer 5
+EB89: 85 AB     STA <A HREF="RA41A7.HTM">$AB</A>         ; associate with channel 4
+EB8B: A9 06     LDA #$06        ; buffer 4
+EB8D: 85 AC     STA <A HREF="RA41A7.HTM">$AC</A>         ; associate with channel 5
+EB8F: A9 FF     LDA #$FF
+EB91: 85 AD     STA <A HREF="RA41A7.HTM">$AD</A>
+EB93: 85 B4     STA <A HREF="RA41AE.HTM">$B4</A>
+EB95: A9 05     LDA #$05
+EB97: 8D 3B 02  STA <A HREF="RA41022E.HTM">$023B</A>       ; channel 5 WRITE flag erased
+EB9A: A9 84     LDA #$84
+EB9C: 8D 3A 02  STA <A HREF="RA41022E.HTM">$023A</A>       ; channel 4 WRITE flag set
+EB9F: A9 0F     LDA #$0F        ; initialize channel allocation register
+EBA1: 8D 56 02  STA <A HREF="RA410256.HTM">$0256</A>       ; bit '1' equals channel free
+EBA4: A9 01     LDA #$01
+EBA6: 85 F6     STA <A HREF="RA41F2.HTM">$F6</A>         ; WRITE flag
+EBA8: A9 88     LDA #$88
+EBAA: 85 F7     STA <A HREF="RA41F2.HTM">$F7</A>         ; READ flag
+EBAC: A9 E0     LDA #$E0        ; 5 buffers free
+EBAE: 8D 4F 02  STA <A HREF="RA41024F.HTM">$024F</A>       ; initialize buffer allocation register
+EBB1: A9 FF     LDA #$FF        ; $24F/$250, 16 bit
+EBB3: 8D 50 02  STA <A HREF="RA41024F.HTM">$0250</A>
+EBB6: A9 01     LDA #$01
+EBB8: 85 1C     STA <A HREF="RA411C.HTM">$1C</A>         ; flag for WRITE protect
+EBBA: 85 1D     STA <A HREF="RA411D.HTM">$1D</A>
+EBBC: 20 63 CB  JSR <A HREF="RO41CB5C.HTM">$CB63</A>       ; set vector for U0
+EBBF: 20 FA CE  JSR <A HREF="RO41CEFA.HTM">$CEFA</A>       ; initialize channel table
+EBC2: 20 59 F2  JSR <A HREF="RO41F259.HTM">$F259</A>       ; initialization for disk controller
+EBC5: A9 22     LDA #$22
+EBC7: 85 65     STA <A HREF="RA4165.HTM">$65</A>
+EBC9: A9 EB     LDA #$EB        ; pointer $65/$66 to $EB22
+EBCB: 85 66     STA <A HREF="RA4165.HTM">$66</A>
+EBCD: A9 0A     LDA #$0A
+EBCF: 85 69     STA <A HREF="RA4169.HTM">$69</A>         ; step width 10
+EBD1: A9 05     LDA #$05        ; for sector assignment
+EBD3: 85 6A     STA <A HREF="RA416A.HTM">$6A</A>         ; 5 read attempts
+EBD5: A9 73     LDA #$73        ; prepare power-up message
+EBD7: 20 C1 E6  JSR <A HREF="RO41E6C1.HTM">$E6C1</A>       ; 73, 'cbm dos v2.6 1541'
+EBDA: A9 00     LDA #$00        ; bit 1, 3 &amp; 4 to output
+EBDC: 8D 00 18  STA <A HREF="VIA10.HTM">$1800</A>       ; data direction of port B
+EBDF: A9 1A     LDA #$1A
+EBE1: 8D 02 18  STA <A HREF="VIA12.HTM">$1802</A>       ; erase data register
+EBE4: 20 80 E7  JSR <A HREF="RO41E780.HTM">$E780</A>       ; check for auto-start
+
+Jump from <A HREF="RO41E688.HTM">$E698</A>, <A HREF="RO41E85B.HTM">$E8EA</A>, <A HREF="RO41EA2E.HTM">$EA53</A>:
+
+EBE7: 58        CLI
+EBE8: AD 00 18  LDA <A HREF="VIA10.HTM">$1800</A>
+EBEB: 29 E5     AND #$E5        ; reset serial port
+EBED: 8D 00 18  STA <A HREF="VIA10.HTM">$1800</A>
+EBF0: AD 55 02  LDA <A HREF="RA410255.HTM">$0255</A>       ; command flag set?
+EBF3: F0 0A     BEQ <A HREF="RO41EBFF.HTM">$EBFF</A>       ; no
+EBF5: A9 00     LDA #$00
+EBF7: 8D 55 02  STA <A HREF="RA410255.HTM">$0255</A>       ; reset command flag
+EBFA: 85 67     STA <A HREF="RA4167.HTM">$67</A>
+EBFC: 20 46 C1  JSR <A HREF="RO41C146.HTM">$C146</A>       ; analyze and execute command
+
+    <A HREF="RO41EA6E.HTM">Previous Page</A> / <A HREF="RO41EBFF.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

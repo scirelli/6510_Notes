@@ -1,0 +1,43 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D00E/53262:   Read BAM from disk
+
+Jump from <A HREF="RO41C63D.HTM">$C64C</A>, <A HREF="RO41D042.HTM">$D048</A>:
+
+D00E: 20 0F F1  JSR <A HREF="RO41F10F.HTM">$F10F</A>
+D011: A8        TAY
+D012: B6 A7     LDX <A HREF="RA41A7.HTM">$A7</A>,Y
+D014: E0 FF     CPX #$FF
+D016: D0 14     BNE $D02C
+D018: 48        PHA
+D019: 20 8E D2  JSR <A HREF="RO41D28E.HTM">$D28E</A>
+D01C: AA        TAX
+D01D: 10 05     BPL $D024
+D01F: A9 70     LDA #$70
+D021: 20 48 E6  JSR <A HREF="RO41E645.HTM">$E648</A>       ; 70, 'no channel'
+
+Jump from $D01D:
+
+D024: 68        PLA
+D025: A8        TAY
+D026: 8A        TXA
+D027: 09 80     ORA #$80
+D029: 99 A7 00  STA <A HREF="RA41A7.HTM">$A7</A>,Y
+
+Jump from $D016:
+
+D02C: 8A        TXA
+D02D: 29 0F     AND #$0F
+D02F: 85 F9     STA <A HREF="RA41F9.HTM">$F9</A>
+D031: A2 00     LDX #$00
+D033: 86 81     STX <A HREF="RA4181.HTM">$81</A>         ; sector 0
+D035: AE 85 FE  LDX <A HREF="RO41FE85.HTM">$FE85</A>       ; 18
+D038: 86 80     STX <A HREF="RA4180.HTM">$80</A>         ; track 18
+D03A: 20 D3 D6  JSR <A HREF="RO41D6D0.HTM">$D6D3</A>       ; transmit parameter to disk controller
+D03D: A9 B0     LDA #$B0        ; command code 'read block header'
+D03F: 4C 8C D5  JMP <A HREF="RO41D58A.HTM">$D58C</A>       ; transmit to disk controller
+
+    <A HREF="RO41D005.HTM">Previous Page</A> / <A HREF="RO41D042.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

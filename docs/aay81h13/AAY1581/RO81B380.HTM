@@ -1,0 +1,17 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+???
+
+Einsprung von <A HREF="RO81B348.HTM">$B365</A>:
+
+B380: 20 69 FF  JSR <A HREF="RO81FF00.HTM">$FF69</A>        Prueft auf Diskettenwechsel
+B383: 20 03 8F  JSR <A HREF="RO818F03.HTM">$8F03</A>        Partition initialisieren
+B386: A5 6F     LDA <A HREF="RA816F.HTM">$6F</A>          Formatkennzeichen mit
+B388: CD EB 01  CMP <A HREF="RA8101EB.HTM">$01EB</A>        1581-Kennzeichen vergleichen
+B38B: F0 03     BEQ <A HREF="RO81B390.HTM">$B390</A>        gleich, ==&gt;
+B38D: 4C CB 94  JMP <A HREF="RO8194CB.HTM">$94CB</A>        73, Copyright CBM ...
+
+    <A HREF="RO81B348.HTM">Previous Page</A> / <A HREF="RO81B390.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

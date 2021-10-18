@@ -1,0 +1,96 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+naechsten Record holen ($dfd0)
+
+Einsprung von <A HREF="RO81A0E1.HTM">$A0E1</A>:
+
+9F4C: A9 20     LDA #$20         b5=0: Flag 'Record voll' loeschen
+9F4E: 20 DB 9C  JSR <A HREF="RO819CD3.HTM">$9CDB</A>        Dateistatus loeschen
+9F51: A9 80     LDA #$80         b7=0: Existiert der gesuchte Record ?
+9F53: 20 E4 9C  JSR <A HREF="RO819CD3.HTM">$9CE4</A>        (Dateistatus testen)
+9F56: D0 46     BNE $9F9E        nein, ==&gt;
+9F58: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          aktuelle Recordnummer +1
+9F5A: FE 49 02  INC <A HREF="RA810249.HTM">$0249</A>,X      Lo
+9F5D: D0 03     BNE $9F62
+9F5F: FE 50 02  INC <A HREF="RA810250.HTM">$0250</A>,X      Hi
+
+Einsprung von $9F5D:
+
+9F62: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+9F64: BD 57 02  LDA <A HREF="RA810257.HTM">$0257</A>,X      Position des naechsten Records im Block = 0
+9F67: F0 30     BEQ $9F99        (Record nicht vorhanden) ?, ==&gt;
+9F69: 20 42 94  JSR <A HREF="RO819434.HTM">$9442</A>        Pufferzeiger Lo nach a
+9F6C: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          [Wenn der 'Zeiger auf den naechsten Record'
+9F6E: DD 57 02  CMP <A HREF="RA810257.HTM">$0257</A>,X       &lt; Pufferzeiger ist, dann geht der Record
+9F71: 90 03     BCC $9F76         bis in den naechsten Datenblock hinein.]
+                                Steht Record in einem Block?, ==&gt;
+9F73: 20 BF 9F  JSR <A HREF="RO819FBF.HTM">$9FBF</A>        Block ggf. schreiben, Folgeblock lesen
+
+Einsprung von $9F71:
+
+9F76: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+9F78: BD 57 02  LDA <A HREF="RA810257.HTM">$0257</A>,X      Pufferzeiger auf naechsten Record setzen
+9F7B: 20 22 94  JSR <A HREF="RO819422.HTM">$9422</A>
+9F7E: A1 BB     LDA (<A HREF="RA81BB.HTM">$BB</A>,X)      Byte aus Record holen
+9F80: 85 54     STA <A HREF="RA8154.HTM">$54</A>          und merken
+9F82: A9 20     LDA #$20         b5=0: Flag 'Record voll' loeschen
+9F84: 20 DB 9C  JSR <A HREF="RO819CD3.HTM">$9CDB</A>        Dateistatus loeschen
+9F87: 20 BC A2  JSR <A HREF="RO81A2BC.HTM">$A2BC</A>        'Zeiger auf naechsten Record' holen
+
+Einsprung von <A HREF="RO81A20D.HTM">$A22A</A>:
+
+9F8A: 48        PHA              (steht in a)
+9F8B: 90 29     BCC $9FB6        Steht der Record in einem Block ? ja, ==&gt;
+9F8D: A9 00     LDA #$00         Tracknummer des Folgeblocks holen
+9F8F: 20 50 94  JSR <A HREF="RO819450.HTM">$9450</A>        existiert ein Folgeblock ?
+9F92: D0 22     BNE $9FB6        ja, ==&gt;
+9F94: 68        PLA              Passt der Record noch genau in den Block ?
+9F95: C9 02     CMP #$02         [Dann steht der 'Zeiger auf den naechsten
+                                 Record' im neuen Block auf dem 2. Byte.]
+9F97: F0 12     BEQ $9FAB        ja, ==&gt;
+                                [Es ist nicht mehr moeglich, einen voll-
+                                 staendigen Record im letzten Datenblock
+                                 unterzubringen.]
+
+Einsprung von $9F67:
+
+9F99: A9 80     LDA #$80         Flag fuer 'Record nicht vorhanden' setzen
+9F9B: 20 D5 9C  JSR <A HREF="RO819CD3.HTM">$9CD5</A>        Status setzen
+
+Record existiert nicht; CR und EOI ausgeben
+
+Einsprung von $9F56:
+
+9F9E: 20 69 90  JSR <A HREF="RO819069.HTM">$9069</A>        Kanal- und Puffernummer holen
+9FA1: B5 BB     LDA <A HREF="RA81BB.HTM">$BB</A>,X        Recordende auf aktuellen Pufferzeiger
+9FA3: 99 42 02  STA <A HREF="RA810242.HTM">$0242</A>,Y      setzen (provoziert EOI)
+9FA6: A9 0D     LDA #$0D         CR als Ausgabebyte setzen
+9FA8: 85 54     STA <A HREF="RA8154.HTM">$54</A>
+9FAA: 60        RTS
+
+Record passt noch genau in den Datenblock
+
+Einsprung von $9F97:
+
+9FAB: 20 B7 9F  JSR $9FB7        benutzte Recordlaenge feststellen
+9FAE: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+9FB0: A9 00     LDA #$00         Flag 'letzter Record passt genau' setzen
+9FB2: 9D 57 02  STA <A HREF="RA810257.HTM">$0257</A>,X
+9FB5: 60        RTS
+
+benutzte Recordlaenge feststellen
+
+Einsprung von $9F8B, $9F92:
+
+9FB6: 68        PLA
+
+Einsprung von $9FAB:
+
+9FB7: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          Zeiger auf naechsten Record merken
+9FB9: 9D 57 02  STA <A HREF="RA810257.HTM">$0257</A>,X
+9FBC: 4C FD A0  JMP <A HREF="RO81A0FD.HTM">$A0FD</A>        Letztes Zeichen im Record suchen
+
+    <A HREF="RO819F3E.HTM">Previous Page</A> / <A HREF="RO819FBF.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

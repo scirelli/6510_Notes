@@ -1,0 +1,19 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $FA4E/64078:   Load head
+
+FA4E: C6 60     DEC <A HREF="RA415F.HTM">$60</A>         ; decrement counter
+FA50: D0 6C     BNE <A HREF="RO41FAA5.HTM">$FABE</A>       ; not yet zero?
+FA52: A5 20     LDA <A HREF="RA4120.HTM">$20</A>
+FA54: 29 BF     AND #$BF        ; erase bit 6
+FA56: 85 20     STA <A HREF="RA4120.HTM">$20</A>
+FA58: A9 05     LDA #$05
+FA5A: 85 62     STA <A HREF="RA4162.HTM">$62</A>
+FA5C: A9 FA     LDA #$FA        ; pointer $62/$63 to $FA05
+FA5E: 85 63     STA <A HREF="RA4162.HTM">$63</A>
+FA60: 4C BE FA  JMP <A HREF="RO41FAA5.HTM">$FABE</A>
+
+    <A HREF="RO41FA3B.HTM">Previous Page</A> / <A HREF="RO41FA63.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

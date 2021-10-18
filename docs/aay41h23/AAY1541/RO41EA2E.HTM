@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $EA2E/59950:   Accept data from serial bus
+
+Jump from $EA4B, <A HREF="RO41E85B.HTM">$E8E7</A>:
+
+EA2E: 78        SEI
+EA2F: 20 07 D1  JSR <A HREF="RO41D107.HTM">$D107</A>       ; open channel for writing
+EA32: B0 05     BCS $EA39       ; channel not active?
+EA34: B5 F2     LDA <A HREF="RA41F2.HTM">$F2</A>,X       ; WRITE flag
+EA36: 6A        ROR
+EA37: B0 0B     BCS $EA44       ; not set?
+
+Jump from $EA32:
+
+EA39: A5 84     LDA <A HREF="RA4184.HTM">$84</A>         ; secondary address
+EA3B: 29 F0     AND #$F0
+EA3D: C9 F0     CMP #$F0        ; OPEN command?
+EA3F: F0 03     BEQ $EA44       ; yes
+EA41: 4C 4E EA  JMP $EA4E       ; to wait loop
+
+Jump from $EA37, $EA3F:
+
+EA44: 20 C9 E9  JSR <A HREF="RO41E9C9.HTM">$E9C9</A>       ; get data byte from bus
+EA47: 58        CLI
+EA48: 20 B7 CF  JSR <A HREF="RO41CF9B.HTM">$CFB7</A>       ; and write in buffer
+EA4B: 4C 2E EA  JMP $EA2E       ; to loop beginning
+
+Jump from $EA41, <A HREF="RO41E85B.HTM">$E8FA</A>, <A HREF="RO41E909.HTM">$E999</A>:
+
+EA4E: A9 00     LDA #$00
+EA50: 8D 00 18  STA <A HREF="VIA10.HTM">$1800</A>       ; reset IEEE port
+EA53: 4C E7 EB  JMP <A HREF="RO41EAA0.HTM">$EBE7</A>       ; to wait loop
+EA56: 4C 5B E8  JMP <A HREF="RO41E85B.HTM">$E85B</A>       ; to serial bus main loop
+
+    <A HREF="RO41E9F2.HTM">Previous Page</A> / <A HREF="RO41EA59.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

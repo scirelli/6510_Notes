@@ -1,0 +1,182 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Datei mit SA 0-14 oeffnen ($d7b4)
+Geoeffnet werden:
+- 'normale' Dateien im Zweipuffer-Betrieb,
+  - '*' (alte Datei),
+  - '@' (Save &amp; Replace),
+  - Append und Modify werden unterstuetzt
+- relative Dateien,
+- Direktory ('$') mit und ohne Formatierung,
+- Direktzugriffe ('#').
+
+Einsprung von <A HREF="RO818004.HTM">$8015</A>:
+
+9678: A5 52     LDA <A HREF="RA8152.HTM">$52</A>          SA merken
+967A: 85 7A     STA <A HREF="RA817A.HTM">$7A</A>
+967C: 20 65 81  JSR <A HREF="RO818165.HTM">$8165</A>        Kommandozeilenende feststellen
+967F: 8E 2A 02  STX <A HREF="RA81022A.HTM">$022A</A>        und merken
+
+letzte Datei wieder oeffnen ?
+
+9682: AE 00 02  LDX <A HREF="RA810200.HTM">$0200</A>        1. Zeichen aus der Kommandozeile holen
+9685: A5 7A     LDA <A HREF="RA817A.HTM">$7A</A>          SA holen
+9687: D0 27     BNE $96B0        SA&lt;&gt;0, ==&gt;
+9689: E0 2A     CPX #$2A         ist 1. Zeichen ein '*' ?
+968B: D0 23     BNE $96B0        nein, ==&gt;
+968D: A5 4C     LDA <A HREF="RA814C.HTM">$4C</A>          Starttrack der Datei holen
+968F: F0 45     BEQ $96D6        keine Datei gespeichert, ==&gt;
+9691: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>
+9693: A9 00     LDA #$00         Drivenummer setzen
+9695: 85 EF     STA <A HREF="RA81EF.HTM">$EF</A>
+9697: A9 02     LDA #$02         Dateityp auf PRG setzen
+9699: 85 F4     STA <A HREF="RA81F4.HTM">$F4</A>
+969B: AD 8B 02  LDA <A HREF="RA81028B.HTM">$028B</A>        Startsektor setzen
+969E: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+96A0: 20 F6 81  JSR <A HREF="RO8181E5.HTM">$81F6</A>        Drive-LED einschalten
+96A3: 20 0D 9B  JSR <A HREF="RO819B0D.HTM">$9B0D</A>        Kanal suchen, 1. Block lesen
+96A6: A9 04     LDA #$04         Dateityp auf PRG setzen
+
+Einsprung von $96CC:
+
+96A8: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+96AA: 99 F9 00  STA <A HREF="RA81F9.HTM">$00F9</A>,Y
+96AD: 4C 4C 80  JMP <A HREF="RO81804C.HTM">$804C</A>
+
+Directory oeffnen
+
+Einsprung von $9687, $968B:
+
+96B0: E0 24     CPX #$24         Directory oeffnen ?
+96B2: D0 1B     BNE $96CF        nein, ==&gt;
+96B4: A5 7A     LDA <A HREF="RA817A.HTM">$7A</A>          SA&gt;0 ?
+96B6: D0 03     BNE $96BB        ja, ==&gt;
+96B8: 4C F7 98  JMP <A HREF="RO8198F7.HTM">$98F7</A>        Directory ausgeben
+Verzeichnis unformatiert ausgeben
+
+Einsprung von $96B6:
+
+96BB: 20 85 80  JSR <A HREF="RO818085.HTM">$8085</A>        Drivenummer suchen, Drive-LED einschalten
+96BE: AD 2B 02  LDA <A HREF="RA81022B.HTM">$022B</A>        T&amp;S des Verzeichnisheaders
+96C1: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>          als Dateianfang setzen
+96C3: A9 00     LDA #$00
+96C5: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+96C7: 20 0D 9B  JSR <A HREF="RO819B0D.HTM">$9B0D</A>        Kanal suchen, 1. Block lesen
+96CA: A9 02     LDA #$02         Dateityp auf SEQ setzen
+96CC: 4C A8 96  JMP $96A8
+
+Direktzugriffskanal oeffnen
+
+Einsprung von $96B2:
+
+96CF: E0 23     cpx #'#        Filename ='#23?
+96D1: D0 0B     BNE $96DE        nein, ==&gt;
+96D3: 4C E4 89  JMP <A HREF="RO8189E4.HTM">$89E4</A>        Direktzugriffskanal oeffnen
+
+LOAD&quot;*&quot;, wenn noch kein File vorher geoeffnet worden war
+
+Einsprung von $968F:
+
+96D6: A9 02     LDA #$02         Dateityp auf PRG setzen
+96D8: 8D 33 02  STA <A HREF="RA810233.HTM">$0233</A>
+96DB: 20 03 8F  JSR <A HREF="RO818F03.HTM">$8F03</A>        Partition initialisieren
+
+Dateinamen und Zugriffsart feststellen; Datei suchen
+
+Einsprung von $96D1:
+
+96DE: 20 99 80  JSR <A HREF="RO818099.HTM">$8099</A>        Eingabezeile bis zum ':' auswerten
+96E1: D0 04     BNE $96E7        ':' gefunden, ==&gt;
+96E3: A2 00     LDX #$00         Anzahl gefundener Kommas = 0
+96E5: F0 0C     BEQ $96F3        immer, ==&gt;
+
+Einsprung von $96E1:
+
+96E7: 8A        TXA              Wurde vor dem ':' ein Komma gefunden ?
+96E8: F0 05     BEQ $96EF        nein, ==&gt;
+96EA: A9 30     LDA #$30         30, Syntax Error
+96EC: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>
+
+Einsprung von $96E8:
+
+96EF: 88        DEY              War der ':' das 1. Zeichen
+96F0: F0 01     BEQ $96F3        (LOAD&quot;:xxx&quot;) ? ja, ==&gt;
+96F2: 88        DEY              y -2: Position der Drivenummer
+
+Einsprung von $96E5, $96F0:
+
+96F3: 8C 91 02  STY <A HREF="RA810291.HTM">$0291</A>        Position der Drivenummer merken
+96F6: A9 8D     LDA #$8D         nach &lt;SHIFT-RETURN&gt; suchen
+96F8: 20 1C 81  JSR <A HREF="RO81811C.HTM">$811C</A>        Rest der Befehlszeile auswerten
+96FB: E8        INX              x: Anzahl Kommas +1 =
+96FC: 8E 2F 02  STX <A HREF="RA81022F.HTM">$022F</A>        Anzahl gefundener Parameter merken
+96FF: 20 FD 81  JSR <A HREF="RO8181FD.HTM">$81FD</A>        Laufwerksnummer holen
+9702: 20 A2 82  JSR <A HREF="RO8182A2.HTM">$82A2</A>        Drive initialisieren, LED einschalten
+9705: 20 ED 82  JSR <A HREF="RO8182E6.HTM">$82ED</A>        Datei suchen
+9708: A2 00     LDX #$00
+970A: 8E 6F 02  STX <A HREF="RA81026F.HTM">$026F</A>        aktuelle Recordlaenge =0
+970D: 8E A7 02  STX <A HREF="RA8102A7.HTM">$02A7</A>        Default Zugriffsmodus
+9710: 8E 2D 02  STX <A HREF="RA81022D.HTM">$022D</A>        aktuellen Dateityp loeschen
+9713: E8        INX              x=1
+9714: EC 2E 02  CPX <A HREF="RA81022E.HTM">$022E</A>        = Anzahl der Parameter ?
+9717: B0 10     BCS $9729        ja, (open x,y,z,&quot;BSP&quot;) ==&gt;
+9719: 20 AB 98  JSR <A HREF="RO8198AB.HTM">$98AB</A>        Filetyp oder Zugriffsart holen
+971C: E8        INX              x=2
+971D: EC 2E 02  CPX <A HREF="RA81022E.HTM">$022E</A>        = Anzahl der Parameter ?
+9720: B0 07     BCS $9729        ja, (open x,y,z,&quot;BSP,S&quot; oder
+                                     open x,y,z,&quot;BSP,R&quot;)    ==&gt;
+9722: C0 04     CPY #$04         Ist Parameter der Filetyp 'L' (REL-Datei) ?
+9724: F0 38     BEQ $975E        ja, ==&gt;
+9726: 20 AB 98  JSR <A HREF="RO8198AB.HTM">$98AB</A>        Filetyp oder Zugriffsart holen
+                                (open x,y,z,&quot;BSP,S,R&quot;)
+
+Einsprung von $9717, $9720, $976A, $9771:
+
+9729: A6 7A     LDX <A HREF="RA817A.HTM">$7A</A>          SA zurueckholen
+972B: 86 52     STX <A HREF="RA8152.HTM">$52</A>
+972D: E0 02     CPX #$02         SA&gt;=2 (also nicht LOAD/SAVE) ?
+972F: B0 0D     BCS $973E        ja, ==&gt;
+
+9731: 8E A7 02  STX <A HREF="RA8102A7.HTM">$02A7</A>        Modus bei LOAD/SAVE durch die SA ermitteln
+9734: AD 2D 02  LDA <A HREF="RA81022D.HTM">$022D</A>        Wurde ein Filetyp angegeben
+9737: D0 1B     BNE $9754        ja, ==&gt;
+9739: A9 02     LDA #$02         Filetyp PRG setzen
+973B: 8D 2D 02  STA <A HREF="RA81022D.HTM">$022D</A>
+
+Einsprung von $972F:
+
+973E: AD 2D 02  LDA <A HREF="RA81022D.HTM">$022D</A>        Wurde bereits ein Filetyp festgelegt ?
+9741: D0 11     BNE $9754        ja, ==&gt;
+9743: A5 F4     LDA <A HREF="RA81F4.HTM">$F4</A>          Typ des gefundenen Files als aktuellen Typ
+9745: 29 07     AND #$07         uebernehmen
+9747: 8D 2D 02  STA <A HREF="RA81022D.HTM">$022D</A>
+974A: AD 97 02  LDA <A HREF="RA810297.HTM">$0297</A>        Tracknummer des 1. Blocks holen
+974D: D0 05     BNE $9754        &gt;0 (File wurde gefunden), ==&gt;
+974F: A9 01     LDA #$01         Filetyp SEQ festlegen (wenn kein File
+9751: 8D 2D 02  STA <A HREF="RA81022D.HTM">$022D</A>        gefunden wurde, kann auch der Typ nicht
+                                uebernommen werden)
+
+Einsprung von $9737, $9741, $974D:
+
+9754: AD A7 02  LDA <A HREF="RA8102A7.HTM">$02A7</A>        Zugriffsart 'Write' festgelegt ?
+9757: C9 01     CMP #$01
+9759: F0 18     BEQ <A HREF="RO819773.HTM">$9773</A>        ja, (File zum Schreiben oeffnen) ==&gt;
+975B: 4C ED 97  JMP <A HREF="RO8197ED.HTM">$97ED</A>        File zum Lesen oeffnen
+
+REL-Datei oeffnen
+
+Einsprung von $9724:
+
+975E: BC 91 02  LDY <A HREF="RA810291.HTM">$0291</A>,X      Position des 3. Parameters holen
+9761: B9 00 02  LDA <A HREF="RA810200.HTM">$0200</A>,Y      Recordlaenge aus Kommandozeile holen
+9764: 8D 6F 02  STA <A HREF="RA81026F.HTM">$026F</A>        und merken
+9767: AD 97 02  LDA <A HREF="RA810297.HTM">$0297</A>        Tracknummer des 1. Blocks holen
+976A: D0 BD     BNE $9729        &gt; 0 (REL-Datei gefunden), ==&gt;
+976C: A9 01     LDA #$01         Zugriffsart 'Schreiben' festlegen
+976E: 8D A7 02  STA <A HREF="RA8102A7.HTM">$02A7</A>        (damit die Datei angelegt wird)
+9771: D0 B6     BNE $9729        ==&gt;
+
+    <A HREF="RO8195AB.HTM">Previous Page</A> / <A HREF="RO819773.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

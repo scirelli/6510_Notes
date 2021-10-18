@@ -1,0 +1,20 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F5E9/62953:   Calculate parity for data buffer
+
+Jump from <A HREF="RO41F4D1.HTM">$F4FB</A>, <A HREF="RO41F575.HTM">$F575</A>, <A HREF="RO41F698.HTM">$F698</A>, <A HREF="RO41FAC7.HTM">$FCA2</A>:
+
+F5E9: A9 00     LDA #$00
+F5EB: A8        TAY
+
+Jump from $F5EF:
+
+F5EC: 51 30     EOR (<A HREF="RA4130.HTM">$30</A>),Y
+F5EE: C8        INY
+F5EF: D0 FB     BNE $F5EC
+F5F1: 60        RTS
+
+    <A HREF="RO41F575.HTM">Previous Page</A> / <A HREF="RO41F5F2.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,52 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C7B7/51127:   Create header with disk name
+
+Jump from <A HREF="RO41C6DE.HTM">$C716</A>, <A HREF="RO41DA55.HTM">$DAA1</A>:
+
+C7B7: 20 19 F1  JSR <A HREF="RO41F119.HTM">$F119</A>       ; initialize if needed
+C7BA: 20 DF F0  JSR <A HREF="RO41F0DF.HTM">$F0DF</A>       ; read disk name
+C7BD: 20 AC C7  JSR <A HREF="RO41C7AC.HTM">$C7AC</A>       ; erase buffer
+C7C0: A9 FF     LDA #$FF
+C7C2: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>
+C7C4: A6 7F     LDX <A HREF="RA417F.HTM">$7F</A>         ; drive number
+C7C6: 8E 72 02  STX <A HREF="RA410272.HTM">$0272</A>       ; as block number lo in buffer
+C7C9: A9 00     LDA #$00
+C7CB: 8D 73 02  STA <A HREF="RA410272.HTM">$0273</A>       ; block number lo
+C7CE: A6 F9     LDX <A HREF="RA41F9.HTM">$F9</A>         ; buffer number
+C7D0: BD E0 FE  LDA <A HREF="RO41FEE0.HTM">$FEE0</A>,X     ; hi-byte of the buffer address
+C7D3: 85 95     STA <A HREF="RA4194.HTM">$95</A>
+C7D5: AD 88 FE  LDA <A HREF="RO41FE88.HTM">$FE88</A>       ; $90, position of disk name
+C7D8: 85 94     STA <A HREF="RA4194.HTM">$94</A>         ; save
+C7DA: A0 16     LDY #$16
+C7DC: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; pad buffer with 'shift blank'
+C7DE: C9 A0     CMP #$A0
+C7E0: D0 0B     BNE $C7ED
+C7E2: A9 31     LDA #$31        ; '1'
+C7E4: 2C        .BYTE $2C
+
+Jump from $C7F1:
+
+C7E5: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; character from buffer
+C7E7: C9 A0     CMP #$A0        ; compare with 'shift blank'
+C7E9: D0 02     BNE $C7ED
+C7EB: A9 20     LDA #$20        ; ' ' blank
+
+Jump from $C7E0, $C7E9:
+
+C7ED: 99 B3 02  STA <A HREF="RA4102B1.HTM">$02B3</A>,Y     ; in buffer
+C7F0: 88        DEY
+C7F1: 10 F2     BPL $C7E5
+C7F3: A9 12     LDA #$12        ; 'RVS ON'
+C7F5: 8D B1 02  STA <A HREF="RA4102B1.HTM">$02B1</A>       ; in buffer
+C7F8: A9 22     LDA #$22        ; '&quot;'
+C7FA: 8D B2 02  STA <A HREF="RA4102B1.HTM">$02B2</A>       ; write before
+C7FD: 8D C3 02  STA <A HREF="RA4102B1.HTM">$02C3</A>       ; and after disk name
+C800: A9 20     LDA #$20        ; ' ' blank
+C802: 8D C4 02  STA <A HREF="RA4102B1.HTM">$02C4</A>       ; behind it
+C805: 60        RTS
+
+    <A HREF="RO41C7AC.HTM">Previous Page</A> / <A HREF="RO41C806.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

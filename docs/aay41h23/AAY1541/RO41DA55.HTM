@@ -1,0 +1,68 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DA55/55893:   Open directory
+
+Jump from <A HREF="RO41D7F3.HTM">$D7FC</A>:
+
+DA55: A9 0C     LDA #$0C        ; command number 12
+DA57: 8D 2A 02  STA <A HREF="RA41022A.HTM">$022A</A>
+DA5A: A9 00     LDA #$00
+DA5C: AE 74 02  LDX <A HREF="RA410274.HTM">$0274</A>
+DA5F: CA        DEX
+DA60: F0 0B     BEQ $DA6D
+DA62: CA        DEX
+DA63: D0 21     BNE $DA86
+DA65: AD 01 02  LDA <A HREF="RA410200.HTM">$0201</A>       ; second character
+DA68: 20 BD C3  JSR <A HREF="RO41C3BD.HTM">$C3BD</A>       ; get drive number
+DA6B: 30 19     BMI $DA86       ; not a plain number?
+
+Jump from $DA60:
+
+DA6D: 85 E2     STA <A HREF="RA41E2.HTM">$E2</A>
+DA6F: EE 77 02  INC <A HREF="RA410277.HTM">$0277</A>
+DA72: EE 78 02  INC <A HREF="RA410278.HTM">$0278</A>
+DA75: EE 7A 02  INC <A HREF="RA41027A.HTM">$027A</A>
+DA78: A9 80     LDA #$80
+DA7A: 85 E7     STA <A HREF="RA41E7.HTM">$E7</A>         ; set wildcard flag
+DA7C: A9 2A     LDA #$2A        ; '*'
+DA7E: 8D 00 02  STA <A HREF="RA410200.HTM">$0200</A>       ; as file name in command buffer
+DA81: 8D 01 02  STA <A HREF="RA410200.HTM">$0201</A>
+DA84: D0 18     BNE $DA9E       ; absolute jump
+
+Jump from $DA63, $DA6B:
+
+DA86: 20 E5 C1  JSR <A HREF="RO41C1E5.HTM">$C1E5</A>       ; test input line to &quot;:&quot;
+DA89: D0 05     BNE $DA90       ; found?
+DA8B: 20 DC C2  JSR <A HREF="RO41C2DC.HTM">$C2DC</A>       ; erase flags
+DA8E: A0 03     LDY #$03
+
+Jump from $DA89:
+
+DA90: 88        DEY
+DA91: 88        DEY
+DA92: 8C 7A 02  STY <A HREF="RA41027A.HTM">$027A</A>       ; pointer to drive number in command
+DA95: 20 00 C2  JSR <A HREF="RO41C1EE.HTM">$C200</A>       ; analyze line
+DA98: 20 98 C3  JSR <A HREF="RO41C398.HTM">$C398</A>       ; ascertain file type
+DA9B: 20 20 C3  JSR <A HREF="RO41C312.HTM">$C320</A>       ; get drive number
+
+Jump from $DA84:
+
+DA9E: 20 CA C3  JSR <A HREF="RO41C3CA.HTM">$C3CA</A>       ; initialize drive if necessary
+DAA1: 20 B7 C7  JSR <A HREF="RO41C7B7.HTM">$C7B7</A>       ; prepare disk title
+DAA4: 20 9D C4  JSR <A HREF="RO41C48B.HTM">$C49D</A>       ; load directory
+DAA7: 20 9E EC  JSR <A HREF="RO41EC9E.HTM">$EC9E</A>       ; create and prepare directory
+DAAA: 20 37 D1  JSR <A HREF="RO41D137.HTM">$D137</A>       ; get byte from buffer
+DAAD: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+DAAF: 9D 3E 02  STA <A HREF="RA41022E.HTM">$023E</A>,X     ; byte in output register
+DAB2: A5 7F     LDA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+DAB4: 8D 8E 02  STA <A HREF="RA41028E.HTM">$028E</A>       ; save as last drive number
+DAB7: 09 04     ORA #$04
+DAB9: 95 EC     STA <A HREF="RA41EC.HTM">$EC</A>,X       ; PRG-flag
+DABB: A9 00     LDA #$00
+DABD: 85 A3     STA <A HREF="RA41A3.HTM">$A3</A>         ; set pointer back in input buffer
+DABF: 60        RTS
+
+    <A HREF="RO41DA2A.HTM">Previous Page</A> / <A HREF="RO41DAC0.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

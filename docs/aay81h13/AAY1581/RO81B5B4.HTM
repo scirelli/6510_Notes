@@ -1,0 +1,36 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+BAM-Zeiger auf Eintrag fuer aktuellen Track setzen ($f011)
+
+Einsprung von <A HREF="RO81B546.HTM">$B546</A>, <A HREF="RO81B572.HTM">$B572</A>, <A HREF="RO81B668.HTM">$B675</A>, <A HREF="RO81B6ED.HTM">$B710</A>, <A HREF="RO81B6ED.HTM">$B72B</A>, <A HREF="RO81B746.HTM">$B746</A>:
+
+B5B4: A5 6E     LDA <A HREF="RA816E.HTM">$6E</A>          Drivestatus Ok. ?
+B5B6: F0 05     BEQ $B5BD        ja, ==&gt;
+B5B8: A9 74     LDA #$74         74, Drive not ready
+B5BA: 20 3F FF  JSR <A HREF="RO81FF00.HTM">$FF3F</A>
+
+Einsprung von $B5B6, <A HREF="RO818F03.HTM">$8FA0</A>:
+
+B5BD: 20 52 B6  JSR <A HREF="RO81B64F.HTM">$B652</A>        Zeiger auf 1. BAM-Puffer setzen
+B5C0: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          (Tracks 1-40)
+B5C2: C9 29     CMP #$29         Tracknummer &lt; 41
+B5C4: 90 04     BCC $B5CA        ja, ==&gt;
+B5C6: E9 28     SBC #$28         Auf 2. BAM-Puffer schalten
+B5C8: E6 32     INC <A HREF="RA8131.HTM">$32</A>          (Tracks 41-80)
+
+Einsprung von $B5C4:
+
+B5CA: 0A        ASL              Tracknummer * 6 [5 Bytes fuer das Bitmuster
+B5CB: 85 31     STA <A HREF="RA8131.HTM">$31</A>           (5 * 8 Bit = 40 Bit fuer 40 Blocks)
+B5CD: 0A        ASL               +1 Byte (Anzahl freier Blocks) = 6 Bytes]
+B5CE: 18        CLC
+B5CF: 65 31     ADC <A HREF="RA8131.HTM">$31</A>
+B5D1: 69 0A     ADC #$0A         + 10 (Anfang der Tabelle)
+B5D3: 85 31     STA <A HREF="RA8131.HTM">$31</A>          Zeigt auf BAM-Bitmuster des aktuellen
+B5D5: A0 00     LDY #$00         Tracks
+B5D7: 60        RTS
+
+    <A HREF="RO81B572.HTM">Previous Page</A> / <A HREF="RO81B5D8.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,32 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DEF8/57080:   Get side sector and buffer pointer
+
+Jump from <A HREF="RO41E207.HTM">$E258</A>, <A HREF="RO41E31C.HTM">$E43C</A>:
+
+DEF8: 20 66 DF  JSR <A HREF="RO41DF66.HTM">$DF66</A>       ; is side-sector in buffer?
+DEFB: 30 0E     BMI $DF0B       ; no
+DEFD: 50 13     BVC $DF12       ; ok
+DEFF: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+DF01: B5 CD     LDA <A HREF="RA41CD.HTM">$CD</A>,X       ; buffer number
+DF03: 20 1B DF  JSR <A HREF="RO41DF1B.HTM">$DF1B</A>       ; read side-sector
+DF06: 20 66 DF  JSR <A HREF="RO41DF66.HTM">$DF66</A>       ; and check if in buffer
+DF09: 10 07     BPL $DF12       ; yes?
+
+Jump from $DEFB:
+
+DF0B: 20 CB E1  JSR <A HREF="RO41E1CB.HTM">$E1CB</A>       ; get last side-sector
+DF0E: 2C CE FE  BIT <A HREF="RO41FECD.HTM">$FECE</A>       ; set V bit
+DF11: 60        RTS
+
+Jump from $DEFD, $DF09:
+
+DF12: A5 D6     LDA <A HREF="RA41D6.HTM">$D6</A>         ; side-sector and pointer
+DF14: 20 E9 DE  JSR <A HREF="RO41DEE9.HTM">$DEE9</A>       ; set pointer in side-sector
+DF17: 2C CD FE  BIT <A HREF="RO41FECD.HTM">$FECD</A>       ; erase V bit
+DF1A: 60        RTS
+
+    <A HREF="RO41DEE9.HTM">Previous Page</A> / <A HREF="RO41DF1B.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

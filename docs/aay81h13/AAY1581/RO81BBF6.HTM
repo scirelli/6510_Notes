@@ -1,0 +1,19 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Burststatus bei Schreibfehlern ausgeben
+
+Einsprung von <A HREF="RO81BC01.HTM">$BC03</A>:
+
+BBF6: A9 0B     LDA #$0B         Diskettenwechsel
+BBF8: 2C         B $2C
+
+Burst-Befehle $03,13: Laufwerk n.v.
+
+BBF9: A9 4F     LDA #$4F         Laufwerk1 (n.v.)
+BBFB: 8D EA 01  STA <A HREF="RA8101EA.HTM">$01EA</A>
+BBFE: 4C 2F BC  JMP <A HREF="RO81BC01.HTM">$BC2F</A>        Uebertragung abwarten, Fehler ausgeben ==&gt;
+
+    <A HREF="RO81BB74.HTM">Previous Page</A> / <A HREF="RO81BC01.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,57 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C44F/50255:   Search for file in directory
+
+Jump from <A HREF="RO41C8F0.HTM">$C952</A>, <A HREF="RO41CA88.HTM">$CA99</A>, <A HREF="RO41E7A3.HTM">$E7B8</A>:
+
+C44F: 20 CA C3  JSR <A HREF="RO41C3CA.HTM">$C3CA</A>       ; initialize drive
+
+Jump from $C46D:
+
+C452: A9 00     LDA #$00
+C454: 8D 92 02  STA <A HREF="RA410292.HTM">$0292</A>       ; pointer
+C457: 20 AC C5  JSR <A HREF="RO41C5AC.HTM">$C5AC</A>       ; read first directory block
+C45A: D0 19     BNE $C475       ; entry present?
+
+Jump from $C488:
+
+C45C: CE 8C 02  DEC <A HREF="RA41028C.HTM">$028C</A>       ; drive number clear?
+C45F: 10 01     BPL $C462       ; no
+C461: 60        RTS
+
+Jump from $C45F:
+
+C462: A9 01     LDA #$01
+C464: 8D 8D 02  STA <A HREF="RA41028D.HTM">$028D</A>
+C467: 20 8F C3  JSR <A HREF="RO41C38F.HTM">$C38F</A>       ; change drive
+C46A: 20 00 C1  JSR <A HREF="RO41C100.HTM">$C100</A>       ; turn LED on
+C46D: 4C 52 C4  JMP $C452       ; and search
+
+Jump from $C481:
+
+C470: 20 17 C6  JSR <A HREF="RO41C5AC.HTM">$C617</A>       ; search next file in directory
+C473: F0 10     BEQ $C485       ; not found?
+
+Jump from $C45A, $C483:
+
+C475: 20 D8 C4  JSR <A HREF="RO41C4D8.HTM">$C4D8</A>       ; verify directory entry
+C478: AD 8F 02  LDA <A HREF="RA41028F.HTM">$028F</A>
+C47B: F0 01     BEQ $C47E       ; more files?
+C47D: 60        RTS
+
+Jump from $C47B:
+
+C47E: AD 53 02  LDA <A HREF="RA410253.HTM">$0253</A>
+C481: 30 ED     BMI $C470       ; file not found?
+C483: 10 F0     BPL $C475       ; yes
+
+Jump from $C473:
+
+C485: AD 8F 02  LDA <A HREF="RA41028F.HTM">$028F</A>
+C488: F0 D2     BEQ $C45C
+C48A: 60        RTS
+
+    <A HREF="RO41C440.HTM">Previous Page</A> / <A HREF="RO41C48B.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

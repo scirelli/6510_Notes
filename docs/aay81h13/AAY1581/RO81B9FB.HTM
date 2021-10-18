@@ -1,0 +1,17 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+ $02 auf FSM-Bus ausgeben (File not found), TXA
+
+Einsprung von <A HREF="RO81B9D3.HTM">$B9D7</A>, <A HREF="RO81B9EC.HTM">$B9EC</A>:
+
+B9FB: 78        SEI
+B9FC: 86 38     STX <A HREF="RA8138.HTM">$38</A>
+B9FE: A2 02     LDX #$02         Byte $02
+BA00: 20 FC 01  JSR <A HREF="RA8101FC.HTM">$01FC</A>        auf FSM-Bus ausgeben
+BA03: A5 38     LDA <A HREF="RA8138.HTM">$38</A>
+BA05: 60        RTS
+
+    <A HREF="RO81B9EC.HTM">Previous Page</A> / <A HREF="RO81BA06.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

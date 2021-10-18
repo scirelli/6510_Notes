@@ -1,0 +1,49 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DDB7/56759:   ?
+
+Jump from <A HREF="RO41C823.HTM">$C835</A>:
+
+DDB7: A2 00     LDX #$00
+
+Jump from $DDC7:
+
+DDB9: 86 71     STX <A HREF="RA4171.HTM">$71</A>         ; counter for secondary address
+DDBB: BD 2B 02  LDA <A HREF="RA41022B.HTM">$022B</A>,X     ; get channel number from table
+DDBE: C9 FF     CMP #$FF
+DDC0: D0 08     BNE $DDCA       ; file open?
+
+Jump from $DDDF, $DDE6, $DDED:
+
+DDC2: A6 71     LDX <A HREF="RA4171.HTM">$71</A>
+DDC4: E8        INX             ; increment counter
+DDC5: E0 10     CPX #$10        ; smaller than 16?
+DDC7: 90 F0     BCC $DDB9
+DDC9: 60        RTS
+
+Jump from $DDC0:
+
+DDCA: 86 71     STX <A HREF="RA4171.HTM">$71</A>
+DDCC: 29 3F     AND #$3F        ; isolate channel number
+DDCE: A8        TAY
+DDCF: B9 EC 00  LDA <A HREF="RA41EC.HTM">$EC</A>,Y
+DDD2: 29 01     AND #$01        ; isolate drive number
+DDD4: 85 70     STA <A HREF="RA416F.HTM">$70</A>
+DDD6: AE 53 02  LDX <A HREF="RA410253.HTM">$0253</A>
+DDD9: B5 E2     LDA <A HREF="RA41E2.HTM">$E2</A>,X
+DDDB: 29 01     AND #$01        ; isolate drive number
+DDDD: C5 70     CMP <A HREF="RA416F.HTM">$70</A>         ; same drive?
+DDDF: D0 E1     BNE $DDC2       ; no
+DDE1: B9 60 02  LDA <A HREF="RA410260.HTM">$0260</A>,Y     ; sector number in directory
+DDE4: D5 D8     CMP <A HREF="RA41D8.HTM">$D8</A>,X       ; same as file?
+DDE6: D0 DA     BNE $DDC2       ; no
+DDE8: B9 66 02  LDA <A HREF="RA410266.HTM">$0266</A>,Y
+DDEB: D5 DD     CMP <A HREF="RA41DD.HTM">$DD</A>,X       ; pointer same?
+DDED: D0 D3     BNE $DDC2       ; no
+DDEF: 18        CLC
+DDF0: 60        RTS
+
+    <A HREF="RO41DDAB.HTM">Previous Page</A> / <A HREF="RO41DDF1.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

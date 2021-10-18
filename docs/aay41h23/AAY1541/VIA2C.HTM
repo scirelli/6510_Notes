@@ -1,0 +1,31 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $1C0C/7180/VIA2+12:   Peripheral Control Register
+
+   +----------+-----------------------------------------------------+
+   | Bits 7-5 |   CB2 Control:                                      |
+   |          |     000 = Input negative active edge                |
+   |          |     001 = Independent interrupt input negative edge |
+   |          |     010 = Input positive active edge                |
+   |          |     011 = Independent interrupt input positive edge |
+   |          |     100 = Handshake output                          |
+   |          |     101 = Pulse output                              |
+   |          |     110 = Low output                                |
+   |          |     111 = High output                               |
+   | Bit  4   |   CB1 Interrupt Control: 0 = Negative active edge   |
+   |          |                          1 = Positive active edge   |
+   | Bit  3-1 |   CA2 Control: see Bits 7-5                         |
+   | Bit  0   |   CA1 Interrupt Control: see Bit 4                  |
+   +----------+-----------------------------------------------------+
+
+   CA1 (Input):  BYTE-READY
+   CA2 (Output): SOE (High = activate BYTE-READY)
+   CB2 (Output): Head Mode (Low = Write, High = Read)
+
+ROM-Reference:
+
+ LDA $1C0C  : <A HREF="RO41F259.HTM">$F263</A> <A HREF="RO41F2B0.HTM">$F2B6</A> <A HREF="RO41F575.HTM">$F599</A> <A HREF="RO41F575.HTM">$F5CC</A> <A HREF="RO41FAA5.HTM">$FABE</A> <A HREF="RO41FDA3.HTM">$FDA3</A> <A HREF="RO41FE00.HTM">$FE00</A> <A HREF="RO41FE0E.HTM">$FE0E</A>
+ STA $1C0C  : <A HREF="RO41F259.HTM">$F26C</A> <A HREF="RO41F2B0.HTM">$F2BB</A> <A HREF="RO41F575.HTM">$F5A0</A> <A HREF="RO41F575.HTM">$F5D1</A> <A HREF="RO41FAA5.HTM">$FAC3</A> <A HREF="RO41FDA3.HTM">$FDAA</A> <A HREF="RO41FE00.HTM">$FE05</A> <A HREF="RO41FE0E.HTM">$FE15</A>
+
+</PRE></BODY></HTML>

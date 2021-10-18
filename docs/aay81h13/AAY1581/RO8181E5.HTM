@@ -1,0 +1,28 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+LED-Routinen ($c100)
+
+Einsprung von <A HREF="RO81804C.HTM">$8064</A>, <A HREF="RO819370.HTM">$9381</A>, <A HREF="RO81A862.HTM">$A862</A>:
+
+81E5: A9 00     LDA #$00         LEDs ausschalten
+81E7: 8D AB 02  STA <A HREF="RA8102AB.HTM">$02AB</A>        Fehlerflag loeschen
+81EA: A5 79     LDA <A HREF="RA8179.HTM">$79</A>          Drive-LED ausschalten
+81EC: 29 DF     AND #$DF
+81EE: 85 79     STA <A HREF="RA8179.HTM">$79</A>
+81F0: 60        RTS
+
+Einsprung von <A HREF="RO81A7F1.HTM">$A7FB</A>:
+
+81F1: A9 50     LDA #$50         LED-Blinken
+81F3: 8D AB 02  STA <A HREF="RA8102AB.HTM">$02AB</A>
+
+Einsprung von <A HREF="RO818251.HTM">$826D</A>, <A HREF="RO8182A2.HTM">$82B6</A>, <A HREF="RO81898F.HTM">$89B1</A>, <A HREF="RO818C2F.HTM">$8C41</A>, <A HREF="RO818C44.HTM">$8C53</A>, <A HREF="RO818E5C.HTM">$8E63</A>, <A HREF="RO8192F4.HTM">$92F7</A>, <A HREF="RO819678.HTM">$96A0</A>, <A HREF="RO81B348.HTM">$B35B</A>:
+
+81F6: A5 79     LDA <A HREF="RA8179.HTM">$79</A>          Drive-LED einschalten
+81F8: 09 40     ORA #$40
+81FA: 85 79     STA <A HREF="RA8179.HTM">$79</A>
+81FC: 60        RTS
+    <A HREF="RO818165.HTM">Previous Page</A> / <A HREF="RO8181FD.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

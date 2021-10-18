@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D48D/54413:   Write dir block
+
+Jump from <A HREF="RO41D6E4.HTM">$D730</A>:
+
+D48D: 20 3B DE  JSR <A HREF="RO41DE3B.HTM">$DE3B</A>       ; get track and sector number
+D490: A9 01     LDA #$01
+D492: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>         ; a block
+D494: A5 69     LDA <A HREF="RA4169.HTM">$69</A>         ; save step width 10 for block
+D496: 48        PHA             ; allocation
+D497: A9 03     LDA #$03
+D499: 85 69     STA <A HREF="RA4169.HTM">$69</A>
+D49B: 20 2D F1  JSR <A HREF="RO41F11E.HTM">$F12D</A>       ; find free block in BAM
+D49E: 68        PLA
+D49F: 85 69     STA <A HREF="RA4169.HTM">$69</A>         ; get step width back
+D4A1: A9 00     LDA #$00
+D4A3: 20 C8 D4  JSR <A HREF="RO41D4C8.HTM">$D4C8</A>       ; buffer pointer to zero
+D4A6: A5 80     LDA <A HREF="RA4180.HTM">$80</A>
+D4A8: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>       ; track number in buffer
+D4AB: A5 81     LDA <A HREF="RA4181.HTM">$81</A>
+D4AD: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>       ; sector number in buffer
+D4B0: 20 C7 D0  JSR <A HREF="RO41D0C7.HTM">$D0C7</A>       ; write block to disk
+D4B3: 20 99 D5  JSR <A HREF="RO41D599.HTM">$D599</A>       ; and verify
+D4B6: A9 00     LDA #$00
+D4B8: 20 C8 D4  JSR <A HREF="RO41D4C8.HTM">$D4C8</A>       ; buffer pointer to zero
+
+Jump from $D4BE:
+
+D4BB: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>       ; fill buffer with zeroes
+D4BE: D0 FB     BNE $D4BB
+D4C0: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>       ; zero as following track
+D4C3: A9 FF     LDA #$FF
+D4C5: 4C F1 CF  JMP <A HREF="RO41CFF1.HTM">$CFF1</A>       ; $FF as number of bytes
+
+    <A HREF="RO41D486.HTM">Previous Page</A> / <A HREF="RO41D4C8.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

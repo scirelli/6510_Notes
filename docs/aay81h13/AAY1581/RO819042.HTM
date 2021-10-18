@@ -1,0 +1,44 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Kanal zum Schreiben holen und pruefen ($d107)
+E: $52   : Sekundaeradresse
+A: $50, x: Kanalnummer
+
+Einsprung von <A HREF="RO818895.HTM">$88AB</A>, <A HREF="RO818E5C.HTM">$8E60</A>, <A HREF="RO81999F.HTM">$99B7</A>, <A HREF="RO819A72.HTM">$9B0A</A>, <A HREF="RO81A7F1.HTM">$A82E</A>, <A HREF="RO81AEB8.HTM">$AEB9</A>:
+
+9042: A5 52     LDA <A HREF="RA8152.HTM">$52</A>          Sekundaeradresse holen
+9044: C9 13     CMP #$13         &gt;18 ?
+9046: 90 02     BCC $904A
+9048: 29 0F     AND #$0F         ja, auf 15 begrenzen
+
+Einsprung von $9046:
+
+904A: AA        TAX              entsprechende Kanalnummer aus
+904B: B5 A8     LDA <A HREF="RA81A8.HTM">$A8</A>,X        Sekundaeradressentabelle holen
+904D: A8        TAY
+904E: 0A        ASL
+904F: 90 0A     BCC $905B        b7=1: Schreibkanal ? nein, ==&gt;
+9051: 30 0A     BMI $905D        b76=11: (ungueltig) ? ja, ==&gt;
+
+Einsprung von $905B:
+
+9053: 98        TYA              Schreib- bzw. Schreib/Lesekanal
+9054: 29 0F     AND #$0F         Kanalnummer isolieren
+9056: 85 50     STA <A HREF="RA8150.HTM">$50</A>          und als aktuelle Kanalnummer merken
+9058: AA        TAX
+9059: 18        CLC              O.k. Flag
+905A: 60        RTS
+
+Einsprung von $904F:
+
+905B: 30 F6     BMI $9053        b76=01: Schreib/Lesekanal? ja,==&gt;
+
+Einsprung von $9051:
+
+905D: 38        SEC              Fehlerflag setzen
+905E: 60        RTS
+
+    <A HREF="RO819027.HTM">Previous Page</A> / <A HREF="RO81905F.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,24 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Prueft, ob Sektor in Cachepuffer passt, Cachezeiger setzen
+
+Einsprung von <A HREF="RO81C600.HTM">$C635</A>, <A HREF="RO81C900.HTM">$C936</A>, <A HREF="RO81CA00.HTM">$CA36</A>:
+
+CB8D: 18        CLC              a: Sektornummer
+CB8E: 65 8C     ADC <A HREF="RA818B.HTM">$8C</A>          + Cache-Start
+CB90: 85 4B     STA <A HREF="RA814A.HTM">$4B</A>          als Zeiger in Cachepuffer
+CB92: C9 20     CMP #$20         &gt;= $2000
+CB94: B0 01     BCS $CB97        ja, ==&gt;
+CB96: 60        RTS
+
+Einsprung von $CB94:
+
+CB97: 68        PLA
+CB98: 68        PLA
+CB99: 20 3F CD  JSR <A HREF="RO81CD3F.HTM">$CD3F</A>        Auf Controller ready warten
+CB9C: 4C 88 CB  JMP <A HREF="RO81CB85.HTM">$CB88</A>        02: MISHD_DV_ER: Blockheader nicht gefunden
+
+    <A HREF="RO81CB85.HTM">Previous Page</A> / <A HREF="RO81CB9F.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

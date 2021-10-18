@@ -1,0 +1,35 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Byte aus aktueller Datei holen und auf Dateiende pruefen ($ca35)
+
+Einsprung von <A HREF="RO81876E.HTM">$881F</A>, <A HREF="RO81A956.HTM">$A9D7</A>, <A HREF="RO81A956.HTM">$A9F5</A>:
+
+8876: A9 11     LDA #$11         Internen Lesekanal setzen
+8878: 85 52     STA <A HREF="RA8152.HTM">$52</A>
+
+Einsprung von <A HREF="RO8198CC.HTM">$98CC</A>:
+
+887A: 20 F4 92  JSR <A HREF="RO8192F4.HTM">$92F4</A>        Byte aus aktueller SA holen
+887D: 85 54     STA <A HREF="RA8154.HTM">$54</A>          und merken
+887F: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+8881: BD 34 02  LDA <A HREF="RA810234.HTM">$0234</A>,X      Kanalstatus testen
+8884: 29 08     AND #$08         B3=0 (EOI) ?
+8886: 85 51     STA <A HREF="RA8151.HTM">$51</A>          (EOI-Flag merken)
+8888: D0 0A     BNE $8894        nein, ==&gt;
+888A: 20 5F 90  JSR <A HREF="RO81905F.HTM">$905F</A>        aktuellen Filetyp auf REL-File
+888D: F0 05     BEQ $8894        testen; gleich, ==&gt;
+                                [EOI wird bei jedem Record-Ende gesetzt,
+                                 deshalb muss das Flag: 'Record nicht
+                                 vorhanden' (b7 im Dateistatus) getestet
+                                 werden.]
+888F: A9 80     LDA #$80         b7=1: Fileende-Flag setzen
+8891: 20 D5 9C  JSR <A HREF="RO819CD3.HTM">$9CD5</A>        Dateistatus setzen
+
+Einsprung von $8888, $888D:
+
+8894: 60        RTS
+
+    <A HREF="RO818841.HTM">Previous Page</A> / <A HREF="RO818895.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

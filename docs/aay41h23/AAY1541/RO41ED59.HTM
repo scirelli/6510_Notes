@@ -1,0 +1,21 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $ED59/60761:   Transmit dir line
+
+Jump from <A HREF="RO41EC9E.HTM">$ECD9</A>, <A HREF="RO41EC9E.HTM">$ED03</A>, <A HREF="RO41ED23.HTM">$ED2F</A>:
+
+ED59: A0 00     LDY #$00
+
+Jump from $ED64:
+
+ED5B: B9 B1 02  LDA <A HREF="RA4102B1.HTM">$02B1</A>,Y     ; character from buffer
+ED5E: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>       ; write in output buffer
+ED61: C8        INY
+ED62: C0 1B     CPY #$1B        ; 27 characters?
+ED64: D0 F5     BNE $ED5B
+ED66: 60        RTS
+
+    <A HREF="RO41ED23.HTM">Previous Page</A> / <A HREF="RO41ED67.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

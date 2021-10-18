@@ -1,0 +1,44 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Schreib-/Lesejobs pruefen und Durchfuehrung abwarten ($d586)
+E: $6c: Puffernummer
+
+Einsprung von <A HREF="RO818F03.HTM">$8F24</A>, <A HREF="RO81B5F2.HTM">$B602</A>, <A HREF="RO81B5F2.HTM">$B60C</A>, <A HREF="RO81B633.HTM">$B63D</A>:
+
+94DE: A9 80     LDA #$80         &lt;-- Lesejobs
+94E0: D0 02     BNE $94E4
+
+Einsprung von <A HREF="RO81B612.HTM">$B61D</A>, <A HREF="RO81B612.HTM">$B627</A>:
+
+94E2: A9 90     LDA #$90         &lt;-- Schreibjobs
+                                &lt;-- sonstige Jobs (Jobcode in a)
+
+Einsprung von $94E0, <A HREF="RO818EDC.HTM">$8EF3</A>, <A HREF="RO81A574.HTM">$A59E</A>, <A HREF="RO81A5C0.HTM">$A5F6</A>:
+
+94E4: A6 6C     LDX <A HREF="RA816C.HTM">$6C</A>          Puffernummer holen
+
+Einsprung von <A HREF="RO819A72.HTM">$9B04</A>:
+
+94E6: 85 28     STA <A HREF="RA8128.HTM">$28</A>          Jobcode merken
+
+Einsprung von <A HREF="RO8193BD.HTM">$93CC</A>, <A HREF="RO819E56.HTM">$9E72</A>:
+
+94E8: A5 28     LDA <A HREF="RA8128.HTM">$28</A>
+94EA: 20 73 94  JSR <A HREF="RO819471.HTM">$9473</A>        Job aufrufen und Ausfuehrung abwarten
+
+Einsprung von <A HREF="RO818688.HTM">$8743</A>, <A HREF="RO8188C5.HTM">$88E3</A>, <A HREF="RO8188C5.HTM">$88FD</A>, <A HREF="RO818D7D.HTM">$8DA1</A>, <A HREF="RO818D7D.HTM">$8E34</A>, <A HREF="RO818FD6.HTM">$8FDC</A>, <A HREF="RO8193E7.HTM">$940D</A>,
+              <A HREF="RO819A2A.HTM">$9A6C</A>, <A HREF="RO819B0D.HTM">$9B63</A>, <A HREF="RO819BC3.HTM">$9C55</A>, <A HREF="RO819BC3.HTM">$9C79</A>, <A HREF="RO819D2E.HTM">$9D36</A>, <A HREF="RO819FBF.HTM">$9FDA</A>, <A HREF="RO819FBF.HTM">$9FE8</A>,
+              <A HREF="RO81A2D6.HTM">$A41A</A>, <A HREF="RO81A459.HTM">$A4BD</A>, <A HREF="RO81A459.HTM">$A4F7</A>, <A HREF="RO81A459.HTM">$A53B</A>, <A HREF="RO81BFB0.HTM">$BFE0</A>:
+
+94ED: 20 F8 94  JSR <A HREF="RO8194F8.HTM">$94F8</A>        Job auf korrekte Durchfuehrung pruefen
+                                und ggf. Fehler behandeln
+94F0: 48        PHA              Jobrueckmeldung merken
+94F1: A9 00     LDA #$00         Fehlerunterdrueckung aufheben
+94F3: 8D A8 02  STA <A HREF="RA8102A8.HTM">$02A8</A>
+94F6: 68        PLA              Jobrueckmeldung zurueckholen
+94F7: 60        RTS
+
+    <A HREF="RO8194D3.HTM">Previous Page</A> / <A HREF="RO8194F8.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

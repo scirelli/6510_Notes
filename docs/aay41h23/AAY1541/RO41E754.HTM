@@ -1,0 +1,26 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $E754/59220:   Get character and in buffer
+
+Jump from <A HREF="RO41E706.HTM">$E742</A>, <A HREF="RO41E706.HTM">$E74A</A>:
+
+E754: C9 20     CMP #$20        ; ' ' blank
+E756: B0 0B     BCS $E763       ; greater, then write in buffer
+E758: AA        TAX             ; save code
+E759: A9 20     LDA #$20        ; blank
+E75B: 91 A5     STA (<A HREF="RA41A5.HTM">$A5</A>),Y     ; write in buffer
+E75D: C8        INY             ; increment buffer pointer
+E75E: 8A        TXA             ; code in accumulator
+E75F: 20 06 E7  JSR <A HREF="RO41E706.HTM">$E706</A>       ; output previous text
+E762: 60        RTS
+
+Jump from $E756:
+
+E763: 91 A5     STA (<A HREF="RA41A5.HTM">$A5</A>),Y     ; write character in buffer
+E765: C8        INY             ; and increment pointer
+E766: 60        RTS
+
+    <A HREF="RO41E706.HTM">Previous Page</A> / <A HREF="RO41E767.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

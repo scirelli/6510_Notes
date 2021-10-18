@@ -1,0 +1,18 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F98F/63887:   Turn drive motor off
+
+Jump from <A HREF="RO41F969.HTM">$F975</A>:
+
+F98F: A6 3E     LDX <A HREF="RA413E.HTM">$3E</A>
+F991: A5 20     LDA <A HREF="RA4120.HTM">$20</A>
+F993: 09 10     ORA #$10        ; turn drive motor off
+F995: 85 20     STA <A HREF="RA4120.HTM">$20</A>
+F997: A9 FF     LDA #$FF
+F999: 85 48     STA <A HREF="RA4148.HTM">$48</A>
+F99B: 60        RTS
+
+    <A HREF="RO41F97E.HTM">Previous Page</A> / <A HREF="RO41F99C.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

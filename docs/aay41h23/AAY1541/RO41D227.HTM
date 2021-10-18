@@ -1,0 +1,49 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D227/53799:   Close channel
+
+Jump from <A HREF="RO41C87D.HTM">$C8AA</A>, <A HREF="RO41D1E2.HTM">$D1E6</A>, <A HREF="RO41D307.HTM">$D30B</A>, <A HREF="RO41D313.HTM">$D331</A>, <A HREF="RO41D4DA.HTM">$D4DE</A>, <A HREF="RO41D4DA.HTM">$D4E5</A>, <A HREF="RO41DAC0.HTM">$DACE</A>, <A HREF="RO41DB02.HTM">$DB29</A>, <A HREF="RO41DB02.HTM">$DB5F</A>,
+          <A HREF="RO41E688.HTM">$E695</A>, <A HREF="RO41EDE5.HTM">$EE01</A>:
+
+D227: A5 83     LDA <A HREF="RA4183.HTM">$83</A>         ; secondary address
+D229: C9 0F     CMP #$0F        ; 15?
+D22B: D0 01     BNE $D22E       ; no
+D22D: 60        RTS             ; else done already
+
+Jump from $D22B:
+
+D22E: A6 83     LDX <A HREF="RA4183.HTM">$83</A>
+D230: BD 2B 02  LDA <A HREF="RA41022B.HTM">$022B</A>,X     ; channel number
+D233: C9 FF     CMP #$FF        ; not associated?
+D235: F0 22     BEQ $D259       ; then done
+D237: 29 3F     AND #$3F
+D239: 85 82     STA <A HREF="RA4182.HTM">$82</A>         ; channel number
+D23B: A9 FF     LDA #$FF
+D23D: 9D 2B 02  STA <A HREF="RA41022B.HTM">$022B</A>,X     ; erase association in table
+D240: A6 82     LDX <A HREF="RA4182.HTM">$82</A>
+D242: A9 00     LDA #$00
+D244: 95 F2     STA <A HREF="RA41F2.HTM">$F2</A>,X       ; erase READ and WRITE flag
+D246: 20 5A D2  JSR <A HREF="RO41D25A.HTM">$D25A</A>       ; free buffer
+D249: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+D24B: A9 01     LDA #$01        ; set bit 0
+
+Jump from $D251:
+
+D24D: CA        DEX
+D24E: 30 03     BMI $D253       ; shift to correct position
+D250: 0A        ASL
+D251: D0 FA     BNE $D24D
+
+Jump from $D24E:
+
+D253: 0D 56 02  ORA <A HREF="RA410256.HTM">$0256</A>       ; free in allocation register
+D256: 8D 56 02  STA <A HREF="RA410256.HTM">$0256</A>
+
+Jump from $D235:
+
+D259: 60        RTS
+
+    <A HREF="RO41D1E2.HTM">Previous Page</A> / <A HREF="RO41D25A.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

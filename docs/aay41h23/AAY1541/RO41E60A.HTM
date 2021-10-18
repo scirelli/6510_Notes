@@ -1,0 +1,56 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $E60A/58890:   Prepare error number and message
+
+Jump from <A HREF="RO41C8C6.HTM">$C8EC</A>, <A HREF="RO41D5C6.HTM">$D641</A>:
+
+E60A: 48        PHA             ; save error code
+E60B: 86 F9     STX <A HREF="RA41F9.HTM">$F9</A>         ; drive number
+E60D: 8A        TXA
+E60E: 0A        ASL             ; times 2
+E60F: AA        TAX             ; as pointer
+E610: B5 06     LDA <A HREF="RA4106.HTM">$06</A>,X
+E612: 85 80     STA <A HREF="RA4180.HTM">$80</A>         ; get track
+E614: B5 07     LDA <A HREF="RA4106.HTM">$07</A>,X
+E616: 85 81     STA <A HREF="RA4181.HTM">$81</A>         ; and sector number
+E618: 68        PLA             ; get error code back
+E619: 29 0F     AND #$0F        ; isolate bits 0-3
+E61B: F0 08     BEQ $E625       ; zero, then 24, 'read error'
+E61D: C9 0F     CMP #$0F        ; 15?
+E61F: D0 06     BNE $E627
+E621: A9 74     LDA #$74        ; 74, 'drive not ready'
+E623: D0 08     BNE $E62D       ; 6
+
+Jump from $E61B:
+
+E625: A9 06     LDA #$06        ; add $20
+
+Jump from $E61F:
+
+E627: 09 20     ORA #$20
+E629: AA        TAX
+E62A: CA        DEX
+E62B: CA        DEX             ; subtract two
+E62C: 8A        TXA
+
+Jump from $E623:
+
+E62D: 48        PHA             ; save error number
+E62E: AD 2A 02  LDA <A HREF="RA41022A.HTM">$022A</A>       ; number of the disk command
+E631: C9 00     CMP #$00        ; OPEN or VALIDATE?
+E633: D0 0F     BNE $E644       ; no
+E635: A9 FF     LDA #$FF
+E637: 8D 2A 02  STA <A HREF="RA41022A.HTM">$022A</A>
+E63A: 68        PLA             ; get error number back
+E63B: 20 C7 E6  JSR <A HREF="RO41E6C7.HTM">$E6C7</A>       ; generate error message
+E63E: 20 42 D0  JSR <A HREF="RO41D042.HTM">$D042</A>       ; load BAM
+E641: 4C 48 E6  JMP <A HREF="RO41E645.HTM">$E648</A>       ; set error message
+
+Jump from $E633:
+
+E644: 68        PLA
+
+    <A HREF="RO41E603.HTM">Previous Page</A> / <A HREF="RO41E645.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

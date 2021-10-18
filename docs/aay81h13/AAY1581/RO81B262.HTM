@@ -1,0 +1,83 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Validate-Befehl ($ed84)
+
+B262: 20 85 80  JSR <A HREF="RO818085.HTM">$8085</A>        Drivenummer holen
+B265: 20 03 8F  JSR <A HREF="RO818F03.HTM">$8F03</A>        Partition initialisieren
+B268: 20 4A B4  JSR <A HREF="RO81B44A.HTM">$B44A</A>        neue BAM erzeugen, BAM-Blocks belegen
+B26B: A9 00     LDA #$00         Flag fuer Suche nach benutzten Directory-
+B26D: 85 73     STA <A HREF="RA8173.HTM">$73</A>          Eintraegen setzen
+B26F: 20 24 84  JSR <A HREF="RO818424.HTM">$8424</A>        1. Directory-Eintrag suchen
+B272: D0 38     BNE $B2AC        gefunden, ==&gt;
+
+Directory-Blocks belegen
+
+Einsprung von $B2AA:
+
+B274: A9 00     LDA #$00         1. Directory-Sektor holen
+B276: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+B278: AD 2B 02  LDA <A HREF="RA81022B.HTM">$022B</A>
+B27B: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>
+B27D: 20 C7 B2  JSR <A HREF="RO81B2C7.HTM">$B2C7</A>        Blocks belegen
+B280: 20 15 B5  JSR <A HREF="RO81B515.HTM">$B515</A>        BAM abspeichern
+B283: 4C 4C 80  JMP <A HREF="RO81804C.HTM">$804C</A>        Ende
+
+Datei-Blocks (incl. Side-Sektoren) belegen
+
+Einsprung von $B2B6:
+
+B286: C8        INY              y=1
+B287: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y      Track- &amp;
+B289: 48        PHA
+B28A: C8        INY
+B28B: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y      Sektornummer
+B28D: 48        PHA              merken
+B28E: A0 13     LDY #$13
+B290: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y      sind Side-Sektoren vorhanden ?
+B292: F0 0A     BEQ $B29E        nein, ==&gt;
+B294: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>          T&amp;S des ersten Side-Sektors
+B296: C8        INY              setzen
+B297: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y
+B299: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+B29B: 20 C7 B2  JSR <A HREF="RO81B2C7.HTM">$B2C7</A>        Blocks belegen
+
+Einsprung von $B292:
+
+B29E: 68        PLA
+B29F: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>          T&amp;S des Datenbereichs zurueckholen
+B2A1: 68        PLA
+B2A2: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>
+B2A4: 20 C7 B2  JSR <A HREF="RO81B2C7.HTM">$B2C7</A>        und Blocks belegen
+naechstes File holen
+
+Einsprung von $B2BE, $B2C4:
+
+B2A7: 20 77 84  JSR <A HREF="RO818424.HTM">$8477</A>        Naechstes File suchen
+B2AA: F0 C8     BEQ $B274        Directory-Ende, ==&gt;
+
+Einsprung von $B272:
+
+B2AC: A0 00     LDY #$00
+B2AE: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y      Filetyp holen
+B2B0: 10 0F     BPL $B2C1        File nicht geschlossen, ==&gt;
+B2B2: 29 07     AND #$07         Filetyp = CBM ?
+B2B4: C9 05     CMP #$05
+B2B6: D0 CE     BNE $B286        nein, ==&gt;
+
+Partitions in BAM belegen
+
+B2B8: 20 23 B3  JSR <A HREF="RO81B323.HTM">$B323</A>        Partition-Parameter holen
+B2BB: 20 3C B3  JSR <A HREF="RO81B33C.HTM">$B33C</A>        Partition in BAM belegen
+B2BE: 4C A7 B2  JMP $B2A7
+
+offene Files loeschen
+
+Einsprung von $B2B0:
+
+B2C1: 20 3B 87  JSR <A HREF="RO818688.HTM">$873B</A>        Filetyp = 0 (DEL) setzen
+B2C4: 4C A7 B2  JMP $B2A7        naechstes File suchen
+
+    <A HREF="RO81B245.HTM">Previous Page</A> / <A HREF="RO81B2C7.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

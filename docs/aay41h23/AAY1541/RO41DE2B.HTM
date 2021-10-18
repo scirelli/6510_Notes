@@ -1,0 +1,20 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DE2B/56875:   buffer pointer to zero
+
+Jump from <A HREF="RO41DDFD.HTM">$DDFD</A>, <A HREF="RO41DE0C.HTM">$DE0C</A>, <A HREF="RO41DE19.HTM">$DE19</A>, <A HREF="RO41E120.HTM">$E1B2</A>, <A HREF="RO41E2E2.HTM">$E2E2</A>:
+
+DE2B: 20 93 DF  JSR <A HREF="RO41DF93.HTM">$DF93</A>       ; get buffer number
+DE2E: 0A        ASL             ; times 2
+DE2F: AA        TAX
+DE30: B5 9A     LDA <A HREF="RA4199.HTM">$9A</A>,X       ; buffer pointer hi
+DE32: 85 95     STA <A HREF="RA4194.HTM">$95</A>
+DE34: A9 00     LDA #$00
+DE36: 85 94     STA <A HREF="RA4194.HTM">$94</A>         ; buffer pointer lo
+DE38: A0 00     LDY #$00
+DE3A: 60        RTS
+
+    <A HREF="RO41DE19.HTM">Previous Page</A> / <A HREF="RO41DE3B.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

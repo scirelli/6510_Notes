@@ -1,0 +1,46 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F220/61984:   Verify number of free blocks in BAM
+
+Jump from <A HREF="RO41EEF4.HTM">$EF28</A>, <A HREF="RO41F1FA.HTM">$F1FF</A>:
+
+F220: A5 6F     LDA <A HREF="RA416F.HTM">$6F</A>
+F222: 48        PHA
+F223: A9 00     LDA #$00
+F225: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>         ; counter to zero
+F227: AC 86 FE  LDY <A HREF="RO41FE86.HTM">$FE86</A>       ; 4, number of bytes per track in BAM
+F22A: 88        DEY
+
+Jump from $F23A:
+
+F22B: A2 07     LDX #$07
+
+Jump from $F237:
+
+F22D: B1 6D     LDA (<A HREF="RA416D.HTM">$6D</A>),Y
+F22F: 3D E9 EF  AND <A HREF="RO41EFE9.HTM">$EFE9</A>,X     ; isolate bit
+F232: F0 02     BEQ $F236
+F234: E6 6F     INC <A HREF="RA416F.HTM">$6F</A>         ; increment counter of free sectors
+
+Jump from $F232:
+
+F236: CA        DEX
+F237: 10 F4     BPL $F22D
+F239: 88        DEY
+F23A: D0 EF     BNE $F22B
+F23C: B1 6D     LDA (<A HREF="RA416D.HTM">$6D</A>),Y     ; compare with number on diskette
+F23E: C5 6F     CMP <A HREF="RA416F.HTM">$6F</A>
+F240: D0 04     BNE $F246       ; not equal, then error
+F242: 68        PLA
+F243: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>
+F245: 60        RTS
+
+Jump from $F240:
+
+F246: A9 71     LDA #$71
+F248: 20 45 E6  JSR <A HREF="RO41E645.HTM">$E645</A>       ; 71, 'dir error'
+
+    <A HREF="RO41F1FA.HTM">Previous Page</A> / <A HREF="RO41F24B.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

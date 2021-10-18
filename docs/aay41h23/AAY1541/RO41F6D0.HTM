@@ -1,0 +1,122 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F6D0/63184:   Convert 4 binary bytes to 5 GCR bytes
+
+Jump from <A HREF="RO41F78F.HTM">$F7BC</A>, <A HREF="RO41F78F.HTM">$F7E3</A>, <A HREF="RO41F934.HTM">$F950</A>, <A HREF="RO41F934.HTM">$F961</A>, <A HREF="RO41FE30.HTM">$FE5E</A>, <A HREF="RO41FE30.HTM">$FE64</A>:
+
+F6D0: A9 00     LDA #$00
+F6D2: 85 57     STA <A HREF="RA4156.HTM">$57</A>
+F6D4: 85 5A     STA <A HREF="RA4156.HTM">$5A</A>
+F6D6: A4 34     LDY <A HREF="RA4134.HTM">$34</A>
+F6D8: A5 52     LDA <A HREF="RA4152.HTM">$52</A>
+F6DA: 29 F0     AND #$F0        ; isolate hi-nibble
+F6DC: 4A        LSR
+F6DD: 4A        LSR             ; and rotate to lower nibble
+F6DE: 4A        LSR
+F6DF: 4A        LSR
+F6E0: AA        TAX             ; as index in table
+F6E1: BD 7F F7  LDA <A HREF="RO41F77F.HTM">$F77F</A>,X
+F6E4: 0A        ASL
+F6E5: 0A        ASL             ; times 8
+F6E6: 0A        ASL
+F6E7: 85 56     STA <A HREF="RA4156.HTM">$56</A>
+F6E9: A5 52     LDA <A HREF="RA4152.HTM">$52</A>
+F6EB: 29 0F     AND #$0F        ; isolate lower nibble
+F6ED: AA        TAX             ; as index in table
+F6EE: BD 7F F7  LDA <A HREF="RO41F77F.HTM">$F77F</A>,X
+F6F1: 6A        ROR
+F6F2: 66 57     ROR <A HREF="RA4156.HTM">$57</A>
+F6F4: 6A        ROR
+F6F5: 66 57     ROR <A HREF="RA4156.HTM">$57</A>
+F6F7: 29 07     AND #$07
+F6F9: 05 56     ORA <A HREF="RA4156.HTM">$56</A>
+F6FB: 91 30     STA (<A HREF="RA4130.HTM">$30</A>),Y     ; in buffer
+F6FD: C8        INY             ; increment buffer
+F6FE: A5 53     LDA <A HREF="RA4152.HTM">$53</A>
+F700: 29 F0     AND #$F0        ; isolate upper nibble
+F702: 4A        LSR
+F703: 4A        LSR
+F704: 4A        LSR             ; shift to upper nibble
+F705: 4A        LSR
+F706: AA        TAX             ; as index in table
+F707: BD 7F F7  LDA <A HREF="RO41F77F.HTM">$F77F</A>,X
+F70A: 0A        ASL
+F70B: 05 57     ORA <A HREF="RA4156.HTM">$57</A>
+F70D: 85 57     STA <A HREF="RA4156.HTM">$57</A>
+F70F: A5 53     LDA <A HREF="RA4152.HTM">$53</A>
+F711: 29 0F     AND #$0F        ; lower nibble
+F713: AA        TAX             ; as index
+F714: BD 7F F7  LDA <A HREF="RO41F77F.HTM">$F77F</A>,X
+F717: 2A        ROL
+F718: 2A        ROL
+F719: 2A        ROL
+F71A: 2A        ROL
+F71B: 85 58     STA <A HREF="RA4156.HTM">$58</A>
+F71D: 2A        ROL
+F71E: 29 01     AND #$01
+F720: 05 57     ORA <A HREF="RA4156.HTM">$57</A>
+F722: 91 30     STA (<A HREF="RA4130.HTM">$30</A>),Y     ; in buffer
+F724: C8        INY             ; increment buffer
+F725: A5 54     LDA <A HREF="RA4152.HTM">$54</A>
+F727: 29 F0     AND #$F0        ; isolate hi-nibble
+F729: 4A        LSR
+F72A: 4A        LSR
+F72B: 4A        LSR
+F72C: 4A        LSR
+F72D: AA        TAX
+F72E: BD 7F F7  LDA <A HREF="RO41F77F.HTM">$F77F</A>,X
+F731: 18        CLC
+F732: 6A        ROR
+F733: 05 58     ORA <A HREF="RA4156.HTM">$58</A>
+F735: 91 30     STA (<A HREF="RA4130.HTM">$30</A>),Y     ; in buffer
+F737: C8        INY             ; increment buffer pointer
+F738: 6A        ROR
+F739: 29 80     AND #$80
+F73B: 85 59     STA <A HREF="RA4156.HTM">$59</A>
+F73D: A5 54     LDA <A HREF="RA4152.HTM">$54</A>
+F73F: 29 0F     AND #$0F        ; lower nibble
+F741: AA        TAX             ; as index
+F742: BD 7F F7  LDA <A HREF="RO41F77F.HTM">$F77F</A>,X
+F745: 0A        ASL
+F746: 0A        ASL
+F747: 29 7C     AND #$7C
+F749: 05 59     ORA <A HREF="RA4156.HTM">$59</A>
+F74B: 85 59     STA <A HREF="RA4156.HTM">$59</A>
+F74D: A5 55     LDA <A HREF="RA4152.HTM">$55</A>
+F74F: 29 F0     AND #$F0        ; isolate hi-nibble
+F751: 4A        LSR
+F752: 4A        LSR             ; shift to lower nibble
+F753: 4A        LSR
+F754: 4A        LSR
+F755: AA        TAX             ; as index in table
+F756: BD 7F F7  LDA <A HREF="RO41F77F.HTM">$F77F</A>,X
+F759: 6A        ROR
+F75A: 66 5A     ROR <A HREF="RA4156.HTM">$5A</A>
+F75C: 6A        ROR
+F75D: 66 5A     ROR <A HREF="RA4156.HTM">$5A</A>
+F75F: 6A        ROR
+F760: 66 5A     ROR <A HREF="RA4156.HTM">$5A</A>
+F762: 29 03     AND #$03
+F764: 05 59     ORA <A HREF="RA4156.HTM">$59</A>
+F766: 91 30     STA (<A HREF="RA4130.HTM">$30</A>),Y     ; in buffer
+F768: C8        INY             ; increment buffer pointer
+F769: D0 04     BNE $F76F
+F76B: A5 2F     LDA <A HREF="RA412E.HTM">$2F</A>
+F76D: 85 31     STA <A HREF="RA4130.HTM">$31</A>
+
+Jump from $F769:
+
+F76F: A5 55     LDA <A HREF="RA4152.HTM">$55</A>
+F771: 29 0F     AND #$0F        ; lower nibble
+F773: AA        TAX             ; as index
+F774: BD 7F F7  LDA <A HREF="RO41F77F.HTM">$F77F</A>,X
+F777: 05 5A     ORA <A HREF="RA4156.HTM">$5A</A>
+F779: 91 30     STA (<A HREF="RA4130.HTM">$30</A>),Y     ; in buffer
+F77B: C8        INY             ; increment buffer pointer
+F77C: 84 34     STY <A HREF="RA4134.HTM">$34</A>         ; and save
+F77E: 60        RTS
+
+    <A HREF="RO41F6CA.HTM">Previous Page</A> / <A HREF="RO41F77F.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

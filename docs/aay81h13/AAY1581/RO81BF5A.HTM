@@ -1,0 +1,15 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Burst-Status senden, wenn gerade Daten vom Computer empfangen werden
+
+Einsprung von <A HREF="RO81BB74.HTM">$BBD7</A>, <A HREF="RO81BC01.HTM">$BC7A</A>:
+
+BF5A: 20 D4 AC  JSR <A HREF="RO81ACCF.HTM">$ACD4</A>        FSM auf Ausgabe schalten
+BF5D: 20 AB BF  JSR <A HREF="RO81BFAB.HTM">$BFAB</A>        Burst-Status-Byte ausgeben
+BF60: 20 29 C0  JSR <A HREF="RO81C026.HTM">$C029</A>        Auf Signal vom Computer warten
+BF63: 4C BB AC  JMP <A HREF="RO81ACB6.HTM">$ACBB</A>        FSM auf Eingabe schalten
+
+    <A HREF="RO81BF44.HTM">Previous Page</A> / <A HREF="RO81BF66.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

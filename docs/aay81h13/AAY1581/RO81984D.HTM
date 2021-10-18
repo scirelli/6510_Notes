@@ -1,0 +1,43 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Oeffnen eines Files zum Lesen ($d9a0)
+
+Einsprung von <A HREF="RO818841.HTM">$8867</A>, <A HREF="RO8197ED.HTM">$983D</A>:
+
+984D: A0 13     LDY #$13
+984F: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y      T&amp;S des (Super-)Side-Sektors holen
+9851: 8D 70 02  STA <A HREF="RA810270.HTM">$0270</A>
+9854: C8        INY
+9855: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y
+9857: 8D 71 02  STA <A HREF="RA810271.HTM">$0271</A>
+985A: C8        INY
+985B: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y      Recordlaenge holen
+985D: AE 6F 02  LDX <A HREF="RA81026F.HTM">$026F</A>
+9860: 8D 6F 02  STA <A HREF="RA81026F.HTM">$026F</A>        und merken
+9863: 8A        TXA              war eine Recordlaenge angegeben ?
+9864: F0 0A     BEQ $9870        nein, ==&gt;
+9866: CD 6F 02  CMP <A HREF="RA81026F.HTM">$026F</A>        Laengen gleich ?
+9869: F0 05     BEQ $9870        ja, ==&gt;
+986B: A9 50     LDA #$50
+986D: 20 7C 80  JSR <A HREF="RO81807C.HTM">$807C</A>        50, Record not present ==&gt;
+
+Einsprung von $9864, $9869:
+
+9870: AE 30 02  LDX <A HREF="RA810230.HTM">$0230</A>        aktuelle Filenummer
+9873: BD 97 02  LDA <A HREF="RA810297.HTM">$0297</A>,X      T&amp;S des 1. Datenblocks holen
+9876: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>          (stehen bereits in der Filetabelle)
+9878: BD 9C 02  LDA <A HREF="RA81029C.HTM">$029C</A>,X
+987B: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+987D: 20 0D 9B  JSR <A HREF="RO819B0D.HTM">$9B0D</A>        1.Block (+ Side-Sektor) lesen
+9880: A4 50     LDY <A HREF="RA8150.HTM">$50</A>          Kanalnummer und
+9882: AE 30 02  LDX <A HREF="RA810230.HTM">$0230</A>        Dateinamen-Nummer holen
+9885: B5 E5     LDA <A HREF="RA81E5.HTM">$E5</A>,X        Position des Eintrages im Directory fuer
+9887: 99 7D 02  STA <A HREF="RA81027D.HTM">$027D</A>,Y      aktuellen Kanal merken
+988A: B5 EA     LDA <A HREF="RA81EA.HTM">$EA</A>,X        und Dir-Block des Eintrages merken
+988C: 99 84 02  STA <A HREF="RA810284.HTM">$0284</A>,Y
+988F: 60        RTS
+
+    <A HREF="RO8197ED.HTM">Previous Page</A> / <A HREF="RO819890.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

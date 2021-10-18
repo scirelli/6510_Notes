@@ -1,0 +1,38 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+RENAME ($ca88)
+
+88C5: 20 0B 82  JSR <A HREF="RO81820B.HTM">$820B</A>        Drivenummer(n) testen
+88C8: A5 F0     LDA <A HREF="RA81EF.HTM">$F0</A>          Drivenummer des 2. Files
+88CA: 29 01     AND #$01
+88CC: 85 F0     STA <A HREF="RA81EF.HTM">$F0</A>
+88CE: C5 EF     CMP <A HREF="RA81EF.HTM">$EF</A>          = Drivenummer des 1. Files ?
+88D0: F0 02     BEQ $88D4        ja, ==&gt;
+88D2: 09 80     ORA #$80         Flag fuer unbestimmte Drivenummer setzen
+
+Einsprung von $88D0:
+
+88D4: 85 EF     STA <A HREF="RA81EF.HTM">$EF</A>
+88D6: 20 B9 82  JSR <A HREF="RO8182B9.HTM">$82B9</A>        alle angegebenen Dateien suchen
+88D9: 20 1E 89  JSR <A HREF="RO81891E.HTM">$891E</A>        Existiert nur der 2. Name schon ?
+88DC: A5 E6     LDA <A HREF="RA81E5.HTM">$E6</A>          (Rueckkehr nur bei Ja)
+88DE: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+88E0: 20 94 9D  JSR <A HREF="RO819D8E.HTM">$9D94</A>        Dir-Block mitdem gesuchten Eintrag einlesen
+88E3: 20 ED 94  JSR <A HREF="RO8194DE.HTM">$94ED</A>        Job abwarten
+88E6: A5 EB     LDA <A HREF="RA81EA.HTM">$EB</A>          Zeiger auf Dateieintrag
+88E8: 18        CLC
+88E9: 69 03     ADC #$03         +3 (Typ,T&amp;S beruecksichtigen)
+88EB: 20 22 94  JSR <A HREF="RO819422.HTM">$9422</A>        Pufferzeiger setzen
+88EE: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        Nummer des aktiven Puffers holen
+88F1: A8        TAY
+88F2: AE 91 02  LDX <A HREF="RA810291.HTM">$0291</A>        Position des neuen Dateinamens
+88F5: A9 10     LDA #$10         und Maximallaenge holen
+88F7: 20 EE 84  JSR <A HREF="RO8184EE.HTM">$84EE</A>        Namen kopieren und mit $a0 auffuellen
+88FA: 20 9A 9D  JSR <A HREF="RO819D8E.HTM">$9D9A</A>        Puffer schreiben
+88FD: 20 ED 94  JSR <A HREF="RO8194DE.HTM">$94ED</A>        Job abwarten
+8900: 4C 4C 80  JMP <A HREF="RO81804C.HTM">$804C</A>
+
+    <A HREF="RO818895.HTM">Previous Page</A> / <A HREF="RO818903.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

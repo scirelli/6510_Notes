@@ -1,0 +1,35 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C9A7/51623:   ?
+
+Jump from <A HREF="RO41C9A1.HTM">$C9A1</A>:
+
+C9A7: 20 E7 CA  JSR <A HREF="RO41CACC.HTM">$CAE7</A>
+C9AA: A5 E2     LDA <A HREF="RA41E2.HTM">$E2</A>         ; drive number of first file
+C9AC: 29 01     AND #$01
+C9AE: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+C9B0: 20 86 D4  JSR <A HREF="RO41D486.HTM">$D486</A>
+C9B3: 20 E4 D6  JSR <A HREF="RO41D6E4.HTM">$D6E4</A>       ; enter file in directory
+C9B6: AE 77 02  LDX <A HREF="RA410277.HTM">$0277</A>
+
+Jump from <A HREF="RO41C8F0.HTM">$C99B</A>, <A HREF="RO41C9D5.HTM">$C9F1</A>:
+
+C9B9: 8E 79 02  STX <A HREF="RA410279.HTM">$0279</A>
+C9BC: 20 FA C9  JSR <A HREF="RO41C9FA.HTM">$C9FA</A>
+C9BF: A9 11     LDA #$11        ; 17
+C9C1: 85 83     STA <A HREF="RA4183.HTM">$83</A>
+C9C3: 20 EB D0  JSR <A HREF="RO41D0EB.HTM">$D0EB</A>
+C9C6: 20 25 D1  JSR <A HREF="RO41D125.HTM">$D125</A>       ; get data type
+C9C9: D0 03     BNE $C9CE       ; no rel-file?
+C9CB: 20 53 CA  JSR <A HREF="RO41CA35.HTM">$CA53</A>
+
+Jump from $C9C9:
+
+C9CE: A9 08     LDA #$08
+C9D0: 85 F8     STA <A HREF="RA41F8.HTM">$F8</A>
+C9D2: 4C D8 C9  JMP <A HREF="RO41C9D5.HTM">$C9D8</A>
+
+    <A HREF="RO41C9A1.HTM">Previous Page</A> / <A HREF="RO41C9D5.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

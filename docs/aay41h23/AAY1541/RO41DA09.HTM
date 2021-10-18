@@ -1,0 +1,38 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DA09/55817:   Check file type and control mode
+
+Jump from <A HREF="RO41D815.HTM">$D866</A>, <A HREF="RO41D815.HTM">$D873</A>:
+
+DA09: BC 7A 02  LDY <A HREF="RA41027A.HTM">$027A</A>,X     ; pointer in command line
+DA0C: B9 00 02  LDA <A HREF="RA410200.HTM">$0200</A>,Y     ; get characters from line
+DA0F: A0 04     LDY #$04
+
+Jump from $DA17:
+
+DA11: 88        DEY
+DA12: 30 08     BMI $DA1C
+DA14: D9 B2 FE  CMP <A HREF="RO41FEB2.HTM">$FEB2</A>,Y     ; control modes 'R', 'W', 'A', 'M'
+DA17: D0 F8     BNE $DA11
+DA19: 8C 97 02  STY <A HREF="RA410297.HTM">$0297</A>       ; save
+
+Jump from $DA12:
+
+DA1C: A0 05     LDY #$05
+
+Jump from $DA24:
+
+DA1E: 88        DEY
+DA1F: 30 08     BMI $DA29
+DA21: D9 B6 FE  CMP <A HREF="RO41FEB6.HTM">$FEB6</A>,Y     ; file types 'D','S','P','U','L'
+DA24: D0 F8     BNE $DA1E
+DA26: 8C 4A 02  STY <A HREF="RA41024A.HTM">$024A</A>       ; save
+
+Jump from $DA1F:
+
+DA29: 60        RTS
+
+    <A HREF="RO41D9E3.HTM">Previous Page</A> / <A HREF="RO41DA2A.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

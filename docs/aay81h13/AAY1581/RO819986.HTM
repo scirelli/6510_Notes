@@ -1,0 +1,27 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+-
+Alle Dateien schliessen ($daec)
+
+Einsprung von <A HREF="RO81995C.HTM">$996D</A>:
+
+9986: A9 0E     LDA #$0E         Mit SA 14 beginnen
+9988: 85 52     STA <A HREF="RA8152.HTM">$52</A>          und der Reihe nach alle Dateien schliessen
+
+Einsprung von $998F:
+
+998A: 20 9F 99  JSR <A HREF="RO81999F.HTM">$999F</A>
+998D: C6 52     DEC <A HREF="RA8152.HTM">$52</A>          naechste SA anwaehlen
+998F: 10 F9     BPL $998A        noch nicht fertig, ==&gt;
+9991: AD AB 02  LDA <A HREF="RA8102AB.HTM">$02AB</A>        Ist ein Fehler aufgetreten ?
+9994: D0 06     BNE $999C        Ja, ==&gt;
+9996: 20 15 B5  JSR <A HREF="RO81B515.HTM">$B515</A>        BAM ggf. abspeichern
+9999: 4C 4C 80  JMP <A HREF="RO81804C.HTM">$804C</A>        Ende, 00, Ok,00,00
+
+Einsprung von $9994:
+
+999C: 4C 67 80  JMP <A HREF="RO81804C.HTM">$8067</A>        Fehlerblinken ==&gt;
+
+    <A HREF="RO81995C.HTM">Previous Page</A> / <A HREF="RO81999F.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

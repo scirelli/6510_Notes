@@ -1,0 +1,26 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Jobauftrag beenden, alle Jobs nochmal pruefen
+
+Einsprung von <A HREF="RO81C163.HTM">$C38D</A>, <A HREF="RO81C3BB.HTM">$C3D3</A>, <A HREF="RO81C600.HTM">$C6D1</A>, <A HREF="RO81C700.HTM">$C762</A>, <A HREF="RO81C800.HTM">$C862</A>, <A HREF="RO81C900.HTM">$C9DE</A>, <A HREF="RO81CADC.HTM">$CAE1</A>, <A HREF="RO81CAE4.HTM">$CB03</A>, <A HREF="RO81CB35.HTM">$CB65</A>,
+              <A HREF="RO81CB76.HTM">$CB82</A>, <A HREF="RO81CB85.HTM">$CB8A</A>, <A HREF="RO81CD7B.HTM">$CDAA</A>, <A HREF="RO81CFA6.HTM">$CFB4</A>, <A HREF="RO81DA63.HTM">$DAFA</A>:
+
+CDCC: A4 83     LDY <A HREF="RA8183.HTM">$83</A>          Rueckmeldung in a
+CDCE: 99 02 00  STA <A HREF="RA8102.HTM">$0002</A>,Y      in entsprechenden Jobpuffer schreiben
+CDD1: A0 80     LDY #$80
+CDD3: C9 02     CMP #$02         Fehler ?
+CDD5: 90 06     BCC $CDDD        nein, ==&gt;
+CDD7: A9 00     LDA #$00         Fehlerbehandlung:
+CDD9: 85 87     STA <A HREF="RA8187.HTM">$87</A>          Cache nicht veraendert
+CDDB: 84 95     STY <A HREF="RA8195.HTM">$95</A>          Aktueller Track im Cache=$80 (Cache leer)
+
+Einsprung von $CDD5:
+
+CDDD: 84 83     STY <A HREF="RA8183.HTM">$83</A>          letzter aktiver Job=$80 (kein Job aktiv)
+CDDF: A0 08     LDY #$08         Jobabfrage von Neuem beginnen
+CDE1: 2C         B $2C
+
+    <A HREF="RO81CDBC.HTM">Previous Page</A> / <A HREF="RO81CDE2.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

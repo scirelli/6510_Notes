@@ -1,0 +1,35 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D313/54035:   Close all channels of other drives
+
+Jump from <A HREF="RO41D042.HTM">$D045</A>, <A HREF="RO41EBFF.HTM">$EC55</A>, <A HREF="RO41EBFF.HTM">$EC66</A>:
+
+D313: A9 0E     LDA #$0E        ; 14
+D315: 85 83     STA <A HREF="RA4183.HTM">$83</A>         ; secondary address
+
+Jump from $D336:
+
+D317: A6 83     LDX <A HREF="RA4183.HTM">$83</A>
+D319: BD 2B 02  LDA <A HREF="RA41022B.HTM">$022B</A>,X     ; association table
+D31C: C9 FF     CMP #$FF        ; channel associated?
+D31E: F0 14     BEQ $D334       ; no
+D320: 29 3F     AND #$3F
+D322: 85 82     STA <A HREF="RA4182.HTM">$82</A>         ; channel number
+D324: 20 93 DF  JSR <A HREF="RO41DF93.HTM">$DF93</A>       ; get buffer number
+D327: AA        TAX
+D328: BD 5B 02  LDA <A HREF="RA41025B.HTM">$025B</A>,X     ; drive number
+D32B: 29 01     AND #$01        ; isolate
+D32D: C5 7F     CMP <A HREF="RA417F.HTM">$7F</A>         ; equal to actual drive number
+D32F: D0 03     BNE $D334       ; no
+D331: 20 27 D2  JSR <A HREF="RO41D227.HTM">$D227</A>       ; close channel
+
+Jump from $D31E, $D32F:
+
+D334: C6 83     DEC <A HREF="RA4183.HTM">$83</A>         ; next channel
+D336: 10 DF     BPL $D317
+D338: 60        RTS
+
+    <A HREF="RO41D307.HTM">Previous Page</A> / <A HREF="RO41D339.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

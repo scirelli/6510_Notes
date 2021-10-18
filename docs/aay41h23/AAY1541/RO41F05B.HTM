@@ -1,0 +1,92 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F05B/61531:   ?
+
+Jump from <A HREF="RO41F011.HTM">$F03B</A>:
+
+F05B: A6 6F     LDX <A HREF="RA416F.HTM">$6F</A>
+F05D: 20 DF F0  JSR <A HREF="RO41F0DF.HTM">$F0DF</A>
+F060: A5 7F     LDA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+F062: AA        TAX
+F063: 0A        ASL
+F064: 1D 9B 02  ORA <A HREF="RA41029B.HTM">$029B</A>,X
+F067: 49 01     EOR #$01
+F069: 29 03     AND #$03
+F06B: 85 70     STA <A HREF="RA416F.HTM">$70</A>
+F06D: 20 A5 F0  JSR $F0A5
+F070: A5 F9     LDA <A HREF="RA41F9.HTM">$F9</A>         ; buffer number
+F072: 0A        ASL
+F073: AA        TAX
+F074: A5 80     LDA <A HREF="RA4180.HTM">$80</A>         ; track
+F076: 0A        ASL
+F077: 0A        ASL             ; times 4
+F078: 95 99     STA <A HREF="RA4199.HTM">$99</A>,X       ; equal pointer in BAM field
+F07A: A5 70     LDA <A HREF="RA416F.HTM">$70</A>
+F07C: 0A        ASL
+F07D: 0A        ASL
+F07E: A8        TAY
+
+Jump from $F08E:
+
+F07F: A1 99     LDA (<A HREF="RA4199.HTM">$99</A>,X)
+F081: 99 A1 02  STA <A HREF="RA4102A1.HTM">$02A1</A>,Y
+F084: A9 00     LDA #$00
+F086: 81 99     STA (<A HREF="RA4199.HTM">$99</A>,X)     ; zero in buffer
+F088: F6 99     INC <A HREF="RA4199.HTM">$99</A>,X       ; increment buffer pointer
+F08A: C8        INY
+F08B: 98        TYA
+F08C: 29 03     AND #$03
+F08E: D0 EF     BNE $F07F
+F090: A6 70     LDX <A HREF="RA416F.HTM">$70</A>
+F092: A5 80     LDA <A HREF="RA4180.HTM">$80</A>         ; track
+F094: 9D 9D 02  STA <A HREF="RA41029D.HTM">$029D</A>,X
+F097: AD F9 02  LDA <A HREF="RA4102F9.HTM">$02F9</A>
+F09A: D0 03     BNE $F09F
+F09C: 4C 8A D5  JMP <A HREF="RO41D58A.HTM">$D58A</A>       ; write block
+
+Jump from $F09A:
+
+F09F: 09 80     ORA #$80
+F0A1: 8D F9 02  STA <A HREF="RA4102F9.HTM">$02F9</A>
+F0A4: 60        RTS
+
+Jump from $F06D, <A HREF="RO41EEF4.HTM">$EF13</A>, <A HREF="RO41EEF4.HTM">$EF1A</A>:
+
+F0A5: A8        TAY
+F0A6: B9 9D 02  LDA <A HREF="RA41029D.HTM">$029D</A>,Y
+F0A9: F0 25     BEQ $F0D0
+F0AB: 48        PHA
+F0AC: A9 00     LDA #$00
+F0AE: 99 9D 02  STA <A HREF="RA41029D.HTM">$029D</A>,Y
+F0B1: A5 F9     LDA <A HREF="RA41F9.HTM">$F9</A>         ; buffer number
+F0B3: 0A        ASL             ; times 2
+F0B4: AA        TAX
+F0B5: 68        PLA
+F0B6: 0A        ASL
+F0B7: 0A        ASL
+F0B8: 95 99     STA <A HREF="RA4199.HTM">$99</A>,X
+F0BA: 98        TYA
+F0BB: 0A        ASL
+F0BC: 0A        ASL
+F0BD: A8        TAY
+
+Jump from $F0CE:
+
+F0BE: B9 A1 02  LDA <A HREF="RA4102A1.HTM">$02A1</A>,Y
+F0C1: 81 99     STA (<A HREF="RA4199.HTM">$99</A>,X)     ; write in buffer
+F0C3: A9 00     LDA #$00
+F0C5: 99 A1 02  STA <A HREF="RA4102A1.HTM">$02A1</A>,Y
+F0C8: F6 99     INC <A HREF="RA4199.HTM">$99</A>,X       ; increment buffer pointer
+F0CA: C8        INY
+F0CB: 98        TYA
+F0CC: 29 03     AND #$03
+F0CE: D0 EE     BNE $F0BE
+
+Jump from $F0A9:
+
+F0D0: 60        RTS
+
+    <A HREF="RO41F011.HTM">Previous Page</A> / <A HREF="RO41F0D1.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,37 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C2DC/49884:   Clear flags for command input
+
+Jump from <A HREF="RO41C2B3.HTM">$C2D2</A>, <A HREF="RO41DA55.HTM">$DA8B</A>:
+
+C2DC: A0 00     LDY #$00
+C2DE: 98        TYA
+C2DF: 85 A3     STA <A HREF="RA41A3.HTM">$A3</A>         ; pointer to input buffer lo
+C2E1: 8D 58 02  STA <A HREF="RA410258.HTM">$0258</A>       ; record length
+C2E4: 8D 4A 02  STA <A HREF="RA41024A.HTM">$024A</A>       ; file type
+C2E7: 8D 96 02  STA <A HREF="RA410296.HTM">$0296</A>
+C2EA: 85 D3     STA <A HREF="RA41D3.HTM">$D3</A>
+C2EC: 8D 79 02  STA <A HREF="RA410279.HTM">$0279</A>       ; comma counter
+C2EF: 8D 77 02  STA <A HREF="RA410277.HTM">$0277</A>       ;      &quot;
+C2F2: 8D 78 02  STA <A HREF="RA410278.HTM">$0278</A>       ;      &quot;
+C2F5: 8D 8A 02  STA <A HREF="RA41028A.HTM">$028A</A>       ; wildcard flag
+C2F8: 8D 6C 02  STA <A HREF="RA41026C.HTM">$026C</A>       ; error flag
+C2FB: A2 05     LDX #$05
+
+Jump from $C30F:
+
+C2FD: 9D 79 02  STA <A HREF="RA410279.HTM">$0279</A>,X     ; flags for line analysis
+C300: 95 D7     STA <A HREF="RA41D7.HTM">$D7</A>,X       ; directory sectors
+C302: 95 DC     STA <A HREF="RA41D8.HTM">$DC</A>,X       ; buffer pointer
+C304: 95 E1     STA <A HREF="RA41DD.HTM">$E1</A>,X       ; drive number
+C306: 95 E6     STA <A HREF="RA41E2.HTM">$E6</A>,X       ; wildcard flag
+C308: 9D 7F 02  STA <A HREF="RA41027A.HTM">$027F</A>,X     ; track number
+C30B: 9D 84 02  STA <A HREF="RA410280.HTM">$0284</A>,X     ; sector number
+C30E: CA        DEX
+C30F: D0 EC     BNE $C2FD
+C311: 60        RTS
+
+    <A HREF="RO41C2B3.HTM">Previous Page</A> / <A HREF="RO41C312.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

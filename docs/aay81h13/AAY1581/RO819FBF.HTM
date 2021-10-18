@@ -1,0 +1,58 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+ggf. alten Puffer speichern, dann Folgeblock(s) einlesen  ($e03c)
+[Wenn der letzte Jobcode 'Lesen' war, dann geht die Routine davon aus, dass
+ der gesuchte Datenblock bereits durch den 2-Puffer-Modus bereitgestellt
+ worden ist. Sie versucht dann, wenn der gerade aktive Puffer nicht noch
+ vorher abgespeichert werden muss, den uebernaechsten Datenblock zu lesen.
+ Ist der letzte Jobcode 'Schreiben', dann konnte der Folgeblock noch nicht
+ gelesen werden. Die Routine versucht dann, sowohl den naechsten, als auch
+ den uebernaechsten Block zu lesen.]
+
+Einsprung von <A HREF="RO819F4C.HTM">$9F73</A>, <A HREF="RO819FFC.HTM">$A02F</A>, <A HREF="RO81A0A6.HTM">$A0C3</A>:
+
+9FBF: 20 CE 9D  JSR <A HREF="RO819DCE.HTM">$9DCE</A>        T&amp;S des Folgeblocks holen
+9FC2: 20 1C 9F  JSR <A HREF="RO819F1C.HTM">$9F1C</A>        aktiven Puffer holen
+9FC5: 50 16     BVC $9FDD        Puffer veraendert ? nein, ==&gt;
+aktuellen Puffer speichern, Folgeblock ggf. lesen
+
+9FC7: 20 9A 9D  JSR <A HREF="RO819D8E.HTM">$9D9A</A>        Puffer schreiben
+9FCA: 20 7D 8D  JSR <A HREF="RO818D7D.HTM">$8D7D</A>        Puffer wechseln
+9FCD: A9 02     LDA #$02
+9FCF: 20 22 94  JSR <A HREF="RO819422.HTM">$9422</A>        Pufferzeiger auf 2 setzen
+9FD2: 20 E9 9C  JSR <A HREF="RO819CE9.HTM">$9CE9</A>        War letzter Jobcode 'Schreiben' ?
+9FD5: D0 24     BNE $9FFB        nein, (Puffer ist bereits gelesen) ==&gt;
+9FD7: 20 94 9D  JSR <A HREF="RO819D8E.HTM">$9D94</A>        Folgeblock lesen
+9FDA: 4C ED 94  JMP <A HREF="RO8194DE.HTM">$94ED</A>        Jobausfuehrung pruefen
+
+den naechsten und uebernaechsten Puffer bereitstellen
+
+Einsprung von $9FC5:
+
+9FDD: 20 7D 8D  JSR <A HREF="RO818D7D.HTM">$8D7D</A>        Puffer wechseln
+9FE0: 20 E9 9C  JSR <A HREF="RO819CE9.HTM">$9CE9</A>        War letzter Jobcode 'Schreiben' ?
+9FE3: D0 06     BNE $9FEB        nein, (Block ist bereits gelesen) ==&gt;
+9FE5: 20 94 9D  JSR <A HREF="RO819D8E.HTM">$9D94</A>        Folgeblock lesen
+9FE8: 20 ED 94  JSR <A HREF="RO8194DE.HTM">$94ED</A>        Jobausfuehrung pruefen
+
+Einsprung von $9FE3:
+
+9FEB: 20 CE 9D  JSR <A HREF="RO819DCE.HTM">$9DCE</A>        T&amp;S des uebernaechsten Blocks holen
+9FEE: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          existiert noch ein Block ?
+9FF0: F0 09     BEQ $9FFB        nein, ==&gt;
+9FF2: 20 7D 8D  JSR <A HREF="RO818D7D.HTM">$8D7D</A>        Puffer wechseln
+9FF5: 20 94 9D  JSR <A HREF="RO819D8E.HTM">$9D94</A>        uebernaechsten Block lesen
+                                [Hier wird die Jobausfuehrung nicht abge-
+                                 wartet. In frueheren Commodore-Laufwerken
+                                 konnte so der Puffer 'im Hintergrund'
+                                 eingelesen werden.]
+9FF8: 4C 7D 8D  JMP <A HREF="RO818D7D.HTM">$8D7D</A>        Puffer wechseln
+
+Einsprung von $9FD5, $9FF0:
+
+9FFB: 60        RTS
+
+    <A HREF="RO819F4C.HTM">Previous Page</A> / <A HREF="RO819FFC.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

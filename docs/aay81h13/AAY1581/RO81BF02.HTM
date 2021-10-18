@@ -1,0 +1,56 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Burst-Befehle $1c,$1d: Dump Cache
+
+BF02: AD 02 02  LDA <A HREF="RA810200.HTM">$0202</A>
+BF05: A8        TAY              Laufwerksnummer
+BF06: 29 01     AND #$01         = 1
+BF08: D0 32     BNE $BF3C        ja, Fehler ==&gt;
+BF0A: A2 00     LDX #$00         Jobnummer 0 verwenden
+BF0C: 98        TYA              immer Schreiben ?
+BF0D: 10 15     BPL $BF24        nein ==&gt;
+BF0F: 29 40     AND #$40         ja
+BF11: 4A        LSR              Seite holen
+BF12: 4A        LSR
+BF13: 4A        LSR
+BF14: 4A        LSR
+BF15: 4A        LSR
+BF16: 4A        LSR
+BF17: 29 01     AND #$01         [doppelt maskiert haelt besser !?]
+BF19: 85 97     STA <A HREF="RA8197.HTM">$97</A>          aktuelle Seite setzen
+BF1B: AD 03 02  LDA <A HREF="RA810200.HTM">$0203</A>        Phys. Spur holen
+BF1E: 85 95     STA <A HREF="RA8195.HTM">$95</A>
+BF20: A9 80     LDA #$80         Flag fuer Spur schreiben
+BF22: 85 87     STA <A HREF="RA8187.HTM">$87</A>          setzen
+
+Einsprung von $BF0D:
+
+BF24: A5 87     LDA <A HREF="RA8187.HTM">$87</A>          Cache auf Disk schreiben ?
+BF26: 10 17     BPL $BF3F        nein ==&gt;
+BF28: A9 B6     LDA #$B6         DET_WP: Schreibschutz testen
+BF2A: 20 9D 95  JSR <A HREF="RO819598.HTM">$959D</A>        Job aufrufen
+BF2D: 8D FA 01  STA <A HREF="RA8101FA.HTM">$01FA</A>        Ergebnis merken
+BF30: D0 0F     BNE $BF41        Diskette schreibgeschuetzt ==&gt;
+BF32: A9 80     LDA #$80
+BF34: 85 81     STA <A HREF="RA8181.HTM">$81</A>          DOS-Fehlermeldung unterdruecken
+BF36: 20 6C FF  JSR <A HREF="RO81FF00.HTM">$FF6C</A>        Cache schreiben
+BF39: 06 81     ASL <A HREF="RA8181.HTM">$81</A>          Fehlermeldungen zulassen
+BF3B: 2C         B $2C
+
+Einsprung von $BF08:
+
+BF3C: A9 4F     LDA #$4F         kein Laufwerk verfuegbar
+BF3E: 2C         B $2C
+
+Einsprung von $BF26:
+
+BF3F: A9 00     LDA #$00         O.K.
+
+Einsprung von $BF30:
+
+BF41: 4C FC BA  JMP <A HREF="RO81BAFC.HTM">$BAFC</A>
+
+    <A HREF="RO81BEF8.HTM">Previous Page</A> / <A HREF="RO81BF44.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

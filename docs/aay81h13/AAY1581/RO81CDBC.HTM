@@ -1,0 +1,27 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Abfragen, ob Diskette eingelegt ist
+
+Einsprung von <A HREF="RO81CD00.HTM">$CD08</A>, <A HREF="RO81CD7B.HTM">$CDAD</A>:
+
+CDBC: A0 1E     LDY #$1E         30 mal Abfragen:
+
+Einsprung von $CDC6:
+
+CDBE: AD 00 40  LDA <A HREF="CIA810.HTM">$4000</A>        Ist Diskette eingelegt (b2=0) ?
+CDC1: 29 02     AND #$02         [30fach haelt besser ???]
+CDC3: D0 05     BNE $CDCA        nein, ==&gt;
+CDC5: 88        DEY              [Ist das vielleicht zum Entprellen ? Die
+CDC6: D0 F6     BNE $CDBE         Hardware verzoegert doch schon um 1/2 sec.]
+CDC8: 18        CLC              Ja, Es ist eine Diskette im Laufwerk
+CDC9: 24         B $24
+
+Einsprung von $CDC3:
+
+CDCA: 38        SEC              keine Diskette im Laufwerk
+CDCB: 60        RTS
+
+    <A HREF="RO81CD7B.HTM">Previous Page</A> / <A HREF="RO81CDCC.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

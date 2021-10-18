@@ -1,0 +1,30 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+JOB $9e: BUFMOVE_DV
+
+C589: A4 99     LDY <A HREF="RA8199.HTM">$99</A>          2-Byte Index
+C58B: B9 0C 00  LDA <A HREF="RA810B.HTM">$000C</A>,Y      Sektorparameter wird als Kommandobyte
+C58E: 85 39     STA <A HREF="RA8139.HTM">$39</A>          zweckentfremdet
+C590: 24 39     BIT <A HREF="RA8139.HTM">$39</A>          Transfer Richtung
+C592: 10 12     BPL $C5A6        b7: 0: Aus Cache in Puffer ==&gt;
+Daten in Cache kopieren
+
+C594: B9 BC 01  LDA <A HREF="RA8101BC.HTM">$01BC</A>,Y      Nummer des 'aktuellen Tracks im Cache'
+C597: 85 95     STA <A HREF="RA8195.HTM">$95</A>          neu setzen
+C599: A4 83     LDY <A HREF="RA8183.HTM">$83</A>
+C59B: B9 CE 01  LDA <A HREF="RA8101CE.HTM">$01CE</A>,Y      aktuelle Seite imsetzen
+C59E: 85 97     STA <A HREF="RA8197.HTM">$97</A>
+C5A0: 20 A4 CE  JSR <A HREF="RO81CEA4.HTM">$CEA4</A>        Kopieren
+C5A3: 4C 8B C3  JMP <A HREF="RO81C163.HTM">$C38B</A>        Ok, Ende
+
+Daten aus dem Cache kopieren
+
+Einsprung von $C592:
+
+C5A6: 20 AF CE  JSR <A HREF="RO81CEA4.HTM">$CEAF</A>        Kopieren
+C5A9: 4C 8B C3  JMP <A HREF="RO81C163.HTM">$C38B</A>        Ok, Ende
+
+    <A HREF="RO81C56A.HTM">Previous Page</A> / <A HREF="RO81C5AC.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

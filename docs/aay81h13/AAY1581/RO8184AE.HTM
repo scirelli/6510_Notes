@@ -1,0 +1,50 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Testet auf Diskettenwechsel und initialisiert ggf. ($c63d)
+
+Einsprung von <A HREF="RO8182A2.HTM">$82AC</A>, <A HREF="RO81854D.HTM">$8627</A>, <A HREF="RO8189E4.HTM">$89E7</A>, <A HREF="RO818B23.HTM">$8B23</A>, <A HREF="RO818B2F.HTM">$8B2F</A>, <A HREF="RO81A956.HTM">$A956</A>, <A HREF="RO81B781.HTM">$B781</A>, <A HREF="RO81B8D2.HTM">$B8E3</A>:
+
+84AE: A5 2D     LDA <A HREF="RA812D.HTM">$2D</A>          Auto-Initialisierung ein ?
+84B0: D0 31     BNE $84E3        nein, ==&gt;
+84B2: A9 01     LDA #$01         Wurde Diskette gewechselt ?
+84B4: 24 25     BIT <A HREF="RA8125.HTM">$25</A>          (bzw. Lesefehler)
+84B6: F0 2B     BEQ $84E3        nein, ==&gt;
+84B8: 20 CF B0  JSR <A HREF="RO81B0CF.HTM">$B0CF</A>        physikalisches 1581-Format festlegen
+84BB: 20 B3 B0  JSR <A HREF="RO81B0B3.HTM">$B0B3</A>        ganze Diskette als Partition setzen
+84BE: A9 80     LDA #$80         Job-Fehlerbehandlung ausschalten
+84C0: 8D A8 02  STA <A HREF="RA8102A8.HTM">$02A8</A>        (wird automatisch zurueckgesetzt)
+84C3: 20 DC 8E  JSR <A HREF="RO818EDC.HTM">$8EDC</A>        Verzeichnis-Blockheader suchen
+84C6: A0 FF     LDY #$FF         Code fuer Drive-Error
+84C8: C9 02     CMP #$02         ist Error $02,$03 oder $0f aufgetreten ?
+84CA: F0 0A     BEQ $84D6        ja, ==&gt;
+84CC: C9 03     CMP #$03
+84CE: F0 06     BEQ $84D6        ja, ==&gt;
+84D0: C9 0F     CMP #$0F
+84D2: F0 02     BEQ $84D6        ja, ==&gt;
+84D4: A0 00     LDY #$00         nein, Code fuer Drive Ok.
+
+Einsprung von $84CA, $84CE, $84D2:
+
+84D6: 98        TYA
+84D7: 85 6E     STA <A HREF="RA816E.HTM">$6E</A>          Drive-Status setzen
+84D9: D0 08     BNE $84E3        Fehler ? ja, (Ende) ==&gt;
+84DB: A9 80     LDA #$80         Job-Fehlerbehandlung ausschalten
+84DD: 8D A8 02  STA <A HREF="RA8102A8.HTM">$02A8</A>
+84E0: 20 03 8F  JSR <A HREF="RO818F03.HTM">$8F03</A>        Partition initialisieren
+
+Einsprung von $84B0, $84B6, $84D9:
+
+84E3: 24 8A     BIT <A HREF="RA818A.HTM">$8A</A>          Burst-OR-Maske
+84E5: 10 04     BPL $84EB        b7=1: Fremdformat ? ja, ==&gt;
+84E7: A9 FF     LDA #$FF         Drive-Status setzen
+84E9: 85 6E     STA <A HREF="RA816E.HTM">$6E</A>
+
+Einsprung von $84E5:
+
+84EB: A5 6E     LDA <A HREF="RA816E.HTM">$6E</A>
+84ED: 60        RTS
+
+    <A HREF="RO818424.HTM">Previous Page</A> / <A HREF="RO8184EE.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,63 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Fehlermeldung bereitstellen ($e6bc)
+
+'00, OK,00,00' in Errorpuffer schreiben
+
+Einsprung von <A HREF="RO818004.HTM">$8008</A>, <A HREF="RO81A033.HTM">$A05E</A>:
+
+A862: 20 E5 81  JSR <A HREF="RO8181E5.HTM">$81E5</A>        Fehlerflag loeschen, LED aus
+A865: A9 00     LDA #$00         00, OK
+
+Errortext mit T&amp;S=0 generieren
+E: a: Fehlernummer im BCD-Code
+
+Einsprung von <A HREF="RO818C61.HTM">$8C81</A>, <A HREF="RO818C61.HTM">$8C86</A>, <A HREF="RO819370.HTM">$9386</A>, <A HREF="RO81AFCA.HTM">$AFE0</A>, <A HREF="RO81AFE9.HTM">$B0B0</A>:
+
+A867: A0 00     LDY #$00         ,00,00
+A869: 84 4D     STY <A HREF="RA814D.HTM">$4D</A>
+A86B: 84 4E     STY <A HREF="RA814E.HTM">$4E</A>
+Error ausgeben
+
+E: a      : Fehlernummer im BCD-Code
+   $4d-$4e: T&amp;S im Binaercode
+
+Einsprung von <A HREF="RO81804C.HTM">$8061</A>, <A HREF="RO81A7AE.HTM">$A7E7</A>, <A HREF="RO81A7F1.HTM">$A7F1</A>, <A HREF="RO81B572.HTM">$B5AE</A>:
+
+A86D: A0 00     LDY #$00         Anfang des Errorpuffers
+A86F: A2 D0     LDX #$D0
+A871: 86 CF     STX <A HREF="RA81CF.HTM">$CF</A>          $02d0
+A873: A2 02     LDX #$02
+A875: 86 D0     STX <A HREF="RA81CF.HTM">$D0</A>
+A877: 20 51 A8  JSR <A HREF="RO81A83E.HTM">$A851</A>        Fehlernummer in A ausgeben + tax
+A87A: A9 2C     LDA #$2C
+A87C: 91 CF     STA (<A HREF="RA81CF.HTM">$CF</A>),Y      ',' in Puffer schreiben
+A87E: C8        INY
+A87F: AD D0 02  LDA <A HREF="RA8102D0.HTM">$02D0</A>        erstes Zeichen zur Ausgabe bereitstellen
+A882: 8D 41 02  STA <A HREF="RA810241.HTM">$0241</A>        (s.u.)
+A885: 8A        TXA
+A886: 20 AD A8  JSR <A HREF="RO81A8AD.HTM">$A8AD</A>        Fehlertext in Puffer schreiben
+A889: A9 2C     LDA #$2C
+A88B: 91 CF     STA (<A HREF="RA81CF.HTM">$CF</A>),Y      ',' in Puffer schreiben
+A88D: C8        INY
+A88E: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>
+A890: 20 3E A8  JSR <A HREF="RO81A83E.HTM">$A83E</A>        Tracknummer in Puffer schreiben
+A893: A9 2C     LDA #$2C
+A895: 91 CF     STA (<A HREF="RA81CF.HTM">$CF</A>),Y      ',' in Puffer schreiben
+A897: C8        INY
+A898: A5 4E     LDA <A HREF="RA814E.HTM">$4E</A>
+A89A: 20 3E A8  JSR <A HREF="RO81A83E.HTM">$A83E</A>        Sektornummer in Puffer schreiben
+A89D: 88        DEY
+A89E: 98        TYA              Ende der Fehlermeldung merken
+A89F: 18        CLC
+A8A0: 69 D0     ADC #$D0         + Anfang des Error-Puffers
+A8A2: 8D 48 02  STA <A HREF="RA810242.HTM">$0248</A>        = Puffergroesse
+A8A5: E6 CF     INC <A HREF="RA81CF.HTM">$CF</A>          1. Zeichen steht bereits zur Ausgabe bereit
+A8A7: A9 88     LDA #$88         Zeiger auf 2. Zeichen setzen
+A8A9: 8D 3A 02  STA <A HREF="RA81023A.HTM">$023A</A>        b7=1: Lesekanal; b4=1: kein EOI
+A8AC: 60        RTS
+
+    <A HREF="RO81A83E.HTM">Previous Page</A> / <A HREF="RO81A8AD.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

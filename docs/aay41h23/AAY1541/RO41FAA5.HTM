@@ -1,0 +1,28 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $FAA5/64165:   Prepare slow head movement
+
+FAA5: AD 07 1C  LDA <A HREF="VIA27.HTM">$1C07</A>
+FAA8: 18        CLC
+FAA9: 65 5F     ADC <A HREF="RA415F.HTM">$5F</A>
+FAAB: 8D 05 1C  STA <A HREF="VIA25.HTM">$1C05</A>
+FAAE: C6 60     DEC <A HREF="RA415F.HTM">$60</A>         ; decrement counter
+FAB0: D0 E2     BNE <A HREF="RO41FA7B.HTM">$FA94</A>       ; not yet zero?
+FAB2: A9 4E     LDA #$4E
+FAB4: 85 62     STA <A HREF="RA4162.HTM">$62</A>
+FAB6: A9 FA     LDA #$FA        ; pointer $62/$63 to $FA4E
+FAB8: 85 63     STA <A HREF="RA4162.HTM">$63</A>
+FABA: A9 05     LDA #$05
+FABC: 85 60     STA <A HREF="RA415F.HTM">$60</A>         ; counter to 5
+
+Jump from <A HREF="RO41F9CB.HTM">$F9D6</A>, <A HREF="RO41F9D9.HTM">$F9FF</A>, <A HREF="RO41FA3B.HTM">$FA4B</A>, <A HREF="RO41FA4E.HTM">$FA50</A>, <A HREF="RO41FA4E.HTM">$FA60</A>, <A HREF="RO41FA63.HTM">$FA78</A>:
+
+FABE: AD 0C 1C  LDA <A HREF="VIA2C.HTM">$1C0C</A>
+FAC1: 29 FD     AND #$FD        ; erase bit 1
+FAC3: 8D 0C 1C  STA <A HREF="VIA2C.HTM">$1C0C</A>
+FAC6: 60        RTS
+
+    <A HREF="RO41FA97.HTM">Previous Page</A> / <A HREF="RO41FAC7.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

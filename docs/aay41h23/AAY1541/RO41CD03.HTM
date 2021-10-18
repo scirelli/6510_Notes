@@ -1,0 +1,44 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $CD03/52483:   B-A block allocate
+
+CD03: 20 F5 CD  JSR <A HREF="RO41CDF2.HTM">$CDF5</A>       ; get track, sector and drive number
+CD06: A5 81     LDA <A HREF="RA4181.HTM">$81</A>         ; sector
+CD08: 48        PHA             ; save
+CD09: 20 FA F1  JSR <A HREF="RO41F1FA.HTM">$F1FA</A>       ; find block in BAM
+CD0C: F0 0B     BEQ $CD19       ; block allocated?
+CD0E: 68        PLA             ; desired sector
+CD0F: C5 81     CMP <A HREF="RA4181.HTM">$81</A>         ; = next free sector?
+CD11: D0 19     BNE $CD2C       ; no
+CD13: 20 90 EF  JSR <A HREF="RO41EF90.HTM">$EF90</A>       ; allocate block in BAM
+CD16: 4C 94 C1  JMP <A HREF="RO41C194.HTM">$C194</A>       ; done
+
+Jump from $CD0C:
+
+CD19: 68        PLA
+
+Jump from $CD2A:
+
+CD1A: A9 00     LDA #$00
+CD1C: 85 81     STA <A HREF="RA4181.HTM">$81</A>         ; sector 0
+CD1E: E6 80     INC <A HREF="RA4180.HTM">$80</A>         ; next track
+CD20: A5 80     LDA <A HREF="RA4180.HTM">$80</A>         ; track number
+CD22: CD D7 FE  CMP <A HREF="RO41FED7.HTM">$FED7</A>       ; 36, last track number + 1
+CD25: B0 0A     BCS $CD31       ; &gt;=, then 'no block'
+CD27: 20 FA F1  JSR <A HREF="RO41F1FA.HTM">$F1FA</A>       ; find free block in next track
+CD2A: F0 EE     BEQ $CD1A       ; not found, check next track
+
+Jump from $CD11:
+
+CD2C: A9 65     LDA #$65
+CD2E: 20 45 E6  JSR <A HREF="RO41E645.HTM">$E645</A>       ; 65, 'no block' next free block
+
+Jump from $CD25:
+
+CD31: A9 65     LDA #$65
+CD33: 20 C8 C1  JSR <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 65, 'no block' no more free blocks
+
+    <A HREF="RO41CCFE.HTM">Previous Page</A> / <A HREF="RO41CD36.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

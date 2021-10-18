@@ -1,0 +1,44 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Job ausfuehren und ggf. bei Fehlern mehrmals versuchen (bei der 1571: $864b)
+
+Einsprung von <A HREF="RO81BAAE.HTM">$BAC5</A>, <A HREF="RO81BB11.HTM">$BB31</A>, <A HREF="RO81BB74.HTM">$BBD1</A>, <A HREF="RO81BC01.HTM">$BC21</A>, <A HREF="RO81BCB2.HTM">$BCBF</A>, <A HREF="RO81BCB2.HTM">$BCE3</A>:
+
+BFB0: 48        PHA
+BFB1: A9 40     LDA #$40         T&amp;S-Check ausschalten
+BFB3: 8D A8 02  STA <A HREF="RA8102A8.HTM">$02A8</A>
+BFB6: 68        PLA
+
+Einsprung von <A HREF="RO81B8D2.HTM">$B954</A>:
+
+BFB7: 08        PHP              i-Flag merken
+BFB8: 58        CLI              i-Flag loeschen
+BFB9: 85 28     STA <A HREF="RA8128.HTM">$28</A>          Jobcode merken
+BFBB: 20 9D 95  JSR <A HREF="RO819598.HTM">$959D</A>        Job aufrufen
+BFBE: C9 02     CMP #$02         kein Fehler ?
+BFC0: 90 03     BCC $BFC5        ja, ==&gt;
+BFC2: 20 CE BF  JSR $BFCE        Fehler behandeln
+
+Einsprung von $BFC0:
+
+BFC5: A9 00     LDA #$00         Fehlerpruefung wieder einschalten
+BFC7: 8D A8 02  STA <A HREF="RA8102A8.HTM">$02A8</A>
+BFCA: B5 02     LDA <A HREF="RA8102.HTM">$02</A>,X        Jobrueckmeldung holen
+BFCC: 28        PLP              i-Flag zurueckholen
+BFCD: 60        RTS
+
+Einsprung von $BFC2:
+
+BFCE: AD A8 02  LDA <A HREF="RA8102A8.HTM">$02A8</A>        DOS-Fehlerunterdrueckung einschalten
+BFD1: 09 80     ORA #$80
+BFD3: 8D A8 02  STA <A HREF="RA8102A8.HTM">$02A8</A>
+BFD6: 86 6C     STX <A HREF="RA816C.HTM">$6C</A>
+BFD8: A5 28     LDA <A HREF="RA8128.HTM">$28</A>
+BFDA: 9D 72 02  STA <A HREF="RA810272.HTM">$0272</A>,X
+BFDD: 20 9D 95  JSR <A HREF="RO819598.HTM">$959D</A>
+BFE0: 4C ED 94  JMP <A HREF="RO8194DE.HTM">$94ED</A>        mehrere Leseversuche durchfuehren
+
+    <A HREF="RO81BFAB.HTM">Previous Page</A> / <A HREF="RO81BFE3.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

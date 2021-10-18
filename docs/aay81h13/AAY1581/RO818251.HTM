@@ -1,0 +1,34 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Drivenummer setzen, LED einschalten ($c368)
+
+Einsprung von <A HREF="RO818085.HTM">$8096</A>:
+
+8251: A9 00     LDA #$00         Befehlssyntaxflag loeschen
+8253: 8D A2 02  STA <A HREF="RA8102A2.HTM">$02A2</A>
+8256: AC 91 02  LDY <A HREF="RA810291.HTM">$0291</A>        Position der Drivenummer holen
+
+Einsprung von $8268:
+
+8259: B1 CD     LDA (<A HREF="RA81CD.HTM">$CD</A>),Y      Drivenummer holen
+825B: 20 95 82  JSR <A HREF="RO818295.HTM">$8295</A>        mit '0' und '1' vergleichen
+825E: 10 0D     BPL $826D        Drivenummer ok., ==&gt;
+8260: C8        INY              Zeilenende erreicht ?
+8261: C4 29     CPY <A HREF="RA8129.HTM">$29</A>
+8263: B0 05     BCS $826A        ja, ==&gt;
+8265: A4 29     LDY <A HREF="RA8129.HTM">$29</A>          Drivenummer am Zeilenende suchen
+8267: 88        DEY              (z.B. 'I0','V0','$0', ...)
+8268: D0 EF     BNE $8259        Befehlslaenge &lt;&gt;1, ==&gt;
+
+Einsprung von $8263:
+
+826A: CE A2 02  DEC <A HREF="RA8102A2.HTM">$02A2</A>        = $ff
+
+Einsprung von $825E:
+
+826D: 4C F6 81  JMP <A HREF="RO8181E5.HTM">$81F6</A>        Drive-LED einschalten
+
+    <A HREF="RO818224.HTM">Previous Page</A> / <A HREF="RO818270.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

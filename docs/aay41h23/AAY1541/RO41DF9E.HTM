@@ -1,0 +1,27 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DF9E/57246:   ?
+
+Jump from <A HREF="RO41DDF1.HTM">$DDF1</A>, <A HREF="RO41E03C.HTM">$E042</A>, <A HREF="RO41E105.HTM">$E10A</A>, <A HREF="RO41E105.HTM">$E115</A>, <A HREF="RO41E44E.HTM">$E4B1</A>:
+
+DF9E: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+DFA0: 8E 57 02  STX <A HREF="RA410257.HTM">$0257</A>       ; save
+DFA3: B5 A7     LDA <A HREF="RA41A7.HTM">$A7</A>,X       ; get buffer number
+DFA5: 10 09     BPL $DFB0       ; buffer allocated
+DFA7: 8A        TXA
+DFA8: 18        CLC
+DFA9: 69 07     ADC #$07        ; increment number by 7
+DFAB: 8D 57 02  STA <A HREF="RA410257.HTM">$0257</A>       ; and save
+DFAE: B5 AE     LDA <A HREF="RA41AE.HTM">$AE</A>,X       ; buffer number from table 2
+
+Jump from $DFA5:
+
+DFB0: 85 70     STA <A HREF="RA416F.HTM">$70</A>
+DFB2: 29 1F     AND #$1F        ; erase the highest 3 bits
+DFB4: 24 70     BIT <A HREF="RA416F.HTM">$70</A>
+DFB6: 60        RTS
+
+    <A HREF="RO41DF93.HTM">Previous Page</A> / <A HREF="RO41DFB7.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

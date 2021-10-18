@@ -1,0 +1,64 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C48B/50315:   ?
+
+Jump from <A HREF="RO41C823.HTM">$C86D</A>:
+
+C48B: 20 04 C6  JSR <A HREF="RO41C5AC.HTM">$C604</A>       ; search next directory block
+C48E: F0 1A     BEQ $C4AA       ; not found?
+C490: D0 28     BNE $C4BA
+
+Jump from $C4B2:
+
+C492: A9 01     LDA #$01
+C494: 8D 8D 02  STA <A HREF="RA41028D.HTM">$028D</A>
+C497: 20 8F C3  JSR <A HREF="RO41C38F.HTM">$C38F</A>       ; change drive
+C49A: 20 00 C1  JSR <A HREF="RO41C100.HTM">$C100</A>       ; turn LED on
+
+Jump from <A HREF="RO41C823.HTM">$C830</A>, <A HREF="RO41D815.HTM">$D852</A>, <A HREF="RO41DA55.HTM">$DAA4</A>:
+
+C49D: A9 00     LDA #$00
+C49F: 8D 92 02  STA <A HREF="RA410292.HTM">$0292</A>
+C4A2: 20 AC C5  JSR <A HREF="RO41C5AC.HTM">$C5AC</A>       ; read directory block
+C4A5: D0 13     BNE $C4BA       ; found?
+C4A7: 8D 8F 02  STA <A HREF="RA41028F.HTM">$028F</A>
+
+Jump from $C48E, $C4B8:
+
+C4AA: AD 8F 02  LDA <A HREF="RA41028F.HTM">$028F</A>
+C4AD: D0 28     BNE $C4D7
+C4AF: CE 8C 02  DEC <A HREF="RA41028C.HTM">$028C</A>
+C4B2: 10 DE     BPL $C492
+C4B4: 60        RTS
+
+Jump from $C4C5, $C4D5, <A HREF="RO41C6DE.HTM">$C7A7</A>:
+
+C4B5: 20 17 C6  JSR <A HREF="RO41C5AC.HTM">$C617</A>       ; next entry in directory
+C4B8: F0 F0     BEQ $C4AA       ; not found?
+
+Jump from $C490, $C4A5:
+
+C4BA: 20 D8 C4  JSR <A HREF="RO41C4D8.HTM">$C4D8</A>       ; check entry
+C4BD: AE 53 02  LDX <A HREF="RA410253.HTM">$0253</A>
+C4C0: 10 07     BPL $C4C9       ; file found?
+C4C2: AD 8F 02  LDA <A HREF="RA41028F.HTM">$028F</A>
+C4C5: F0 EE     BEQ $C4B5       ; yes
+C4C7: D0 0E     BNE $C4D7       ; no, then done
+
+Jump from $C4C0:
+
+C4C9: AD 96 02  LDA <A HREF="RA410296.HTM">$0296</A>
+C4CC: F0 09     BEQ $C4D7
+C4CE: B5 E7     LDA <A HREF="RA41E7.HTM">$E7</A>,X       ; file type
+C4D0: 29 07     AND #$07
+C4D2: CD 96 02  CMP <A HREF="RA410296.HTM">$0296</A>       ; same as desired file type?
+C4D5: D0 DE     BNE $C4B5       ; no
+
+Jump from $C4AD, $C4C7, $C4CC:
+
+C4D7: 60        RTS
+
+    <A HREF="RO41C44F.HTM">Previous Page</A> / <A HREF="RO41C4D8.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,22 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Blocklaenge des letzten Datenblocks setzen ($de19)
+
+Einsprung von <A HREF="RO819BC3.HTM">$9C73</A>, <A HREF="RO81A2D6.HTM">$A3AF</A>:
+
+9D56: 20 69 9D  JSR <A HREF="RO819D69.HTM">$9D69</A>        Zeiger auf Pufferanfang setzen
+9D59: A9 00     LDA #$00         0: letzter Datenblock
+9D5B: 91 64     STA (<A HREF="RA8164.HTM">$64</A>),Y      in der Blockverkettung eintragen
+9D5D: C8        INY
+9D5E: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+9D60: BD 57 02  LDA <A HREF="RA810257.HTM">$0257</A>,X      Zeiger auf naechsten Datensatz holen
+9D63: AA        TAX
+9D64: CA        DEX              -1 = letztes benutztes Byte
+9D65: 8A        TXA
+9D66: 91 64     STA (<A HREF="RA8164.HTM">$64</A>),Y      merken
+9D68: 60        RTS
+
+    <A HREF="RO819D49.HTM">Previous Page</A> / <A HREF="RO819D69.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

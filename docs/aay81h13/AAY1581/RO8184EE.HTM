@@ -1,0 +1,64 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Parameter aus dem INPUT-Puffer in Disk-Puffer kopieren ($c66e)
+E: a: max. Laenge des Parameters (Rest wird mit $a0 aufgefuellt)
+      es werden max. 16 Zeichen kopiert (Rest ist immer $a0)
+   x: Position des Parameters im INPUT-Puffer
+   y: Zielpuffer
+   Der Pufferzeiger muss auf den Zielbereich zeigen
+
+Einsprung von <A HREF="RO8188C5.HTM">$88F7</A>, <A HREF="RO8195AB.HTM">$962E</A>, <A HREF="RO81B390.HTM">$B39F</A>:
+
+84EE: 48        PHA
+84EF: 20 26 85  JSR <A HREF="RO818526.HTM">$8526</A>        Laenge des Parameters feststellen
+84F2: 20 08 85  JSR $8508        Parameter kopieren
+84F5: 68        PLA
+84F6: 38        SEC              max. Laenge
+84F7: ED 6C 02  SBC <A HREF="RA81026C.HTM">$026C</A>        - Parameterlaenge
+84FA: AA        TAX
+84FB: F0 0A     BEQ $8507        &lt;=0 ? ja, ==&gt;
+84FD: 90 08     BCC $8507
+84FF: A9 A0     LDA #$A0         Rest mit $a0 auffuellen
+
+Einsprung von $8505:
+
+8501: 91 64     STA (<A HREF="RA8164.HTM">$64</A>),Y
+8503: C8        INY
+8504: CA        DEX
+8505: D0 FA     BNE $8501
+
+Einsprung von $84FB, $84FD:
+
+8507: 60        RTS
+
+Parameter kopieren
+
+Einsprung von $84F2:
+
+8508: 98        TYA
+8509: 0A        ASL              Puffernummer * 2
+850A: A8        TAY
+850B: B9 BB 00  LDA <A HREF="RA81BB.HTM">$00BB</A>,Y      (Pufferzeiger holen)
+850E: 85 64     STA <A HREF="RA8164.HTM">$64</A>
+8510: B9 BC 00  LDA <A HREF="RA81BB.HTM">$00BC</A>,Y
+8513: 85 65     STA <A HREF="RA8164.HTM">$65</A>
+8515: A0 00     LDY #$00         kopieren
+
+Einsprung von $8523:
+
+8517: BD 00 02  LDA <A HREF="RA810200.HTM">$0200</A>,X
+851A: 91 64     STA (<A HREF="RA8164.HTM">$64</A>),Y
+851C: C8        INY
+851D: F0 06     BEQ $8525        Pufferende, ==&gt;
+851F: E8        INX              Kopieren, bis x hinter den Parameter zeigt
+8520: EC 90 02  CPX <A HREF="RA810290.HTM">$0290</A>        ($0290: Zeiger hinter Parameter)
+8523: 90 F2     BCC $8517
+
+Einsprung von $851D:
+
+8525: 60        RTS
+
+    <A HREF="RO8184AE.HTM">Previous Page</A> / <A HREF="RO818526.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

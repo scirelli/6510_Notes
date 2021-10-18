@@ -1,0 +1,41 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F9D9/63961:   ?
+
+Jump from <A HREF="RO41F9CB.HTM">$F9D4</A>:
+
+F9D9: C6 48     DEC <A HREF="RA4148.HTM">$48</A>
+F9DB: D0 1D     BNE $F9FA
+F9DD: 98        TYA
+F9DE: 10 04     BPL $F9E4
+F9E0: 29 7F     AND #$7F
+F9E2: 85 20     STA <A HREF="RA4120.HTM">$20</A>
+
+Jump from $F9DE:
+
+F9E4: 29 10     AND #$10
+F9E6: F0 12     BEQ $F9FA
+F9E8: AD 00 1C  LDA <A HREF="VIA20.HTM">$1C00</A>
+F9EB: 29 FB     AND #$FB        ; drive motor off
+F9ED: 8D 00 1C  STA <A HREF="VIA20.HTM">$1C00</A>
+F9F0: A9 FF     LDA #$FF
+F9F2: 85 3E     STA <A HREF="RA413E.HTM">$3E</A>
+F9F4: A9 00     LDA #$00
+F9F6: 85 20     STA <A HREF="RA4120.HTM">$20</A>
+F9F8: F0 DC     BEQ <A HREF="RO41F9CB.HTM">$F9D6</A>
+
+Jump from $F9DB, $F9E6:
+
+F9FA: 98        TYA
+F9FB: 29 40     AND #$40
+F9FD: D0 03     BNE $FA02
+F9FF: 4C BE FA  JMP <A HREF="RO41FAA5.HTM">$FABE</A>
+
+Jump from $F9FD:
+
+FA02: 6C 62 00  JMP (<A HREF="RA4162.HTM">$0062</A>)
+
+    <A HREF="RO41F9CB.HTM">Previous Page</A> / <A HREF="RO41FA05.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

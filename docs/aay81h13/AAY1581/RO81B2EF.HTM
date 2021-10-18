@@ -1,0 +1,56 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+naechsten Block einer Partition holen
+A: c: 1: Track wurde gewechselt;
+   z: 1: Ende der Partition erreicht
+
+Einsprung von <A HREF="RO818688.HTM">$86D3</A>, <A HREF="RO81B33C.HTM">$B342</A>, <A HREF="RO81B781.HTM">$B7CD</A>, <A HREF="RO81B811.HTM">$B830</A>, <A HREF="RO81B88D.HTM">$B8AD</A>:
+
+B2EF: AD EE 01  LDA <A HREF="RA8101ED.HTM">$01EE</A>        Anzahl der uebrigen Blocks -1
+B2F2: D0 08     BNE $B2FC        Lo-Byte &gt;0, ==&gt;
+B2F4: AD ED 01  LDA <A HREF="RA8101ED.HTM">$01ED</A>        Hi-Byte =0 (fertig), ==&gt;
+B2F7: F0 1D     BEQ $B316
+B2F9: CE ED 01  DEC <A HREF="RA8101ED.HTM">$01ED</A>        Hi-Byte -1
+
+Einsprung von $B2F2:
+
+B2FC: CE EE 01  DEC <A HREF="RA8101ED.HTM">$01EE</A>        Lo-Byte -1
+B2FF: E6 4E     INC <A HREF="RA814E.HTM">$4E</A>          Sektornummer erhoehen
+B301: A5 75     LDA <A HREF="RA8175.HTM">$75</A>          'letzter Sektor +1' erreicht ?
+B303: C5 4E     CMP <A HREF="RA814E.HTM">$4E</A>
+B305: D0 0F     BNE $B316        nein, ==&gt;
+B307: A9 00     LDA #$00         Sektornummer =0
+B309: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+B30B: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          Aktueller Track =
+B30D: CD 2B 02  CMP <A HREF="RA81022B.HTM">$022B</A>        Direktory-Track ?
+B310: F0 0C     BEQ $B31E        ja, ==&gt;
+B312: E6 4D     INC <A HREF="RA814D.HTM">$4D</A>          Tracknummer +1
+[Es ist ein Fehler, dass die Tracknummer erst nach der Gueltigkeitsabfrage
+ erhoeht wird; so merkt die Routine es erst am Ende des Tracks, wenn die
+ Partition Directory-Blocks umfassen soll. Trotzdem ist das Directory davor
+ geschuetzt, ueberschrieben zu werden, da der erste Block im Directory
+ (Verzeichnis-Header) immer als belegt gekennzeichnet ist und dadurch der
+ Partition-Befehl abbricht. Ausserdem verhindert eine zusaetzliche Abfrage
+ ($b822), dass eine Partition im Track 40 beginnt. Innerhalb von Partitions
+ ist es moeglich, im Verzeichnis-Track eine Partition zu definieren, die den
+ letzten Block des Tracks nicht beinhalten darf.]
+
+B314: 38        SEC              c=1: Track wurde gewechselt
+B315: 24         B $24
+
+Einsprung von $B2F7, $B305:
+
+B316: 18        CLC              c=0: gleicher Track
+B317: AD ED 01  LDA <A HREF="RA8101ED.HTM">$01ED</A>        Ist die Anzahl der uebrigen Blocks =0 ?
+B31A: 0D EE 01  ORA <A HREF="RA8101ED.HTM">$01EE</A>        ja, dann z=1
+B31D: 60        RTS
+
+Einsprung von $B310:
+
+B31E: A9 67     LDA #$67         67, Illegal Track or Sector
+B320: 4C 3F FF  JMP <A HREF="RO81FF00.HTM">$FF3F</A>
+
+    <A HREF="RO81B2C7.HTM">Previous Page</A> / <A HREF="RO81B323.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

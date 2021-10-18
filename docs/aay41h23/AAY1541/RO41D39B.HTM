@@ -1,0 +1,138 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D39B/54171:   Get byte for output
+
+Jump from <A HREF="RO41CA35.HTM">$CA39</A>:
+
+D39B: 20 EB D0  JSR <A HREF="RO41D0EB.HTM">$D0EB</A>       ; open channel for reading
+D39E: 20 00 C1  JSR <A HREF="RO41C100.HTM">$C100</A>       ; turn LED on
+D3A1: 20 AA D3  JSR $D3AA       ; get byte in output register
+D3A4: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+D3A6: BD 3E 02  LDA <A HREF="RA41022E.HTM">$023E</A>,X     ; get byte
+D3A9: 60        RTS
+
+Jump from $D3A1, <A HREF="RO41E909.HTM">$E992</A>:
+
+D3AA: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+D3AC: 20 25 D1  JSR <A HREF="RO41D125.HTM">$D125</A>       ; check file type
+D3AF: D0 03     BNE $D3B4       ; no rel-file?
+D3B1: 4C 20 E1  JMP <A HREF="RO41E120.HTM">$E120</A>       ; get byte from rel-file
+
+Jump from $D3AF:
+
+D3B4: A5 83     LDA <A HREF="RA4183.HTM">$83</A>         ; secondary address
+D3B6: C9 0F     CMP #$0F        ; 15
+D3B8: F0 5A     BEQ $D414       ; yes, read error channel
+D3BA: B5 F2     LDA <A HREF="RA41F2.HTM">$F2</A>,X
+D3BC: 29 08     AND #$08        ; end flag set?
+D3BE: D0 13     BNE $D3D3       ; no
+D3C0: 20 25 D1  JSR <A HREF="RO41D125.HTM">$D125</A>       ; check file type
+D3C3: C9 07     CMP #$07        ; direct access file?
+D3C5: D0 07     BNE $D3CE       ; no
+D3C7: A9 89     LDA #$89        ; set READ and WRITE flag
+D3C9: 95 F2     STA <A HREF="RA41F2.HTM">$F2</A>,X
+D3CB: 4C DE D3  JMP $D3DE
+
+Jump from $D3C5:
+
+D3CE: A9 00     LDA #$00
+D3D0: 95 F2     STA <A HREF="RA41F2.HTM">$F2</A>,X       ; erase READ and WRITE flag
+D3D2: 60        RTS
+
+Jump from $D3BE:
+
+D3D3: A5 83     LDA <A HREF="RA4183.HTM">$83</A>         ; secondary address
+D3D5: F0 32     BEQ $D409       ; zero, LOAD?
+D3D7: 20 25 D1  JSR <A HREF="RO41D125.HTM">$D125</A>       ; check file type
+D3DA: C9 04     CMP #$04        ; rel-file or direct access?
+D3DC: 90 22     BCC $D400       ; no
+
+Jump from $D3CB:
+
+D3DE: 20 2F D1  JSR <A HREF="RO41D12F.HTM">$D12F</A>       ; get buffer and channel number
+D3E1: B5 99     LDA <A HREF="RA4199.HTM">$99</A>,X       ; buffer pointer
+D3E3: D9 44 02  CMP <A HREF="RA410244.HTM">$0244</A>,Y     ; equal end pointer?
+D3E6: D0 04     BNE $D3EC       ; no
+D3E8: A9 00     LDA #$00
+D3EA: 95 99     STA <A HREF="RA4199.HTM">$99</A>,X       ; buffer pointer to zero
+
+Jump from $D3E6, <A HREF="RO41CD56.HTM">$CD59</A>:
+
+D3EC: F6 99     INC <A HREF="RA4199.HTM">$99</A>,X       ; increment buffer pointer
+
+Jump from <A HREF="RO41CD73.HTM">$CD91</A>, <A HREF="RO41CDBD.HTM">$CDCC</A>, <A HREF="RO41CF9B.HTM">$CFD5</A>:
+
+D3EE: A1 99     LDA (<A HREF="RA4199.HTM">$99</A>,X)     ; get byte from buffer
+D3F0: 99 3E 02  STA <A HREF="RA41022E.HTM">$023E</A>,Y     ; into output register
+D3F3: B5 99     LDA <A HREF="RA4199.HTM">$99</A>,X       ; buffer pointer
+D3F5: D9 44 02  CMP <A HREF="RA410244.HTM">$0244</A>,Y     ; equal end pointer?
+D3F8: D0 05     BNE $D3FF       ; no
+D3FA: A9 81     LDA #$81
+D3FC: 99 F2 00  STA <A HREF="RA41F2.HTM">$F2</A>,Y       ; set flags
+
+Jump from $D3F8:
+
+D3FF: 60        RTS
+
+Jump from $D3DC, $D40C:
+
+D400: 20 56 D1  JSR <A HREF="RO41D156.HTM">$D156</A>       ; get byte from buffer
+
+Jump from $D411:
+
+D403: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+D405: 9D 3E 02  STA <A HREF="RA41022E.HTM">$023E</A>,X     ; byte in output register
+D408: 60        RTS
+
+Jump from $D3D5:
+
+D409: AD 54 02  LDA <A HREF="RA410254.HTM">$0254</A>       ; flag for directory?
+D40C: F0 F2     BEQ $D400       ; no
+D40E: 20 67 ED  JSR <A HREF="RO41ED67.HTM">$ED67</A>       ; create directory line
+D411: 4C 03 D4  JMP $D403
+
+Jump from $D3B8:
+
+D414: 20 E8 D4  JSR <A HREF="RO41D4E8.HTM">$D4E8</A>       ; set buffer pointer
+D417: C9 D4     CMP #$D4
+D419: D0 18     BNE $D433
+D41B: A5 95     LDA <A HREF="RA4194.HTM">$95</A>
+D41D: C9 02     CMP #$02
+D41F: D0 12     BNE $D433
+D421: A9 0D     LDA #$0D        ; CR
+D423: 85 85     STA <A HREF="RA4185.HTM">$85</A>         ; in output register
+D425: 20 23 C1  JSR <A HREF="RO41C123.HTM">$C123</A>       ; erase error flags
+D428: A9 00     LDA #$00
+D42A: 20 C1 E6  JSR <A HREF="RO41E6C1.HTM">$E6C1</A>       ; create 'ok' message
+D42D: C6 A5     DEC <A HREF="RA41A5.HTM">$A5</A>         ; set buffer pointer back
+D42F: A9 80     LDA #$80        ; set READ flag
+D431: D0 12     BNE $D445
+
+Jump from $D419, $D41F:
+
+D433: 20 37 D1  JSR <A HREF="RO41D137.HTM">$D137</A>       ; get byte from buffer
+D436: 85 85     STA <A HREF="RA4185.HTM">$85</A>         ; into output register
+D438: D0 09     BNE $D443
+
+Jump from <A HREF="RO41CB20.HTM">$CB48</A>:
+
+D43A: A9 D4     LDA #$D4
+D43C: 20 C8 D4  JSR <A HREF="RO41D4C8.HTM">$D4C8</A>       ; set buffer pointer in front of error pointer
+D43F: A9 02     LDA #$02
+D441: 95 9A     STA <A HREF="RA4199.HTM">$9A</A>,X       ; hi-address
+
+Jump from $D438, <A HREF="RO41CB20.HTM">$CB42</A>:
+
+D443: A9 88     LDA #$88        ; set READ flag
+
+Jump from $D431:
+
+D445: 85 F7     STA <A HREF="RA41F2.HTM">$F7</A>
+D447: A5 85     LDA <A HREF="RA4185.HTM">$85</A>         ; data byte
+D449: 8D 43 02  STA <A HREF="RA41022E.HTM">$0243</A>       ; into output register
+D44C: 60        RTS
+
+    <A HREF="RO41D37F.HTM">Previous Page</A> / <A HREF="RO41D44D.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

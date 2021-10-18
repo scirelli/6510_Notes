@@ -1,0 +1,26 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $CAF8/51960:   Perform [M] - Memory command
+
+CAF8: AD 01 02  LDA <A HREF="RA410200.HTM">$0201</A>       ; 2nd character from buffer
+CAFB: C9 2D     CMP #$2D        ; '-'
+CAFD: D0 4C     BNE <A HREF="RO41CB20.HTM">$CB4B</A>
+CAFF: AD 03 02  LDA <A HREF="RA410200.HTM">$0203</A>
+CB02: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>         ; address in $6F/$70
+CB04: AD 04 02  LDA <A HREF="RA410200.HTM">$0204</A>
+CB07: 85 70     STA <A HREF="RA416F.HTM">$70</A>
+CB09: A0 00     LDY #$00
+CB0B: AD 02 02  LDA <A HREF="RA410200.HTM">$0202</A>       ; 3rd character from buffer
+CB0E: C9 52     CMP #$52        ; 'R'
+CB10: F0 0E     BEQ <A HREF="RO41CB20.HTM">$CB20</A>       ; to memory read
+CB12: 20 58 F2  JSR <A HREF="RO41F258.HTM">$F258</A>       ; (RTS)
+CB15: C9 57     CMP #$57        ; 'W'
+CB17: F0 37     BEQ <A HREF="RO41CB50.HTM">$CB50</A>       ; to memory write
+CB19: C9 45     CMP #$45        ; 'E'
+CB1B: D0 2E     BNE <A HREF="RO41CB20.HTM">$CB4B</A>
+CB1D: 6C 6F 00  JMP (<A HREF="RA416F.HTM">$006F</A>)     ; memory-execute
+
+    <A HREF="RO41CACC.HTM">Previous Page</A> / <A HREF="RO41CB20.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

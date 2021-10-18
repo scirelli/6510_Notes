@@ -1,0 +1,23 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $EFF1/61425:   Write BAM after change
+
+Jump from <A HREF="RO41EF5C.HTM">$EF5C</A>, <A HREF="RO41EF90.HTM">$EF90</A>:
+
+EFF1: A9 FF     LDA #$FF
+EFF3: 2C F9 02  BIT <A HREF="RA4102F9.HTM">$02F9</A>
+EFF6: F0 0C     BEQ $F004
+EFF8: 10 0A     BPL $F004
+EFFA: 70 08     BVS $F004
+EFFC: A9 00     LDA #$00
+EFFE: 8D F9 02  STA <A HREF="RA4102F9.HTM">$02F9</A>       ; reset flag
+F001: 4C 8A D5  JMP <A HREF="RO41D58A.HTM">$D58A</A>       ; write block
+
+Jump from $EFF6, $EFF8, $EFFA:
+
+F004: 60        RTS
+
+    <A HREF="RO41EFE9.HTM">Previous Page</A> / <A HREF="RO41F005.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

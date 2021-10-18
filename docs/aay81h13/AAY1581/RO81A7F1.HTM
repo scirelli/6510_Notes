@@ -1,0 +1,63 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+CmdError: Error-Routine des DOS ($e645)
+
+A7F1: 20 6D A8  JSR <A HREF="RO81A862.HTM">$A86D</A>        Fehlertext generieren
+
+Einsprung von <A HREF="RO81A7AE.HTM">$A7ED</A>:
+
+A7F4: 20 71 80  JSR <A HREF="RO818071.HTM">$8071</A>        INPUT-Puffer loeschen
+A7F7: A9 00     LDA #$00         BAM nicht schreiben
+A7F9: 85 35     STA <A HREF="RA8135.HTM">$35</A>
+A7FB: 20 F1 81  JSR <A HREF="RO8181E5.HTM">$81F1</A>        LED-Blinken aktivieren
+A7FE: 20 34 94  JSR <A HREF="RO819434.HTM">$9434</A>        interne Schreib-/Lesekanaele freigeben
+A801: A9 00     LDA #$00
+A803: 85 CD     STA <A HREF="RA81CD.HTM">$CD</A>          Zeiger in INPUT-Puffer loeschen
+A805: A6 4F     LDX <A HREF="RA814F.HTM">$4F</A>          Stackpointer initialisieren
+A807: 9A        TXS
+A808: A5 53     LDA <A HREF="RA8153.HTM">$53</A>          Sekundaeradresse vom Bus
+A80A: 29 0F     AND #$0F
+A80C: 85 52     STA <A HREF="RA8152.HTM">$52</A>          als aktuelle Sekundaeradresse setzen
+A80E: C9 0F     CMP #$0F         = Fehlerkanal
+A810: F0 29     BEQ $A83B        ja, Ende
+A812: 78        SEI
+A813: 24 76     BIT <A HREF="RA8176.HTM">$76</A>          Uebertragungsmodus holen
+A815: 70 17     BVS $A82E        LISTEN ? ==&gt;
+A817: 30 0F     BMI $A828        TALK ? ==&gt;
+A819: A6 52     LDX <A HREF="RA8152.HTM">$52</A>
+A81B: B5 A8     LDA <A HREF="RA81A8.HTM">$A8</A>,X
+A81D: C9 FF     CMP #$FF         War SA geschlossen ?
+A81F: F0 1A     BEQ $A83B        ja, Ende
+A821: 29 0F     AND #$0F         entsprechende Kanalnummer holen
+A823: 85 50     STA <A HREF="RA8150.HTM">$50</A>
+A825: 4C 31 A8  JMP $A831
+
+Fehlerbehandlung bei Talk
+
+Einsprung von $A817:
+
+A828: 20 27 90  JSR <A HREF="RO819027.HTM">$9027</A>        Kanal zum Lesen holen
+A82B: 4C 31 A8  JMP $A831
+Fehlerbehandlung bei Listen
+
+Einsprung von $A815:
+
+A82E: 20 42 90  JSR <A HREF="RO819042.HTM">$9042</A>        Kanal zum Schreiben holen
+
+Einsprung von $A825, $A82B:
+
+A831: 20 5F 90  JSR <A HREF="RO81905F.HTM">$905F</A>        Filetyp holen
+A834: C9 04     CMP #$04         REL-Datei oder Direktzugriff ?
+A836: B0 03     BCS $A83B        ja, (Kanal nicht freigeben) ==&gt;
+A838: 20 9E 91  JSR <A HREF="RO81919E.HTM">$919E</A>        Kanal freigeben
+
+Einsprung von $A810, $A81F, $A836:
+
+A83B: 4C 00 FF  JMP <A HREF="RO81FF00.HTM">$FF00</A>        Zur Haupt-Warteschleife
+
+DOS 6
+
+    <A HREF="RO81A7AE.HTM">Previous Page</A> / <A HREF="RO81A83E.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

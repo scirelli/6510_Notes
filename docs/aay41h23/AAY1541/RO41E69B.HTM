@@ -1,0 +1,27 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $E69B/59035:   Convert BIN to 2-Ascii (error message buffer)
+
+Jump from <A HREF="RO41E6C7.HTM">$E6EA</A>, <A HREF="RO41E6C7.HTM">$E6F4</A>:
+
+E69B: AA        TAX
+E69C: A9 00     LDA #$00
+E69E: F8        SED
+
+Jump from $E6A7:
+
+E69F: E0 00     CPX #$00
+E6A1: F0 07     BEQ $E6AA       ; convert hex to BCD
+E6A3: 18        CLC
+E6A4: 69 01     ADC #$01
+E6A6: CA        DEX
+E6A7: 4C 9F E6  JMP $E69F
+
+Jump from $E6A1:
+
+E6AA: D8        CLD
+
+    <A HREF="RO41E688.HTM">Previous Page</A> / <A HREF="RO41E6AB.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

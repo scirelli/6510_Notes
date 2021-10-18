@@ -1,0 +1,59 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Gruppe anwaehlen
+E: a: gewuenschte Gruppennummer
+
+Einsprung von <A HREF="RO819ED3.HTM">$9EDB</A>, <A HREF="RO81A5A9.HTM">$A5AE</A>:
+
+A5C0: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+A5C2: DD 02 01  CMP <A HREF="RA810102.HTM">$0102</A>,X      Ist richtige Gruppe bereits gewaehlt ?
+A5C5: D0 01     BNE $A5C8        nein, ==&gt;
+A5C7: 60        RTS
+
+Einsprung von $A5C5:
+
+A5C8: 48        PHA              Gruppennummer merken
+A5C9: 20 74 A5  JSR <A HREF="RO81A574.HTM">$A574</A>        Super-Side-Sektor laden
+
+Einsprung von <A HREF="RO81A459.HTM">$A519</A>:
+
+A5CC: A9 03     LDA #$03         Zeiger auf Tabelle mit T&amp;S der
+A5CE: 20 15 9E  JSR <A HREF="RO819E15.HTM">$9E15</A>        Gruppenanfaenge setzen
+A5D1: 68        PLA
+
+Einsprung von <A HREF="RO81A5A9.HTM">$A5BA</A>:
+
+A5D2: AA        TAX              Gruppennummer nach x
+A5D3: 0A        ASL              (2-Byte Tabelle)
+A5D4: A8        TAY
+A5D5: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y      Eintrag vorhanden (Track&gt;0) ?
+A5D7: D0 03     BNE $A5DC        ja, ==&gt;
+A5D9: 09 FF     ORA #$FF         Fehler-Ende
+A5DB: 60        RTS
+
+Einsprung von $A5D7:
+
+A5DC: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>          T&amp;S des 1. Side-Sektors als aktuelle T&amp;S
+A5DE: C8        INY              merken
+A5DF: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y
+A5E1: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+A5E3: 8A        TXA              Gruppennummer merken
+A5E4: 48        PHA
+A5E5: A9 FF     LDA #$FF
+A5E7: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          Flag: 'Kein Side-Sektor geladen' setzen
+A5E9: 9D 02 01  STA <A HREF="RA810102.HTM">$0102</A>,X
+A5EC: BD 65 02  LDA <A HREF="RA810265.HTM">$0265</A>,X      Puffer fuer Side-Sektor holen
+A5EF: 85 6C     STA <A HREF="RA816C.HTM">$6C</A>
+A5F1: 20 88 95  JSR <A HREF="RO819585.HTM">$9588</A>        T&amp;S an DC uebergeben
+A5F4: A9 80     LDA #$80
+A5F6: 20 E4 94  JSR <A HREF="RO8194DE.HTM">$94E4</A>        1. Side-Sektor der Gruppe lesen
+A5F9: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+A5FB: 68        PLA
+A5FC: 9D 02 01  STA <A HREF="RA810102.HTM">$0102</A>,X      aktuelle Gruppennummer merken
+A5FF: A9 00     LDA #$00         O.k. Ende
+A601: 60        RTS
+
+    <A HREF="RO81A5A9.HTM">Previous Page</A> / <A HREF="RO81A602.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

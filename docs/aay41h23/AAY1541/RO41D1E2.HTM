@@ -1,0 +1,57 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D1E2/53730:   Find read channel and buffer
+
+Jump from <A HREF="RO41CB84.HTM">$CB9A</A>, <A HREF="RO41CB84.HTM">$CBDF</A>, <A HREF="RO41DC46.HTM">$DC48</A>, <A HREF="RO41EC9E.HTM">$ECA4</A>:
+
+D1E2: 18        CLC             ; flag for reading
+
+Jump from <A HREF="RO41D1DF.HTM">$D1E0</A>:
+
+D1E3: 08        PHP             ; save
+D1E4: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>         ; buffer number
+D1E6: 20 27 D2  JSR <A HREF="RO41D227.HTM">$D227</A>       ; close channel
+D1E9: 20 7F D3  JSR <A HREF="RO41D37F.HTM">$D37F</A>       ; allocate free channel
+D1EC: 85 82     STA <A HREF="RA4182.HTM">$82</A>         ; channel number
+D1EE: A6 83     LDX <A HREF="RA4183.HTM">$83</A>         ; secondary address
+D1F0: 28        PLP
+D1F1: 90 02     BCC $D1F5       ; read channel?
+D1F3: 09 80     ORA #$80        ; flag for writing
+
+Jump from $D1F1:
+
+D1F5: 9D 2B 02  STA <A HREF="RA41022B.HTM">$022B</A>,X     ; set
+D1F8: 29 3F     AND #$3F
+D1FA: A8        TAY
+D1FB: A9 FF     LDA #$FF        ; default value
+D1FD: 99 A7 00  STA <A HREF="RA41A7.HTM">$A7</A>,Y
+D200: 99 AE 00  STA <A HREF="RA41AE.HTM">$AE</A>,Y       ; write in associated table
+D203: 99 CD 00  STA <A HREF="RA41CD.HTM">$CD</A>,Y
+D206: C6 6F     DEC <A HREF="RA416F.HTM">$6F</A>         ; decrement buffer number
+D208: 30 1C     BMI $D226       ; done already?
+D20A: 20 8E D2  JSR <A HREF="RO41D28E.HTM">$D28E</A>       ; find buffer
+D20D: 10 08     BPL $D217       ; found?
+
+Jump from $D221, <A HREF="RO41DC46.HTM">$DC7E</A>, <A HREF="RO41DCDA.HTM">$DD13</A>:
+
+D20F: 20 5A D2  JSR <A HREF="RO41D25A.HTM">$D25A</A>       ; erase flags in table
+D212: A9 70     LDA #$70
+D214: 4C C8 C1  JMP <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 70, 'no channel'
+
+Jump from $D20D:
+
+D217: 99 A7 00  STA <A HREF="RA41A7.HTM">$A7</A>,Y       ; buffer number in table
+D21A: C6 6F     DEC <A HREF="RA416F.HTM">$6F</A>         ; buffer number
+D21C: 30 08     BMI $D226       ; already done?
+D21E: 20 8E D2  JSR <A HREF="RO41D28E.HTM">$D28E</A>       ; find buffer
+D221: 30 EC     BMI $D20F       ; not found?
+D223: 99 AE 00  STA <A HREF="RA41AE.HTM">$AE</A>,Y       ; buffer number in table
+
+Jump from $D208, $D21C:
+
+D226: 60        RTS
+
+    <A HREF="RO41D1DF.HTM">Previous Page</A> / <A HREF="RO41D227.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

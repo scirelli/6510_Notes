@@ -1,0 +1,149 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Copy ($c8f0)
+
+876E: A9 00     LDA #$00         Flag: 'Bampuffer leer' setzen
+8770: 8D 00 0A  STA <A HREF="RA810A00.HTM">$0A00</A>
+8773: A9 1F     LDA #$1F         alle Kanaele freigeben
+8775: 85 70     STA <A HREF="RA8170.HTM">$70</A>
+8777: 20 99 80  JSR <A HREF="RO818099.HTM">$8099</A>        ':' suchen
+877A: D0 03     BNE $877F        gefunden
+877C: 4C 7E 89  JMP <A HREF="RO81892F.HTM">$897E</A>        31, SYNTAX ERROR
+
+Einsprung von $877A:
+
+877F: 20 AC 80  JSR <A HREF="RO8180A2.HTM">$80AC</A>        Eingabezeile pruefen
+8782: 20 0B 82  JSR <A HREF="RO81820B.HTM">$820B</A>        Drivenummer(n) holen
+8785: AD A2 02  LDA <A HREF="RA8102A2.HTM">$02A2</A>        Syntaxflag pruefen (Bedeutung: s. $db9c)
+8788: 29 55     AND #$55         Ist ein ',' hinter dem '=' ?
+878A: D0 0F     BNE $879B        ja, ==&gt;
+878C: AE 91 02  LDX <A HREF="RA810291.HTM">$0291</A>
+878F: BD 00 02  LDA <A HREF="RA810200.HTM">$0200</A>,X      beginnt der 1. Filename mit einem '*' ?
+8792: C9 2A     CMP #$2A
+8794: D0 05     BNE $879B        nein, ==&gt;
+
+Einsprung von $87A0:
+
+8796: A9 30     LDA #$30         30, Syntax Error
+8798: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>
+
+Einsprung von $878A, $8794:
+
+879B: AD A2 02  LDA <A HREF="RA8102A2.HTM">$02A2</A>        Ist ein '*' in der Befehlszeile ?
+879E: 29 D9     AND #$D9
+87A0: D0 F4     BNE $8796        ja, ==&gt;
+87A2: 20 B9 82  JSR <A HREF="RO8182B9.HTM">$82B9</A>        alle angegebenen Files suchen
+87A5: AD 2F 02  LDA <A HREF="RA81022F.HTM">$022F</A>        Anzahl der gefundenen Files
+87A8: C9 03     CMP #$03         &lt; 3 (also = 2) ?
+87AA: 90 42     BCC $87EE        ja, ==&gt;
+
+File vor dem '=' mit 1. File hinter dem '=' vergleichen
+
+87AC: A5 EF     LDA <A HREF="RA81EF.HTM">$EF</A>          sind die Drivenummern gleich ? [Wenn keine
+87AE: C5 F0     CMP <A HREF="RA81EF.HTM">$F0</A>           Nummern angegeben werden, ist die eine $00
+87B0: D0 3C     BNE $87EE         und die andere $80 !!!] nein, ==&gt;
+87B2: A5 EA     LDA <A HREF="RA81EA.HTM">$EA</A>          Zeiger in Dir-Block gleich ?
+87B4: C5 EB     CMP <A HREF="RA81EA.HTM">$EB</A>
+87B6: D0 36     BNE $87EE        nein, ==&gt;
+87B8: A5 E5     LDA <A HREF="RA81E5.HTM">$E5</A>          Stehen beide Files im selben Dir-Block ?
+87BA: C5 E6     CMP <A HREF="RA81E5.HTM">$E6</A>
+87BC: D0 30     BNE $87EE        nein, ==&gt;
+
+Neue Datei(en) an eine alte anhaengen (CONCAT)
+
+87BE: 20 03 89  JSR <A HREF="RO818903.HTM">$8903</A>        pruefen, ob alle Files existieren
+87C1: A9 01     LDA #$01         Zeiger auf das 1. File nach dem '=' setzen
+87C3: 8D 30 02  STA <A HREF="RA810230.HTM">$0230</A>
+87C6: 20 41 88  JSR <A HREF="RO818841.HTM">$8841</A>        File zum Lesen oeffnen
+87C9: 20 5F 90  JSR <A HREF="RO81905F.HTM">$905F</A>        aktuellen Dateityp holen
+87CC: B0 04     BCS $87D2        = REL-Datei, ==&gt;
+87CE: C9 02     CMP #$02         Wenn keine SEQ Datei, dann:
+87D0: D0 05     BNE $87D7
+
+Einsprung von $87CC:
+
+87D2: A9 64     LDA #$64         64, File type mismatch
+87D4: 20 7C 80  JSR <A HREF="RO81807C.HTM">$807C</A>
+
+Einsprung von $87D0:
+
+87D7: A9 12     LDA #$12         Auf internen Schreibkanal schalten
+87D9: 85 52     STA <A HREF="RA8152.HTM">$52</A>
+87DB: A5 B9     LDA <A HREF="RA81A8.HTM">$B9</A>          internen Schreibkanal in
+87DD: 85 BA     STA <A HREF="RA81A8.HTM">$BA</A>          Lesekanal umwandeln
+87DF: A9 FF     LDA #$FF         Lesekanal loeschen
+87E1: 85 B9     STA <A HREF="RA81A8.HTM">$B9</A>
+
+[Nun ist das 1. File hinter dem '=' auf dem Schreibkanal zum Lesen
+ geoeffnet. Bei dem Aufruf der Append-Funktion wird der benutzte Lesekanal
+ automatisch wieder in einen Schreibkanal zurueckverwandelt.]
+
+87E3: 20 CC 98  JSR <A HREF="RO8198CC.HTM">$98CC</A>        Append: Dateiende suchen
+87E6: A2 02     LDX #$02         mit 2. File nach dem '='
+87E8: 20 00 88  JSR $8800        'normales' COPY beginnen
+87EB: 4C 4C 80  JMP <A HREF="RO81804C.HTM">$804C</A>
+
+normales COPY
+
+Einsprung von $87AA, $87B0, $87B6, $87BC:
+
+87EE: 20 F4 87  JSR $87F4        eigentliche Copy-Routine aufrufen
+87F1: 4C 4C 80  JMP <A HREF="RO81804C.HTM">$804C</A>
+
+Einsprung von $87EE:
+
+87F4: 20 1E 89  JSR <A HREF="RO81891E.HTM">$891E</A>        existieren nur die Files hinter dem '=' ?
+                                (Rueckkehr nur bei 'Ja')
+87F7: 20 E0 93  JSR <A HREF="RO8193E0.HTM">$93E0</A>        neues File anlegen
+87FA: 20 AB 95  JSR <A HREF="RO8195AB.HTM">$95AB</A>        und im Directory eintragen
+87FD: AE 2E 02  LDX <A HREF="RA81022E.HTM">$022E</A>        1. File nach dem '='
+
+Einsprung von $87E8, $8838:
+
+8800: 8E 30 02  STX <A HREF="RA810230.HTM">$0230</A>        als aktuelles File setzen
+8803: 20 41 88  JSR <A HREF="RO818841.HTM">$8841</A>        File auf SA 17 zum Lesen oeffnen
+8806: A9 11     LDA #$11         und aktivieren
+8808: 85 52     STA <A HREF="RA8152.HTM">$52</A>
+880A: 20 27 90  JSR <A HREF="RO819027.HTM">$9027</A>        (Kanalnummer holen)
+880D: 20 5F 90  JSR <A HREF="RO81905F.HTM">$905F</A>        Filetyp holen
+8810: D0 03     BNE $8815        kein REL-File, ==&gt;
+8812: 20 95 88  JSR <A HREF="RO818895.HTM">$8895</A>        REL-File zum Kopieren vorbereiten
+
+Einsprung von $8810:
+
+8815: A9 08     LDA #$08         Flag 'EOI empfangen' loeschen
+8817: 85 51     STA <A HREF="RA8151.HTM">$51</A>
+8819: 4C 1F 88  JMP $881F
+
+Einsprung von $8827:
+
+881C: 20 5C 8E  JSR <A HREF="RO818E5C.HTM">$8E5C</A>        Byte in Ziel-Datei schreiben
+
+Einsprung von $8819:
+
+881F: 20 76 88  JSR <A HREF="RO818876.HTM">$8876</A>        Byte aus Quell-Datei holen
+8822: A9 80     LDA #$80         b7=1: 'Dateiende' ?
+8824: 20 E4 9C  JSR <A HREF="RO819CD3.HTM">$9CE4</A>        (Dateistatus testen)
+8827: F0 F3     BEQ $881C        nein, ==&gt;
+8829: 20 5F 90  JSR <A HREF="RO81905F.HTM">$905F</A>        Filetyp holen
+882C: F0 03     BEQ $8831        REL-Datei, ==&gt;
+882E: 20 5C 8E  JSR <A HREF="RO818E5C.HTM">$8E5C</A>        Byte in Zieldatei schreiben
+                                [Das Byte, das bei EOI zurueckgegeben wird,
+                                 ist noch gueltig; bei REL-Dateien wurde
+                                 bereits auf einen nicht existierenden
+                                 Record zugegriffen.]
+
+Einsprung von $882C:
+
+8831: AE 30 02  LDX <A HREF="RA810230.HTM">$0230</A>        naechstes File holen
+8834: E8        INX
+8835: EC 2F 02  CPX <A HREF="RA81022F.HTM">$022F</A>        noch eins vorhanden ?
+8838: 90 C6     BCC $8800        ja, ==&gt;
+883A: A9 12     LDA #$12         Schreibkanal holen
+883C: 85 52     STA <A HREF="RA8152.HTM">$52</A>
+883E: 4C 9F 99  JMP <A HREF="RO81999F.HTM">$999F</A>        Ziel-Datei schliessen
+
+    <A HREF="RO818746.HTM">Previous Page</A> / <A HREF="RO818841.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

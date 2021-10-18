@@ -1,0 +1,20 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+BAM-Puffer loeschen ($f005)
+
+Einsprung von <A HREF="RO81B348.HTM">$B37A</A>:
+
+B43D: A9 00     LDA #$00
+B43F: A8        TAY
+
+Einsprung von $B447:
+
+B440: 99 00 0A  STA <A HREF="RA810A00.HTM">$0A00</A>,Y      1. Puffer &amp;
+B443: 99 00 0B  STA <A HREF="RA810B00.HTM">$0B00</A>,Y      2. Puffer
+B446: C8        INY              loeschen
+B447: D0 F7     BNE $B440
+B449: 60        RTS
+    <A HREF="RO81B390.HTM">Previous Page</A> / <A HREF="RO81B44A.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

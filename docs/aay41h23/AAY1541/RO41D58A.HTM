@@ -1,0 +1,26 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D58A/54666:   Write block
+
+Jump from <A HREF="RO41EEF4.HTM">$EF37</A>, <A HREF="RO41EFF1.HTM">$F001</A>, <A HREF="RO41F05B.HTM">$F09C</A>:
+
+D58A: A9 90     LDA #$90        ; code for write
+
+Jump from <A HREF="RO41D00E.HTM">$D03F</A>, <A HREF="RO41D586.HTM">$D588</A>:
+
+D58C: 05 7F     ORA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+D58E: A6 F9     LDX <A HREF="RA41F9.HTM">$F9</A>         ; buffer number
+
+Jump from <A HREF="RO41DBA5.HTM">$DC3D</A>:
+
+D590: 8D 4D 02  STA <A HREF="RA41024D.HTM">$024D</A>
+
+Jump from <A HREF="RO41D464.HTM">$D472</A>, <A HREF="RO41DF21.HTM">$DF42</A>:
+
+D593: AD 4D 02  LDA <A HREF="RA41024D.HTM">$024D</A>       ; command code
+D596: 20 0E D5  JSR <A HREF="RO41D506.HTM">$D50E</A>       ; check track and sector
+
+    <A HREF="RO41D586.HTM">Previous Page</A> / <A HREF="RO41D599.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,21 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Block-Pointer ($cdbd)
+
+8BFA: 20 0F 8C  JSR <A HREF="RO818C0F.HTM">$8C0F</A>        Kanal oeffnen
+8BFD: A5 6C     LDA <A HREF="RA816C.HTM">$6C</A>          aktuelle Puffernummer holen
+8BFF: 0A        ASL              auf 2-Byte-Tabelle umrechnen
+8C00: AA        TAX
+8C01: AD 9D 02  LDA <A HREF="RA81029C.HTM">$029D</A>        neuen Wert fuer den Pufferzeiger holen
+8C04: 95 BB     STA <A HREF="RA81BB.HTM">$BB</A>,X        und setzen
+8C06: 20 69 90  JSR <A HREF="RO819069.HTM">$9069</A>        Kanal und Puffernummer holen
+
+Einsprung von <A HREF="RO818BAE.HTM">$8BCE</A>:
+
+8C09: 20 4A 93  JSR <A HREF="RO819303.HTM">$934A</A>        Byte fuer Ausgabe bereitstellen
+8C0C: 4C 4C 80  JMP <A HREF="RO81804C.HTM">$804C</A>
+
+    <A HREF="RO818BE3.HTM">Previous Page</A> / <A HREF="RO818C0F.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

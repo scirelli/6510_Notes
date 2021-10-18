@@ -1,0 +1,18 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Aktuellen Filetyp holen ($d125)
+
+Einsprung von <A HREF="RO81876E.HTM">$87C9</A>, <A HREF="RO81876E.HTM">$880D</A>, <A HREF="RO81876E.HTM">$8829</A>, <A HREF="RO818841.HTM">$886C</A>, <A HREF="RO818876.HTM">$888A</A>, <A HREF="RO818D7D.HTM">$8DFD</A>, <A HREF="RO818E5C.HTM">$8E66</A>, <A HREF="RO818E78.HTM">$8E80</A>, <A HREF="RO818FFE.HTM">$9015</A>,
+              <A HREF="RO819303.HTM">$9305</A>, <A HREF="RO819303.HTM">$931A</A>, <A HREF="RO819303.HTM">$9333</A>, <A HREF="RO81999F.HTM">$99AC</A>, <A HREF="RO819A72.HTM">$9AA5</A>, <A HREF="RO81A1A1.HTM">$A1B8</A>, <A HREF="RO81A7F1.HTM">$A831</A>:
+
+905F: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          aktuelle Kanalnummer
+9061: B5 F9     LDA <A HREF="RA81F9.HTM">$F9</A>,X        und den Dateityp holen
+9063: 4A        LSR              Drivenummer entfernen
+9064: 29 07     AND #$07         Dateityp isolieren
+9066: C9 04     CMP #$04         Relative Datei ?
+9068: 60        RTS
+
+    <A HREF="RO819042.HTM">Previous Page</A> / <A HREF="RO819069.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

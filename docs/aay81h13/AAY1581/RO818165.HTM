@@ -1,0 +1,99 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Kommandozeilenende feststellen (CR (/LF) entfernen) ($c2b3)
+(bei u0 Zeilenende nicht veraendern)
+Kommandozeilen-Parameter loeschen
+
+Einsprung von <A HREF="RO818004.HTM">$8018</A>, <A HREF="RO819678.HTM">$967C</A>, <A HREF="RO81A1A1.HTM">$A1A1</A>:
+
+8165: A4 CD     LDY <A HREF="RA81CD.HTM">$CD</A>          Laenge der Kommandozeile
+8167: F0 36     BEQ $819F        = 0 ?  ==&gt;
+8169: 88        DEY
+816A: F0 32     BEQ $819E        = 1 ?  ==&gt; (kann kein u0 sein)
+816C: AD 00 02  LDA <A HREF="RA810200.HTM">$0200</A>        (etwas umstaendliche) Ueberpruefung auf 'u0'
+816F: C9 55     CMP #$55
+8171: D0 07     BNE $817A        (u0)
+8173: AD 01 02  LDA <A HREF="RA810200.HTM">$0201</A>
+8176: C9 30     CMP #$30
+8178: F0 04     BEQ $817E        = u0 ? ==&gt;
+
+Einsprung von $8171:
+
+817A: B9 00 02  LDA <A HREF="RA810200.HTM">$0200</A>,Y      Zeilenende mit CR vergleichen
+817D: 2C         B $2C         (u0)
+
+Einsprung von $8178:
+
+817E: A9 00     LDA #$00         u0: CR nicht beachten
+8180: C9 0D     CMP #$0D
+8182: F0 1B     BEQ $819F
+8184: 88        DEY
+8185: AD 00 02  LDA <A HREF="RA810200.HTM">$0200</A>        (u0 Abfrage) (wozu ?)
+8188: C9 55     CMP #$55
+818A: D0 07     BNE $8193
+818C: AD 01 02  LDA <A HREF="RA810200.HTM">$0201</A>
+818F: C9 30     CMP #$30
+8191: F0 04     BEQ $8197        = u0 ? ==&gt;
+
+Einsprung von $818A:
+
+8193: B9 00 02  LDA <A HREF="RA810200.HTM">$0200</A>,Y      vorletztes Zeichen mit CR vergleichen
+8196: 2C         B $2C
+
+Einsprung von $8191:
+
+8197: A9 00     LDA #$00         u0: CR nicht beachten
+8199: C9 0D     CMP #$0D
+819B: F0 02     BEQ $819F
+819D: C8        INY              &lt;= kein CR vorhanden bzw. u0
+
+Einsprung von $816A:
+
+819E: C8        INY              &lt;= CR vorhanden / Laenge=1
+
+Einsprung von $8167, $8182, $819B:
+
+819F: 84 29     STY <A HREF="RA8129.HTM">$29</A>          &lt;= CL,LF vorhanden / Laenge=0
+81A1: C0 2A     CPY #$2A         Zeile zu lang ?
+81A3: A0 FF     LDY #$FF
+81A5: 90 08     BCC $81AF        nein, ==&gt;
+81A7: 8C 2A 02  STY <A HREF="RA81022A.HTM">$022A</A>
+81AA: A9 32     LDA #$32         32, SYNTAX ERROR
+81AC: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>
+
+Kommandozeilenparameter initialisieren ($c2dc)
+
+Einsprung von $81A5, <A HREF="RO8198F7.HTM">$992C</A>:
+
+81AF: A0 00     LDY #$00
+81B1: 98        TYA
+81B2: 85 CD     STA <A HREF="RA81CD.HTM">$CD</A>          Zeiger auf INPUT-Puffer Lo = 0
+81B4: 8D 6F 02  STA <A HREF="RA81026F.HTM">$026F</A>        Aktuelle Recordlaenge = 0
+81B7: 8D 2D 02  STA <A HREF="RA81022D.HTM">$022D</A>        Aktueller Dateityp = DEL
+81BA: 8D 33 02  STA <A HREF="RA810233.HTM">$0233</A>        Dateityp fuer Dateisuche loeschen
+81BD: 85 67     STA <A HREF="RA8167.HTM">$67</A>          Zaehler (z.B. fuer Block-Befehle) loeschen
+81BF: 8D 30 02  STA <A HREF="RA810230.HTM">$0230</A>        Anzahl Parameter vor '=' bzw. Anzahl der
+                                Dateinamen
+81C2: 8D 2E 02  STA <A HREF="RA81022E.HTM">$022E</A>        Parameterzaehler (vor '=') loeschen
+81C5: 8D 2F 02  STA <A HREF="RA81022F.HTM">$022F</A>        Anzahl Parameter in Kommandozeile loeschen
+81C8: 8D A1 02  STA <A HREF="RA8102A1.HTM">$02A1</A>        Jokerflag loeschen
+81CB: 8D AB 02  STA <A HREF="RA8102AB.HTM">$02AB</A>        Fehlerflag loeschen
+81CE: A2 05     LDX #$05
+
+Einsprung von $81E2:
+
+81D0: 9D 90 02  STA <A HREF="RA810290.HTM">$0290</A>,X      Positionen der Parameter
+81D3: 95 E4     STA <A HREF="RA81DF.HTM">$E4</A>,X        Dir-Block mit dem Dateieintrag
+81D5: 95 E9     STA <A HREF="RA81E5.HTM">$E9</A>,X        Zeiger auf den Eintrag
+81D7: 95 EE     STA <A HREF="RA81EA.HTM">$EE</A>,X        Drivenummern
+81D9: 95 F3     STA <A HREF="RA81EF.HTM">$F3</A>,X        Jokerflags loeschen
+81DB: 9D 96 02  STA <A HREF="RA810291.HTM">$0296</A>,X      T&amp;S der Dateien = 0 bzw.
+81DE: 9D 9B 02  STA <A HREF="RA810297.HTM">$029B</A>,X      Parameter der Block-Befehle = 0
+81E1: CA        DEX
+81E2: D0 EC     BNE $81D0
+81E4: 60        RTS
+
+    <A HREF="RO81811C.HTM">Previous Page</A> / <A HREF="RO8181E5.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

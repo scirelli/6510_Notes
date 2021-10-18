@@ -1,0 +1,27 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Alle Parameter auf Laufwerksnummer pruefen und diese ggf. loeschen ($c320)
+(z.B. &quot;c0:xxx=0:yyy,0:zzz&quot;, &quot;s0:xxx,0:yyy&quot;, LOAD&quot;$0:xxx,0:yyy&quot;,ga ...)
+
+Einsprung von <A HREF="RO818688.HTM">$868B</A>, <A HREF="RO81876E.HTM">$8782</A>, <A HREF="RO8188C5.HTM">$88C5</A>, <A HREF="RO8198F7.HTM">$993C</A>:
+
+820B: A2 00     LDX #$00         mit dem 1. Parameter anfangen
+
+Einsprung von $8221:
+
+820D: 86 67     STX <A HREF="RA8167.HTM">$67</A>
+820F: BD 91 02  LDA <A HREF="RA810291.HTM">$0291</A>,X      Position des Parameters holen
+8212: 20 24 82  JSR <A HREF="RO818224.HTM">$8224</A>        und testen
+8215: A6 67     LDX <A HREF="RA8167.HTM">$67</A>          Neue Position zurueckschreiben
+8217: 9D 91 02  STA <A HREF="RA810291.HTM">$0291</A>,X      (zum Entfernen der Drivenummer)
+821A: 98        TYA              Drivenummer merken
+821B: 95 EF     STA <A HREF="RA81EF.HTM">$EF</A>,X
+821D: E8        INX              Naechsten Parameter pruefen
+821E: EC 2F 02  CPX <A HREF="RA81022F.HTM">$022F</A>         &lt; Anzahl der Parameter ?
+8221: 90 EA     BCC $820D        ja, ==&gt;
+8223: 60        RTS
+
+    <A HREF="RO8181FD.HTM">Previous Page</A> / <A HREF="RO818224.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

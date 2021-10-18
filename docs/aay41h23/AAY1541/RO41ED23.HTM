@@ -1,0 +1,33 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $ED23/60707:   ?
+
+Jump from <A HREF="RO41EC9E.HTM">$ECF5</A>:
+
+ED23: AD 72 02  LDA <A HREF="RA410272.HTM">$0272</A>       ; block number lo
+ED26: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>       ; write in buffer
+ED29: AD 73 02  LDA <A HREF="RA410272.HTM">$0273</A>       ; block number hi
+ED2C: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>       ; in buffer
+ED2F: 20 59 ED  JSR <A HREF="RO41ED59.HTM">$ED59</A>       ; 'blocks free.' in buffer
+ED32: 20 93 DF  JSR <A HREF="RO41DF93.HTM">$DF93</A>       ; get buffer number
+ED35: 0A        ASL
+ED36: AA        TAX
+ED37: D6 99     DEC <A HREF="RA4199.HTM">$99</A>,X
+ED39: D6 99     DEC <A HREF="RA4199.HTM">$99</A>,X       ; buffer pointer minus 2
+ED3B: A9 00     LDA #$00
+ED3D: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>
+ED40: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>       ; three zeroes as program end
+ED43: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>
+ED46: 20 93 DF  JSR <A HREF="RO41DF93.HTM">$DF93</A>       ; get buffer number
+ED49: 0A        ASL             ; times 2
+ED4A: A8        TAY
+ED4B: B9 99 00  LDA <A HREF="RA4199.HTM">$99</A>,Y       ; buffer pointer
+ED4E: A6 82     LDX <A HREF="RA4182.HTM">$82</A>
+ED50: 9D 44 02  STA <A HREF="RA410244.HTM">$0244</A>,X     ; as end marker
+ED53: DE 44 02  DEC <A HREF="RA410244.HTM">$0244</A>,X
+ED56: 4C 0D ED  JMP <A HREF="RO41EC9E.HTM">$ED0D</A>
+
+    <A HREF="RO41EC9E.HTM">Previous Page</A> / <A HREF="RO41ED59.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

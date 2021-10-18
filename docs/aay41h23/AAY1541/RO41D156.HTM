@@ -1,0 +1,50 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D156/53590:   Get byte and read next block
+
+Jump from <A HREF="RO41C87D.HTM">$C899</A>, <A HREF="RO41C87D.HTM">$C89E</A>, <A HREF="RO41D39B.HTM">$D400</A>, <A HREF="RO41D44D.HTM">$D45C</A>, <A HREF="RO41DC46.HTM">$DCA9</A>:
+
+D156: 20 37 D1  JSR <A HREF="RO41D137.HTM">$D137</A>       ; get byte from buffer
+D159: D0 36     BNE $D191       ; not last character?
+D15B: 85 85     STA <A HREF="RA4185.HTM">$85</A>         ; save data byte
+D15D: B9 44 02  LDA <A HREF="RA410244.HTM">$0244</A>,Y     ; end pointer
+D160: F0 08     BEQ $D16A       ; yes
+D162: A9 80     LDA #$80
+D164: 99 F2 00  STA <A HREF="RA41F2.HTM">$F2</A>,Y       ; READ-flag
+D167: A5 85     LDA <A HREF="RA4185.HTM">$85</A>         ; data byte
+D169: 60        RTS
+
+Jump from $D160:
+
+D16A: 20 1E CF  JSR <A HREF="RO41CF1E.HTM">$CF1E</A>       ; change buffer and read next block
+D16D: A9 00     LDA #$00
+D16F: 20 C8 D4  JSR <A HREF="RO41D4C8.HTM">$D4C8</A>       ; set buffer pointer to zero
+D172: 20 37 D1  JSR <A HREF="RO41D137.HTM">$D137</A>       ; get first byte from buffer
+D175: C9 00     CMP #$00        ; track number zero
+D177: F0 19     BEQ $D192       ; yes, then last block
+D179: 85 80     STA <A HREF="RA4180.HTM">$80</A>         ; save last track number
+D17B: 20 37 D1  JSR <A HREF="RO41D137.HTM">$D137</A>       ; get next byte
+D17E: 85 81     STA <A HREF="RA4181.HTM">$81</A>         ; save as following track
+D180: 20 1E CF  JSR <A HREF="RO41CF1E.HTM">$CF1E</A>       ; change buffer and read next block
+D183: 20 D3 D1  JSR <A HREF="RO41D1D3.HTM">$D1D3</A>       ; save drive number
+D186: 20 D0 D6  JSR <A HREF="RO41D6D0.HTM">$D6D0</A>       ; parameter to disk controller
+D189: 20 C3 D0  JSR <A HREF="RO41D0C3.HTM">$D0C3</A>       ; transmit read command
+D18C: 20 1E CF  JSR <A HREF="RO41CF1E.HTM">$CF1E</A>       ; change buffer and read block
+D18F: A5 85     LDA <A HREF="RA4185.HTM">$85</A>         ; get data byte
+
+Jump from $D159:
+
+D191: 60        RTS
+
+Jump from $D177:
+
+D192: 20 37 D1  JSR <A HREF="RO41D137.HTM">$D137</A>       ; get next byte from buffer
+D195: A4 82     LDY <A HREF="RA4182.HTM">$82</A>
+D197: 99 44 02  STA <A HREF="RA410244.HTM">$0244</A>,Y     ; save as end pointer
+D19A: A5 85     LDA <A HREF="RA4185.HTM">$85</A>         ; get data byte back
+D19C: 60        RTS
+
+    <A HREF="RO41D137.HTM">Previous Page</A> / <A HREF="RO41D19D.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

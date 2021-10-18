@@ -1,0 +1,17 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Busbetrieb beenden
+
+Einsprung von <A HREF="RO81ABCF.HTM">$AC8E</A>, <A HREF="RO81AEB8.HTM">$AECC</A>:
+
+AEDF: A9 10     LDA #$10         b0-3=0: seriellen Bus freigeben
+AEE1: 8D 01 40  STA <A HREF="CIA811.HTM">$4001</A>        b4  =1: automatische ATN-Beantwortung ein
+
+Einsprung von <A HREF="RO81ABCF.HTM">$AC78</A>:
+
+AEE4: 20 BB AC  JSR <A HREF="RO81ACB6.HTM">$ACBB</A>        FSM auf Eingang schalten
+AEE7: 4C 00 FF  JMP <A HREF="RO81FF00.HTM">$FF00</A>        JIDLE (Hauptschleife) ==&gt;
+    <A HREF="RO81AED9.HTM">Previous Page</A> / <A HREF="RO81AEEA.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

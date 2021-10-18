@@ -1,0 +1,29 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Block-Write ($cd73)
+
+8BAE: 20 2F 8C  JSR <A HREF="RO818C2F.HTM">$8C2F</A>        Kanal oeffnen, Parameter holen
+8BB1: 20 42 94  JSR <A HREF="RO819434.HTM">$9442</A>        Pufferzeiger holen
+8BB4: A8        TAY
+8BB5: 88        DEY              auf letztes benutztes Byte setzen
+8BB6: C9 02     CMP #$02         Pufferzeiger &lt;=2 ?
+8BB8: B0 02     BCS $8BBC        nein, ==&gt;
+8BBA: A0 01     LDY #$01         Puffer muss mindestens 1 Datenbyte enthalten
+
+Einsprung von $8BB8:
+
+8BBC: A9 00     LDA #$00
+8BBE: 20 22 94  JSR <A HREF="RO819422.HTM">$9422</A>        Pufferzeiger auf 0 setzen
+8BC1: 98        TYA
+8BC2: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>        Byte in Puffer schreiben
+8BC5: 8A        TXA              Puffernummer merken
+8BC6: 48        PHA
+8BC7: 20 C1 93  JSR <A HREF="RO8193BD.HTM">$93C1</A>        Puffer auf Disk schreiben
+8BCA: 68        PLA
+8BCB: AA        TAX              Puffernummer zurueckholen
+8BCC: A4 50     LDY <A HREF="RA8150.HTM">$50</A>
+8BCE: 4C 09 8C  JMP <A HREF="RO818BFA.HTM">$8C09</A>        Byte fuer Ausgabe bereitstellen
+    <A HREF="RO818B9A.HTM">Previous Page</A> / <A HREF="RO818BD1.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,36 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Dateistatus setzen/loeschen ($dd95)
+
+9CD3: 90 06     BCC $9CDB        c=1: Status setzen
+
+Einsprung von <A HREF="RO818876.HTM">$8891</A>, <A HREF="RO819F4C.HTM">$9F9B</A>, <A HREF="RO819FFC.HTM">$A020</A>, <A HREF="RO81A08D.HTM">$A08F</A>, <A HREF="RO81A1A1.HTM">$A1F7</A>, <A HREF="RO81A2D6.HTM">$A430</A>:
+
+9CD5: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          &lt;-- Status setzen
+9CD7: 15 F9     ORA <A HREF="RA81F9.HTM">$F9</A>,X        alle 1-Bits werden gesetzt
+9CD9: D0 06     BNE $9CE1
+
+Einsprung von $9CD3, <A HREF="RO818E5C.HTM">$8E6D</A>, <A HREF="RO819F4C.HTM">$9F4E</A>, <A HREF="RO819F4C.HTM">$9F84</A>, <A HREF="RO81A033.HTM">$A075</A>, <A HREF="RO81A1A1.HTM">$A1B5</A>:
+
+9CDB: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          &lt;-- Status loeschen
+9CDD: 49 FF     EOR #$FF         alle 1-Bits werden geloescht
+9CDF: 35 F9     AND <A HREF="RA81F9.HTM">$F9</A>,X
+
+Einsprung von $9CD9:
+
+9CE1: 95 F9     STA <A HREF="RA81F9.HTM">$F9</A>,X
+9CE3: 60        RTS
+
+Status testen
+
+Einsprung von <A HREF="RO81876E.HTM">$8824</A>, <A HREF="RO8198CC.HTM">$98D1</A>, <A HREF="RO81999F.HTM">$99FA</A>, <A HREF="RO819F4C.HTM">$9F53</A>, <A HREF="RO81A033.HTM">$A035</A>, <A HREF="RO81A033.HTM">$A046</A>, <A HREF="RO81A07B.HTM">$A07D</A>,
+              <A HREF="RO81A0A6.HTM">$A0A8</A>, <A HREF="RO81A1A1.HTM">$A202</A>:
+
+9CE4: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          alle 1-Bits in a werden getestet
+9CE6: 35 F9     AND <A HREF="RA81F9.HTM">$F9</A>,X
+9CE8: 60        RTS
+
+    <A HREF="RO819CCA.HTM">Previous Page</A> / <A HREF="RO819CE9.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

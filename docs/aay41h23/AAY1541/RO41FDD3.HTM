@@ -1,0 +1,22 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $FDD3/64979:   Attempt counter for formatting
+
+Jump from <A HREF="RO41FAC7.HTM">$FB09</A>, <A HREF="RO41FAC7.HTM">$FB59</A>, <A HREF="RO41FAC7.HTM">$FB7A</A>, <A HREF="RO41FAC7.HTM">$FBCB</A>, <A HREF="RO41FAC7.HTM">$FC12</A>, <A HREF="RO41FAC7.HTM">$FC2D</A>, <A HREF="RO41FAC7.HTM">$FD5F</A>:
+
+FDD3: CE 20 06  DEC <A HREF="RA410620.HTM">$0620</A>       ; decrement number of attempts
+FDD6: F0 03     BEQ $FDDB       ; zero, then error
+FDD8: 4C 9C F9  JMP <A HREF="RO41F99C.HTM">$F99C</A>       ; continue
+
+Jump from $FDD6:
+
+FDDB: A0 FF     LDY #$FF
+FDDD: 84 51     STY <A HREF="RA4151.HTM">$51</A>         ; flag for end of formatting
+FDDF: C8        INY
+FDE0: 84 50     STY <A HREF="RA4150.HTM">$50</A>
+FDE2: 4C 69 F9  JMP <A HREF="RO41F969.HTM">$F969</A>       ; error termination
+
+    <A HREF="RO41FDC3.HTM">Previous Page</A> / <A HREF="RO41FDE5.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

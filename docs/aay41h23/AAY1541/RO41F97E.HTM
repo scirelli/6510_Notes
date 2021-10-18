@@ -1,0 +1,19 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F97E/63870:   Turn drive motor on
+
+Jump from <A HREF="RO41F2B0.HTM">$F2DF</A>:
+
+F97E: A9 A0     LDA #$A0
+F980: 85 20     STA <A HREF="RA4120.HTM">$20</A>
+F982: AD 00 1C  LDA <A HREF="VIA20.HTM">$1C00</A>
+F985: 09 04     ORA #$04        ; turn drive motor on
+F987: 8D 00 1C  STA <A HREF="VIA20.HTM">$1C00</A>
+F98A: A9 3C     LDA #$3C
+F98C: 85 48     STA <A HREF="RA4148.HTM">$48</A>
+F98E: 60        RTS
+
+    <A HREF="RO41F969.HTM">Previous Page</A> / <A HREF="RO41F98F.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

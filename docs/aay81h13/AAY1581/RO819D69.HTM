@@ -1,0 +1,20 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Zeiger auf Anfang des aktiven Puffers setzen ($de2b)
+
+Einsprung von <A HREF="RO819D3A.HTM">$9D3A</A>, <A HREF="RO819D49.HTM">$9D49</A>, <A HREF="RO819D56.HTM">$9D56</A>, <A HREF="RO81A0FD.HTM">$A143</A>, <A HREF="RO81A298.HTM">$A298</A>:
+
+9D69: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        Nummer des aktiven Puffers holen
+9D6C: 0A        ASL
+9D6D: AA        TAX
+9D6E: B5 BC     LDA <A HREF="RA81BB.HTM">$BC</A>,X        Pufferzeiger Hi holen
+9D70: 85 65     STA <A HREF="RA8164.HTM">$65</A>
+9D72: A9 00     LDA #$00         Pufferzeiger lo = 0
+9D74: 85 64     STA <A HREF="RA8164.HTM">$64</A>
+9D76: A0 00     LDY #$00
+9D78: 60        RTS
+
+    <A HREF="RO819D56.HTM">Previous Page</A> / <A HREF="RO819D79.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,62 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Befehlsstring vom Computer auswerten ($c146)
+[Wenn die SA 15 angesprochen wird, oder die SA ein OPEN-Kommando enthaelt,
+ dann werden alle ankommenden Daten in den Kommandopuffer geschrieben und
+ das Befehlsmodus-Flag ($7b) gesetzt. (s. $8e78)
+ Am Ende der Befehlsuebertragung wird wieder die Haupt-Leerschleife
+ aufgerufen. Die erkennt nun, dass ein Kommando anliegt und ruft diese
+ Routine auf.]
+
+Einsprung von <A HREF="RO81B0F0.HTM">$B0FF</A>:
+
+8004: A9 00     LDA #$00         Flag: 'BAM auf Diskette schreiben' loeschen
+8006: 85 35     STA <A HREF="RA8135.HTM">$35</A>
+8008: 20 62 A8  JSR <A HREF="RO81A862.HTM">$A862</A>        '00, ok,00,00' Meldung bereitstellen
+800B: A5 53     LDA <A HREF="RA8153.HTM">$53</A>          Sekundaeradresse vom IEC-Bus
+800D: 10 09     BPL $8018        SA oeffnen ? nein, (also Befehlskanal) ==&gt;
+800F: 29 0F     AND #$0F         ja: SA 15 oeffnen ?
+8011: C9 0F     CMP #$0F
+8013: F0 03     BEQ $8018        ja, (Kommando ausfuehren) ==&gt;
+8015: 4C 78 96  JMP <A HREF="RO819678.HTM">$9678</A>        Datei-OPEN-Routine ==&gt;
+
+Einsprung von $800D, $8013:
+
+8018: 20 65 81  JSR <A HREF="RO818165.HTM">$8165</A>        Kommandotabellen initialisieren
+801B: B1 CD     LDA (<A HREF="RA81CD.HTM">$CD</A>),Y      Zeichen aus INPUT-Puffer holen
+801D: 8D 8F 02  STA <A HREF="RA81028F.HTM">$028F</A>        und merken
+8020: A2 0B     LDX #$0B         Kommando suchen
+
+Einsprung von $802B:
+
+8022: BD 78 DB  LDA <A HREF="RO81DAFD.HTM">$DB78</A>,X      gueltige Kommandos der Reihe nach holen
+8025: CD 8F 02  CMP <A HREF="RA81028F.HTM">$028F</A>        und mit angegebenem vergleichen
+8028: F0 08     BEQ $8032        Kommando gefunden, ==&gt;
+802A: CA        DEX
+802B: 10 F5     BPL $8022        naechstes Kommando pruefen, ==&gt;
+
+Einsprung von <A HREF="RO818224.HTM">$8247</A>, <A HREF="RO81854D.HTM">$857B</A>:
+
+802D: A9 31     LDA #$31         gesuchtes Kommando wurde nicht gefunden
+802F: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>        31, Syntax Error
+
+Einsprung von $8028:
+
+8032: 8E 2A 02  STX <A HREF="RA81022A.HTM">$022A</A>
+8035: E0 09     CPX #$09         Kommando mit Dateiname(n) ?
+8037: 90 03     BCC $803C        nein, ==&gt;
+8039: 20 A2 80  JSR <A HREF="RO8180A2.HTM">$80A2</A>        Befehlsstring pruefen
+
+Einsprung von $8037:
+
+803C: AE 2A 02  LDX <A HREF="RA81022A.HTM">$022A</A>
+803F: BD 84 DB  LDA <A HREF="RO81DAFD.HTM">$DB84</A>,X      Aufruf des Befehls
+8042: 85 40     STA <A HREF="RA8140.HTM">$40</A>
+8044: BD 90 DB  LDA <A HREF="RO81DAFD.HTM">$DB90</A>,X
+8047: 85 41     STA <A HREF="RA8140.HTM">$41</A>
+8049: 6C 40 00  JMP (<A HREF="RA8140.HTM">$0040</A>)
+
+    <A HREF="RO818000.HTM">Previous Page</A> / <A HREF="RO81804C.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

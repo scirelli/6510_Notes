@@ -1,0 +1,30 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Warmstart ($eb22)
+
+Einsprung von <A HREF="RO81AF24.HTM">$AFC5</A>:
+
+AFCA: 78        SEI
+AFCB: A2 8F     LDX #$8F         Stackpointer initialisieren
+AFCD: 86 4F     STX <A HREF="RA814F.HTM">$4F</A>
+AFCF: 9A        TXS
+
+AFD0: 20 AD FF  JSR <A HREF="RO81FF75.HTM">$FFAD</A>        DOS-Vektoren initialisieren
+AFD3: 20 E9 AF  JSR <A HREF="RO81AFE9.HTM">$AFE9</A>        DOS-Tabellen initialisieren
+AFD6: 2C FB 01  BIT <A HREF="RA8101FB.HTM">$01FB</A>        Autoboot ?
+AFD9: 10 03     BPL $AFDE        nein, ==&gt;
+AFDB: 4C 38 A9  JMP <A HREF="RO81A938.HTM">$A938</A>        ja ==&gt;
+
+Einsprung von $AFD9, <A HREF="RO81A94C.HTM">$A953</A>:
+
+AFDE: A9 73     LDA #$73         73, COPYR...
+AFE0: 20 67 A8  JSR <A HREF="RO81A862.HTM">$A867</A>        Meldung bereitstellen
+AFE3: 20 15 AD  JSR <A HREF="RO81AD15.HTM">$AD15</A>        Bus bedienen
+AFE6: 4C 00 FF  JMP <A HREF="RO81FF00.HTM">$FF00</A>        zur Warteschleife
+
+DOS 7
+
+    <A HREF="RO81AF24.HTM">Previous Page</A> / <A HREF="RO81AFE9.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

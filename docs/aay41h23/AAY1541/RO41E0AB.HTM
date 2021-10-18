@@ -1,0 +1,61 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $E0AB/57515:   Write byte in REL file
+
+Jump from <A HREF="RO41CF9B.HTM">$CFCB</A>:
+
+E0AB: A9 A0     LDA #$A0
+E0AD: 20 A6 DD  JSR <A HREF="RO41DDA6.HTM">$DDA6</A>       ; test bits 6 &amp; 7
+E0B0: D0 27     BNE $E0D9       ; set?
+
+Jump from $E0F0:
+
+E0B2: A5 85     LDA <A HREF="RA4185.HTM">$85</A>         ; data byte
+E0B4: 20 7C E0  JSR <A HREF="RO41E07C.HTM">$E07C</A>       ; write in record
+E0B7: A5 F8     LDA <A HREF="RA41F8.HTM">$F8</A>         ; end?
+E0B9: F0 0D     BEQ $E0C8       ; yes
+E0BB: 60        RTS
+
+Jump from $E0DF:
+
+E0BC: A9 20     LDA #$20
+E0BE: 20 A6 DD  JSR <A HREF="RO41DDA6.HTM">$DDA6</A>       ; test bit 5
+E0C1: F0 05     BEQ $E0C8       ; not set
+E0C3: A9 51     LDA #$51        ; 51, 'overflow in record'
+E0C5: 8D 6C 02  STA <A HREF="RA41026C.HTM">$026C</A>       ; set error flag
+
+Jump from $E0B9, $E0C1:
+
+E0C8: 20 F3 E0  JSR <A HREF="RO41E0F3.HTM">$E0F3</A>       ; fill remainder with zeroes
+E0CB: 20 53 E1  JSR <A HREF="RO41E120.HTM">$E153</A>
+E0CE: AD 6C 02  LDA <A HREF="RA41026C.HTM">$026C</A>       ; error flag set?
+E0D1: F0 03     BEQ $E0D6       ; no
+E0D3: 4C C8 C1  JMP <A HREF="RO41C1C8.HTM">$C1C8</A>       ; set error message
+
+Jump from $E0D1:
+
+E0D6: 4C BC E6  JMP <A HREF="RO41E6BC.HTM">$E6BC</A>       ; error free execution
+
+Jump from $E0B0:
+
+E0D9: 29 80     AND #$80        ; bit 7 set?
+E0DB: D0 05     BNE $E0E2       ; yes
+E0DD: A5 F8     LDA <A HREF="RA41F8.HTM">$F8</A>
+E0DF: F0 DB     BEQ $E0BC       ; end?
+E0E1: 60        RTS
+
+Jump from $E0DB:
+
+E0E2: A5 85     LDA <A HREF="RA4185.HTM">$85</A>         ; data byte
+E0E4: 48        PHA
+E0E5: 20 1C E3  JSR <A HREF="RO41E31C.HTM">$E31C</A>       ; expand side-sector
+E0E8: 68        PLA
+E0E9: 85 85     STA <A HREF="RA4185.HTM">$85</A>
+E0EB: A9 80     LDA #$80
+E0ED: 20 9D DD  JSR <A HREF="RO41DD95.HTM">$DD9D</A>       ; erase bit 7
+E0F0: 4C B2 E0  JMP $E0B2       ; write byte in file
+
+    <A HREF="RO41E07C.HTM">Previous Page</A> / <A HREF="RO41E0F3.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

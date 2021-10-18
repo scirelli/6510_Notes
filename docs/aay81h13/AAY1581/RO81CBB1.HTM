@@ -1,0 +1,22 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Laufwerksmotor ein-/ausschalten
+
+Einsprung von <A HREF="RO81C396.HTM">$C396</A>, <A HREF="RO81CD63.HTM">$CD6B</A>:
+
+CBB1: AD 00 40  LDA <A HREF="CIA810.HTM">$4000</A>        b3=0: Motor einschalten
+CBB4: 29 FB     AND #$FB
+CBB6: 8D 00 40  STA <A HREF="CIA810.HTM">$4000</A>
+CBB9: 60        RTS
+
+Einsprung von <A HREF="RO81C3A9.HTM">$C3A9</A>, <A HREF="RO81CE00.HTM">$CE66</A>:
+
+CBBA: AD 00 40  LDA <A HREF="CIA810.HTM">$4000</A>        b3=1: Motor ausschalten
+CBBD: 09 04     ORA #$04
+CBBF: 8D 00 40  STA <A HREF="CIA810.HTM">$4000</A>
+CBC2: 60        RTS
+
+    <A HREF="RO81CB9F.HTM">Previous Page</A> / <A HREF="RO81CBC3.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

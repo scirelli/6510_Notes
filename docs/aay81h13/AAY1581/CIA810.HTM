@@ -1,0 +1,25 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+ $4000/16384/CIA+0:       Data Port Register A
+
+   +----------+---------------------------------------------------+
+   | Bit  7   |   0 = Disk Change (will be reset after the        |
+   |          |       next move of the head)                      |
+   | Bit  6   |   1 = Drive LED on                                |
+   | Bit  5   |   1 = Error LED bright                            |
+   | Bits 4+3 |   Position of DIP Switches for Device Number      |
+   | Bit  2   |   0 = Motor on                                    |
+   | Bit  1   |   1 = no Disk inserted                            |
+   | Bit  0   |   Side Select                                     |
+   +----------+---------------------------------------------------+
+
+ROM-Reference:
+
+ LDA $4000  : <A HREF="RO81AEF2.HTM">$AF0A</A> <A HREF="RO81AFE9.HTM">$AFE9</A> <A HREF="RO81C56A.HTM">$C57C</A> <A HREF="RO81CBB1.HTM">$CBB1</A> <A HREF="RO81CBB1.HTM">$CBBA</A> <A HREF="RO81CBC3.HTM">$CBC3</A> <A HREF="RO81CBC3.HTM">$CBCC</A> <A HREF="RO81CD7B.HTM">$CD83</A> <A HREF="RO81CD7B.HTM">$CDA1</A> <A HREF="RO81CDBC.HTM">$CDBE</A>
+              <A HREF="RO81CE00.HTM">$CE1F</A> <A HREF="RO81CE00.HTM">$CE2F</A> <A HREF="RO81CE00.HTM">$CE39</A> <A HREF="RO81CFC0.HTM">$CFC6</A>
+ ORA $4000  : <A HREF="RO81AEF2.HTM">$AEFB</A>
+ STA $4000  : <A HREF="RO81AEF2.HTM">$AEFE</A> <A HREF="RO81AEF2.HTM">$AF0F</A> <A HREF="RO81AF24.HTM">$AF28</A> <A HREF="RO81C56A.HTM">$C583</A> <A HREF="RO81CBB1.HTM">$CBB6</A> <A HREF="RO81CBB1.HTM">$CBBF</A> <A HREF="RO81CBC3.HTM">$CBC8</A> <A HREF="RO81CBC3.HTM">$CBD1</A> <A HREF="RO81CE00.HTM">$CE24</A> <A HREF="RO81CE00.HTM">$CE36</A>
+              <A HREF="RO81CFC0.HTM">$CFCD</A>
+
+</PRE></BODY></HTML>

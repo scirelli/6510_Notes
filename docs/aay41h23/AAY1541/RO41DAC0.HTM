@@ -1,0 +1,56 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DAC0/56000:   Close routine
+
+Jump from <A HREF="RO41E85B.HTM">$E8CE</A>:
+
+DAC0: A9 00     LDA #$00
+DAC2: 8D F9 02  STA <A HREF="RA4102F9.HTM">$02F9</A>
+DAC5: A5 83     LDA <A HREF="RA4183.HTM">$83</A>         ; secondary address
+DAC7: D0 0B     BNE $DAD4       ; not zero?
+DAC9: A9 00     LDA #$00        ; secondary address 0, LOAD
+DACB: 8D 54 02  STA <A HREF="RA410254.HTM">$0254</A>
+DACE: 20 27 D2  JSR <A HREF="RO41D227.HTM">$D227</A>       ; close channel
+
+Jump from $DADF:
+
+DAD1: 4C DA D4  JMP <A HREF="RO41D4DA.HTM">$D4DA</A>       ; close internal channels 17 &amp; 18
+
+Jump from $DAC7:
+
+DAD4: C9 0F     CMP #$0F        ; 15
+DAD6: F0 14     BEQ $DAEC       ; yes, close all channels
+DAD8: 20 02 DB  JSR <A HREF="RO41DB02.HTM">$DB02</A>       ; close file
+DADB: A5 83     LDA <A HREF="RA4183.HTM">$83</A>         ; secondary address
+DADD: C9 02     CMP #$02
+DADF: 90 F0     BCC $DAD1       ; smaller than 2?
+DAE1: AD 6C 02  LDA <A HREF="RA41026C.HTM">$026C</A>
+DAE4: D0 03     BNE $DAE9
+DAE6: 4C 94 C1  JMP <A HREF="RO41C194.HTM">$C194</A>       ; termination
+
+Jump from $DAE4:
+
+DAE9: 4C AD C1  JMP <A HREF="RO41C194.HTM">$C1AD</A>
+
+Jump from $DAD6:
+
+DAEC: A9 0E     LDA #$0E        ; 14
+DAEE: 85 83     STA <A HREF="RA4183.HTM">$83</A>         ; secondary address
+
+Jump from $DAF5:
+
+DAF0: 20 02 DB  JSR <A HREF="RO41DB02.HTM">$DB02</A>       ; close file
+DAF3: C6 83     DEC <A HREF="RA4183.HTM">$83</A>         ; next secondary address
+DAF5: 10 F9     BPL $DAF0
+DAF7: AD 6C 02  LDA <A HREF="RA41026C.HTM">$026C</A>
+DAFA: D0 03     BNE $DAFF
+DAFC: 4C 94 C1  JMP <A HREF="RO41C194.HTM">$C194</A>       ; termination
+
+Jump from $DAFA:
+
+DAFF: 4C AD C1  JMP <A HREF="RO41C194.HTM">$C1AD</A>
+
+    <A HREF="RO41DA55.HTM">Previous Page</A> / <A HREF="RO41DB02.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,46 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DF66/57190:   Verify side-sector in buffer
+
+Jump from <A HREF="RO41DEF8.HTM">$DEF8</A>, <A HREF="RO41DEF8.HTM">$DF06</A>:
+
+DF66: 20 D2 DE  JSR <A HREF="RO41DED2.HTM">$DED2</A>       ; get side-sector number
+DF69: C5 D5     CMP <A HREF="RA41D5.HTM">$D5</A>         ; = number of necessary block?
+DF6B: D0 0E     BNE $DF7B       ; no
+DF6D: A4 D6     LDY <A HREF="RA41D6.HTM">$D6</A>         ; pointer in side-sector
+DF6F: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; track number
+DF71: F0 04     BEQ $DF77
+DF73: 2C CD FE  BIT <A HREF="RO41FECD.HTM">$FECD</A>       ; erase bits
+DF76: 60        RTS
+
+Jump from $DF71:
+
+DF77: 2C CF FE  BIT <A HREF="RO41FECD.HTM">$FECF</A>       ; set N-bit
+DF7A: 60        RTS
+
+Jump from $DF6B:
+
+DF7B: A5 D5     LDA <A HREF="RA41D5.HTM">$D5</A>         ; side-sector number
+DF7D: C9 06     CMP #$06        ; 6 or greater?
+DF7F: B0 0A     BCS $DF8B       ; yes
+DF81: 0A        ASL
+DF82: A8        TAY
+DF83: A9 04     LDA #$04
+DF85: 85 94     STA <A HREF="RA4194.HTM">$94</A>
+DF87: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; track number
+DF89: D0 04     BNE $DF8F
+
+Jump from $DF7F:
+
+DF8B: 2C D0 FE  BIT <A HREF="RO41FECD.HTM">$FED0</A>       ; set N and V bits
+DF8E: 60        RTS
+
+Jump from $DF89:
+
+DF8F: 2C CE FE  BIT <A HREF="RO41FECD.HTM">$FECE</A>       ; set V bit
+DF92: 60        RTS
+
+    <A HREF="RO41DF4C.HTM">Previous Page</A> / <A HREF="RO41DF93.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

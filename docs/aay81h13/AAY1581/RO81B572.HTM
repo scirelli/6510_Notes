@@ -1,0 +1,53 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Block in BAM belegen ($ef93)
+E: $4d, $4e: T&amp;S
+
+Einsprung von <A HREF="RO818B2F.HTM">$8B42</A>, <A HREF="RO81B2C7.HTM">$B2CA</A>, <A HREF="RO81B2C7.HTM">$B2E6</A>, <A HREF="RO81B33C.HTM">$B33F</A>, <A HREF="RO81B390.HTM">$B417</A>, <A HREF="RO81B390.HTM">$B41C</A>, <A HREF="RO81B390.HTM">$B421</A>, <A HREF="RO81B390.HTM">$B429</A>, <A HREF="RO81B44A.HTM">$B4FD</A>,
+              <A HREF="RO81B44A.HTM">$B502</A>, <A HREF="RO81B44A.HTM">$B507</A>, <A HREF="RO81B44A.HTM">$B50F</A>, <A HREF="RO81B668.HTM">$B6DE</A>, <A HREF="RO81B6ED.HTM">$B73E</A>, <A HREF="RO81B811.HTM">$B828</A>, <A HREF="RO81B88D.HTM">$B8AA</A>:
+
+B572: 20 B4 B5  JSR <A HREF="RO81B5B4.HTM">$B5B4</A>        BAM-Zeiger auf aktuellen Track setzen
+B575: 20 D8 B5  JSR <A HREF="RO81B5D8.HTM">$B5D8</A>        ist Block schon belegt ?
+B578: F0 39     BEQ $B5B3        ja, ==&gt;
+B57A: B1 31     LDA (<A HREF="RA8131.HTM">$31</A>),Y      Block belegen
+B57C: 5D EA B5  EOR <A HREF="RO81B5D8.HTM">$B5EA</A>,X
+B57F: 91 31     STA (<A HREF="RA8131.HTM">$31</A>),Y
+B581: A9 01     LDA #$01         Flag fuer 'BAM geaendert' setzen
+B583: 85 35     STA <A HREF="RA8135.HTM">$35</A>
+B585: A0 00     LDY #$00
+B587: B1 31     LDA (<A HREF="RA8131.HTM">$31</A>),Y      Anzahl der freien Blocks -1
+B589: 38        SEC
+B58A: E9 01     SBC #$01
+B58C: 91 31     STA (<A HREF="RA8131.HTM">$31</A>),Y
+B58E: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          Aktueller Track
+B590: CD 2B 02  CMP <A HREF="RA81022B.HTM">$022B</A>        = Direktory-Track
+B593: F0 0B     BEQ $B5A0        ja, ==&gt;
+B595: AD A9 02  LDA <A HREF="RA8102A9.HTM">$02A9</A>        Anzahl 'Blocks free' -1
+B598: D0 03     BNE $B59D
+B59A: CE AA 02  DEC <A HREF="RA8102A9.HTM">$02AA</A>
+
+Einsprung von $B598, <A HREF="RO81B546.HTM">$B567</A>:
+
+B59D: CE A9 02  DEC <A HREF="RA8102A9.HTM">$02A9</A>
+
+Einsprung von $B593:
+
+B5A0: AD AA 02  LDA <A HREF="RA8102A9.HTM">$02AA</A>        Sind weniger als 3 Blocks frei ?
+B5A3: D0 0E     BNE $B5B3
+B5A5: AD A9 02  LDA <A HREF="RA8102A9.HTM">$02A9</A>
+B5A8: C9 03     CMP #$03
+B5AA: B0 05     BCS $B5B1
+B5AC: A9 72     LDA #$72         72, Disk full ausgeben, aber nicht als
+B5AE: 4C 6D A8  JMP <A HREF="RO81A862.HTM">$A86D</A>        Fehler behandeln, sondern als Hinweis
+
+Einsprung von $B5AA:
+
+B5B1: A9 01     LDA #$01         z=0: Block ist belegt worden
+
+Einsprung von $B578, $B5A3:
+
+B5B3: 60        RTS              (z=1: Block war schon belegt)
+    <A HREF="RO81B546.HTM">Previous Page</A> / <A HREF="RO81B5B4.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

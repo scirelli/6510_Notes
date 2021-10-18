@@ -1,0 +1,33 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C688/50824:   Copy filename to work buffer
+
+Jump from <A HREF="RO41C66E.HTM">$C672</A>:
+
+C688: 98        TYA             ; buffer number
+C689: 0A        ASL
+C68A: A8        TAY             ; times 2 as pointer
+C68B: B9 99 00  LDA <A HREF="RA4199.HTM">$99</A>,Y
+C68E: 85 94     STA <A HREF="RA4194.HTM">$94</A>
+C690: B9 9A 00  LDA <A HREF="RA4199.HTM">$9A</A>,Y       ; buffer pointer after $94/$95
+C693: 85 95     STA <A HREF="RA4194.HTM">$95</A>
+C695: A0 00     LDY #$00
+
+Jump from $C6A3:
+
+C697: BD 00 02  LDA <A HREF="RA410200.HTM">$0200</A>,X     ; transmit characters in buffer
+C69A: 91 94     STA (<A HREF="RA4194.HTM">$94</A>),Y
+C69C: C8        INY
+C69D: F0 06     BEQ $C6A5       ; buffer already full?
+C69F: E8        INX
+C6A0: EC 76 02  CPX <A HREF="RA410276.HTM">$0276</A>
+C6A3: 90 F2     BCC $C697
+
+Jump from $C69D:
+
+C6A5: 60        RTS
+
+    <A HREF="RO41C66E.HTM">Previous Page</A> / <A HREF="RO41C6A6.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

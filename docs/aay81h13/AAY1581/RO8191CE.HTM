@@ -1,0 +1,48 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Puffer und dessen Kanalzuordnung freigeben ($d25a)
+
+Einsprung von <A HREF="RO819157.HTM">$9186</A>, <A HREF="RO81919E.HTM">$91BC</A>:
+
+91CE: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          aktuelle Kanalnummer holen
+91D0: B5 D1     LDA <A HREF="RA81D1.HTM">$D1</A>,X        1. Puffer pruefen
+91D2: C9 FF     CMP #$FF         kein Puffer zugeordnet ?
+91D4: F0 09     BEQ $91DF        ja, ==&gt;
+91D6: 48        PHA
+91D7: A9 FF     LDA #$FF         Pufferzuordnung loeschen
+91D9: 95 D1     STA <A HREF="RA81D1.HTM">$D1</A>,X
+91DB: 68        PLA
+91DC: 20 52 92  JSR <A HREF="RO819252.HTM">$9252</A>        Puffer freigeben
+
+Einsprung von $91D4:
+
+91DF: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+91E1: B5 D8     LDA <A HREF="RA81D8.HTM">$D8</A>,X        2. Puffer pruefen
+91E3: C9 FF     CMP #$FF         kein Puffer zugeordnet ?
+91E5: F0 09     BEQ $91F0
+91E7: 48        PHA
+91E8: A9 FF     LDA #$FF         Pufferzuordnung loeschen
+91EA: 95 D8     STA <A HREF="RA81D8.HTM">$D8</A>,X
+91EC: 68        PLA
+91ED: 20 52 92  JSR <A HREF="RO819252.HTM">$9252</A>        Puffer freigeben
+
+Einsprung von $91E5:
+
+91F0: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+91F2: BD 65 02  LDA <A HREF="RA810265.HTM">$0265</A>,X      Side-Sektor-Puffer pruefen
+91F5: C9 FF     CMP #$FF         kein Puffer zugeordnet ?
+91F7: F0 0A     BEQ $9203
+91F9: 48        PHA
+91FA: A9 FF     LDA #$FF         Pufferzuordnung loeschen
+91FC: 9D 65 02  STA <A HREF="RA810265.HTM">$0265</A>,X
+91FF: 68        PLA
+9200: 4C 52 92  JMP <A HREF="RO819252.HTM">$9252</A>        Puffer freigeben
+
+Einsprung von $91F7:
+
+9203: 60        RTS
+
+    <A HREF="RO81919E.HTM">Previous Page</A> / <A HREF="RO819204.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

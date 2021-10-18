@@ -1,0 +1,27 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Pufferzeiger auf bestimmten Wert setzen ($d4c8)
+E: a  : neuer Pufferzeiger
+   $50: Kanalnummer
+
+Einsprung von <A HREF="RO818424.HTM">$8486</A>, <A HREF="RO818688.HTM">$871B</A>, <A HREF="RO818841.HTM">$8855</A>, <A HREF="RO818841.HTM">$8873</A>, <A HREF="RO8188C5.HTM">$88EB</A>, <A HREF="RO818B71.HTM">$8B76</A>, <A HREF="RO818BAE.HTM">$8BBE</A>,
+              <A HREF="RO819112.HTM">$911D</A>, <A HREF="RO819112.HTM">$9135</A>, <A HREF="RO819370.HTM">$9398</A>, <A HREF="RO8193CF.HTM">$93DD</A>, <A HREF="RO8193E7.HTM">$93FD</A>, <A HREF="RO8193E7.HTM">$9412</A>, <A HREF="RO8195AB.HTM">$9606</A>,
+              <A HREF="RO8197A2.HTM">$97C1</A>, <A HREF="RO8198CC.HTM">$98E4</A>, <A HREF="RO819A2A.HTM">$9A5F</A>, <A HREF="RO819B0D.HTM">$9B84</A>, <A HREF="RO819BC3.HTM">$9C62</A>, <A HREF="RO819DCE.HTM">$9DD0</A>, <A HREF="RO819F4C.HTM">$9F7B</A>,
+              <A HREF="RO819FBF.HTM">$9FCF</A>, <A HREF="RO81A20D.HTM">$A212</A>, <A HREF="RO81A459.HTM">$A48A</A>, <A HREF="RO81A459.HTM">$A4B7</A>, <A HREF="RO81A459.HTM">$A4D5</A>, <A HREF="RO81A459.HTM">$A526</A>, <A HREF="RO81A547.HTM">$A556</A>,
+              <A HREF="RO81B17C.HTM">$B187</A>, <A HREF="RO81B2C7.HTM">$B2D2</A>:
+
+9422: 85 40     STA <A HREF="RA8140.HTM">$40</A>          Pufferzeiger Lo merken
+9424: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        Puffernummer holen
+9427: 0A        ASL
+9428: AA        TAX
+9429: B5 BC     LDA <A HREF="RA81BB.HTM">$BC</A>,X        Pufferzeiger Hi setzen
+942B: 85 65     STA <A HREF="RA8164.HTM">$65</A>
+942D: A5 40     LDA <A HREF="RA8140.HTM">$40</A>          Pufferzeiger Lo setzen
+942F: 95 BB     STA <A HREF="RA81BB.HTM">$BB</A>,X
+9431: 85 64     STA <A HREF="RA8164.HTM">$64</A>
+9433: 60        RTS
+
+    <A HREF="RO8193E7.HTM">Previous Page</A> / <A HREF="RO819434.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

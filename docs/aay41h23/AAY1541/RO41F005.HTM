@@ -1,0 +1,21 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F005/61445:   Erase BAM buffer
+
+Jump from <A HREF="RO41EE0D.HTM">$EE40</A>, <A HREF="RO41EE0D.HTM">$EEA3</A>:
+
+F005: 20 3A EF  JSR <A HREF="RO41EF3A.HTM">$EF3A</A>       ; pointer $6D/$6E to BAM buffer
+F008: A0 00     LDY #$00
+F00A: 98        TYA
+
+Jump from $F00E:
+
+F00B: 91 6D     STA (<A HREF="RA416D.HTM">$6D</A>),Y     ; erase BAM buffer
+F00D: C8        INY
+F00E: D0 FB     BNE $F00B
+F010: 60        RTS
+
+    <A HREF="RO41EFF1.HTM">Previous Page</A> / <A HREF="RO41F011.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

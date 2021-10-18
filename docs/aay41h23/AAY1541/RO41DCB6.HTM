@@ -1,0 +1,30 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DCB6/56502:   Reset pointer
+
+Jump from <A HREF="RO41DC46.HTM">$DC4B</A>, <A HREF="RO41DCDA.HTM">$DCE5</A>:
+
+DCB6: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+DCB8: B5 A7     LDA <A HREF="RA41A7.HTM">$A7</A>,X       ; buffer number
+DCBA: 0A        ASL             ; times 2
+DCBB: A8        TAY
+DCBC: A9 02     LDA #$02
+DCBE: 99 99 00  STA <A HREF="RA4199.HTM">$99</A>,Y       ; buffer pointer lo
+DCC1: B5 AE     LDA <A HREF="RA41AE.HTM">$AE</A>,X
+DCC3: 09 80     ORA #$80        ; set bit 7
+DCC5: 95 AE     STA <A HREF="RA41AE.HTM">$AE</A>,X
+DCC7: 0A        ASL
+DCC8: A8        TAY
+DCC9: A9 02     LDA #$02
+DCCB: 99 99 00  STA <A HREF="RA4199.HTM">$99</A>,Y       ; buffer pointer lo
+DCCE: A9 00     LDA #$00
+DCD0: 95 B5     STA <A HREF="RA41B5.HTM">$B5</A>,X       ; block number lo
+DCD2: 95 BB     STA <A HREF="RA41BB.HTM">$BB</A>,X       ; block number hi
+DCD4: A9 00     LDA #$00
+DCD6: 9D 44 02  STA <A HREF="RA410244.HTM">$0244</A>,X     ; end pointer
+DCD9: 60        RTS
+
+    <A HREF="RO41DC46.HTM">Previous Page</A> / <A HREF="RO41DCDA.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,21 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Laufwerksnummer pruefen ($c3bd)
+
+Einsprung von <A HREF="RO818251.HTM">$825B</A>, <A HREF="RO8198F7.HTM">$9909</A>:
+
+8295: C9 30     CMP #$30
+8297: F0 06     BEQ $829F
+8299: C9 31     CMP #$31
+829B: F0 02     BEQ $829F
+829D: 09 80     ORA #$80         keine bzw. falsche Drivenummer
+
+Einsprung von $8297, $829B:
+
+829F: 29 81     AND #$81         0, 1 oder $80 zurueckliefern
+82A1: 60        RTS
+
+    <A HREF="RO818270.HTM">Previous Page</A> / <A HREF="RO8182A2.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

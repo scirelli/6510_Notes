@@ -1,0 +1,67 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D506/54534:   Check track and sector numbers
+
+Jump from <A HREF="RO41D0C7.HTM">$D0D0</A>, <A HREF="RO41DE73.HTM">$DE92</A>:
+
+D506: BD 5B 02  LDA <A HREF="RA41025B.HTM">$025B</A>,X     ; command code for disk controller
+D509: 29 01     AND #$01        ; drive number
+D50B: 0D 4D 02  ORA <A HREF="RA41024D.HTM">$024D</A>       ; plus command code
+
+Jump from <A HREF="RO41D58A.HTM">$D596</A>:
+
+D50E: 48        PHA             ; save
+D50F: 86 F9     STX <A HREF="RA41F9.HTM">$F9</A>         ; buffer number
+D511: 8A        TXA
+D512: 0A        ASL             ; times 2
+D513: AA        TAX
+D514: B5 07     LDA <A HREF="RA4106.HTM">$07</A>,X       ; sector
+D516: 8D 4D 02  STA <A HREF="RA41024D.HTM">$024D</A>       ; save
+D519: B5 06     LDA <A HREF="RA4106.HTM">$06</A>,X       ; track
+D51B: F0 2D     BEQ $D54A       ; 66, 'illegal track or sector'
+D51D: CD D7 FE  CMP <A HREF="RO41FED7.HTM">$FED7</A>       ; 36, highest track number + 1
+D520: B0 28     BCS $D54A       ; 66, 'illegal track or sector'
+D522: AA        TAX
+D523: 68        PLA             ; command code
+D524: 48        PHA
+D525: 29 F0     AND #$F0
+D527: C9 90     CMP #$90        ; code for writing?
+D529: D0 4F     BNE <A HREF="RO41D572.HTM">$D57A</A>       ; no
+D52B: 68        PLA
+D52C: 48        PHA
+D52D: 4A        LSR
+D52E: B0 05     BCS $D535
+D530: AD 01 01  LDA <A HREF="RA410101.HTM">$0101</A>
+D533: 90 03     BCC $D538
+
+Jump from $D52E:
+
+D535: AD 02 01  LDA <A HREF="RA410102.HTM">$0102</A>
+
+Jump from $D533:
+
+D538: F0 05     BEQ $D53F
+D53A: CD D5 FE  CMP <A HREF="RO41FED5.HTM">$FED5</A>       ; 'A', format marker
+D53D: D0 33     BNE <A HREF="RO41D572.HTM">$D572</A>       ; 73, 'cbm dos v2.6 1541'
+
+Jump from $D538:
+
+D53F: 8A        TXA             ; track number
+D540: 20 4B F2  JSR <A HREF="RO41F24B.HTM">$F24B</A>       ; get maximum sector number
+D543: CD 4D 02  CMP <A HREF="RA41024D.HTM">$024D</A>       ; compare with sector number
+D546: F0 02     BEQ $D54A       ; equal, then error
+D548: B0 30     BCS <A HREF="RO41D572.HTM">$D57A</A>       ; smaller?
+
+Jump from $D51B, $D520, $D546:
+
+D54A: 20 52 D5  JSR <A HREF="RO41D552.HTM">$D552</A>       ; get track and sector number
+
+Jump from <A HREF="RO41D55F.HTM">$D561</A>, <A HREF="RO41D55F.HTM">$D566</A>, <A HREF="RO41D55F.HTM">$D56D</A>, <A HREF="RO41D55F.HTM">$D56F</A>:
+
+D54D: A9 66     LDA #$66
+D54F: 4C 45 E6  JMP <A HREF="RO41E645.HTM">$E645</A>       ; 66, 'illegal track or sector'
+
+    <A HREF="RO41D4F6.HTM">Previous Page</A> / <A HREF="RO41D552.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

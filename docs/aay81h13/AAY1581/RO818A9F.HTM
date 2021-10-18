@@ -1,0 +1,44 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+-
+Parameter der Block-Befehle holen ($cc7c)
+-
+
+Einsprung von <A HREF="RO818A5D.HTM">$8A8A</A>, <A HREF="RO818B9A.HTM">$8B9A</A>, <A HREF="RO818BD7.HTM">$8BD7</A>:
+
+8A9F: A0 00     LDY #$00         Zeile vom Anfang an pruefen
+8AA1: A2 00     LDX #$00         Anzahl gefundener Kommas = 0
+8AA3: A9 3A     LDA #$3A
+8AA5: 20 1C 81  JSR <A HREF="RO81811C.HTM">$811C</A>        Eingabezeile bis zum ':' pruefen
+8AA8: D0 02     BNE $8AAC        ':' gefunden ? ja, ==&gt;
+8AAA: A0 03     LDY #$03         Zeiger hinter 'b-x' setzen
+
+Einsprung von $8AA8, $8ABE, <A HREF="RO8189E4.HTM">$8A01</A>:
+
+8AAC: B9 00 02  LDA <A HREF="RA810200.HTM">$0200</A>,Y      Zeichen aus Input-Puffer
+8AAF: C9 20     CMP #$20         mit gueltigen Trennzeichen
+8AB1: F0 08     BEQ $8ABB        vergleichen
+8AB3: C9 1D     CMP #$1D         &lt;Space&gt;, &lt;Cursor-Right&gt;, ','
+8AB5: F0 04     BEQ $8ABB
+8AB7: C9 2C     CMP #$2C         aktuelles Zeichen ist kein Trennzeichen,
+8AB9: D0 06     BNE $8AC1        Zeichen gehoert also zum Parameter, ==&gt;
+
+Einsprung von $8AB1, $8AB5, $8ACC:
+
+8ABB: C8        INY              naechstes Zeichen
+8ABC: C4 29     CPY <A HREF="RA8129.HTM">$29</A>          Zeilenende ?
+8ABE: 90 EC     BCC $8AAC        nein, ==&gt;
+8AC0: 60        RTS              Ende
+
+Einsprung von $8AB9:
+
+8AC1: 20 D0 8A  JSR <A HREF="RO818AD0.HTM">$8AD0</A>        ASCII-Wert in HEX-Wert umwandeln
+8AC4: EE 2E 02  INC <A HREF="RA81022E.HTM">$022E</A>        naechsten Parameterspeicher waehlen
+8AC7: AC 30 02  LDY <A HREF="RA810230.HTM">$0230</A>        Zeiger in Zeile zurueckholen
+8ACA: E0 04     CPX #$04         Anzahl Dezimalstellen &gt;= 4 ?
+8ACC: 90 ED     BCC $8ABB        nein, ==&gt;
+8ACE: B0 9D     BCS <A HREF="RO818A5D.HTM">$8A6D</A>        30, Syntax Error
+
+    <A HREF="RO818A5D.HTM">Previous Page</A> / <A HREF="RO818AD0.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

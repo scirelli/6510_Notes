@@ -1,0 +1,43 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F0DF/61663:   ?
+
+Jump from <A HREF="RO41C7B7.HTM">$C7BA</A>, <A HREF="RO41EF3A.HTM">$EF3E</A>, <A HREF="RO41F05B.HTM">$F05D</A>:
+
+F0DF: B5 A7     LDA <A HREF="RA41A7.HTM">$A7</A>,X
+F0E1: C9 FF     CMP #$FF
+F0E3: D0 25     BNE $F10A
+F0E5: 8A        TXA
+F0E6: 48        PHA
+F0E7: 20 8E D2  JSR <A HREF="RO41D28E.HTM">$D28E</A>
+F0EA: AA        TAX
+F0EB: 10 05     BPL $F0F2
+F0ED: A9 70     LDA #$70
+F0EF: 20 C8 C1  JSR <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 70, 'no channel'
+
+Jump from $F0EB:
+
+F0F2: 86 F9     STX <A HREF="RA41F9.HTM">$F9</A>
+F0F4: 68        PLA
+F0F5: A8        TAY
+F0F6: 8A        TXA
+F0F7: 09 80     ORA #$80
+F0F9: 99 A7 00  STA <A HREF="RA41A7.HTM">$A7</A>,Y
+F0FC: 0A        ASL
+F0FD: AA        TAX
+F0FE: AD 85 FE  LDA <A HREF="RO41FE85.HTM">$FE85</A>       ; 18, directory track
+F101: 95 06     STA <A HREF="RA4106.HTM">$06</A>,X       ; save
+F103: A9 00     LDA #$00        ; 0
+F105: 95 07     STA <A HREF="RA4106.HTM">$07</A>,X       ; as sector
+F107: 4C 86 D5  JMP <A HREF="RO41D586.HTM">$D586</A>       ; write block
+
+Jump from $F0E3:
+
+F10A: 29 0F     AND #$0F
+F10C: 85 F9     STA <A HREF="RA41F9.HTM">$F9</A>         ; buffer number
+F10E: 60        RTS
+
+    <A HREF="RO41F0D1.HTM">Previous Page</A> / <A HREF="RO41F10F.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

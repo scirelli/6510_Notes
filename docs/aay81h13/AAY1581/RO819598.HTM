@@ -1,0 +1,42 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Aufruf des Controllers
+A: a: Jobrueckmeldung
+
+E: x: Puffernummer
+
+Einsprung von <A HREF="RO8194F8.HTM">$94F8</A>:
+
+9598: 08        PHP              &lt;--  i-Flag retten
+9599: 58        CLI              i-Flag loeschen
+959A: 4C A1 95  JMP $95A1
+
+E: a: Jobcode
+   x: Puffernummer
+
+Einsprung von <A HREF="RO818746.HTM">$8756</A>, <A HREF="RO818746.HTM">$8761</A>, <A HREF="RO818EDC.HTM">$8EFB</A>, <A HREF="RO8194D3.HTM">$94DB</A>, <A HREF="RO8194F8.HTM">$9545</A>, <A HREF="RO8194F8.HTM">$9572</A>, <A HREF="RO81AFE9.HTM">$B0A2</A>,
+              <A HREF="RO81AFE9.HTM">$B0AB</A>, <A HREF="RO81BCB2.HTM">$BCDE</A>, <A HREF="RO81BD12.HTM">$BDD8</A>, <A HREF="RO81BD12.HTM">$BDDD</A>, <A HREF="RO81BE06.HTM">$BE26</A>, <A HREF="RO81BE06.HTM">$BE3A</A>, <A HREF="RO81BE06.HTM">$BE3F</A>,
+              <A HREF="RO81BE06.HTM">$BE4E</A>, <A HREF="RO81BF02.HTM">$BF2A</A>, <A HREF="RO81BF44.HTM">$BF56</A>, <A HREF="RO81BFB0.HTM">$BFBB</A>, <A HREF="RO81BFB0.HTM">$BFDD</A>, <A HREF="RO81DBC7.HTM">$DBF4</A>, <A HREF="RO81DBC7.HTM">$DBFD</A>,
+              <A HREF="RO81FF00.HTM">$FF54</A>:
+
+959D: 08        PHP              &lt;--  i-Flag retten
+959E: 58        CLI              i-Flag loeschen
+959F: 95 02     STA <A HREF="RA8102.HTM">$02</A>,X        Jobcode fuer Puffer x setzen
+
+Einsprung von $959A:
+
+95A1: 00        BRK              Jobschleife aufrufen
+95A2: EA        NOP              [BRK ist ein 2-Byte-Befehl!]
+
+Einsprung von $95A5:
+
+95A3: B5 02     LDA <A HREF="RA8102.HTM">$02</A>,X        warten, bis Controller fertig ist
+95A5: 30 FC     BMI $95A3
+95A7: 28        PLP              i-Flag zurueckholen
+95A8: B5 02     LDA <A HREF="RA8102.HTM">$02</A>,X        Status lesen
+95AA: 60        RTS
+
+    <A HREF="RO819585.HTM">Previous Page</A> / <A HREF="RO8195AB.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

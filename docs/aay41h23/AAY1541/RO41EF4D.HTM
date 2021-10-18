@@ -1,0 +1,17 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $EF4D/61261:   Get number of free blocks for dir
+
+Jump from <A HREF="RO41C806.HTM">$C814</A>, <A HREF="RO41E31C.HTM">$E33B</A>:
+
+EF4D: A6 7F     LDX <A HREF="RA417F.HTM">$7F</A>         ; drive number
+EF4F: BD FA 02  LDA <A HREF="RA4102FA.HTM">$02FA</A>,X     ; number of blocks, lo
+EF52: 8D 72 02  STA <A HREF="RA410272.HTM">$0272</A>
+EF55: BD FC 02  LDA <A HREF="RA4102FC.HTM">$02FC</A>,X     ; number of blocks, hi
+EF58: 8D 73 02  STA <A HREF="RA410272.HTM">$0273</A>       ; in buffer for directory
+EF5B: 60        RTS
+
+    <A HREF="RO41EF3A.HTM">Previous Page</A> / <A HREF="RO41EF5C.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

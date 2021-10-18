@@ -1,0 +1,18 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Auf Controller-Ready warten
+
+Einsprung von <A HREF="RO81C3D6.HTM">$C53F</A>, <A HREF="RO81CB0F.HTM">$CB15</A>, <A HREF="RO81CD3F.HTM">$CD3F</A>, <A HREF="RO81CD7B.HTM">$CD90</A>, <A HREF="RO81CD7B.HTM">$CD99</A>, <A HREF="RO81CE71.HTM">$CE8C</A>, <A HREF="RO81CFD1.HTM">$CFE0</A>:
+
+CBEC: A9 01     LDA #$01         Status-Register, b0: Busy-Flag testen
+
+Einsprung von $CBF1:
+
+CBEE: 2C 00 60  BIT <A HREF="WD810.HTM">$6000</A>
+CBF1: D0 FB     BNE $CBEE        warten, bis es 0 wird, ==&gt;
+CBF3: 60        RTS
+
+    <A HREF="RO81CBD5.HTM">Previous Page</A> / <A HREF="RO81CBF4.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

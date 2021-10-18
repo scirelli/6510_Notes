@@ -1,0 +1,18 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Laufwerksnummer holen und setzen ($c312)
+(fuer Kommandos mit einem Dateinamen und evtl. anderen Parametern
+ z.B. OPEN 1,ga,2,&quot;0:xxxx,p,r&quot;, &quot;n0:xxxx,yy&quot;, ...)
+
+Einsprung von <A HREF="RO819678.HTM">$96FF</A>, <A HREF="RO81A956.HTM">$A964</A>, <A HREF="RO81B348.HTM">$B348</A>, <A HREF="RO81B781.HTM">$B78F</A>, <A HREF="RO81B8D2.HTM">$B90E</A>:
+
+81FD: AD 2F 02  LDA <A HREF="RA81022F.HTM">$022F</A>        Anzahl der Parameter
+8200: 8D 2E 02  STA <A HREF="RA81022E.HTM">$022E</A>        zwischenspeichern
+8203: A9 01     LDA #$01         nur der 1. Parameter ist ein Dateiname
+8205: 8D 2F 02  STA <A HREF="RA81022F.HTM">$022F</A>        und soll getestet werden
+8208: 8D 30 02  STA <A HREF="RA810230.HTM">$0230</A>        1 Dateiname in Kommandozeile
+
+    <A HREF="RO8181E5.HTM">Previous Page</A> / <A HREF="RO81820B.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

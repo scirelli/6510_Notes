@@ -1,0 +1,20 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $FF01/65281:   U9 vector, switch 1540/1541
+
+FF01: AD 02 02  LDA <A HREF="RA410200.HTM">$0202</A>
+FF04: C9 2D     CMP #$2D        ; '-'
+FF06: F0 05     BEQ $FF0D
+FF08: 38        SEC
+FF09: E9 2B     SBC #$2B        ; '+'
+FF0B: D0 DA     BNE <A HREF="RO41FEE7.HTM">$FEE7</A>       ; indirect jump over ($0065)
+
+Jump from $FF06:
+
+FF0D: 85 23     STA <A HREF="RA4123.HTM">$23</A>
+FF0F: 60        RTS
+
+    <A HREF="RO41FEFB.HTM">Previous Page</A> / <A HREF="RO41FF10.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

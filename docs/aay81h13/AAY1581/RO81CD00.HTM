@@ -1,0 +1,62 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Blockheader lesen
+
+Einsprung von <A HREF="RO81CFA6.HTM">$CFA6</A>:
+
+CD00: A2 05     LDX #$05         Blockheaderpuffer loeschen
+
+Einsprung von $CD06:
+
+CD02: 8A        TXA
+CD03: 95 1F     STA <A HREF="RA811F.HTM">$1F</A>,X        6 Bytes: Track,Seite,Sektor,Groesse,CRC1,CRC2
+CD05: CA        DEX
+CD06: 10 FA     BPL $CD02
+CD08: 20 BC CD  JSR <A HREF="RO81CDBC.HTM">$CDBC</A>        Ist eine Diskette im Laufwerk ?
+CD0B: B0 2C     BCS $CD39        nein, Lesen unmoeglich ==&gt;
+CD0D: AD E1 01  LDA <A HREF="RA8101E1.HTM">$01E1</A>        Controller-Befehl: Read Adress
+CD10: 20 F4 CB  JSR <A HREF="RO81CBF4.HTM">$CBF4</A>        Kommando in Controller schreiben
+CD13: A2 00     LDX #$00
+CD15: A0 06     LDY #$06         6 Bytes von Diskette einlesen
+
+Einsprung von $CD1F, $CD28:
+
+CD17: AD 00 60  LDA <A HREF="WD810.HTM">$6000</A>        Controller-Status holen
+CD1A: 29 03     AND #$03
+CD1C: 4A        LSR
+CD1D: 90 0B     BCC $CD2A        Controller ready, ==&gt;
+CD1F: F0 F6     BEQ $CD17        kein Byte ready, ==&gt;
+CD21: AD 03 60  LDA <A HREF="WD813.HTM">$6003</A>        Byte einlesen und
+CD24: 95 1F     STA <A HREF="RA811F.HTM">$1F</A>,X        im Blockheader-Puffer speichern
+CD26: E8        INX
+CD27: 88        DEY
+CD28: D0 ED     BNE $CD17        noch ein Byte einlesen, ==&gt;
+
+Einsprung von $CD1D:
+
+CD2A: 20 3F CD  JSR <A HREF="RO81CD3F.HTM">$CD3F</A>        Controller-Status pruefen
+CD2D: F0 02     BEQ $CD31        Kein Fehler, ==&gt;
+CD2F: 38        SEC
+CD30: 24         B $24
+
+Einsprung von $CD2D:
+
+CD31: 18        CLC
+CD32: 24 8D     BIT <A HREF="RA818D.HTM">$8D</A>          E/A-Byte abfragen
+CD34: 50 08     BVC $CD3E        b6=0: keine Pruefsumme bilden, ==&gt;
+CD36: 4C 63 DA  JMP <A HREF="RO81DA63.HTM">$DA63</A>        Pruefsumme bilden ==&gt;
+
+Einsprung von $CD0B:
+
+CD39: A9 03     LDA #$03         Zwischenspeicher setzen
+CD3B: 85 7D     STA <A HREF="RA817D.HTM">$7D</A>
+CD3D: 38        SEC
+
+Einsprung von $CD34:
+
+CD3E: 60        RTS
+
+    <A HREF="RO81CBF4.HTM">Previous Page</A> / <A HREF="RO81CD3F.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

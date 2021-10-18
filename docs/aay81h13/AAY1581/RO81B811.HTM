@@ -1,0 +1,48 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Pruefen, ob alle Blocks der Partition vor dem Anlegen noch frei sind
+
+Einsprung von <A HREF="RO81B88D.HTM">$B88D</A>:
+
+B811: A5 35     LDA <A HREF="RA8135.HTM">$35</A>          'BAM veraendert'-Flag merken
+B813: 48        PHA
+B814: AD A9 02  LDA <A HREF="RA8102A9.HTM">$02A9</A>        Anzahl 'Blocks free' merken
+B817: 48        PHA
+B818: AD AA 02  LDA <A HREF="RA8102A9.HTM">$02AA</A>
+B81B: 48        PHA
+B81C: 20 5F B8  JSR <A HREF="RO81B85F.HTM">$B85F</A>        Partition-Parameter aus Kommandozeile holen
+
+Einsprung von $B833:
+
+B81F: 20 B5 94  JSR <A HREF="RO8194B5.HTM">$94B5</A>        auf gueltigen Block testen
+B822: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          aktueller Track
+B824: C9 28     CMP #$28         = Haupt-Directory-Track ?
+B826: F0 19     BEQ $B841        ja, ==&gt;
+
+B828: 20 72 B5  JSR <A HREF="RO81B572.HTM">$B572</A>        Block in BAM belegen
+B82B: F0 14     BEQ $B841        Block war schon belegt, ==&gt;
+B82D: 20 46 B5  JSR <A HREF="RO81B546.HTM">$B546</A>        Block wieder freigeben
+B830: 20 EF B2  JSR <A HREF="RO81B2EF.HTM">$B2EF</A>        naechsten Block der Part. holen
+B833: D0 EA     BNE $B81F        noch nicht fertig, ==&gt;
+B835: 68        PLA
+B836: 8D AA 02  STA <A HREF="RA8102A9.HTM">$02AA</A>        Anzahl 'Blocks free' zurueckholen
+B839: 68        PLA
+B83A: 8D A9 02  STA <A HREF="RA8102A9.HTM">$02A9</A>
+B83D: 68        PLA
+B83E: 85 35     STA <A HREF="RA8135.HTM">$35</A>          'BAM veraendert'-Flag zurueckholen
+B840: 60        RTS
+
+Einsprung von $B826, $B82B:
+
+B841: 68        PLA
+B842: 8D AA 02  STA <A HREF="RA8102A9.HTM">$02AA</A>        Anzahl 'Blocks free' zurueckholen
+B845: 68        PLA
+B846: 8D A9 02  STA <A HREF="RA8102A9.HTM">$02A9</A>
+B849: 68        PLA
+B84A: 85 35     STA <A HREF="RA8135.HTM">$35</A>          'BAM veraendert'-Flag zurueckholen
+B84C: A9 67     LDA #$67         67, Illegal Track or Sector
+B84E: 4C 3F FF  JMP <A HREF="RO81FF00.HTM">$FF3F</A>
+    <A HREF="RO81B781.HTM">Previous Page</A> / <A HREF="RO81B851.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

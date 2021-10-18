@@ -1,0 +1,31 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D7C7/55239:   -Check '*' Last file
+
+D7C7: E0 2A     CPX #$2A        ; '*'
+D7C9: D0 28     BNE <A HREF="RO41D7F3.HTM">$D7F3</A>
+D7CB: A5 7E     LDA <A HREF="RA417E.HTM">$7E</A>         ; last track number
+D7CD: F0 4D     BEQ <A HREF="RO41D815.HTM">$D81C</A>
+D7CF: 85 80     STA <A HREF="RA4180.HTM">$80</A>         ; track number
+D7D1: AD 6E 02  LDA <A HREF="RA41026E.HTM">$026E</A>       ; last drive number
+D7D4: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+D7D6: 85 E2     STA <A HREF="RA41E2.HTM">$E2</A>
+D7D8: A9 02     LDA #$02
+D7DA: 85 E7     STA <A HREF="RA41E7.HTM">$E7</A>         ; set data type to program
+D7DC: AD 6F 02  LDA <A HREF="RA41026F.HTM">$026F</A>       ; last sector number
+D7DF: 85 81     STA <A HREF="RA4181.HTM">$81</A>         ; sector
+D7E1: 20 00 C1  JSR <A HREF="RO41C100.HTM">$C100</A>       ; turn LED on
+D7E4: 20 46 DC  JSR <A HREF="RO41DC46.HTM">$DC46</A>       ; allocate buffer, read block
+D7E7: A9 04     LDA #$04        ; file type
+D7E9: 05 7F     ORA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+
+Jump from <A HREF="RO41D7F3.HTM">$D812</A>:
+
+D7EB: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+D7ED: 99 EC 00  STA <A HREF="RA41EC.HTM">$EC</A>,Y       ; set flag
+D7F0: 4C 94 C1  JMP <A HREF="RO41C194.HTM">$C194</A>       ; done
+
+    <A HREF="RO41D7B4.HTM">Previous Page</A> / <A HREF="RO41D7F3.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

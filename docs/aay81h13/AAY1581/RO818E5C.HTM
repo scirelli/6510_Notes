@@ -1,0 +1,26 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Byte ueber internen Schreibkanal in Puffer schreiben ($cf9b)
+
+Einsprung von <A HREF="RO81876E.HTM">$881C</A>, <A HREF="RO81876E.HTM">$882E</A>:
+
+8E5C: A2 12     LDX #$12         SA 18: interner Schreibkanal
+8E5E: 86 52     STX <A HREF="RA8152.HTM">$52</A>
+8E60: 20 42 90  JSR <A HREF="RO819042.HTM">$9042</A>        Schreibkanal holen
+8E63: 20 F6 81  JSR <A HREF="RO8181E5.HTM">$81F6</A>        Drive-LED einschalten
+8E66: 20 5F 90  JSR <A HREF="RO81905F.HTM">$905F</A>        aktuellen Filetyp holen
+8E69: 90 05     BCC $8E70        'normale' Datei ?, ==&gt;
+8E6B: A9 20     LDA #$20         b5=0: 'Record noch nicht voll'
+8E6D: 20 DB 9C  JSR <A HREF="RO819CD3.HTM">$9CDB</A>        Status loeschen
+
+Einsprung von $8E69:
+
+8E70: A5 52     LDA <A HREF="RA8152.HTM">$52</A>          [= $12, oder ? (Einsprung nur bei $8e5c)]
+8E72: C9 0F     CMP #$0F
+8E74: F0 23     BEQ <A HREF="RO818E78.HTM">$8E99</A>
+8E76: D0 08     BNE <A HREF="RO818E78.HTM">$8E80</A>        Byte ausgeben ==&gt;
+
+    <A HREF="RO818E4D.HTM">Previous Page</A> / <A HREF="RO818E78.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

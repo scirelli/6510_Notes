@@ -1,0 +1,35 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C312/49938:   Preserve drive number
+
+Jump from <A HREF="RO41D815.HTM">$D84C</A>, <A HREF="RO41EE0D.HTM">$EE0D</A>:
+
+C312: AD 78 02  LDA <A HREF="RA410278.HTM">$0278</A>       ; number of commas
+C315: 8D 77 02  STA <A HREF="RA410277.HTM">$0277</A>       ; save
+C318: A9 01     LDA #$01
+C31A: 8D 78 02  STA <A HREF="RA410278.HTM">$0278</A>       ; number of drive numbers
+C31D: 8D 79 02  STA <A HREF="RA410279.HTM">$0279</A>
+
+Jump from <A HREF="RO41C823.HTM">$C826</A>, <A HREF="RO41C8F0.HTM">$C90F</A>, <A HREF="RO41CA88.HTM">$CA88</A>, <A HREF="RO41DA55.HTM">$DA9B</A>:
+
+C320: AC 8E 02  LDY <A HREF="RA41028E.HTM">$028E</A>       ; last drive number
+C323: A2 00     LDX #$00
+
+Jump from $C339:
+
+C325: 86 D3     STX <A HREF="RA41D3.HTM">$D3</A>
+C327: BD 7A 02  LDA <A HREF="RA41027A.HTM">$027A</A>,X     ; position of the colon
+C32A: 20 3C C3  JSR <A HREF="RO41C33C.HTM">$C33C</A>       ; get drive number before colon
+C32D: A6 D3     LDX <A HREF="RA41D3.HTM">$D3</A>
+C32F: 9D 7A 02  STA <A HREF="RA41027A.HTM">$027A</A>,X     ; save exact position
+C332: 98        TYA
+C333: 95 E2     STA <A HREF="RA41E2.HTM">$E2</A>,X       ; drive number in table
+C335: E8        INX
+C336: EC 78 02  CPX <A HREF="RA410278.HTM">$0278</A>       ; got all drive numbers?
+C339: 90 EA     BCC $C325       ; no, continue
+C33B: 60        RTS
+
+    <A HREF="RO41C2DC.HTM">Previous Page</A> / <A HREF="RO41C33C.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,29 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Aktiven Puffer pruefen und holen ($df9e)
+A: a: Puffernummer
+   n: 1: kein Puffer aktiv
+
+Einsprung von <A HREF="RO819D2E.HTM">$9D2E</A>, <A HREF="RO819FBF.HTM">$9FC2</A>, <A HREF="RO81A08D.HTM">$A092</A>, <A HREF="RO81A09C.HTM">$A09C</A>, <A HREF="RO81A459.HTM">$A4C6</A>:
+
+9F1C: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          aktuelle Kanalnummer =
+9F1E: 86 74     STX <A HREF="RA8174.HTM">$74</A>          Zeiger auf aktuelle Puffernummer
+9F20: B5 D1     LDA <A HREF="RA81D1.HTM">$D1</A>,X        1. Puffer holen
+9F22: 10 08     BPL $9F2C        ist Puffer aktiv ? ja, ==&gt;
+9F24: 8A        TXA
+9F25: 18        CLC
+9F26: 69 07     ADC #$07         Zeiger auf 2. Puffernummer setzen
+9F28: 85 74     STA <A HREF="RA8174.HTM">$74</A>
+9F2A: B5 D8     LDA <A HREF="RA81D8.HTM">$D8</A>,X        2. Puffer holen
+
+Einsprung von $9F22:
+
+9F2C: 85 41     STA <A HREF="RA8140.HTM">$41</A>
+9F2E: 29 1F     AND #$1F         Puffernummer merken
+9F30: 24 41     BIT <A HREF="RA8140.HTM">$41</A>          Pufferstatus holen
+9F32: 60        RTS
+
+    <A HREF="RO819F11.HTM">Previous Page</A> / <A HREF="RO819F33.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

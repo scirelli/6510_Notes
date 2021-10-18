@@ -1,0 +1,40 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D075/53365:   Calculate blocks free
+
+Jump from <A HREF="RO41EEB7.HTM">$EEF1</A>:
+
+D075: 20 3A EF  JSR <A HREF="RO41EF3A.HTM">$EF3A</A>       ; buffer address to $6D/$6E
+D078: A0 04     LDY #$04        ; begin at position 4
+D07A: A9 00     LDA #$00
+D07C: AA        TAX
+
+Jump from $D08D:
+
+D07D: 18        CLC
+D07E: 71 6D     ADC (<A HREF="RA416D.HTM">$6D</A>),Y     ; add number of free blocks per track
+D080: 90 01     BCC $D083
+D082: E8        INX             ; X as hi-byte
+
+Jump from $D080, $D089:
+
+D083: C8        INY
+D084: C8        INY             ; plus 4
+D085: C8        INY
+D086: C8        INY
+D087: C0 48     CPY #$48        ; track 18?
+D089: F0 F8     BEQ $D083       ; then skip
+D08B: C0 90     CPY #$90        ; last track number?
+D08D: D0 EE     BNE $D07D       ; no
+D08F: 48        PHA             ; lo-byte
+D090: 8A        TXA             ; hi-byte
+D091: A6 7F     LDX <A HREF="RA417F.HTM">$7F</A>         ; drive number
+D093: 9D FC 02  STA <A HREF="RA4102FC.HTM">$02FC</A>,X     ; hi-byte to $2FC
+D096: 68        PLA             ; lo-byte
+D097: 9D FA 02  STA <A HREF="RA4102FA.HTM">$02FA</A>,X     ; to $2FA
+D09A: 60        RTS
+
+    <A HREF="RO41D042.HTM">Previous Page</A> / <A HREF="RO41D09B.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

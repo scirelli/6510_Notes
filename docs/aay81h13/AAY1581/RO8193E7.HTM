@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Neuen Block an das Directory anhaengen ($d48d)
+
+Einsprung von <A HREF="RO8195AB.HTM">$95F5</A>:
+
+93E7: 20 79 9D  JSR <A HREF="RO819D79.HTM">$9D79</A>        T&amp;S der aktuellen Datei holen
+93EA: A9 01     LDA #$01         nur eine Suchphase ausfuehren (s. $b668)
+93EC: 85 40     STA <A HREF="RA8140.HTM">$40</A>
+93EE: A5 2E     LDA <A HREF="RA812E.HTM">$2E</A>          Sektorversatz merken
+93F0: 48        PHA
+93F1: A9 01     LDA #$01         Sektorversatz auf 1 setzen
+93F3: 85 2E     STA <A HREF="RA812E.HTM">$2E</A>
+93F5: 20 75 B6  JSR <A HREF="RO81B668.HTM">$B675</A>        freien Block suchen
+93F8: 68        PLA
+93F9: 85 2E     STA <A HREF="RA812E.HTM">$2E</A>          alten Sektorversatz zurueckholen
+93FB: A9 00     LDA #$00         Pufferzeiger auf Verkettungsbytes setzen
+93FD: 20 22 94  JSR <A HREF="RO819422.HTM">$9422</A>
+9400: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          T&amp;S des Folgeblocks im aktuellen Block
+9402: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>        eintragen
+9405: A5 4E     LDA <A HREF="RA814E.HTM">$4E</A>
+9407: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>
+940A: 20 02 90  JSR <A HREF="RO818FFE.HTM">$9002</A>        alten Directory-Block schreiben
+940D: 20 ED 94  JSR <A HREF="RO8194DE.HTM">$94ED</A>        Jobausfuehrung pruefen
+9410: A9 00     LDA #$00
+9412: 20 22 94  JSR <A HREF="RO819422.HTM">$9422</A>        Pufferzeiger auf 0 setzen
+
+Einsprung von $9418:
+
+9415: 20 B1 8E  JSR $8EB1        Puffer mit $00 fuellen
+9418: D0 FB     BNE $9415        (z=1: Puffer voll)
+941A: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>        Kennzeichen fuer 'letzter Sektor'
+941D: A9 FF     LDA #$FF         und aktuelle Blocklaenge setzen
+941F: 4C B1 8E  JMP <A HREF="RO818EB1.HTM">$8EB1</A>        [Die ist im Directory immer 255.]
+
+    <A HREF="RO8193E0.HTM">Previous Page</A> / <A HREF="RO819422.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

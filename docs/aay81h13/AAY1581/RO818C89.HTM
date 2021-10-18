@@ -1,0 +1,47 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Position des Records berechnen ($ce0e)
+
+Einsprung von <A HREF="RO81A1A1.HTM">$A1ED</A>, <A HREF="RO81A2D6.HTM">$A2D9</A>, <A HREF="RO81A2D6.HTM">$A420</A>:
+
+8C89: 20 C1 8C  JSR <A HREF="RO818CC1.HTM">$8CC1</A>        Bytes bis zum gesuchten Record berechnen
+8C8C: 20 06 8D  JSR <A HREF="RO818D06.HTM">$8D06</A>        x/254
+8C8F: A5 60     LDA <A HREF="RA8160.HTM">$60</A>          Rest merken
+8C91: 85 6B     STA <A HREF="RA816B.HTM">$6B</A>          = gesuchte Position im Datenblock
+8C93: 20 09 8D  JSR <A HREF="RO818D06.HTM">$8D09</A>        x/120 = Side-Sektor-Nummer
+8C96: E6 6B     INC <A HREF="RA816B.HTM">$6B</A>          Datenbereich faengt bei Byte 2 an
+8C98: E6 6B     INC <A HREF="RA816B.HTM">$6B</A>
+8C9A: 20 6E A5  JSR <A HREF="RO81A56E.HTM">$A56E</A>        wird Super-Side-Sektor verwendet?
+8C9D: F0 0D     BEQ $8CAC        ja, ==&gt;
+
+1541-kompatible REL-Datei
+
+8C9F: A5 5B     LDA <A HREF="RA815B.HTM">$5B</A>          Side-Sektor-Nummer merken
+8CA1: 85 69     STA <A HREF="RA8169.HTM">$69</A>
+8CA3: A5 60     LDA <A HREF="RA8160.HTM">$60</A>          Rest: Nummer des Datenblocks im Side-Sektor
+8CA5: 0A        ASL              * 2 (2-Byte Tabelle: T&amp;S)
+8CA6: 18        CLC              Die Tabelle mit den T&amp;S der Datenblocks
+8CA7: 69 10     ADC #$10         faengt an der Position 16 im Side-Sektor an
+8CA9: 85 6A     STA <A HREF="RA816A.HTM">$6A</A>          Zeiger auf T&amp;S des Datenblocks
+8CAB: 60        RTS
+
+1581-REL-Datei mit Super-Side-Sektor
+
+Einsprung von $8C9D:
+
+8CAC: A5 60     LDA <A HREF="RA8160.HTM">$60</A>          Rest: Nummer des Datenblocks im Side-Sektor
+8CAE: 0A        ASL
+8CAF: 18        CLC              Die 2-Byte Tabelle
+8CB0: 69 10     ADC #$10         faengt an Position 16 an
+8CB2: 85 6A     STA <A HREF="RA816A.HTM">$6A</A>          Zeiger auf T&amp;S des Datenblocks
+8CB4: 20 0C 8D  JSR <A HREF="RO818D06.HTM">$8D0C</A>        x/6 = Gruppe des Side-Sektors
+8CB7: A5 60     LDA <A HREF="RA8160.HTM">$60</A>          Rest merken (Nummer des Side-Sektors)
+8CB9: 85 69     STA <A HREF="RA8169.HTM">$69</A>
+8CBB: A5 5B     LDA <A HREF="RA815B.HTM">$5B</A>          Gruppennummer merken
+8CBD: 8D 00 01  STA <A HREF="RA810100.HTM">$0100</A>
+8CC0: 60        RTS
+
+    <A HREF="RO818C61.HTM">Previous Page</A> / <A HREF="RO818CC1.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

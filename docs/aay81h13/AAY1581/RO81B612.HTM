@@ -1,0 +1,29 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+BAM auf Diskette schreiben
+
+Einsprung von <A HREF="RO81B390.HTM">$B42C</A>, <A HREF="RO81B515.HTM">$B53E</A>:
+
+B612: A5 6C     LDA <A HREF="RA816C.HTM">$6C</A>          aktuellen Puffer merken
+B614: 85 3F     STA <A HREF="RA813F.HTM">$3F</A>
+B616: A9 07     LDA #$07         Puffer 7
+B618: A2 01     LDX #$01         in den Directory-Sektor 1 schreiben
+B61A: 20 43 B6  JSR <A HREF="RO81B643.HTM">$B643</A>        T&amp;S und Puffernummer uebergeben
+B61D: 20 E2 94  JSR <A HREF="RO8194DE.HTM">$94E2</A>        Dir-Sektor schreiben
+B620: A9 08     LDA #$08         Puffer 8
+B622: A2 02     LDX #$02         in den Directory-Sektor 2 schreiben
+B624: 20 43 B6  JSR <A HREF="RO81B643.HTM">$B643</A>        T&amp;S und Puffernummer uebergeben
+B627: 20 E2 94  JSR <A HREF="RO8194DE.HTM">$94E2</A>        Dir-Sektor schreiben
+
+Einsprung von <A HREF="RO81B5F2.HTM">$B5F9</A>, <A HREF="RO81B5F2.HTM">$B60F</A>:
+
+B62A: A5 3F     LDA <A HREF="RA813F.HTM">$3F</A>          Puffernummer wieder herstellen
+B62C: 85 6C     STA <A HREF="RA816C.HTM">$6C</A>
+B62E: A9 00     LDA #$00         Flag fuer 'Bam nicht veraendert'
+B630: 85 35     STA <A HREF="RA8135.HTM">$35</A>
+B632: 60        RTS
+
+    <A HREF="RO81B5F2.HTM">Previous Page</A> / <A HREF="RO81B633.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

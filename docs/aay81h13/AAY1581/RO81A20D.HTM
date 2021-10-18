@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+gesuchten Record zur Ausgabe bereitstellen ($e275)
+
+Einsprung von <A HREF="RO81A1A1.HTM">$A1FD</A>, <A HREF="RO81A2D6.HTM">$A42B</A>:
+
+A20D: 20 35 A2  JSR <A HREF="RO81A235.HTM">$A235</A>        ggf. richtige Datenbloecke lesen
+A210: A5 6B     LDA <A HREF="RA816B.HTM">$6B</A>          Pufferzeiger auf gewuenschte Startposition
+A212: 20 22 94  JSR <A HREF="RO819422.HTM">$9422</A>        setzen
+A215: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+A217: BD 5E 02  LDA <A HREF="RA81025E.HTM">$025E</A>,X      Recordlaenge
+A21A: 38        SEC              -
+A21B: E5 68     SBC <A HREF="RA8168.HTM">$68</A>          Position im Record
+A21D: B0 03     BCS $A222        &gt;= 0 ? ja, ==&gt;
+                                nein: Zeiger steht hinter dem Recordende
+A21F: 4C 9C A1  JMP <A HREF="RO81A15C.HTM">$A19C</A>        67, Illegal Track or Sector
+
+Zeiger auf naechsten Record berechnen
+
+Einsprung von $A21D:
+
+A222: 18        CLC              a = Anzahl Zeichen bis Recordende
+A223: 65 6B     ADC <A HREF="RA816B.HTM">$6B</A>          + Startposition im Datenblock
+A225: 90 03     BCC $A22A        geht Record ueber Blockgrenze ? nein, ==&gt;
+A227: 69 01     ADC #$01         +2 (SEC) (Blockverkettung ueberspringen)
+A229: 38        SEC              Flag fuer Blockwechsel
+
+Einsprung von $A225:
+
+A22A: 20 8A 9F  JSR <A HREF="RO819F4C.HTM">$9F8A</A>        'Zeiger auf naechsten Record' setzen
+                                und auf Dateiende pruefen
+A22D: 4C C6 A0  JMP <A HREF="RO81A0A6.HTM">$A0C6</A>        Byte fuer Ausgabe bereitstellen
+
+A230: A9 51     LDA #$51         51, Overflow in record
+A232: 20 7C 80  JSR <A HREF="RO81807C.HTM">$807C</A>
+    <A HREF="RO81A1A1.HTM">Previous Page</A> / <A HREF="RO81A235.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

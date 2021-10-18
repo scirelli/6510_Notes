@@ -1,0 +1,24 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+FSM: DRF (Device Request Fast) Signal senden (bei der 1571: $8199)
+
+Einsprung von $ACA5, <A HREF="RO81ABCF.HTM">$AC72</A>:
+
+AC9D: 20 15 AD  JSR <A HREF="RO81AD15.HTM">$AD15</A>        ATN-Modus testen
+ACA0: 20 0C AD  JSR <A HREF="RO81AD0C.HTM">$AD0C</A>        Bus auslesen
+ACA3: 29 04     AND #$04         Auf CLOCK Lo warten
+ACA5: D0 F6     BNE $AC9D
+ACA7: 20 D4 AC  JSR <A HREF="RO81ACCF.HTM">$ACD4</A>        FSM auf Ausgabe schalten
+ACAA: A9 00     LDA #$00         $00 in serielles Schieberegister laden
+ACAC: 8D 0C 40  STA <A HREF="CIA81C.HTM">$400C</A>
+ACAF: A9 08     LDA #$08         b3: 1: SDR ist leer
+
+Einsprung von $ACB4:
+
+ACB1: 2C 0D 40  BIT <A HREF="CIA81D.HTM">$400D</A>        Uebertragung abwarten
+ACB4: F0 FB     BEQ $ACB1
+
+    <A HREF="RO81ABCF.HTM">Previous Page</A> / <A HREF="RO81ACB6.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

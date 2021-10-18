@@ -1,0 +1,24 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Blockheader lesen
+Spurnummer und Sektorgroesse anpassen
+
+Einsprung von <A HREF="RO81C0BE.HTM">$C116</A>, <A HREF="RO81C600.HTM">$C600</A>, <A HREF="RO81C6D7.HTM">$C6D7</A>, <A HREF="RO81C700.HTM">$C700</A>, <A HREF="RO81C800.HTM">$C800</A>, <A HREF="RO81C900.HTM">$C900</A>, <A HREF="RO81CA00.HTM">$CA00</A>, <A HREF="RO81CAE4.HTM">$CAE4</A>, <A HREF="RO81CAE4.HTM">$CAF1</A>,
+              <A HREF="RO81CAE4.HTM">$CB09</A>:
+
+CFA6: 20 00 CD  JSR <A HREF="RO81CD00.HTM">$CD00</A>        Blockheader lesen
+CFA9: B0 09     BCS $CFB4        Fehler, ==&gt;
+CFAB: A5 1F     LDA <A HREF="RA811F.HTM">$1F</A>          Spurnummer aus Blockheader
+CFAD: 85 27     STA <A HREF="RA8127.HTM">$27</A>          als aktuelle Kopfposition merken
+CFAF: A5 22     LDA <A HREF="RA8122.HTM">$22</A>          Sektorgroesse merken
+CFB1: 85 91     STA <A HREF="RA8191.HTM">$91</A>
+CFB3: 60        RTS
+
+Einsprung von $CFA9:
+
+CFB4: 4C CC CD  JMP <A HREF="RO81CDCC.HTM">$CDCC</A>        Fehler
+
+    <A HREF="RO81CF51.HTM">Previous Page</A> / <A HREF="RO81CFB7.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

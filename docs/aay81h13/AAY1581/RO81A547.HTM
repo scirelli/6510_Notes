@@ -1,0 +1,37 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Wenn Gruppe voll, dann neue Gruppe anlegen
+
+Einsprung von <A HREF="RO81A459.HTM">$A476</A>:
+
+A547: A5 55     LDA <A HREF="RA8155.HTM">$55</A>          Alte Side-Sektor-Nummer
+A549: C9 05     CMP #$05         &gt;= 5 ?
+A54B: B0 03     BCS $A550        Ja (Gruppe voll), ==&gt;
+A54D: 4C 79 A4  JMP <A HREF="RO81A459.HTM">$A479</A>        zurueck in alte Routine
+                                (wie ohne Super-Side-Sektor)
+Neue Gruppe anlegen
+
+Einsprung von $A54B:
+
+A550: A9 FF     LDA #$FF         Der neue Side-Sektor ist die Nummer 0
+A552: 85 55     STA <A HREF="RA8155.HTM">$55</A>          (also ist der alte die -1)
+A554: A9 00     LDA #$00         Pufferzeiger auf Pufferanfang
+A556: 20 22 94  JSR <A HREF="RO819422.HTM">$9422</A>        setzen
+A559: A0 02     LDY #$02
+A55B: 91 64     STA (<A HREF="RA8164.HTM">$64</A>),Y      a=0: Mit Side-Sektor 0 beginnen
+A55D: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+A55F: BD 5E 02  LDA <A HREF="RA81025E.HTM">$025E</A>,X      Recordlaenge festlegen
+A562: C8        INY
+A563: 91 64     STA (<A HREF="RA8164.HTM">$64</A>),Y
+A565: C8        INY              y=4 !?
+A566: F0 03     BEQ $A56B        ???
+A568: 4C 9E A4  JMP <A HREF="RO81A459.HTM">$A49E</A>        weiter bei Blockverkettung setzen
+
+Einsprung von $A566:
+
+A56B: 4C 79 A4  JMP <A HREF="RO81A459.HTM">$A479</A>
+
+    <A HREF="RO81A459.HTM">Previous Page</A> / <A HREF="RO81A56E.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,18 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DE95/56981:   Get following track and sector from buffer
+
+Jump from <A HREF="RO41DA2A.HTM">$DA34</A>, <A HREF="RO41E03C.HTM">$E03F</A>, <A HREF="RO41E03C.HTM">$E06B</A>:
+
+DE95: A9 00     LDA #$00
+DE97: 20 C8 D4  JSR <A HREF="RO41D4C8.HTM">$D4C8</A>       ; buffer pointer to zero
+DE9A: 20 37 D1  JSR <A HREF="RO41D137.HTM">$D137</A>       ; get byte
+DE9D: 85 80     STA <A HREF="RA4180.HTM">$80</A>         ; save as track
+DE9F: 20 37 D1  JSR <A HREF="RO41D137.HTM">$D137</A>       ; get byte
+DEA2: 85 81     STA <A HREF="RA4181.HTM">$81</A>         ; as sector
+DEA4: 60        RTS
+
+    <A HREF="RO41DE73.HTM">Previous Page</A> / <A HREF="RO41DEA5.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

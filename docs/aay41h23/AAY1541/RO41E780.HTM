@@ -1,0 +1,36 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $E780/59264:   Check for auto start - removed
+
+Jump from <A HREF="RO41EAA0.HTM">$EBE4</A>:
+
+E780: 60        RTS
+E781: EA EA EA EA EA EA EA EA
+E789: EA EA EA EA EA EA EA EA
+E791: EA EA EA EA EA EA EA EA
+E799: EA EA EA EA EA EA EA EA
+E7A1: EA 60
+
+ For your interest, this routine was removed:
+
+E780: AD 00 18  LDA <A HREF="VIA10.HTM">$1800</A>       ; read IEEE port
+E783: AA        TAX
+E784: 29 04     AND #$04        ; isolate 'CLOCK IN' bit
+E786: F0 F7     BEQ <A HREF="RO41E77F.HTM">$E77F</A>       ; not set, then done
+E788: 8A        TXA
+E789: 29 01     AND #$01        ; isolate 'DATA IN' bit
+E78B: F0 02     BEQ <A HREF="RO41E77F.HTM">$E77F</A>       ; not set, then done
+E78D: 58        CLI
+E78E: AD 00 18  LDA <A HREF="VIA10.HTM">$1800</A>       ; load IEEE port
+E791: 29 05     AND #$05        ; test 'DATA IN' and 'CLOCK IN'
+E793: F0 F9     BNE E78E        ; wait until both set
+E795: EE 78 02  INC <A HREF="RA410278.HTM">$0278</A>       ; file name
+E798: EE 74 02  INC <A HREF="RA410274.HTM">$0274</A>       ; character in the input line
+E79B: A9 2A     LDA #$2A        ; '*' as filename
+E79D: 8D 00 02  STA <A HREF="RA410200.HTM">$0200</A>       ; write in buffer
+E7A0: 4C A8 E7  JMP <A HREF="RO41E7A3.HTM">$E7A8</A>
+
+    <A HREF="RO41E77F.HTM">Previous Page</A> / <A HREF="RO41E7A3.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

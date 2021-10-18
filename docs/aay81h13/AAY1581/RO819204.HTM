@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Suchen eines freien oder inaktiven Puffers ($d28e)
+A: a,x: Puffernummer (&gt;$7f: kein Puffer gefunden)
+
+Einsprung von <A HREF="RO818D7D.HTM">$8DAD</A>, <A HREF="RO818E37.HTM">$8E44</A>, <A HREF="RO818EDC.HTM">$8EDC</A>, <A HREF="RO819157.HTM">$9181</A>, <A HREF="RO819157.HTM">$9195</A>, <A HREF="RO819B0D.HTM">$9B3F</A>, <A HREF="RO819BC3.HTM">$9BF7</A>:
+
+9204: 98        TYA
+9205: 48        PHA
+9206: 20 28 92  JSR <A HREF="RO819228.HTM">$9228</A>        Puffer suchen
+9209: 10 06     BPL $9211        gefunden ? ja, ==&gt;
+920B: 20 91 92  JSR <A HREF="RO819291.HTM">$9291</A>        Puffer 'stehlen'  [ganz legal...]
+920E: AA        TAX              erfolgreich ?
+920F: 30 13     BMI $9224        nein, ==&gt;
+
+Einsprung von $9209, $9213:
+
+9211: B5 02     LDA <A HREF="RA8102.HTM">$02</A>,X        Jobausfuehrung abwarten
+9213: 30 FC     BMI $9211
+9215: A9 00     LDA #$00         Jobspeicher loeschen
+9217: 95 02     STA <A HREF="RA8102.HTM">$02</A>,X
+9219: 9D 72 02  STA <A HREF="RA810272.HTM">$0272</A>,X
+921C: 8A        TXA              Puffernummer * 2
+921D: 0A        ASL
+921E: A8        TAY
+921F: A9 02     LDA #$02         Pufferzeiger initialisieren
+9221: 99 BB 00  STA <A HREF="RA81BB.HTM">$00BB</A>,Y
+
+Einsprung von $920F:
+
+9224: 68        PLA
+9225: A8        TAY
+9226: 8A        TXA              Puffernummer merken
+9227: 60        RTS
+
+    <A HREF="RO8191CE.HTM">Previous Page</A> / <A HREF="RO819228.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

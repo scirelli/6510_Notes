@@ -1,0 +1,29 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Byte in Puffer schreiben, Pufferzeiger erhoehen ($cff1)
+
+Einsprung von <A HREF="RO818BAE.HTM">$8BC2</A>, <A HREF="RO818E78.HTM">$8E91</A>, <A HREF="RO818E78.HTM">$8EA6</A>, <A HREF="RO819112.HTM">$9112</A>, <A HREF="RO819112.HTM">$9122</A>, <A HREF="RO819112.HTM">$9127</A>, <A HREF="RO8193E7.HTM">$9402</A>, <A HREF="RO8193E7.HTM">$9407</A>, <A HREF="RO8193E7.HTM">$9415</A>,
+              <A HREF="RO8193E7.HTM">$941A</A>, <A HREF="RO8193E7.HTM">$941F</A>, <A HREF="RO8195AB.HTM">$9613</A>, <A HREF="RO8195AB.HTM">$961A</A>, <A HREF="RO8195AB.HTM">$9621</A>, <A HREF="RO819A2A.HTM">$9A3D</A>, <A HREF="RO819A2A.HTM">$9A62</A>, <A HREF="RO819A2A.HTM">$9A66</A>, <A HREF="RO81B17C.HTM">$B19C</A>,
+              <A HREF="RO81B17C.HTM">$B1A1</A>, <A HREF="RO81B17C.HTM">$B1A6</A>, <A HREF="RO81B17C.HTM">$B1A9</A>, <A HREF="RO81B17C.HTM">$B1AF</A>, <A HREF="RO81B17C.HTM">$B1B4</A>, <A HREF="RO81B17C.HTM">$B1C5</A>, <A HREF="RO81B17C.HTM">$B1CA</A>, <A HREF="RO81B17C.HTM">$B1CD</A>, <A HREF="RO81B17C.HTM">$B1D8</A>,
+              <A HREF="RO81B17C.HTM">$B1DE</A>, <A HREF="RO81B17C.HTM">$B1E6</A>, <A HREF="RO81B17C.HTM">$B204</A>, <A HREF="RO81B17C.HTM">$B20A</A>, <A HREF="RO81B17C.HTM">$B21B</A>, <A HREF="RO81B17C.HTM">$B21E</A>, <A HREF="RO81B17C.HTM">$B221</A>, <A HREF="RO81B237.HTM">$B23C</A>, <A HREF="RO81B88D.HTM">$B8C5</A>:
+
+8EB1: 48        PHA              Byte merken
+8EB2: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        Puffer holen
+8EB5: 10 06     BPL $8EBD
+8EB7: 68        PLA              Kein Puffer gefunden
+8EB8: A9 61     LDA #$61         61, FILE NOT OPEN
+8EBA: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>
+
+Einsprung von $8EB5, <A HREF="RO819CCA.HTM">$9CD0</A>:
+
+8EBD: 0A        ASL              (Puffernummer)
+8EBE: AA        TAX
+8EBF: 68        PLA              Byte zurueckholen
+8EC0: 81 BB     STA (<A HREF="RA81BB.HTM">$BB</A>,X)      Byte in Puffer schreiben
+8EC2: F6 BB     INC <A HREF="RA81BB.HTM">$BB</A>,X        Pufferzeiger erhoehen
+8EC4: 60        RTS
+
+    <A HREF="RO818E78.HTM">Previous Page</A> / <A HREF="RO818EC5.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

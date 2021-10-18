@@ -1,0 +1,37 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Pufferzeiger initialisieren ($dcb6)
+
+Einsprung von <A HREF="RO819B0D.HTM">$9B12</A>, <A HREF="RO819BC3.HTM">$9BCE</A>:
+
+9B9B: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+9B9D: B5 D1     LDA <A HREF="RA81D1.HTM">$D1</A>,X        1. Puffer holen
+9B9F: 0A        ASL              ist Puffer belegt ?
+9BA0: 30 06     BMI $9BA8        nein, (sollte nie ausgefuehrt werden) ==&gt;
+9BA2: A8        TAY
+9BA3: A9 02     LDA #$02         Pufferzeiger auf Datenanfang setzen
+9BA5: 99 BB 00  STA <A HREF="RA81BB.HTM">$00BB</A>,Y
+
+Einsprung von $9BA0:
+
+9BA8: B5 D8     LDA <A HREF="RA81D8.HTM">$D8</A>,X        2.Puffer inaktiv setzen
+9BAA: 09 80     ORA #$80
+9BAC: 95 D8     STA <A HREF="RA81D8.HTM">$D8</A>,X
+9BAE: 0A        ASL              Puffer belegt ?
+9BAF: 30 06     BMI $9BB7        nein, ==&gt;
+9BB1: A8        TAY
+9BB2: A9 02     LDA #$02         Pufferzeiger auf Datenanfang setzen
+9BB4: 99 BB 00  STA <A HREF="RA81BB.HTM">$00BB</A>,Y
+
+Einsprung von $9BAF:
+
+9BB7: A9 00     LDA #$00
+9BB9: 9D 42 02  STA <A HREF="RA810242.HTM">$0242</A>,X      Programmlaenge auf 0 setzen
+9BBC: 9D 49 02  STA <A HREF="RA810249.HTM">$0249</A>,X
+9BBF: 9D 50 02  STA <A HREF="RA810250.HTM">$0250</A>,X      Blocklaenge loeschen:
+9BC2: 60        RTS              0: noch nicht letzter Block
+
+    <A HREF="RO819B0D.HTM">Previous Page</A> / <A HREF="RO819BC3.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

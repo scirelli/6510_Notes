@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Schrittmotor ansteuern
+
+Einsprung von <A HREF="RO81CE00.HTM">$CE09</A>:
+
+CE71: A4 26     LDY <A HREF="RA8126.HTM">$26</A>          Drivemodus holen
+
+Einsprung von <A HREF="RO81CE00.HTM">$CE51</A>, <A HREF="RO81CE00.HTM">$CE55</A>, <A HREF="RO81CE00.HTM">$CE60</A>, <A HREF="RO81CE00.HTM">$CE64</A>:
+
+CE73: 98        TYA              soll der Kopf bewegt werden ?
+CE74: 29 40     AND #$40
+CE76: F0 F5     BEQ <A HREF="RO81CE00.HTM">$CE6D</A>        nein, (Ende) ==&gt;
+CE78: A5 88     LDA <A HREF="RA8188.HTM">$88</A>          Solltrack
+CE7A: C5 27     CMP <A HREF="RA8127.HTM">$27</A>          = Isttrack ?
+CE7C: F0 18     BEQ $CE96        Ja, (Schrittmotor-Flag loeschen) ==&gt;
+CE7E: 8D 03 60  STA <A HREF="WD813.HTM">$6003</A>        Solltrack uebergeben
+CE81: A5 27     LDA <A HREF="RA8127.HTM">$27</A>
+CE83: 8D 01 60  STA <A HREF="WD811.HTM">$6001</A>        Isttrack uebergeben
+CE86: AD DB 01  LDA <A HREF="RA8101DB.HTM">$01DB</A>        Controller-Befehl: SEEK
+CE89: 20 F4 CB  JSR <A HREF="RO81CBF4.HTM">$CBF4</A>        in Controller schreiben
+CE8C: 20 EC CB  JSR <A HREF="RO81CBEC.HTM">$CBEC</A>        und Ausfuehrung abwarten  [leider ...]
+CE8F: A5 88     LDA <A HREF="RA8188.HTM">$88</A>          Kopf steht jetzt auf Solltrack
+CE91: 85 27     STA <A HREF="RA8127.HTM">$27</A>          (= Isttrack)
+CE93: 8D 01 60  STA <A HREF="WD811.HTM">$6001</A>        Isttrack an Controller uebergeben
+
+Einsprung von $CE7C:
+
+CE96: A5 26     LDA <A HREF="RA8126.HTM">$26</A>          b6=0: Schrittmotor ist inaktiv
+CE98: 29 BF     AND #$BF         im Drivestatus eintragen
+CE9A: 85 26     STA <A HREF="RA8126.HTM">$26</A>
+CE9C: A4 98     LDY <A HREF="RA8198.HTM">$98</A>          Kopfberuhigungszeit abwarten
+CE9E: 20 D5 CB  JSR <A HREF="RO81CBD5.HTM">$CBD5</A>        (18 ms)
+CEA1: 4C 6D CE  JMP <A HREF="RO81CE00.HTM">$CE6D</A>        Ende ==&gt;
+
+    <A HREF="RO81CE00.HTM">Previous Page</A> / <A HREF="RO81CEA4.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

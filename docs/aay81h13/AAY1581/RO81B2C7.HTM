@@ -1,0 +1,34 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Blocks eines Files in BAM belegen ($ede5)
+[Es ist etwas unguenstig, dass das File auf der selben SA geoeffnet wird, wie
+ das Directory. So muss nach jedem File das Directory neu geladen werden.]
+
+Einsprung von <A HREF="RO81B262.HTM">$B27D</A>, <A HREF="RO81B262.HTM">$B29B</A>, <A HREF="RO81B262.HTM">$B2A4</A>:
+
+B2C7: 20 B5 94  JSR <A HREF="RO8194B5.HTM">$94B5</A>        auf gueltige T&amp;S pruefen
+B2CA: 20 72 B5  JSR <A HREF="RO81B572.HTM">$B572</A>        Block in Bam belegen
+B2CD: 20 CF 93  JSR <A HREF="RO8193CF.HTM">$93CF</A>        File auf SA 17 zum Lesen oeffnen
+
+Einsprung von $B2EC:
+
+B2D0: A9 00     LDA #$00         Pufferzeiger auf 0 setzen
+B2D2: 20 22 94  JSR <A HREF="RO819422.HTM">$9422</A>
+B2D5: 20 71 90  JSR <A HREF="RO819071.HTM">$9071</A>        T&amp;S des Folgeblocks holen
+B2D8: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>
+B2DA: 20 71 90  JSR <A HREF="RO819071.HTM">$9071</A>
+B2DD: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+B2DF: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          existiert Folgeblock ?
+B2E1: D0 03     BNE $B2E6        ja, ==&gt;
+B2E3: 4C 9E 91  JMP <A HREF="RO81919E.HTM">$919E</A>        aktuelle SA schliessen
+
+Einsprung von $B2E1:
+
+B2E6: 20 72 B5  JSR <A HREF="RO81B572.HTM">$B572</A>        naechsten Block in BAM belegen
+B2E9: 20 AA 93  JSR <A HREF="RO8193AA.HTM">$93AA</A>        naechsten Block lesen
+B2EC: 4C D0 B2  JMP $B2D0
+
+    <A HREF="RO81B262.HTM">Previous Page</A> / <A HREF="RO81B2EF.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

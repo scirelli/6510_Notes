@@ -1,0 +1,36 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+LED-Routinen des Controller-Programms
+
+JOB $94: LEDACTON_DV
+
+C546: A5 79     LDA <A HREF="RA8179.HTM">$79</A>          b6=1: Drive-LED an
+C548: 09 40     ORA #$40
+C54A: 85 79     STA <A HREF="RA8179.HTM">$79</A>
+C54C: 4C 99 C3  JMP <A HREF="RO81C396.HTM">$C399</A>
+
+JOB $96: LEDACTOFF_DV
+
+C54F: A5 79     LDA <A HREF="RA8179.HTM">$79</A>          b6=0: Drive-LED aus
+C551: 29 BF     AND #$BF
+C553: 85 79     STA <A HREF="RA8179.HTM">$79</A>
+C555: 4C 99 C3  JMP <A HREF="RO81C396.HTM">$C399</A>
+
+JOB $98: ERRLEDON_DV
+
+C558: A5 79     LDA <A HREF="RA8179.HTM">$79</A>          b5=1: Fehler-LED-Blinken
+C55A: 09 20     ORA #$20
+C55C: 85 79     STA <A HREF="RA8179.HTM">$79</A>
+C55E: 4C 99 C3  JMP <A HREF="RO81C396.HTM">$C399</A>
+
+JOB $9a: ERRLEDOFF_DV
+
+C561: A5 79     LDA <A HREF="RA8179.HTM">$79</A>          b5=0: kein Fehler-LED-Blinken
+C563: 29 DF     AND #$DF
+C565: 85 79     STA <A HREF="RA8179.HTM">$79</A>
+C567: 4C 99 C3  JMP <A HREF="RO81C396.HTM">$C399</A>
+
+    <A HREF="RO81C3D6.HTM">Previous Page</A> / <A HREF="RO81C56A.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

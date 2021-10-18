@@ -1,0 +1,42 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+???
+
+Einsprung von <A HREF="RO818FD6.HTM">$8FD9</A>, <A HREF="RO818FEA.HTM">$8FF8</A>, <A HREF="RO81909B.HTM">$90FE</A>:
+
+8FFE: A9 80     LDA #$80         &lt;-- Jobcode 'Block lesen'
+9000: D0 02     BNE $9004
+
+Einsprung von <A HREF="RO819112.HTM">$912A</A>, <A HREF="RO8193E7.HTM">$940A</A>, <A HREF="RO819A2A.HTM">$9A69</A>:
+
+9002: A9 90     LDA #$90         &lt;-- Jobcode 'Block schreiben'
+
+Einsprung von $9000:
+
+9004: 85 28     STA <A HREF="RA8128.HTM">$28</A>          zwischenspeichern
+9006: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        Puffer holen
+9009: AA        TAX
+900A: 20 71 94  JSR <A HREF="RO819471.HTM">$9471</A>        T&amp;S auf Gueltigkeit pruefen, und Job aufrufen
+900D: 8A        TXA
+900E: 48        PHA
+900F: 0A        ASL              Puffernummer *2
+9010: AA        TAX
+9011: A9 00     LDA #$00         Pufferzeiger initialisieren
+9013: 95 BB     STA <A HREF="RA81BB.HTM">$BB</A>,X
+9015: 20 5F 90  JSR <A HREF="RO81905F.HTM">$905F</A>        Filetyp holen
+9018: C9 04     CMP #$04         REL-Datei ?
+901A: B0 08     BCS $9024        ja, ==&gt;
+901C: FE 49 02  INC <A HREF="RA810249.HTM">$0249</A>,X      Dateilaenge +1
+901F: D0 03     BNE $9024
+9021: FE 50 02  INC <A HREF="RA810250.HTM">$0250</A>,X
+
+Einsprung von $901A, $901F:
+
+9024: 68        PLA              Puffernummer zurueckholen
+9025: AA        TAX
+9026: 60        RTS
+
+    <A HREF="RO818FEA.HTM">Previous Page</A> / <A HREF="RO819027.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

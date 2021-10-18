@@ -1,0 +1,25 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C12C/49452:   Prepare for LED flash after error
+
+Jump from <A HREF="RO41E645.HTM">$E650</A>:
+
+C12C: 78        SEI
+C12D: 8A        TXA             ; save X register
+C12E: 48        PHA
+C12F: A9 50     LDA #$50
+C131: 8D 6C 02  STA <A HREF="RA41026C.HTM">$026C</A>
+C134: A2 00     LDX #$00
+C136: BD CA FE  LDA <A HREF="RO41FECA.HTM">$FECA</A>,X     ; 8
+C139: 8D 6D 02  STA <A HREF="RA41026D.HTM">$026D</A>
+C13C: 0D 00 1C  ORA <A HREF="VIA20.HTM">$1C00</A>       ; turn LED on
+C13F: 8D 00 1C  STA <A HREF="VIA20.HTM">$1C00</A>
+C142: 68        PLA
+C143: AA        TAX             ; get X register back
+C144: 58        CLI
+C145: 60        RTS
+
+    <A HREF="RO41C123.HTM">Previous Page</A> / <A HREF="RO41C146.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

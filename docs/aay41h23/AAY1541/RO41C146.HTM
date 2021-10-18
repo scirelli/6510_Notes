@@ -1,0 +1,55 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C146/49478:   Interpret command from computer
+
+Jump from <A HREF="RO41EAA0.HTM">$EBFC</A>:
+
+C146: A9 00     LDA #$00
+C148: 8D F9 02  STA <A HREF="RA4102F9.HTM">$02F9</A>
+C14B: AD 8E 02  LDA <A HREF="RA41028E.HTM">$028E</A>       ; last drive number
+C14E: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+C150: 20 BC E6  JSR <A HREF="RO41E6BC.HTM">$E6BC</A>       ; prepare 'ok' message
+C153: A5 84     LDA <A HREF="RA4184.HTM">$84</A>         ; secondary address
+C155: 10 09     BPL $C160
+C157: 29 0F     AND #$0F
+C159: C9 0F     CMP #$0F        ; 15, command channel
+C15B: F0 03     BEQ $C160       ; yes
+C15D: 4C B4 D7  JMP <A HREF="RO41D7B4.HTM">$D7B4</A>       ; to OPEN command
+
+Jump from $C155, $C15B:
+
+C160: 20 B3 C2  JSR <A HREF="RO41C2B3.HTM">$C2B3</A>       ; determine line length and erase flags
+C163: B1 A3     LDA (<A HREF="RA41A3.HTM">$A3</A>),Y     ; get first character
+C165: 8D 75 02  STA <A HREF="RA410275.HTM">$0275</A>       ; and store
+C168: A2 0B     LDX #$0B        ; 11
+
+Jump from $C173:
+
+C16A: BD 89 FE  LDA <A HREF="RO41FE89.HTM">$FE89</A>,X     ; commands
+C16D: CD 75 02  CMP <A HREF="RA410275.HTM">$0275</A>       ; compare to first character
+C170: F0 08     BEQ $C17A       ; found?
+C172: CA        DEX
+C173: 10 F5     BPL $C16A
+C175: A9 31     LDA #$31        ; not found
+C177: 4C C8 C1  JMP <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 31, 'syntax error'
+
+Jump from $C170:
+
+C17A: 8E 2A 02  STX <A HREF="RA41022A.HTM">$022A</A>       ; number of command words
+C17D: E0 09     CPX #$09
+C17F: 90 03     BCC $C184       ; command number &lt; 9?
+C181: 20 EE C1  JSR <A HREF="RO41C1EE.HTM">$C1EE</A>       ; test for 'R', 'S', and 'N'
+
+Jump from $C17F:
+
+C184: AE 2A 02  LDX <A HREF="RA41022A.HTM">$022A</A>       ; command number
+C187: BD 95 FE  LDA <A HREF="RO41FE95.HTM">$FE95</A>,X     ; jump address lo
+C18A: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>
+C18C: BD A1 FE  LDA <A HREF="RO41FEA1.HTM">$FEA1</A>,X     ; jump address hi
+C18F: 85 70     STA <A HREF="RA416F.HTM">$70</A>
+C191: 6C 6F 00  JMP (<A HREF="RA416F.HTM">$006F</A>)     ; jump to command
+
+    <A HREF="RO41C12C.HTM">Previous Page</A> / <A HREF="RO41C194.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

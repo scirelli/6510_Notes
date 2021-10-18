@@ -1,0 +1,22 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DEE9/57065:   Buffer pointer for side-sector
+
+Jump from <A HREF="RO41DCDA.HTM">$DD33</A>, <A HREF="RO41DCDA.HTM">$DD57</A>, <A HREF="RO41DEF8.HTM">$DF14</A>, <A HREF="RO41E1CB.HTM">$E1FF</A>, <A HREF="RO41E31C.HTM">$E35A</A>, <A HREF="RO41E31C.HTM">$E3F4</A>:
+
+DEE9: 48        PHA             ; pointer in side-sector
+DEEA: 20 DC DE  JSR <A HREF="RO41DEDC.HTM">$DEDC</A>       ; set buffer pointer
+DEED: 48        PHA
+DEEE: 8A        TXA             ; buffer number
+DEEF: 0A        ASL             ; times 2
+DEF0: AA        TAX
+DEF1: 68        PLA
+DEF2: 95 9A     STA <A HREF="RA4199.HTM">$9A</A>,X       ; buffer pointer hi
+DEF4: 68        PLA
+DEF5: 95 99     STA <A HREF="RA4199.HTM">$99</A>,X       ; buffer pointer lo
+DEF7: 60        RTS
+
+    <A HREF="RO41DEDC.HTM">Previous Page</A> / <A HREF="RO41DEF8.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,54 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Anlaufvorgang ueberwachen
+
+Einsprung von <A HREF="RO81C0BE.HTM">$C10F</A>:
+
+CD7B: A5 26     LDA <A HREF="RA8126.HTM">$26</A>          Ist Anlaufvorgang beendet ?
+CD7D: 10 04     BPL $CD83        ja, ==&gt;
+CD7F: A5 2A     LDA <A HREF="RA812A.HTM">$2A</A>          Anlaufzeit des Motors vorbei ?
+CD81: D0 34     BNE $CDB7        nein, ==&gt;
+
+Einsprung von $CD7D:
+
+CD83: AD 00 40  LDA <A HREF="CIA810.HTM">$4000</A>        b7=0: Diskettenwechsel ?
+CD86: 29 80     AND #$80
+CD88: D0 23     BNE $CDAD        nein, ==&gt;
+Schreib-/Lesekopf positionieren, damit er genau auf der Spur liegt
+und damit das Diskettenwechsel-Flag geloescht wird.
+
+CD8A: AD DD 01  LDA <A HREF="RA8101DD.HTM">$01DD</A>        Controller-Befehl: 'Step-in'
+CD8D: 20 F4 CB  JSR <A HREF="RO81CBF4.HTM">$CBF4</A>        Kommando an Controller uebergeben
+CD90: 20 EC CB  JSR <A HREF="RO81CBEC.HTM">$CBEC</A>        auf Controller-Ready warten
+CD93: AD DE 01  LDA <A HREF="RA8101DE.HTM">$01DE</A>        Controller-Befehl: 'Step-out'
+CD96: 20 F4 CB  JSR <A HREF="RO81CBF4.HTM">$CBF4</A>        Kommando an Controller uebergeben
+CD99: 20 EC CB  JSR <A HREF="RO81CBEC.HTM">$CBEC</A>        auf Controller-Ready warten
+CD9C: A4 98     LDY <A HREF="RA8198.HTM">$98</A>          Kopfberuhigungszeit
+CD9E: 20 D5 CB  JSR <A HREF="RO81CBD5.HTM">$CBD5</A>        18 ms Warten
+CDA1: AD 00 40  LDA <A HREF="CIA810.HTM">$4000</A>        immer noch Diskettenwechsel ?
+CDA4: 29 80     AND #$80
+CDA6: D0 05     BNE $CDAD        nein, ==&gt;
+
+Einsprung von $CDB0:
+
+CDA8: A9 03     LDA #$03         keine Adressmarke gefunden
+CDAA: 4C CC CD  JMP <A HREF="RO81CDCC.HTM">$CDCC</A>
+
+Einsprung von $CD88, $CDA6:
+
+CDAD: 20 BC CD  JSR <A HREF="RO81CDBC.HTM">$CDBC</A>        Ist eine Diskette eingelegt ?
+CDB0: B0 F6     BCS $CDA8        Nein, ==&gt;
+CDB2: A9 20     LDA #$20         Ja: b7=0: Laufwerk ist bereit
+CDB4: 85 26     STA <A HREF="RA8126.HTM">$26</A>          b5=1: Motor laeuft
+CDB6: 60        RTS
+
+Einsprung von $CD81:
+
+CDB7: 68        PLA              Motor ist noch nicht hochgelaufen
+CDB8: 68        PLA
+CDB9: 4C 00 CE  JMP <A HREF="RO81CE00.HTM">$CE00</A>        zur Hauptsteuer-Routine ==&gt;
+
+    <A HREF="RO81CD63.HTM">Previous Page</A> / <A HREF="RO81CDBC.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

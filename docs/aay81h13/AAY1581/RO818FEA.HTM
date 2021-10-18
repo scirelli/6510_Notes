@@ -1,0 +1,25 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Block (und ggf. Folgeblock) im 2-Puffer-Modus lesen ($d0af)
+
+Einsprung von <A HREF="RO81A235.HTM">$A270</A>:
+
+8FEA: 20 D6 8F  JSR <A HREF="RO818FD6.HTM">$8FD6</A>        Block lesen
+8FED: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          Folgeblock ?
+8FEF: D0 01     BNE $8FF2        ja, ==&gt;
+8FF1: 60        RTS
+
+Einsprung von $8FEF:
+
+8FF2: 20 7D 8D  JSR <A HREF="RO818D7D.HTM">$8D7D</A>        Puffer suchen bzw. wechseln
+8FF5: 20 85 95  JSR <A HREF="RO819585.HTM">$9585</A>        T&amp;S an DC uebergeben
+8FF8: 20 FE 8F  JSR <A HREF="RO818FFE.HTM">$8FFE</A>        Befehl 'Block-lesen' an DC uebergeben
+                                [Die Jobausfuehrung wird nicht abgewartet.
+                                 Fruehere Laufwerke konnten so den Block
+                                 'im Hintergrund' einlesen.]
+8FFB: 4C 7D 8D  JMP <A HREF="RO818D7D.HTM">$8D7D</A>        Auf 1. Puffer zurueckschalten
+
+    <A HREF="RO818FD6.HTM">Previous Page</A> / <A HREF="RO818FFE.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,23 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+T&amp;S eines Files holen und fuer 'LOAD &quot;*&quot;,8' merken ($d9ef)
+
+Einsprung von <A HREF="RO8197A2.HTM">$97EA</A>, <A HREF="RO8197ED.HTM">$9845</A>:
+
+9896: A5 52     LDA <A HREF="RA8152.HTM">$52</A>          Aktuelle SA &gt;= 2 ?
+9898: C9 02     CMP #$02
+989A: B0 0C     BCS $98A8        ja, (T&amp;S nicht merken) ==&gt;
+989C: 20 7C 9D  JSR <A HREF="RO819D79.HTM">$9D7C</A>        T&amp;S holen
+989F: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          Track
+98A1: 85 4C     STA <A HREF="RA814C.HTM">$4C</A>
+98A3: A5 4E     LDA <A HREF="RA814E.HTM">$4E</A>          &amp; Sektor
+98A5: 8D 8B 02  STA <A HREF="RA81028B.HTM">$028B</A>        als letztes benutztes File merken
+
+Einsprung von $989A:
+
+98A8: 4C 50 80  JMP <A HREF="RO81804C.HTM">$8050</A>        Status bereitstellen
+
+    <A HREF="RO819890.HTM">Previous Page</A> / <A HREF="RO8198AB.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

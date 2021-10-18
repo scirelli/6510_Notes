@@ -1,0 +1,124 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $EBFF/60415:   Wait loop
+
+Jump from $EC9B, <A HREF="RO41EAA0.HTM">$EBF3</A>:
+
+EBFF: 58        CLI
+EC00: A5 7C     LDA <A HREF="RA417C.HTM">$7C</A>         ; ATN signal discovered?
+EC02: F0 03     BEQ $EC07       ; no
+EC04: 4C 5B E8  JMP <A HREF="RO41E85B.HTM">$E85B</A>       ; to IEEE routine
+
+Jump from $EC02:
+
+EC07: 58        CLI
+EC08: A9 0E     LDA #$0E        ; 14
+EC0A: 85 72     STA <A HREF="RA4172.HTM">$72</A>         ; as secondary address
+EC0C: A9 00     LDA #$00
+EC0E: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>         ; job counter
+EC10: 85 70     STA <A HREF="RA416F.HTM">$70</A>
+
+Jump from $EC2D:
+
+EC12: A6 72     LDX <A HREF="RA4172.HTM">$72</A>
+EC14: BD 2B 02  LDA <A HREF="RA41022B.HTM">$022B</A>,X     ; secondary address
+EC17: C9 FF     CMP #$FF        ; channel associated?
+EC19: F0 10     BEQ $EC2B       ; no
+EC1B: 29 3F     AND #$3F
+EC1D: 85 82     STA <A HREF="RA4182.HTM">$82</A>         ; channel number
+EC1F: 20 93 DF  JSR <A HREF="RO41DF93.HTM">$DF93</A>       ; get buffer number
+EC22: AA        TAX
+EC23: BD 5B 02  LDA <A HREF="RA41025B.HTM">$025B</A>,X     ; drive number
+EC26: 29 01     AND #$01
+EC28: AA        TAX
+EC29: F6 6F     INC <A HREF="RA416F.HTM">$6F</A>,X       ; increment job counter
+
+Jump from $EC19:
+
+EC2B: C6 72     DEC <A HREF="RA4172.HTM">$72</A>         ; lo address
+EC2D: 10 E3     BPL $EC12       ; continue search
+EC2F: A0 04     LDY #$04        ; buffer counter
+
+Jump from $EC3C:
+
+EC31: B9 00 00  LDA <A HREF="RA4100.HTM">$00</A>,Y       ; disk controller in action?
+EC34: 10 05     BPL $EC3B       ; no
+EC36: 29 01     AND #$01        ; isolate drive number
+EC38: AA        TAX
+EC39: F6 6F     INC <A HREF="RA416F.HTM">$6F</A>,X       ; increment job counter
+
+Jump from $EC34:
+
+EC3B: 88        DEY
+EC3C: 10 F3     BPL $EC31       ; next buffer
+EC3E: 78        SEI
+EC3F: AD 00 1C  LDA <A HREF="VIA20.HTM">$1C00</A>
+EC42: 29 F7     AND #$F7        ; erase LED bit
+EC44: 48        PHA
+EC45: A5 7F     LDA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+EC47: 85 86     STA <A HREF="RA4186.HTM">$86</A>
+EC49: A9 00     LDA #$00
+EC4B: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>         ; drive 0
+EC4D: A5 6F     LDA <A HREF="RA416F.HTM">$6F</A>         ; job for drive 0?
+EC4F: F0 0B     BEQ $EC5C       ; no
+EC51: A5 1C     LDA <A HREF="RA411C.HTM">$1C</A>         ; write protect for drive 0?
+EC53: F0 03     BEQ $EC58       ; no
+EC55: 20 13 D3  JSR <A HREF="RO41D313.HTM">$D313</A>       ; close all channels to drive 0
+
+Jump from $EC53:
+
+EC58: 68        PLA
+EC59: 09 08     ORA #$08        ; set LED bit
+EC5B: 48        PHA
+
+Jump from $EC4F:
+
+EC5C: E6 7F     INC <A HREF="RA417F.HTM">$7F</A>         ; increment drive number
+EC5E: A5 70     LDA <A HREF="RA416F.HTM">$70</A>         ; job for drive 1?
+EC60: F0 0B     BEQ $EC6D       ; no
+EC62: A5 1D     LDA <A HREF="RA411D.HTM">$1D</A>         ; write protect for drive 1?
+EC64: F0 03     BEQ $EC69       ; no
+EC66: 20 13 D3  JSR <A HREF="RO41D313.HTM">$D313</A>       ; close all channels to drive 1
+
+Jump from $EC64:
+
+EC69: 68        PLA
+EC6A: 09 00     ORA #$00
+EC6C: 48        PHA
+
+Jump from $EC60:
+
+EC6D: A5 86     LDA <A HREF="RA4186.HTM">$86</A>
+EC6F: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>         ; get drive number back
+EC71: 68        PLA             ; bit for LED
+EC72: AE 6C 02  LDX <A HREF="RA41026C.HTM">$026C</A>       ; interrupt counter
+EC75: F0 21     BEQ $EC98       ; to zero?
+EC77: AD 00 1C  LDA <A HREF="VIA20.HTM">$1C00</A>
+EC7A: E0 80     CPX #$80
+EC7C: D0 03     BNE $EC81
+EC7E: 4C 8B EC  JMP $EC8B
+
+Jump from $EC7C:
+
+EC81: AE 05 18  LDX <A HREF="VIA15.HTM">$1805</A>       ; erase timer interrupt
+EC84: 30 12     BMI $EC98
+EC86: A2 A0     LDX #$A0
+EC88: 8E 05 18  STX <A HREF="VIA15.HTM">$1805</A>       ; set timer
+
+Jump from $EC7E:
+
+EC8B: CE 6C 02  DEC <A HREF="RA41026C.HTM">$026C</A>       ; decrement counter
+EC8E: D0 08     BNE $EC98       ; not yet zero?
+EC90: 4D 6D 02  EOR <A HREF="RA41026D.HTM">$026D</A>
+EC93: A2 10     LDX #$10
+EC95: 8E 6C 02  STX <A HREF="RA41026C.HTM">$026C</A>       ; reset counter
+
+Jump from $EC75, $EC84, $EC8E:
+
+EC98: 8D 00 1C  STA <A HREF="VIA20.HTM">$1C00</A>       ; turn LED on/off
+EC9B: 4C FF EB  JMP $EBFF       ; back to wait loop
+
+    <A HREF="RO41EAA0.HTM">Previous Page</A> / <A HREF="RO41EC9E.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

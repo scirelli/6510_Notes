@@ -1,0 +1,18 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Timer setzen und starten
+
+Einsprung von <A HREF="RO81C163.HTM">$C309</A>:
+
+CB9F: AD D7 01  LDA <A HREF="RA8101D7.HTM">$01D7</A>        Wert in $01d8/$01d7 (!) in
+CBA2: 8D 07 40  STA <A HREF="CIA817.HTM">$4007</A>        Timer B Laden
+CBA5: AD D8 01  LDA <A HREF="RA8101D7.HTM">$01D8</A>
+CBA8: 8D 06 40  STA <A HREF="CIA816.HTM">$4006</A>
+CBAB: A9 11     LDA #$11         b0=1:Timer B Start; b4=1: Timer neu laden
+CBAD: 8D 0F 40  STA <A HREF="CIA81F.HTM">$400F</A>
+CBB0: 60        RTS
+
+    <A HREF="RO81CB8D.HTM">Previous Page</A> / <A HREF="RO81CBB1.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

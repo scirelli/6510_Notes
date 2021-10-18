@@ -1,0 +1,137 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Burst-Befehle $02,$12: Write (bei der 1571: $83ec)
+
+Einsprung von $BC93:
+
+BC01: A5 25     LDA <A HREF="RA8125.HTM">$25</A>          wurde die Diskette gewechselt ?
+BC03: D0 F1     BNE <A HREF="RO81BBF6.HTM">$BBF6</A>        ja, ==&gt;
+BC05: A5 7C     LDA <A HREF="RA817C.HTM">$7C</A>          Burst-Kommandobyte holen; L-Flag (b7)=1:
+BC07: 10 03     BPL $BC0C        logisches Format angegeben ? nein, ==&gt;
+BC09: 4C 81 BB  JMP <A HREF="RO81BB74.HTM">$BB81</A>        ja: Write mit logischen Sektorangaben ==&gt;
+
+Write mit physikalischen Sektorangaben (bei der 1571: $8df6)
+
+Cache mit Spurdaten fuellen; ggf. alte Daten speichern
+
+Einsprung von $BC07:
+
+BC0C: A2 00     LDX #$00         Jobspeicher 0 waehlen
+BC0E: A5 7C     LDA <A HREF="RA817C.HTM">$7C</A>          Burst-Kommandobyte holen
+BC10: 29 10     AND #$10         S-Flag in den Job-Seitenspeicher (SIDS)
+BC12: 9D CE 01  STA <A HREF="RA8101CE.HTM">$01CE</A>,X      uebertragen
+BC15: AD 03 02  LDA <A HREF="RA810200.HTM">$0203</A>        Track- und Sektornummer in Jobspeicher
+BC18: 95 0B     STA <A HREF="RA810B.HTM">$0B</A>,X        schreiben
+BC1A: AD 04 02  LDA <A HREF="RA810200.HTM">$0204</A>
+BC1D: 95 0C     STA <A HREF="RA810B.HTM">$0C</A>,X
+BC1F: A9 B4     LDA #$B4         TPWRT_DV: ggf. Cache auf Diskette schreiben
+BC21: 20 B0 BF  JSR <A HREF="RO81BFB0.HTM">$BFB0</A>        und neue Spur einlesen; Job ausfuehren
+BC24: 20 66 BF  JSR <A HREF="RO81BF66.HTM">$BF66</A>        Burst-Status setzen
+BC27: C9 02     CMP #$02         ist ein Fehler aufgetreten ?
+BC29: 90 0A     BCC $BC35        nein, ==&gt;
+BC2B: A9 00     LDA #$00         Flag: 'Cachepuffer veraendert' loeschen
+BC2D: 85 87     STA <A HREF="RA8187.HTM">$87</A>
+
+Einsprung von <A HREF="RO81BBF6.HTM">$BBFE</A>:
+
+BC2F: A5 7C     LDA <A HREF="RA817C.HTM">$7C</A>          Fehler-Flag im Burst-Kommandobyte setzen
+BC31: 09 08     ORA #$08
+BC33: 85 7C     STA <A HREF="RA817C.HTM">$7C</A>
+
+Daten vom Computer in den Cachepuffer uebertragen
+
+Einsprung von $BC29:
+
+BC35: 20 99 BC  JSR $BC99        Zeiger in Cachepuffer ($7e) berechnen
+BC38: A6 91     LDX <A HREF="RA8191.HTM">$91</A>          Sektorgroesse holen
+BC3A: E0 03     CPX #$03         Sektorgroesse in Speicherseiten berechnen
+BC3C: D0 01     BNE $BC3F        [Veraenderung ist nur bei 1024-Byte-Bloecken
+BC3E: E8        INX               notwedig.]
+
+Einsprung von $BC3C, $BC5C, $BC61:
+
+BC3F: AD 01 40  LDA <A HREF="CIA811.HTM">$4001</A>        Bus-Register auslesen; CLOCK-OUT kippen und
+BC42: 49 08     EOR #$08         damit ein neues Byte anfordern
+BC44: 2C 0D 40  BIT <A HREF="CIA81D.HTM">$400D</A>        Flag: 'Byte empfangen' des SDR loeschen
+BC47: 8D 01 40  STA <A HREF="CIA811.HTM">$4001</A>        Burst-Clock setzen
+BC4A: A9 08     LDA #$08
+
+Einsprung von $BC54, $BC68:
+
+BC4C: 2C 01 40  BIT <A HREF="CIA811.HTM">$4001</A>        ATN testen
+BC4F: 30 14     BMI $BC65        ist ein ATN empfangen worden ? ja, ==&gt;
+BC51: 2C 0D 40  BIT <A HREF="CIA81D.HTM">$400D</A>        b3=1: auf Uebertragungsende testen
+BC54: F0 F6     BEQ $BC4C        Uebertragung abwarten, ==&gt;
+BC56: AD 0C 40  LDA <A HREF="CIA81C.HTM">$400C</A>        Byte aus SDR auslesen
+BC59: 91 7E     STA (<A HREF="RA817E.HTM">$7E</A>),Y      und in Cache schreiben
+BC5B: C8        INY
+BC5C: D0 E1     BNE $BC3F        ganze Speicherseite uebertragen, ==&gt;
+BC5E: E6 7F     INC <A HREF="RA817E.HTM">$7F</A>          Cachezeiger Hi erhoehen
+BC60: CA        DEX              Anzahl zu uebertragender Seiten -1
+BC61: D0 DC     BNE $BC3F        noch eine Seite zu uebertragen, ==&gt;
+BC63: F0 0C     BEQ $BC71        fertig mit dem Block ==&gt;
+
+Einsprung von $BC4F:
+
+BC65: 20 15 AD  JSR <A HREF="RO81AD15.HTM">$AD15</A>        ATN-Modus testen
+BC68: 4C 4C BC  JMP $BC4C        und weiter warten
+
+Einsprung von $BC78:
+
+BC6B: AD EA 01  LDA <A HREF="RA8101EA.HTM">$01EA</A>        Burst-Status aus Zwischenspeicher holen
+BC6E: 4C FC BA  JMP <A HREF="RO81BAFC.HTM">$BAFC</A>        und an den Computer senden
+
+Einsprung von $BC63:
+
+BC71: 20 03 AD  JSR <A HREF="RO81AD03.HTM">$AD03</A>        CLOCK OUT auf Lo setzen
+BC74: A5 7C     LDA <A HREF="RA817C.HTM">$7C</A>          Burst-Kommando holen
+BC76: 29 08     AND #$08         ist das Fehler-Flag gesetzt ?
+BC78: D0 F1     BNE $BC6B        ja, ==&gt;
+BC7A: 20 5A BF  JSR <A HREF="RO81BF5A.HTM">$BF5A</A>        Status an den Computer senden
+BC7D: 24 7C     BIT <A HREF="RA817C.HTM">$7C</A>          Burst-Kommando holen; ist das E-Flag (b6)=1
+BC7F: 70 0A     BVS $BC8B        (Schreibfehler ignorieren) ? ja, ==&gt;
+BC81: AD EA 01  LDA <A HREF="RA8101EA.HTM">$01EA</A>        Jobrueckmeldung holen
+BC84: C9 02     CMP #$02         kein Fehler aufgetreten ?
+BC86: 90 03     BCC $BC8B        ja, ==&gt;
+BC88: 4C 0A BB  JMP <A HREF="RO81BAFC.HTM">$BB0A</A>        Fehlermeldung im Klartext ausgeben
+
+Einsprung von $BC7F, $BC86:
+
+BC8B: CE 05 02  DEC <A HREF="RA810200.HTM">$0205</A>        Anzahl abzuspeichernder Blocks -1
+BC8E: F0 06     BEQ $BC96        =0 (Ende), ==&gt;
+BC90: 20 40 C0  JSR <A HREF="RO81C040.HTM">$C040</A>        naechsten physikalischen Sektor holen
+BC93: 4C 01 BC  JMP $BC01        naechsten Block vom Compi holen ==&gt;
+
+Einsprung von $BC8E:
+
+BC96: 4C 47 BF  JMP <A HREF="RO81BF44.HTM">$BF47</A>        Kopf ggf. auf die angegebene Spur setzen
+
+Zeiger in Cachepuffer berechnen
+
+Einsprung von $BC35:
+
+BC99: A0 00     LDY #$00         Zeiger Lo = 0
+BC9B: 84 7E     STY <A HREF="RA817E.HTM">$7E</A>
+BC9D: AD 04 02  LDA <A HREF="RA810200.HTM">$0204</A>        aktuelle Sektornummer holen
+BCA0: 38        SEC
+BCA1: E5 94     SBC <A HREF="RA8194.HTM">$94</A>          - 1. Sektornummer auf der Spur
+BCA3: A6 91     LDX <A HREF="RA8191.HTM">$91</A>
+
+Einsprung von $BCA9:
+
+BCA5: CA        DEX              * Sektorlaenge
+BCA6: F0 04     BEQ $BCAC
+BCA8: 0A        ASL
+BCA9: 4C A5 BC  JMP $BCA5
+
+Einsprung von $BCA6:
+
+BCAC: 18        CLC
+BCAD: 65 8C     ADC <A HREF="RA818B.HTM">$8C</A>          + Cache-Start
+BCAF: 85 7F     STA <A HREF="RA817E.HTM">$7F</A>          = Zeiger Hi
+BCB1: 60        RTS
+
+    <A HREF="RO81BBF6.HTM">Previous Page</A> / <A HREF="RO81BCB2.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

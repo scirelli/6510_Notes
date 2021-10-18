@@ -1,0 +1,21 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F36E/62318:   Execute program in buffer
+
+Jump from <A HREF="RO41F2F9.HTM">$F369</A>:
+
+F36E: A5 3F     LDA <A HREF="RA413F.HTM">$3F</A>         ; buffer number
+
+Jump from <A HREF="RO41F2B0.HTM">$F2CA</A>:
+
+F370: 18        CLC
+F371: 69 03     ADC #$03        ; plus 3
+F373: 85 31     STA <A HREF="RA4130.HTM">$31</A>
+F375: A9 00     LDA #$00        ; equals address of buffer
+F377: 85 30     STA <A HREF="RA4130.HTM">$30</A>
+F379: 6C 30 00  JMP (<A HREF="RA4130.HTM">$0030</A>)     ; execute program in buffer
+
+    <A HREF="RO41F2F9.HTM">Previous Page</A> / <A HREF="RO41F37C.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

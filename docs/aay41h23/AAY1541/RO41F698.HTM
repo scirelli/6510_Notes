@@ -1,0 +1,49 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F698/63128:   Compare written data with data on disk
+
+Jump from <A HREF="RO41F691.HTM">$F693</A>:
+
+F698: 20 E9 F5  JSR <A HREF="RO41F5E9.HTM">$F5E9</A>       ; calculate parity for data buffer
+F69B: 85 3A     STA <A HREF="RA413A.HTM">$3A</A>         ; and save
+F69D: 20 8F F7  JSR <A HREF="RO41F78F.HTM">$F78F</A>
+F6A0: 20 0A F5  JSR <A HREF="RO41F50A.HTM">$F50A</A>       ; find start of data block
+F6A3: A0 BB     LDY #$BB
+
+Jump from $F6B1:
+
+F6A5: B9 00 01  LDA <A HREF="RA410100.HTM">$0100</A>,Y     ; data from buffer
+
+Jump from $F6A8:
+
+F6A8: 50 FE     BVC $F6A8       ; byte ready?
+F6AA: B8        CLV
+F6AB: 4D 01 1C  EOR <A HREF="VIA21.HTM">$1C01</A>       ; compare with data from disk
+F6AE: D0 15     BNE $F6C5       ; not equal, then error
+F6B0: C8        INY
+F6B1: D0 F2     BNE $F6A5
+
+Jump from $F6C0:
+
+F6B3: B1 30     LDA (<A HREF="RA4130.HTM">$30</A>),Y     ; data from buffer
+
+Jump from $F6B5:
+
+F6B5: 50 FE     BVC $F6B5
+F6B7: B8        CLV
+F6B8: 4D 01 1C  EOR <A HREF="VIA21.HTM">$1C01</A>       ; compare with data from disk
+F6BB: D0 08     BNE $F6C5       ; not equal, then error
+F6BD: C8        INY
+F6BE: C0 FD     CPY #$FD
+F6C0: D0 F1     BNE $F6B3
+F6C2: 4C 18 F4  JMP <A HREF="RO41F418.HTM">$F418</A>       ; error free termination
+
+Jump from $F6AE, $F6BB:
+
+F6C5: A9 07     LDA #$07
+F6C7: 4C 69 F9  JMP <A HREF="RO41F969.HTM">$F969</A>       ; 25, 'write error'
+
+    <A HREF="RO41F691.HTM">Previous Page</A> / <A HREF="RO41F6CA.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

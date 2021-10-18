@@ -1,0 +1,29 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Wenn der Motor aus war, Motor einschalten und Verzoegerungszeit einstellen
+
+Einsprung von <A HREF="RO81C0BE.HTM">$C108</A>:
+
+CD63: A5 26     LDA <A HREF="RA8126.HTM">$26</A>          Ist Motor bereits am Anlaufen
+CD65: 30 13     BMI $CD7A        ja, Ende ==&gt;
+CD67: 29 30     AND #$30         b4=1: ist der Motor am Nachlaufen oder
+CD69: D0 0B     BNE $CD76        b5=1: ist er allgemein schon an ? ja, ==&gt;
+CD6B: 20 B1 CB  JSR <A HREF="RO81CBB1.HTM">$CBB1</A>        Nein, Motor einschalten
+CD6E: AD D9 01  LDA <A HREF="RA8101D9.HTM">$01D9</A>        Anlaufverzoegerung setzen
+CD71: 85 2A     STA <A HREF="RA812A.HTM">$2A</A>
+CD73: A9 A0     LDA #$A0         b7=1: Motor ist am Anlaufen
+CD75: 2C         B $2C
+
+Einsprung von $CD69:
+
+CD76: A9 20     LDA #$20         b5=1: Laufwerksmotor ist eingeschaltet
+CD78: 85 26     STA <A HREF="RA8126.HTM">$26</A>          Laufwerksstatus setzen
+
+Einsprung von $CD65:
+
+CD7A: 60        RTS
+
+    <A HREF="RO81CD3F.HTM">Previous Page</A> / <A HREF="RO81CD7B.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,50 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Burst-Befehl $0c: Inquire Status (bei der 1571: $856b)
+
+BEBB: 24 7C     BIT <A HREF="RA817C.HTM">$7C</A>          b7: W-Bit abfragen (0=Status schreiben)
+BEBD: 10 09     BPL $BEC8        W=0, dann ==&gt;
+
+Einsprung von <A HREF="RO81BAFC.HTM">$BAFF</A>:
+
+BEBF: 20 D4 AC  JSR <A HREF="RO81ACCF.HTM">$ACD4</A>        FSM zur Ausgabe vorbereiten
+BEC2: 20 AB BF  JSR <A HREF="RO81BFAB.HTM">$BFAB</A>        Burst-Statusbyte ausgeben
+BEC5: 4C BB AC  JMP <A HREF="RO81ACB6.HTM">$ACBB</A>        FSM auf Eingabe
+
+Einsprung von $BEBD:
+
+BEC8: AD 03 02  LDA <A HREF="RA810200.HTM">$0203</A>        Neuen Status
+BECB: 85 80     STA <A HREF="RA8180.HTM">$80</A>          in Burst-Status
+BECD: A9 20     LDA #$20         b5: M-Bit abfragen (1=Maske aendern)
+BECF: 24 7C     BIT <A HREF="RA817C.HTM">$7C</A>          Burst-Status-Maske aendern ?
+BED1: F0 0A     BEQ $BEDD        nein ==&gt;
+BED3: AD 04 02  LDA <A HREF="RA810200.HTM">$0204</A>        neue OR-Maske
+BED6: 85 8A     STA <A HREF="RA818A.HTM">$8A</A>
+BED8: AD 05 02  LDA <A HREF="RA810200.HTM">$0205</A>        neue AND-Maske
+BEDB: 85 89     STA <A HREF="RA8189.HTM">$89</A>
+
+Einsprung von $BED1:
+
+BEDD: 24 7C     BIT <A HREF="RA817C.HTM">$7C</A>          b6: C-Bit abfragen (1=Diskette anmelden)
+BEDF: 50 10     BVC $BEF1        nicht gesetzt ==&gt;
+BEE1: 08        PHP
+BEE2: 58        CLI              Diskette anmelden
+BEE3: A9 80     LDA #$80         DOS-Fehler unterdruecken
+BEE5: 85 81     STA <A HREF="RA8181.HTM">$81</A>
+BEE7: 20 69 FF  JSR <A HREF="RO81FF00.HTM">$FF69</A>        Prueft auf Diskettenwechsel
+BEEA: 20 03 8F  JSR <A HREF="RO818F03.HTM">$8F03</A>        Diskette initialisieren
+BEED: 06 81     ASL <A HREF="RA8181.HTM">$81</A>          Fehler freigeben
+BEEF: 28        PLP
+BEF0: 60        RTS
+Standard-1581-Format setzen
+
+Einsprung von $BEDF, <A HREF="RO81BCB2.HTM">$BCC8</A>:
+
+BEF1: A9 01     LDA #$01         Flag fuer Diskettenwechsel setzen
+BEF3: 85 25     STA <A HREF="RA8125.HTM">$25</A>
+BEF5: 4C 69 FF  JMP <A HREF="RO81FF00.HTM">$FF69</A>        1581-Format vorwaehlen
+
+    <A HREF="RO81BE06.HTM">Previous Page</A> / <A HREF="RO81BEF8.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

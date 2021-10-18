@@ -1,0 +1,17 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Drive LED ein-/ausschalten
+
+CBC3: AD 00 40  LDA <A HREF="CIA810.HTM">$4000</A>        b6=0: LED ausschalten
+CBC6: 29 BF     AND #$BF
+CBC8: 8D 00 40  STA <A HREF="CIA810.HTM">$4000</A>
+CBCB: 60        RTS
+
+CBCC: AD 00 40  LDA <A HREF="CIA810.HTM">$4000</A>        b6=1: LED einschalten
+CBCF: 09 40     ORA #$40
+CBD1: 8D 00 40  STA <A HREF="CIA810.HTM">$4000</A>
+CBD4: 60        RTS
+    <A HREF="RO81CBB1.HTM">Previous Page</A> / <A HREF="RO81CBD5.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

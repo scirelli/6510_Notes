@@ -1,0 +1,50 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DB62/56162:   Write last block
+
+Jump from <A HREF="RO41DB02.HTM">$DB20</A>:
+
+DB62: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+DB64: B5 B5     LDA <A HREF="RA41B5.HTM">$B5</A>,X       ; record number lo
+DB66: 15 BB     ORA <A HREF="RA41BB.HTM">$BB</A>,X       ; record number hi
+DB68: D0 0C     BNE $DB76       ; not zero?
+DB6A: 20 E8 D4  JSR <A HREF="RO41D4E8.HTM">$D4E8</A>       ; set buffer pointer
+DB6D: C9 02     CMP #$02
+DB6F: D0 05     BNE $DB76       ; not 2
+DB71: A9 0D     LDA #$0D        ; CR
+DB73: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>       ; in buffer
+
+Jump from $DB68, $DB6F:
+
+DB76: 20 E8 D4  JSR <A HREF="RO41D4E8.HTM">$D4E8</A>       ; set buffer pointer
+DB79: C9 02     CMP #$02        ; now equal to 2?
+DB7B: D0 0F     BNE $DB8C       ; no
+DB7D: 20 1E CF  JSR <A HREF="RO41CF1E.HTM">$CF1E</A>       ; change buffer
+DB80: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+DB82: B5 B5     LDA <A HREF="RA41B5.HTM">$B5</A>,X       ; record number lo
+DB84: D0 02     BNE $DB88
+DB86: D6 BB     DEC <A HREF="RA41BB.HTM">$BB</A>,X       ; decrement block number hi
+
+Jump from $DB84:
+
+DB88: D6 B5     DEC <A HREF="RA41B5.HTM">$B5</A>,X       ; and block number lo
+DB8A: A9 00     LDA #$00
+
+Jump from $DB7B:
+
+DB8C: 38        SEC
+DB8D: E9 01     SBC #$01        ; set pointer
+DB8F: 48        PHA
+DB90: A9 00     LDA #$00
+DB92: 20 C8 D4  JSR <A HREF="RO41D4C8.HTM">$D4C8</A>       ; buffer pointer to zero
+DB95: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>       ; write zero in buffer
+DB98: 68        PLA             ; second byte = pointer to end
+DB99: 20 F1 CF  JSR <A HREF="RO41CFF1.HTM">$CFF1</A>       ; write in buffer
+DB9C: 20 C7 D0  JSR <A HREF="RO41D0C7.HTM">$D0C7</A>       ; write block to disk
+DB9F: 20 99 D5  JSR <A HREF="RO41D599.HTM">$D599</A>       ; and verify
+DBA2: 4C 1E CF  JMP <A HREF="RO41CF1E.HTM">$CF1E</A>       ; change buffer
+
+    <A HREF="RO41DB02.HTM">Previous Page</A> / <A HREF="RO41DBA5.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

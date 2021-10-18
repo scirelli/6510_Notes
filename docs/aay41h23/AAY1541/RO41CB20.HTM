@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $CB20/52000:   M-R memory read
+
+Jump from <A HREF="RO41CAF8.HTM">$CB10</A>:
+
+CB20: B1 6F     LDA (<A HREF="RA416F.HTM">$6F</A>),Y     ; read byte
+CB22: 85 85     STA <A HREF="RA4185.HTM">$85</A>
+CB24: AD 74 02  LDA <A HREF="RA410274.HTM">$0274</A>       ; length of command line
+CB27: C9 06     CMP #$06        ; less than 6?
+CB29: 90 1A     BCC $CB45       ; yes
+CB2B: AE 05 02  LDX <A HREF="RA410200.HTM">$0205</A>       ; number
+CB2E: CA        DEX
+CB2F: F0 14     BEQ $CB45       ; only one byte?
+CB31: 8A        TXA             ; number of bytes
+CB32: 18        CLC
+CB33: 65 6F     ADC <A HREF="RA416F.HTM">$6F</A>         ; plus start address
+CB35: E6 6F     INC <A HREF="RA416F.HTM">$6F</A>
+CB37: 8D 49 02  STA <A HREF="RA410244.HTM">$0249</A>       ; end pointer
+CB3A: A5 6F     LDA <A HREF="RA416F.HTM">$6F</A>
+CB3C: 85 A5     STA <A HREF="RA41A5.HTM">$A5</A>         ; buffer pointer for error message
+CB3E: A5 70     LDA <A HREF="RA416F.HTM">$70</A>         ; set to start address for 'M-R'
+CB40: 85 A6     STA <A HREF="RA41A5.HTM">$A6</A>
+CB42: 4C 43 D4  JMP <A HREF="RO41D39B.HTM">$D443</A>       ; byte out
+
+Jump from $CB29, $CB2F:
+
+CB45: 20 EB D0  JSR <A HREF="RO41D0EB.HTM">$D0EB</A>       ; open read channel
+CB48: 4C 3A D4  JMP <A HREF="RO41D39B.HTM">$D43A</A>       ; byte out
+
+Jump from <A HREF="RO41CAF8.HTM">$CAFD</A>, <A HREF="RO41CAF8.HTM">$CB1B</A>:
+
+CB4B: A9 31     LDA #$31
+CB4D: 4C C8 C1  JMP <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 31, 'syntax error'
+
+    <A HREF="RO41CAF8.HTM">Previous Page</A> / <A HREF="RO41CB50.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

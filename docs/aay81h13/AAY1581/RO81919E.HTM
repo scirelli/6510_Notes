@@ -1,0 +1,51 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Freigeben einer SA ausser der des Kommandokanals; Puffer freigeben ($d227)
+Schreib-/Lesekanaele ausser dem Kommandokanal schliessen
+E: $52: Sekundaeradresse, die geschlossen werden soll
+
+Einsprung von <A HREF="RO818688.HTM">$872F</A>, <A HREF="RO819157.HTM">$915E</A>, <A HREF="RO819262.HTM">$9266</A>, <A HREF="RO81926E.HTM">$9289</A>, <A HREF="RO819434.HTM">$9438</A>, <A HREF="RO819434.HTM">$943F</A>, <A HREF="RO81995C.HTM">$9965</A>,
+              <A HREF="RO81999F.HTM">$99C5</A>, <A HREF="RO81999F.HTM">$9A02</A>, <A HREF="RO81A7F1.HTM">$A838</A>, <A HREF="RO81B2C7.HTM">$B2E3</A>:
+
+919E: A5 52     LDA <A HREF="RA8152.HTM">$52</A>          Sekundaeradresse holen
+91A0: C9 0F     CMP #$0F         Kommandokanal nicht
+91A2: D0 01     BNE $91A5        schliessen
+91A4: 60        RTS
+
+Einsprung von $91A2:
+
+91A5: A6 52     LDX <A HREF="RA8152.HTM">$52</A>          Aktuelle SA holen
+91A7: B5 A8     LDA <A HREF="RA81A8.HTM">$A8</A>,X        Zugehoerige Kanalnummer holen
+91A9: C9 FF     CMP #$FF         'Kanal unbenutzt' ?
+91AB: F0 20     BEQ $91CD        ja, ==&gt;
+91AD: 29 3F     AND #$3F         Kanalnummer isolieren
+91AF: 85 50     STA <A HREF="RA8150.HTM">$50</A>          Als aktuelle Kanalnummer merken
+91B1: A9 FF     LDA #$FF         SA als unbenutzt kennzeichnen
+91B3: 95 A8     STA <A HREF="RA81A8.HTM">$A8</A>,X        SA freigeben
+91B5: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          Kanalnummer wieder holen
+91B7: A9 00     LDA #$00         Kanalstatus loeschen
+91B9: 9D 34 02  STA <A HREF="RA810234.HTM">$0234</A>,X
+91BC: 20 CE 91  JSR <A HREF="RO8191CE.HTM">$91CE</A>        Puffer und Zuordnung freigeben
+91BF: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+91C1: A9 01     LDA #$01         Entsprechendes Bit der Kanaltabelle setzen
+
+Einsprung von $91C7:
+
+91C3: CA        DEX              und damit den Kanal freigeben
+91C4: 30 03     BMI $91C9
+91C6: 0A        ASL              Bit an die richtige Stelle
+91C7: D0 FA     BNE $91C3        schieben
+
+Einsprung von $91C4:
+
+91C9: 05 70     ORA <A HREF="RA8170.HTM">$70</A>          Bit setzen
+91CB: 85 70     STA <A HREF="RA8170.HTM">$70</A>
+
+Einsprung von $91AB:
+
+91CD: 60        RTS
+
+    <A HREF="RO819157.HTM">Previous Page</A> / <A HREF="RO8191CE.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

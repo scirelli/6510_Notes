@@ -1,0 +1,88 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+benoetigte Datenbloecke  ggf. einlesen ($e29c)
+
+Einsprung von <A HREF="RO81A20D.HTM">$A20D</A>, <A HREF="RO81A438.HTM">$A43B</A>:
+
+A235: A5 64     LDA <A HREF="RA8164.HTM">$64</A>          Zeiger auf Side-Sektor-Eintrag merken
+A237: 85 58     STA <A HREF="RA8158.HTM">$58</A>
+A239: A5 65     LDA <A HREF="RA8164.HTM">$65</A>
+A23B: 85 59     STA <A HREF="RA8159.HTM">$59</A>
+A23D: 20 73 A2  JSR $A273        befindet sich der richtige Block im Puffer?
+A240: F0 22     BEQ $A264        ja, ==&gt;
+A242: 20 2E 9D  JSR <A HREF="RO819D2E.HTM">$9D2E</A>        Puffer ggf. schreiben
+A245: 20 49 9D  JSR <A HREF="RO819D49.HTM">$9D49</A>        T&amp;S des Folgeblocks holen
+A248: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          existiert Folgeblock ?
+A24A: F0 19     BEQ $A265        nein, ==&gt;
+
+[Der naechste Absatz war bei der 1541 fehlerhaft ($e2b4-$e2bf)
+ und fuehrte zu dem Fehlverhalten des 'P'-Befehls]
+
+A24C: 20 7D 8D  JSR <A HREF="RO818D7D.HTM">$8D7D</A>        Puffer wechseln
+A24F: 20 73 A2  JSR $A273        enthaelt er den richtigen Block ?
+A252: D0 11     BNE $A265        nein, ==&gt;
+A254: 20 49 9D  JSR <A HREF="RO819D49.HTM">$9D49</A>        T&amp;S des Folgeblocks holen
+A257: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          existiert Folgeblock ?
+A259: F0 09     BEQ $A264        nein, ==&gt;
+A25B: 20 7D 8D  JSR <A HREF="RO818D7D.HTM">$8D7D</A>        Puffer wechseln
+A25E: 20 94 9D  JSR <A HREF="RO819D8E.HTM">$9D94</A>        Folgeblock einlesen
+A261: 4C 7D 8D  JMP <A HREF="RO818D7D.HTM">$8D7D</A>        Puffer wechseln
+
+Einsprung von $A240, $A259:
+
+A264: 60        RTS
+
+Einsprung von $A24A, $A252:
+
+A265: A0 00     LDY #$00         T&amp;S des gesuchten Datenblocks dem
+A267: B1 58     LDA (<A HREF="RA8158.HTM">$58</A>),Y      Side-Sektor entnehmen
+A269: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>
+A26B: C8        INY
+A26C: B1 58     LDA (<A HREF="RA8158.HTM">$58</A>),Y
+A26E: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+A270: 4C EA 8F  JMP <A HREF="RO818FEA.HTM">$8FEA</A>        Block und ggf. Folgeblock lesen
+
+Prueft, ob der richtige Daten-Block im Puffer ist
+
+Einsprung von $A23D, $A24F:
+
+A273: 20 7C 9D  JSR <A HREF="RO819D79.HTM">$9D7C</A>        T&amp;S des aktiven Puffers holen
+A276: A0 00     LDY #$00
+A278: B1 58     LDA (<A HREF="RA8158.HTM">$58</A>),Y      T&amp;S im Side-Sektor mit
+A27A: C5 4D     CMP <A HREF="RA814D.HTM">$4D</A>          T&amp;S des Datenblocks vergleichen
+A27C: F0 01     BEQ $A27F        Track gleich, ==&gt;
+A27E: 60        RTS
+
+Einsprung von $A27C:
+
+A27F: C8        INY
+A280: B1 58     LDA (<A HREF="RA8158.HTM">$58</A>),Y
+A282: C5 4E     CMP <A HREF="RA814E.HTM">$4E</A>          Sektor gleich ?
+A284: D0 11     BNE $A297        nein, ==&gt;
+
+A286: AD 01 01  LDA <A HREF="RA810101.HTM">$0101</A>        Fehler im 1541-ROM behoben:
+A289: 29 10     AND #$10         Ist das Flag '2. Teil des Records geladen'
+A28B: F0 0A     BEQ $A297        gesetzt ? nein, ==&gt;
+
+[Ja: In diesem Fall stimmen zwar T&amp;S des aktiven Datenpuffers, es befindet
+ sich aber unter Umstaenden nicht der Folgeblock im anderen Puffer, sondern
+ der vorhergegende (Wenn z.B. der Vorgaenger-Block abgespeichert werden muss,
+ kann die 2-Puffer-Automatik den uebernaechsten Block nicht schon im Voraus
+ lesen).
+ Dies merkt die Routine, die das letzte benutzte Zeichen im Record sucht
+ (s. $a0fd), nicht und sucht bei der 1541 im falschen Block. Bei der 1581
+ werden deshalb vorsichtshalber beide Blocks neu geladen, wenn der letzte
+ Record beim Lesen/Schreiben einen Pufferwechsel noetig gemacht hat.]
+
+A28D: AD 01 01  LDA <A HREF="RA810101.HTM">$0101</A>        Flag '2. Teil des Records geladen'
+A290: 29 EF     AND #$EF         loeschen
+A292: 8D 01 01  STA <A HREF="RA810101.HTM">$0101</A>
+A295: 49 10     EOR #$10         z-Flag loeschen (= falscher Block im Puffer)
+
+Einsprung von $A284, $A28B:
+
+A297: 60        RTS
+    <A HREF="RO81A20D.HTM">Previous Page</A> / <A HREF="RO81A298.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,28 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+CMDERR: Fehler-Routine des Burst-Fastloads
+[Der Vektor, der auf diese Routine zeigen soll, wird falsch berechnet
+ (s. $ba71) und zeigt nach $dfdf !!!
+ Der Bereich $dfdf-$ff00 ist mit $ff gefuellt. Dies ist ein illegaler
+ Opcode mit 3-Byte Laenge. Funktion: (INC, SBC) abs,x
+ Von $dfdf bis $ff01 stehen genau 2657 dieser Befehle. Bei $ff02 steht noch
+ ein ORA ($6c,x). Das naechste Byte ($92) beendet die Programmausfuehrung
+ dann endgueltig.
+ Mir ist keine Bedingung bekannt, die zum Aufruf dieser Routine haette
+ fuehren sollen, wenn man aber als Filenamen '*' angibt und das letzte
+ benutzte File laedt, wird vergessen, den Vektor zurueckzusetzen. Das
+ naechste fehlerhafte Diskettenkommando fuehrt dann zum Absturz.]
+
+B9DF: 48        PHA              Fehlernummer retten
+B9E0: 08        PHP
+B9E1: 78        SEI
+B9E2: A2 02     LDX #$02         $02: 'File not found' ausgeben
+B9E4: 20 FC 01  JSR <A HREF="RA8101FC.HTM">$01FC</A>
+B9E7: 28        PLP
+B9E8: 20 95 BA  JSR <A HREF="RO81BA95.HTM">$BA95</A>        Vektoren der Error-Routinen zuruecksetzen
+B9EB: 68        PLA              Fehlernummer zurueckholen [sollte nach x !]
+
+    <A HREF="RO81B9D3.HTM">Previous Page</A> / <A HREF="RO81B9EC.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

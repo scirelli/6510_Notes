@@ -1,0 +1,25 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F556/62806:   Wait for SYNC
+
+Jump from <A HREF="RO41F3B1.HTM">$F3BB</A>, <A HREF="RO41F50A.HTM">$F50D</A>, <A HREF="RO41F510.HTM">$F538</A>, <A HREF="RO41FAC7.HTM">$FB1D</A>, <A HREF="RO41FAC7.HTM">$FD39</A>, <A HREF="RO41FAC7.HTM">$FD62</A>:
+
+F556: A9 D0     LDA #$D0        ; 208
+F558: 8D 05 18  STA <A HREF="VIA15.HTM">$1805</A>       ; start timer
+F55B: A9 03     LDA #$03        ; error code
+
+Jump from $F565:
+
+F55D: 2C 05 18  BIT <A HREF="VIA15.HTM">$1805</A>
+F560: 10 F1     BPL <A HREF="RO41F510.HTM">$F553</A>       ; timer run down, then 'read error'
+F562: 2C 00 1C  BIT <A HREF="VIA20.HTM">$1C00</A>       ; SYNC signal
+F565: 30 F6     BMI $F55D       ; not yet found?
+F567: AD 01 1C  LDA <A HREF="VIA21.HTM">$1C01</A>       ; read byte
+F56A: B8        CLV
+F56B: A0 00     LDY #$00
+F56D: 60        RTS
+
+    <A HREF="RO41F510.HTM">Previous Page</A> / <A HREF="RO41F56E.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

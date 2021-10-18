@@ -1,0 +1,110 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Directory formatieren und in Ausgabepuffer schreiben ($ec9e)
+[Der Directory-Zeilen-Puffer wird in den Ausgabepuffer kopiert, dann wird
+ eine neue Zeile formatiert. Dieser Vorgang wiederholt sich, bis der
+ Ausgabepuffer voll ist. Beim ersten Aufruf muss sich der Diskname in dem
+ Dir-Zeilen-Puffer befinden (s. $8627) und der erste Filename mit JSR $82ed
+ gefunden worden sein. 8-Basiczeilen muessen den Ausgabepuffer genau fuellen,
+ deshalb ist jede Zeile 32-Bytes lang, bis auf den Disknamen: Er ist nur 30
+ Bytes lang, damit noch 2 Bytes Basic-Startadresse in den Puffer passen.
+ Ist der ganze Puffer ausgegeben worden, kann die Formatierung mit
+ JSR $b1c8 fortgesetzt werden.]
+
+Einsprung von <A HREF="RO8198F7.HTM">$9948</A>:
+
+B17C: A9 00     LDA #$00
+B17E: 85 52     STA <A HREF="RA8152.HTM">$52</A>          Aktuelle SA=0
+B180: A9 01     LDA #$01
+B182: 20 5A 91  JSR <A HREF="RO819157.HTM">$915A</A>        Lesekanal suchen 1 Puffer belegen
+B185: A9 00     LDA #$00         Pufferzeiger auf 0 setzen
+B187: 20 22 94  JSR <A HREF="RO819422.HTM">$9422</A>
+B18A: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          Kanalnummer holen
+B18C: A9 00     LDA #$00
+B18E: 9D 42 02  STA <A HREF="RA810242.HTM">$0242</A>,X      EOI-Flag loeschen
+B191: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        Pufferzeiger auf 0 setzen
+B194: AA        TAX              [alle 256 Bytes werden genutzt]
+B195: A9 00     LDA #$00         letzten Jobcode loeschen
+B197: 9D 72 02  STA <A HREF="RA810272.HTM">$0272</A>,X      (Drivenummer 0 )
+B19A: A9 01     LDA #$01         Startadersse = $0401
+B19C: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>        Byte in Puffer schreiben
+B19F: A9 04     LDA #$04         [diese Adresse stammt noch aus der Zeit der
+B1A1: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>         alten CBM-Rechner / VC-20.]
+B1A4: A9 01     LDA #$01         Platzhalter fuer den Basic-Verkettungszeiger
+B1A6: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>        in den Puffer schreiben
+B1A9: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>
+B1AC: AD 8D 02  LDA <A HREF="RA81028D.HTM">$028D</A>        Drivenummer als Basiczeilennummer
+B1AF: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>        in Puffer schreiben (Lo)
+B1B2: A9 00     LDA #$00
+B1B4: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>        (Hi)
+B1B7: 20 37 B2  JSR <A HREF="RO81B237.HTM">$B237</A>        Disk-Namen in den Puffer kopieren
+B1BA: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        aktiven Puffer holen
+B1BD: 0A        ASL
+B1BE: AA        TAX
+B1BF: D6 BB     DEC <A HREF="RA81BB.HTM">$BB</A>,X        Pufferzeiger -2 (=32)
+B1C1: D6 BB     DEC <A HREF="RA81BB.HTM">$BB</A>,X
+B1C3: A9 00     LDA #$00         Basic-Zeilenende-Kennzeichen in Puffer
+B1C5: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>        schreiben
+Puffer mit Directoryzeilen fuellen
+
+Einsprung von $B1E9, <A HREF="RO81B245.HTM">$B25D</A>:
+
+B1C8: A9 01     LDA #$01         &lt;-- (Einsprung)
+B1CA: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>        Platzhalter fuer den Basic-Verkettungszeiger
+B1CD: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>
+B1D0: 20 4D 85  JSR <A HREF="RO81854D.HTM">$854D</A>        Directory-Zeile erzeugen
+B1D3: 90 2C     BCC $B201        kein File mehr auszugeben ?, ==&gt;
+B1D5: AD 8D 02  LDA <A HREF="RA81028D.HTM">$028D</A>        Programmlaenge als Basic-Zeilennummer
+B1D8: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>        verwenden (LO)
+B1DB: AD 8E 02  LDA <A HREF="RA81028E.HTM">$028E</A>        (Hi)
+B1DE: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>
+B1E1: 20 37 B2  JSR <A HREF="RO81B237.HTM">$B237</A>        Directoryzeile in Puffer kopieren
+B1E4: A9 00     LDA #$00         Basic-Zeilenende-Kennzeichen
+B1E6: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>        in Puffer schreiben
+B1E9: D0 DD     BNE $B1C8        Puffer noch nicht voll, ==&gt;
+
+Einsprung von $B234:
+
+B1EB: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        aktiven Puffer holen
+B1EE: 0A        ASL
+B1EF: AA        TAX
+B1F0: A9 00     LDA #$00         Pufferzeiger auf 0 setzen
+B1F2: 95 BB     STA <A HREF="RA81BB.HTM">$BB</A>,X
+B1F4: A9 88     LDA #$88
+B1F6: A4 50     LDY <A HREF="RA8150.HTM">$50</A>          Flag:
+B1F8: 8D 6E 02  STA <A HREF="RA81026E.HTM">$026E</A>        'Directory wird auf SA 0 ausgegeben' setzen
+B1FB: 99 34 02  STA <A HREF="RA810234.HTM">$0234</A>,Y      b7=1: 'Daten ausgeben'; b3=1: kein EOI
+B1FE: A5 54     LDA <A HREF="RA8154.HTM">$54</A>          aktuelles Datenbyte zurueckholen
+B200: 60        RTS
+
+'Blocks free'-Meldung in den Puffer schreiben
+
+Einsprung von $B1D3:
+
+B201: AD 8D 02  LDA <A HREF="RA81028D.HTM">$028D</A>        'Blocks free' als Basic-Zeilennummer merken
+B204: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>        (Lo)
+B207: AD 8E 02  LDA <A HREF="RA81028E.HTM">$028E</A>
+B20A: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>        (Hi)
+B20D: 20 37 B2  JSR <A HREF="RO81B237.HTM">$B237</A>        Directoryzeile in Puffer kopieren
+B210: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>
+B213: 0A        ASL              Pufferzeiger -2
+B214: AA        TAX              [Die Zeile darf incl. Basic-Ende-Zeichen
+B215: D6 BB     DEC <A HREF="RA81BB.HTM">$BB</A>,X         nicht laenger als 32 Bytes sein.]
+B217: D6 BB     DEC <A HREF="RA81BB.HTM">$BB</A>,X
+B219: A9 00     LDA #$00         Zeichen fuer Basic-Ende in Puffer schreiben
+B21B: 20 B1 8E  JSR $8EB1        (3 x $00)
+B21E: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>
+B221: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>
+B224: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        aktuellen Pufferzeiger holen
+B227: 0A        ASL
+B228: A8        TAY
+B229: B9 BB 00  LDA <A HREF="RA81BB.HTM">$00BB</A>,Y
+B22C: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+B22E: 9D 42 02  STA <A HREF="RA810242.HTM">$0242</A>,X      und als Puffer-Ende merken
+B231: DE 42 02  DEC <A HREF="RA810242.HTM">$0242</A>,X      -1 (letztes benutztes Zeichen merken)
+B234: 4C EB B1  JMP $B1EB
+
+    <A HREF="RO81B15B.HTM">Previous Page</A> / <A HREF="RO81B237.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

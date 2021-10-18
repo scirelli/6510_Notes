@@ -1,0 +1,38 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+JOB $b8: SEEKPHD_DV
+
+CAE4: 20 A6 CF  JSR <A HREF="RO81CFA6.HTM">$CFA6</A>        Blockheader lesen und analysieren
+CAE7: A5 27     LDA <A HREF="RA8127.HTM">$27</A>          ist aktuelle Spur
+CAE9: C5 88     CMP <A HREF="RA8188.HTM">$88</A>          = Sollspur ?
+CAEB: D0 19     BNE $CB06        nein, (zur Hauptsteuerroutine) ==&gt;
+CAED: A0 3C     LDY #$3C         60 Versuche, den gesuchten Block
+CAEF: 84 39     STY <A HREF="RA8139.HTM">$39</A>          auf dieser Spur zu finden
+
+Einsprung von $CAFF:
+
+CAF1: 20 A6 CF  JSR <A HREF="RO81CFA6.HTM">$CFA6</A>        Blockheader lesen und Spurdaten merken
+CAF4: A4 99     LDY <A HREF="RA8199.HTM">$99</A>          Job-Index fuer 2-Byte Tabellen
+CAF6: B9 BD 01  LDA <A HREF="RA8101BC.HTM">$01BD</A>,Y      gesuchte Blocknummer mit der gefundenen
+CAF9: C5 21     CMP <A HREF="RA8121.HTM">$21</A>          Blocknummer vergleichen
+CAFB: F0 0C     BEQ $CB09        gleich, ==&gt;
+CAFD: C6 39     DEC <A HREF="RA8139.HTM">$39</A>          ansonsten naechsten Versuch
+CAFF: D0 F0     BNE $CAF1
+CB01: A9 02     LDA #$02         MISHD_DV_ER: Blockheader nicht gefunden
+CB03: 4C CC CD  JMP <A HREF="RO81CDCC.HTM">$CDCC</A>        Jobauftrag beenden
+
+Einsprung von $CAEB:
+
+CB06: 4C 00 CE  JMP <A HREF="RO81CE00.HTM">$CE00</A>        Hauptsteuerroutine aufrufen
+
+JOB $b0: SEEKHD_DV
+
+Einsprung von $CAFB:
+
+CB09: 20 A6 CF  JSR <A HREF="RO81CFA6.HTM">$CFA6</A>        Blockheader lesen und analysieren
+CB0C: 4C 8B C3  JMP <A HREF="RO81C163.HTM">$C38B</A>        Ok. Ende
+
+    <A HREF="RO81CADC.HTM">Previous Page</A> / <A HREF="RO81CB0F.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,46 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Wenn die BAM geaendert wurde, dann
+BAM auf Fehler pruefen und wenn Ok., abspeichern ($eef4)
+
+Einsprung von <A HREF="RO818688.HTM">$872C</A>, <A HREF="RO81995C.HTM">$997D</A>, <A HREF="RO819986.HTM">$9996</A>, <A HREF="RO81999F.HTM">$99C2</A>, <A HREF="RO819BC3.HTM">$9C7C</A>, <A HREF="RO81A2D6.HTM">$A41D</A>, <A HREF="RO81B262.HTM">$B280</A>, <A HREF="RO81B633.HTM">$B633</A>, <A HREF="RO81DBC7.HTM">$DBEE</A>:
+
+B515: A5 35     LDA <A HREF="RA8135.HTM">$35</A>          wurde BAM geaendert ?
+B517: F0 28     BEQ $B541        nein, ==&gt;
+B519: AD 2C 02  LDA <A HREF="RA81022C.HTM">$022C</A>        letzter Track der Partition
+B51C: 85 66     STA <A HREF="RA8166.HTM">$66</A>
+B51E: 20 52 B6  JSR <A HREF="RO81B64F.HTM">$B652</A>        Zeiger auf 1. BAM-Puffer setzen
+
+Einsprung von $B53B:
+
+B521: A9 10     LDA #$10         Bei 1. Track des BAM-Puffers anfangen
+
+Einsprung von $B531:
+
+B523: 85 31     STA <A HREF="RA8131.HTM">$31</A>
+B525: 20 5E B7  JSR <A HREF="RO81B75E.HTM">$B75E</A>        BAM-Eintrag pruefen
+B528: C6 66     DEC <A HREF="RA8166.HTM">$66</A>          noch ein Track zu pruefen ?
+B52A: F0 12     BEQ $B53E        nein, ==&gt;
+B52C: 18        CLC
+B52D: A5 31     LDA <A HREF="RA8131.HTM">$31</A>          Naechsten Track auswaehlen
+B52F: 69 06     ADC #$06
+B531: 90 F0     BCC $B523        Ende des Bampuffer ? nein, ==&gt;
+B533: A5 32     LDA <A HREF="RA8131.HTM">$32</A>          aktuelle Puffer-Nummer testen
+B535: C9 0B     CMP #$0B         war schon der 2. Bampuffer dran ?
+B537: F0 05     BEQ $B53E        ja, ==&gt;
+B539: E6 32     INC <A HREF="RA8131.HTM">$32</A>          auf 2. Puffer schalten
+B53B: 4C 21 B5  JMP $B521        und pruefen
+
+Einsprung von $B52A, $B537:
+
+B53E: 20 12 B6  JSR <A HREF="RO81B612.HTM">$B612</A>        BAM auf Diskette schreiben
+
+Einsprung von $B517:
+
+B541: A9 00     LDA #$00         Flag fuer 'BAM geaendert' loeschen
+B543: 85 35     STA <A HREF="RA8135.HTM">$35</A>
+B545: 60        RTS
+    <A HREF="RO81B44A.HTM">Previous Page</A> / <A HREF="RO81B546.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

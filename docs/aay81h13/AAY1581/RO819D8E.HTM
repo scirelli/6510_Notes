@@ -1,0 +1,73 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Schreib-Lesejobs aufrufen ($de50)
+
+T&amp;S aus $4d/$4e holen, Job ausfuehren, 'Puffer geaendert' loeschen
+
+Einsprung von <A HREF="RO81A459.HTM">$A4BA</A>:
+
+9D8E: A9 90     LDA #$90         &lt;-- Schreiben
+9D90: 85 28     STA <A HREF="RA8128.HTM">$28</A>
+9D92: D0 24     BNE $9DB8
+
+Einsprung von <A HREF="RO8188C5.HTM">$88E0</A>, <A HREF="RO818D7D.HTM">$8E1B</A>, <A HREF="RO819FBF.HTM">$9FD7</A>, <A HREF="RO819FBF.HTM">$9FE5</A>, <A HREF="RO819FBF.HTM">$9FF5</A>, <A HREF="RO81A235.HTM">$A25E</A>:
+
+9D94: A9 80     LDA #$80         &lt;-- Lesen
+9D96: 85 28     STA <A HREF="RA8128.HTM">$28</A>
+9D98: D0 1E     BNE $9DB8
+
+T&amp;S aus Jobpuffer holen, Job ausfuehren, 'Puffer geaendert' loeschen
+
+Einsprung von <A HREF="RO818688.HTM">$8740</A>, <A HREF="RO8188C5.HTM">$88FA</A>, <A HREF="RO819BC3.HTM">$9C76</A>, <A HREF="RO819D2E.HTM">$9D33</A>, <A HREF="RO819FBF.HTM">$9FC7</A>, <A HREF="RO81A2D6.HTM">$A391</A>, <A HREF="RO81A2D6.HTM">$A3B2</A>,
+              <A HREF="RO81A459.HTM">$A4F4</A>, <A HREF="RO81A459.HTM">$A538</A>:
+
+9D9A: A9 90     LDA #$90         &lt;-- Schreiben
+9D9C: 85 28     STA <A HREF="RA8128.HTM">$28</A>
+9D9E: D0 24     BNE $9DC4
+9DA0: A9 80     LDA #$80         &lt;-- Lesen
+9DA2: 85 28     STA <A HREF="RA8128.HTM">$28</A>
+9DA4: D0 1E     BNE $9DC4
+
+Side Sektoren schreiben/lesen
+
+Einsprung von <A HREF="RO819BC3.HTM">$9C52</A>, <A HREF="RO81A2D6.HTM">$A417</A>:
+
+9DA6: A9 90     LDA #$90         &lt;-- Side-Sektor schreiben
+9DA8: 85 28     STA <A HREF="RA8128.HTM">$28</A>
+9DAA: D0 02     BNE $9DAE
+
+Einsprung von <A HREF="RO819B0D.HTM">$9B60</A>:
+
+9DAC: A9 80     LDA #$80         &lt;-- Side-Sektor lesen
+
+Einsprung von $9DAA:
+
+9DAE: 85 28     STA <A HREF="RA8128.HTM">$28</A>
+
+9DB0: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+9DB2: BD 65 02  LDA <A HREF="RA810265.HTM">$0265</A>,X      Puffer des Side-Sektors holen
+9DB5: AA        TAX
+9DB6: 10 13     BPL $9DCB        (normalerweise) immer ==&gt;
+
+Einsprung von $9D92, $9D98:
+
+9DB8: 20 85 95  JSR <A HREF="RO819585.HTM">$9585</A>        T&amp;S an DC uebergeben
+9DBB: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        Nummer des aktiven Puffers holen
+9DBE: AA        TAX
+9DBF: A9 00     LDA #$00         Laufwerksnummer (0) setzen
+9DC1: 9D 72 02  STA <A HREF="RA810272.HTM">$0272</A>,X      [wird nicht abgefragt]
+
+Einsprung von $9D9E, $9DA4:
+
+9DC4: 20 9C A0  JSR <A HREF="RO81A09C.HTM">$A09C</A>        Flag 'Puffer geaendert' loeschen
+9DC7: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        Nummer des aktiven Puffers holen
+9DCA: AA        TAX
+
+Einsprung von $9DB6:
+
+9DCB: 4C 71 94  JMP <A HREF="RO819471.HTM">$9471</A>        T&amp;S testen, Job aufrufen
+
+    <A HREF="RO819D79.HTM">Previous Page</A> / <A HREF="RO819DCE.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

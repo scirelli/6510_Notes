@@ -1,0 +1,42 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Super-Side-Sektor laden
+
+Einsprung von <A HREF="RO81A5C0.HTM">$A5C9</A>:
+
+A574: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+A576: A9 FE     LDA #$FE         Super-Side-Sektor im Puffer ?
+A578: DD 02 01  CMP <A HREF="RA810102.HTM">$0102</A>,X
+A57B: D0 01     BNE $A57E        nein, ==&gt;
+A57D: 60        RTS              ja ==&gt;
+
+Einsprung von $A57B, <A HREF="RO81A459.HTM">$A4FD</A>:
+
+A57E: A9 80     LDA #$80         &lt;-- Super-Side-Sektor lesen
+A580: 2C         B $2C
+
+Einsprung von <A HREF="RO819BC3.HTM">$9CC4</A>, <A HREF="RO81A459.HTM">$A513</A>:
+
+A581: A9 90     LDA #$90         &lt;-- Super-Side-Sektor schreiben
+A583: 48        PHA
+A584: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+A586: BD 10 01  LDA <A HREF="RA810110.HTM">$0110</A>,X      T&amp;S holen
+A589: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>
+A58B: BD 09 01  LDA <A HREF="RA810109.HTM">$0109</A>,X
+A58E: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>          (fuer den Fehlerfall vorsichts-
+A590: A9 FF     LDA #$FF         halber) Flag: 'kein Side-Sektor
+A592: 9D 02 01  STA <A HREF="RA810102.HTM">$0102</A>,X      geladen' setzen
+A595: BD 65 02  LDA <A HREF="RA810265.HTM">$0265</A>,X
+A598: 85 6C     STA <A HREF="RA816C.HTM">$6C</A>
+A59A: 20 88 95  JSR <A HREF="RO819585.HTM">$9588</A>        T&amp;S an DC uebergeben
+A59D: 68        PLA
+A59E: 20 E4 94  JSR <A HREF="RO8194DE.HTM">$94E4</A>        Job aufrufen
+A5A1: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+A5A3: A9 FE     LDA #$FE         $fe: Flag fuer
+A5A5: 9D 02 01  STA <A HREF="RA810102.HTM">$0102</A>,X      'Super-Side-Sektor geladen'
+A5A8: 60        RTS
+
+    <A HREF="RO81A56E.HTM">Previous Page</A> / <A HREF="RO81A5A9.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

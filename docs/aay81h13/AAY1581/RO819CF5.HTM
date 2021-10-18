@@ -1,0 +1,49 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+prueft, ob gesuchtes File durch eine SA angesprochen wird ($ddb7)
+
+Einsprung von <A HREF="RO818688.HTM">$869A</A>:
+
+9CF5: A2 00     LDX #$00         mit SA = 0 anfangen
+
+Einsprung von $9D04:
+
+9CF7: 86 42     STX <A HREF="RA8140.HTM">$42</A>
+9CF9: B5 A8     LDA <A HREF="RA81A8.HTM">$A8</A>,X        ist ein Kanal zugeordnet ?
+9CFB: C9 FF     CMP #$FF
+9CFD: D0 08     BNE $9D07        ja, ==&gt;
+
+Einsprung von $9D1C, $9D23, $9D2A:
+
+9CFF: A6 42     LDX <A HREF="RA8140.HTM">$42</A>          naechste SA probieren
+9D01: E8        INX
+9D02: E0 10     CPX #$10         wurde letzte SA getestet ?
+9D04: 90 F1     BCC $9CF7        nein, ==&gt;
+9D06: 60        RTS              c=1: File ist nicht geoeffnet
+
+Einsprung von $9CFD:
+
+9D07: 86 42     STX <A HREF="RA8140.HTM">$42</A>
+9D09: 29 3F     AND #$3F         Kanalnummer isolieren
+9D0B: A8        TAY
+9D0C: B9 F9 00  LDA <A HREF="RA81F9.HTM">$00F9</A>,Y      Drivenummer des Kanals holen
+9D0F: 29 01     AND #$01
+9D11: 85 41     STA <A HREF="RA8140.HTM">$41</A>
+9D13: AE 6D 02  LDX <A HREF="RA81026D.HTM">$026D</A>        Nummer des gefundenen Files holen
+9D16: B5 EF     LDA <A HREF="RA81EF.HTM">$EF</A>,X        mit Drivenummer des Files vergleichen
+9D18: 29 01     AND #$01
+9D1A: C5 41     CMP <A HREF="RA8140.HTM">$41</A>
+9D1C: D0 E1     BNE $9CFF        ungleich, (nicht gefunden) ==&gt;
+9D1E: B9 7D 02  LDA <A HREF="RA81027D.HTM">$027D</A>,Y      Directory-Block des Kanals mit
+9D21: D5 E5     CMP <A HREF="RA81E5.HTM">$E5</A>,X        Directory-Block des Files vergleichen
+9D23: D0 DA     BNE $9CFF        ungleich, ==&gt;
+9D25: B9 84 02  LDA <A HREF="RA810284.HTM">$0284</A>,Y      Position im Dir-Block des Kanals mit
+9D28: D5 EA     CMP <A HREF="RA81EA.HTM">$EA</A>,X        Position im Dir-Block des Files vergleichen
+9D2A: D0 D3     BNE $9CFF        ungleich, ==&gt;
+9D2C: 18        CLC
+9D2D: 60        RTS              c=0: File ist geoeffnet
+
+    <A HREF="RO819CE9.HTM">Previous Page</A> / <A HREF="RO819D2E.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

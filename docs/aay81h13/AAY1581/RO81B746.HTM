@@ -1,0 +1,31 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+naechsten freien Block im aktuellen Track suchen ($f1fa)
+
+Einsprung von <A HREF="RO818B2F.HTM">$8B38</A>, <A HREF="RO818B2F.HTM">$8B56</A>, <A HREF="RO81B668.HTM">$B6D9</A>, <A HREF="RO81B668.HTM">$B6E5</A>, <A HREF="RO81B6ED.HTM">$B739</A>:
+
+B746: 20 B4 B5  JSR <A HREF="RO81B5B4.HTM">$B5B4</A>        aktuellen BAM-Eintrag holen
+B749: 20 5E B7  JSR <A HREF="RO81B75E.HTM">$B75E</A>        und auf Fehler pruefen
+
+Einsprung von $B759:
+
+B74C: A5 4E     LDA <A HREF="RA814E.HTM">$4E</A>          existiert angegebener Sektor ?
+B74E: C5 75     CMP <A HREF="RA8175.HTM">$75</A>          (groesste Sektornummer +1)
+B750: B0 09     BCS $B75B        nein, ==&gt;
+B752: 20 D8 B5  JSR <A HREF="RO81B5D8.HTM">$B5D8</A>        ist der Block frei ?
+B755: D0 06     BNE $B75D        ja, ==&gt;
+B757: E6 4E     INC <A HREF="RA814E.HTM">$4E</A>          naechsten Block probieren
+B759: D0 F1     BNE $B74C        immer ==&gt;
+
+Einsprung von $B750:
+
+B75B: A9 00     LDA #$00         z=1: alle Sektoren belegt
+
+Einsprung von $B755:
+
+B75D: 60        RTS
+
+    <A HREF="RO81B6ED.HTM">Previous Page</A> / <A HREF="RO81B75E.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

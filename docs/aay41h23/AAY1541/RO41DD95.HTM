@@ -1,0 +1,27 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DD95/56725:   Manipulate flags
+
+DD95: 90 06     BCC $DD9D
+
+Jump from <A HREF="RO41CA35.HTM">$CA4F</A>, <A HREF="RO41DFD0.HTM">$E01A</A>, <A HREF="RO41E07C.HTM">$E0A0</A>, <A HREF="RO41E105.HTM">$E107</A>, <A HREF="RO41E207.HTM">$E25F</A>, <A HREF="RO41E31C.HTM">$E446</A>:
+
+DD97: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+DD99: 15 EC     ORA <A HREF="RA41EC.HTM">$EC</A>,X       ; set flag
+DD9B: D0 06     BNE $DDA3
+
+Jump from $DD95, <A HREF="RO41CF9B.HTM">$CFAC</A>, <A HREF="RO41DFD0.HTM">$DFD2</A>, <A HREF="RO41DFD0.HTM">$E003</A>, <A HREF="RO41E0AB.HTM">$E0ED</A>, <A HREF="RO41E207.HTM">$E21B</A>:
+
+DD9D: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+DD9F: 49 FF     EOR #$FF
+DDA1: 35 EC     AND <A HREF="RA41EC.HTM">$EC</A>,X       ; erase flag
+
+Jump from $DD9B:
+
+DDA3: 95 EC     STA <A HREF="RA41EC.HTM">$EC</A>,X
+DDA5: 60        RTS
+
+    <A HREF="RO41DD8D.HTM">Previous Page</A> / <A HREF="RO41DDA6.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

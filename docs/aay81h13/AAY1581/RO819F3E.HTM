@@ -1,0 +1,26 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+einem Kanal einen neuen Puffer zuordnen ($dfc2)
+E: $50: Kanalnummer
+   a  : Puffernumer
+
+Einsprung von <A HREF="RO818E37.HTM">$8E49</A>:
+
+9F3E: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          Kanalnummer
+9F40: 09 80     ORA #$80         Puffer inaktiv setzen
+9F42: B4 D1     LDY <A HREF="RA81D1.HTM">$D1</A>,X        ist 1. Puffer belegt ?
+9F44: 10 03     BPL $9F49        ja, 2. Puffer belegen ==&gt;
+9F46: 95 D1     STA <A HREF="RA81D1.HTM">$D1</A>,X        1. Puffer belegen
+9F48: 60        RTS
+
+Einsprung von $9F44:
+
+9F49: 95 D8     STA <A HREF="RA81D8.HTM">$D8</A>,X        2. Puffer belegen
+9F4B: 60        RTS
+
+DOS 5
+
+    <A HREF="RO819F33.HTM">Previous Page</A> / <A HREF="RO819F4C.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

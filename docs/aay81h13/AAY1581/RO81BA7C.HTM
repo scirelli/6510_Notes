@@ -1,0 +1,20 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Sprungvektoren der Fehlerbehandlung retten
+
+Einsprung von <A HREF="RO81AA0F.HTM">$AA0F</A>, <A HREF="RO81BA64.HTM">$BA64</A>:
+
+BA7C: AD AE 01  LDA <A HREF="RA8101AE.HTM">$01AE</A>        Vektor der Job-Error-Routine merken
+BA7F: 8D E6 01  STA <A HREF="RA8101E6.HTM">$01E6</A>
+BA82: AD AF 01  LDA <A HREF="RA8101AE.HTM">$01AF</A>
+BA85: 8D E7 01  STA <A HREF="RA8101E6.HTM">$01E7</A>
+BA88: AD BA 01  LDA <A HREF="RA8101BA.HTM">$01BA</A>        Vektor der Error-Routine des DOS merken
+BA8B: 8D E8 01  STA <A HREF="RA8101E8.HTM">$01E8</A>
+BA8E: AD BB 01  LDA <A HREF="RA8101BA.HTM">$01BB</A>
+BA91: 8D E9 01  STA <A HREF="RA8101E8.HTM">$01E9</A>
+BA94: 60        RTS
+
+    <A HREF="RO81BA64.HTM">Previous Page</A> / <A HREF="RO81BA95.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,65 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Letzten Datenblock einer REL-Datei
+und dessen Eintrag im Side-Sektor ermitteln ($e1cb)
+
+Einsprung von <A HREF="RO818895.HTM">$8895</A>, <A HREF="RO81999F.HTM">$99CE</A>, <A HREF="RO819E32.HTM">$9E46</A>, <A HREF="RO81A438.HTM">$A438</A>:
+
+A15C: 20 6E A5  JSR <A HREF="RO81A56E.HTM">$A56E</A>        Super-Side-Sektor aktiv ?
+A15F: D0 03     BNE $A164        nein, ==&gt;
+A161: 20 A9 A5  JSR <A HREF="RO81A5A9.HTM">$A5A9</A>        letzte existierende Gruppe holen
+
+Einsprung von $A15F:
+
+A164: 20 0B 9E  JSR <A HREF="RO819E0B.HTM">$9E0B</A>        Nummer des aktuellen Side-Sektors setzen
+A167: 85 69     STA <A HREF="RA8169.HTM">$69</A>
+
+Letzten Side-Sektor laden
+
+A169: A9 04     LDA #$04         Zeiger auf Side-Sektor-Tabelle setzen
+A16B: 85 64     STA <A HREF="RA8164.HTM">$64</A>
+A16D: A0 0A     LDY #$0A         mit letztem Tabelleneintrag anfangen
+A16F: D0 04     BNE $A175        immer ==&gt;
+
+Einsprung von $A177:
+
+A171: 88        DEY              vorhergehenden Eintrag testen
+A172: 88        DEY
+A173: 30 27     BMI $A19C        kein Side-Sektor benutzt ?, ==&gt;
+
+Einsprung von $A16F:
+
+A175: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y      existiert Side-Sektor ?
+A177: F0 F8     BEQ $A171        nein, ==&gt;
+A179: 98        TYA              so ermittelte Side-Sektor-Nummer
+A17A: 4A        LSR              (es war eine 2-Byte-Tabelle)
+A17B: C5 69     CMP <A HREF="RA8169.HTM">$69</A>          mit aktueller Nummer vergleichen
+A17D: F0 0A     BEQ $A189        gleich, ==&gt;
+A17F: 85 69     STA <A HREF="RA8169.HTM">$69</A>          neue Side-Sektor-Nummer merken
+A181: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+A183: BD 65 02  LDA <A HREF="RA810265.HTM">$0265</A>,X      Side-Sektor-Puffer holen
+A186: 20 56 9E  JSR <A HREF="RO819E56.HTM">$9E56</A>        Side-Sektor laden
+
+Einsprung von $A17D:
+
+A189: A0 00     LDY #$00         hat letzter Side-Sektor einen Folgeblock ?
+A18B: 84 64     STY <A HREF="RA8164.HTM">$64</A>
+A18D: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y
+A18F: D0 0B     BNE $A19C        ja, (Fehler) ==&gt;
+A191: C8        INY
+A192: B1 64     LDA (<A HREF="RA8164.HTM">$64</A>),Y      Blocklaenge holen
+A194: A8        TAY              Zeiger auf letzten Eintrag setzen
+A195: 88        DEY              (-1: ein Eintrag ist 2 Byte lang)
+A196: 84 6A     STY <A HREF="RA816A.HTM">$6A</A>          Zeiger auf T&amp;S des Datenblocks merken
+A198: 98        TYA              Side-Sektor-Pufferzeiger auf letzten
+A199: 4C 23 9E  JMP <A HREF="RO819E23.HTM">$9E23</A>        Eintrag setzen
+
+Einsprung von $A173, $A18F, <A HREF="RO81A20D.HTM">$A21F</A>:
+
+A19C: A9 67     LDA #$67         67, Illegal Track or Sector
+A19E: 20 3F FF  JSR <A HREF="RO81FF00.HTM">$FF3F</A>        CMDERR
+
+    <A HREF="RO81A0FD.HTM">Previous Page</A> / <A HREF="RO81A1A1.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

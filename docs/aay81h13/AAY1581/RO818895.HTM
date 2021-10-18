@@ -1,0 +1,47 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+REL-File zum Kopieren vorbereiten ($ca53)
+
+Laenge der Quell-Datei ermitteln
+
+Einsprung von <A HREF="RO81876E.HTM">$8812</A>:
+
+8895: 20 5C A1  JSR <A HREF="RO81A15C.HTM">$A15C</A>        Ende der Rel-Datei suchen
+8898: 20 6E A5  JSR <A HREF="RO81A56E.HTM">$A56E</A>        Super-Side-Sektor verwenden ?
+889B: D0 04     BNE $88A1        nein, ==&gt;
+889D: AD 00 01  LDA <A HREF="RA810100.HTM">$0100</A>        Gruppennummer des Records merken
+88A0: 48        PHA
+
+Einsprung von $889B:
+
+88A1: A5 6A     LDA <A HREF="RA816A.HTM">$6A</A>          Position der T&amp;S im Side-Sektor und
+88A3: 48        PHA
+88A4: A5 69     LDA <A HREF="RA8169.HTM">$69</A>          Side-Sektor-Nummer merken
+88A6: 48        PHA
+
+Zieldatei um die erforderliche Laenge erweitern
+
+88A7: A9 12     LDA #$12         Zieldatei oeffnen
+88A9: 85 52     STA <A HREF="RA8152.HTM">$52</A>
+88AB: 20 42 90  JSR <A HREF="RO819042.HTM">$9042</A>        Kanal zum Schreiben holen
+88AE: 20 38 A4  JSR <A HREF="RO81A438.HTM">$A438</A>        Parameter des letzten Records merken
+88B1: 85 6B     STA <A HREF="RA816B.HTM">$6B</A>          a=0: Position des Records loeschen
+88B3: 68        PLA              Side-Sektornummer zurueckholen
+88B4: 85 69     STA <A HREF="RA8169.HTM">$69</A>
+88B6: 68        PLA              Position der T&amp;S im Side-Sektor zurueckholen
+88B7: 85 6A     STA <A HREF="RA816A.HTM">$6A</A>
+88B9: 20 6E A5  JSR <A HREF="RO81A56E.HTM">$A56E</A>        Super-Side-Sektor verwenden ?
+88BC: D0 04     BNE $88C2        nein, ==&gt;
+88BE: 68        PLA
+88BF: 8D 00 01  STA <A HREF="RA810100.HTM">$0100</A>        Gruppennummer zurueckholen
+
+Einsprung von $88BC:
+
+88C2: 4C DC A2  JMP <A HREF="RO81A2D6.HTM">$A2DC</A>        Datensaetze an REL-File anhaengen
+
+DOS 2
+
+    <A HREF="RO818876.HTM">Previous Page</A> / <A HREF="RO8188C5.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

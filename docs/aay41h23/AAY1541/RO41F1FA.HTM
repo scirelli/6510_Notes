@@ -1,0 +1,38 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F1FA/61946:   Find free sectors in current track
+
+Jump from <A HREF="RO41CD03.HTM">$CD09</A>, <A HREF="RO41CD03.HTM">$CD27</A>, <A HREF="RO41F11E.HTM">$F195</A>, <A HREF="RO41F11E.HTM">$F1A1</A>, <A HREF="RO41F1A9.HTM">$F1ED</A>:
+
+F1FA: 20 11 F0  JSR <A HREF="RO41F011.HTM">$F011</A>       ; find BAM field for this track
+F1FD: 98        TYA             ; point to number of free blocks
+F1FE: 48        PHA
+F1FF: 20 20 F2  JSR <A HREF="RO41F220.HTM">$F220</A>       ; verify BAM
+F202: A5 80     LDA <A HREF="RA4180.HTM">$80</A>         ; track
+F204: 20 4B F2  JSR <A HREF="RO41F24B.HTM">$F24B</A>       ; get max number of sectors of the track
+F207: 8D 4E 02  STA <A HREF="RA41024E.HTM">$024E</A>       ; save
+F20A: 68        PLA
+F20B: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>         ; save pointer
+
+Jump from $F21B:
+
+F20D: A5 81     LDA <A HREF="RA4181.HTM">$81</A>         ; compare sector
+F20F: CD 4E 02  CMP <A HREF="RA41024E.HTM">$024E</A>       ; with maximum number
+F212: B0 09     BCS $F21D       ; greater than or equal to?
+F214: 20 D5 EF  JSR <A HREF="RO41EFCF.HTM">$EFD5</A>       ; get bit number of sector
+F217: D0 06     BNE $F21F       ; sector free?
+F219: E6 81     INC <A HREF="RA4181.HTM">$81</A>         ; increment sector number
+F21B: D0 F0     BNE $F20D       ; and check if free
+
+Jump from $F212:
+
+F21D: A9 00     LDA #$00        ; no sectors free
+
+Jump from $F217:
+
+F21F: 60        RTS
+
+    <A HREF="RO41F1A9.HTM">Previous Page</A> / <A HREF="RO41F220.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

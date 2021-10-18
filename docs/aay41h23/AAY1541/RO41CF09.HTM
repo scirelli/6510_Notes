@@ -1,0 +1,28 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $CF09/53001:   ?
+
+Jump from <A HREF="RO41CF1E.HTM">$CF1E</A>, <A HREF="RO41CF1E.HTM">$CF7B</A>:
+
+CF09: A0 04     LDY #$04
+CF0B: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+
+Jump from $CF1A:
+
+CF0D: B9 FA 00  LDA <A HREF="RA41FA.HTM">$FA</A>,Y
+CF10: 96 FA     STX <A HREF="RA41FA.HTM">$FA</A>,Y
+CF12: C5 82     CMP <A HREF="RA4182.HTM">$82</A>         ; channel number
+CF14: F0 07     BEQ $CF1D
+CF16: 88        DEY
+CF17: 30 E1     BMI <A HREF="RO41CEFA.HTM">$CEFA</A>
+CF19: AA        TAX
+CF1A: 4C 0D CF  JMP $CF0D
+
+Jump from $CF14:
+
+CF1D: 60        RTS
+
+    <A HREF="RO41CEFA.HTM">Previous Page</A> / <A HREF="RO41CF1E.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

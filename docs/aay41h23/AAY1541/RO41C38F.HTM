@@ -1,0 +1,16 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C38F/50063:   Reverse drive number
+
+Jump from <A HREF="RO41C3CA.HTM">$C40E</A>, <A HREF="RO41C3CA.HTM">$C420</A>, <A HREF="RO41C3CA.HTM">$C427</A>, <A HREF="RO41C44F.HTM">$C467</A>, <A HREF="RO41C48B.HTM">$C497</A>, <A HREF="RO41C6DE.HTM">$C704</A>, <A HREF="RO41C6DE.HTM">$C70B</A>:
+
+C38F: A5 7F     LDA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+C391: 49 01     EOR #$01        ; switch bit 0
+C393: 29 01     AND #$01
+C395: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>
+C397: 60        RTS
+
+    <A HREF="RO41C368.HTM">Previous Page</A> / <A HREF="RO41C398.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

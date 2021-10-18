@@ -1,0 +1,42 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $E645/58949:   Print error message into error buffer
+
+Jump from <A HREF="RO41C1C8.HTM">$C1CE</A>, <A HREF="RO41CD03.HTM">$CD2E</A>, <A HREF="RO41D506.HTM">$D54F</A>, <A HREF="RO41D572.HTM">$D577</A>, <A HREF="RO41DBA5.HTM">$DC03</A>, <A HREF="RO41E1CB.HTM">$E204</A>, <A HREF="RO41E7A3.HTM">$E829</A>, <A HREF="RO41E7A3.HTM">$E845</A>, <A HREF="RO41F1A9.HTM">$F1DC</A>,
+          <A HREF="RO41F1A9.HTM">$F1F7</A>, <A HREF="RO41F220.HTM">$F248</A>:
+
+E645: 20 C7 E6  JSR <A HREF="RO41E6C7.HTM">$E6C7</A>       ; set error message
+
+Jump from <A HREF="RO41D00E.HTM">$D021</A>, <A HREF="RO41E60A.HTM">$E641</A>, <A HREF="RO41F011.HTM">$F01F</A>:
+
+E648: 20 BD C1  JSR <A HREF="RO41C1BD.HTM">$C1BD</A>       ; erase input buffer
+E64B: A9 00     LDA #$00
+E64D: 8D F9 02  STA <A HREF="RA4102F9.HTM">$02F9</A>       ; erase error flag
+E650: 20 2C C1  JSR <A HREF="RO41C12C.HTM">$C12C</A>       ; turn LED off
+E653: 20 DA D4  JSR <A HREF="RO41D4DA.HTM">$D4DA</A>       ; close channels 17 and 18
+E656: A9 00     LDA #$00
+E658: 85 A3     STA <A HREF="RA41A3.HTM">$A3</A>         ; input buffer pointer to zero
+E65A: A2 45     LDX #$45
+E65C: 9A        TXS             ; initialize stack pointer
+E65D: A5 84     LDA <A HREF="RA4184.HTM">$84</A>         ; secondary address
+E65F: 29 0F     AND #$0F
+E661: 85 83     STA <A HREF="RA4183.HTM">$83</A>
+E663: C9 0F     CMP #$0F        ; 15?
+E665: F0 31     BEQ <A HREF="RO41E688.HTM">$E698</A>       ; yes, command channel
+E667: 78        SEI
+E668: A5 79     LDA <A HREF="RA4179.HTM">$79</A>         ; LISTEN active?
+E66A: D0 1C     BNE <A HREF="RO41E688.HTM">$E688</A>       ; yes
+E66C: A5 7A     LDA <A HREF="RA417A.HTM">$7A</A>         ; TALK active?
+E66E: D0 10     BNE <A HREF="RO41E680.HTM">$E680</A>       ; yes
+E670: A6 83     LDX <A HREF="RA4183.HTM">$83</A>         ; channel number
+E672: BD 2B 02  LDA <A HREF="RA41022B.HTM">$022B</A>,X     ; open channel to this secondary addr
+E675: C9 FF     CMP #$FF
+E677: F0 1F     BEQ <A HREF="RO41E688.HTM">$E698</A>       ; no
+E679: 29 0F     AND #$0F
+E67B: 85 82     STA <A HREF="RA4182.HTM">$82</A>         ; channel
+E67D: 4C 8E E6  JMP <A HREF="RO41E688.HTM">$E68E</A>
+
+    <A HREF="RO41E60A.HTM">Previous Page</A> / <A HREF="RO41E680.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

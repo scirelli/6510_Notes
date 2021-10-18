@@ -1,0 +1,21 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C806/51206:   Print 'blocks free.'
+
+Jump from <A HREF="RO41C6DE.HTM">$C6F2</A>, <A HREF="RO41C6DE.HTM">$C707</A>:
+
+C806: 20 AC C7  JSR <A HREF="RO41C7AC.HTM">$C7AC</A>       ; erase buffer
+C809: A0 0B     LDY #$0B        ; 12 characters
+
+Jump from $C812:
+
+C80B: B9 17 C8  LDA <A HREF="RO41C817.HTM">$C817</A>,Y     ; 'blocks free.'
+C80E: 99 B1 02  STA <A HREF="RA4102B1.HTM">$02B1</A>,Y     ; write in buffer
+C811: 88        DEY
+C812: 10 F7     BPL $C80B
+C814: 4C 4D EF  JMP <A HREF="RO41EF4D.HTM">$EF4D</A>       ; number of free blocks in front
+
+    <A HREF="RO41C7B7.HTM">Previous Page</A> / <A HREF="RO41C817.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

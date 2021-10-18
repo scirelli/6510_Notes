@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Block in Bam freigeben ($ef5f)
+E: $4c, $4e: T&amp;S
+
+Einsprung von <A HREF="RO818688.HTM">$86D0</A>, <A HREF="RO818688.HTM">$8713</A>, <A HREF="RO818688.HTM">$8732</A>, <A HREF="RO818B23.HTM">$8B29</A>, <A HREF="RO81B811.HTM">$B82D</A>:
+
+B546: 20 B4 B5  JSR <A HREF="RO81B5B4.HTM">$B5B4</A>        BAM-Zeiger auf aktuellen Track setzen
+B549: 20 D8 B5  JSR <A HREF="RO81B5D8.HTM">$B5D8</A>        ist Block ueberhaupt belegt ?
+B54C: D0 23     BNE $B571        nein, ==&gt;
+B54E: B1 31     LDA (<A HREF="RA8131.HTM">$31</A>),Y      Block freigeben
+B550: 1D EA B5  ORA <A HREF="RO81B5D8.HTM">$B5EA</A>,X      durch setzen des entsprechenden Bits
+B553: 91 31     STA (<A HREF="RA8131.HTM">$31</A>),Y
+B555: A9 01     LDA #$01         Flag fuer 'BAM geaendert' setzen
+B557: 85 35     STA <A HREF="RA8135.HTM">$35</A>
+B559: A0 00     LDY #$00
+B55B: 18        CLC
+B55C: B1 31     LDA (<A HREF="RA8131.HTM">$31</A>),Y      Anzahl der freien Blocks +1
+B55E: 69 01     ADC #$01
+B560: 91 31     STA (<A HREF="RA8131.HTM">$31</A>),Y
+B562: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          Aktueller Track
+B564: CD 2B 02  CMP <A HREF="RA81022B.HTM">$022B</A>        = Direktory-Track
+B567: F0 34     BEQ <A HREF="RO81B572.HTM">$B59D</A>        ja, ==&gt;
+                                [Dieser Sprung sollte nach $b571 oder $b5a0
+                                 gehen, aber doch sicherlich nicht nach
+                                 $b59d ! Dieser Fehler ist auch schon in
+                                 der 1541 vorhanden.]
+B569: EE A9 02  INC <A HREF="RA8102A9.HTM">$02A9</A>        Anzahl der 'Blocks free' +1
+B56C: D0 03     BNE $B571
+B56E: EE AA 02  INC <A HREF="RA8102A9.HTM">$02AA</A>
+
+Einsprung von $B54C, $B56C:
+
+B571: 60        RTS
+
+    <A HREF="RO81B515.HTM">Previous Page</A> / <A HREF="RO81B572.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

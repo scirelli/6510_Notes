@@ -1,0 +1,24 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Auf gueltigen Block (T&amp;S) pruefen ($d55f)
+E: $4d,$4e: zu pruefende T&amp;S
+
+Einsprung von <A HREF="RO818688.HTM">$86CD</A>, <A HREF="RO818C2F.HTM">$8C3E</A>, <A HREF="RO81B2C7.HTM">$B2C7</A>, <A HREF="RO81B33C.HTM">$B33C</A>, <A HREF="RO81B781.HTM">$B7CA</A>, <A HREF="RO81B811.HTM">$B81F</A>, <A HREF="RO81B85F.HTM">$B885</A>,
+              <A HREF="RO81B88D.HTM">$B8A5</A>:
+
+94B5: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          Spurnummer = 0 ?
+94B7: F0 EA     BEQ <A HREF="RO819471.HTM">$94A3</A>
+94B9: CD 2C 02  CMP <A HREF="RA81022C.HTM">$022C</A>        oder &gt;= Partition-Ende ?
+94BC: B0 E5     BCS <A HREF="RO819471.HTM">$94A3</A>
+94BE: C5 90     CMP <A HREF="RA8190.HTM">$90</A>          oder &lt; Partition-Anfang ?
+94C0: 90 E1     BCC <A HREF="RO819471.HTM">$94A3</A>        alles ungueltig, ==&gt;
+94C2: A5 75     LDA <A HREF="RA8175.HTM">$75</A>          Sektornummer
+94C4: C5 4E     CMP <A HREF="RA814E.HTM">$4E</A>          &gt;= max. Sektornummer ?
+94C6: F0 DB     BEQ <A HREF="RO819471.HTM">$94A3</A>
+94C8: 90 D9     BCC <A HREF="RO819471.HTM">$94A3</A>        ja, ungueltig, ==&gt;
+94CA: 60        RTS              T&amp;S im gueltigen Bereich
+
+    <A HREF="RO8194A8.HTM">Previous Page</A> / <A HREF="RO8194CB.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

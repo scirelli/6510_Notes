@@ -1,0 +1,72 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Memory-Befehle ($caf8)
+
+892F: AD 01 02  LDA <A HREF="RA810200.HTM">$0201</A>        Zeichen hinter M
+8932: C9 2D     CMP #$2D         &lt;&gt; '-'
+8934: D0 48     BNE $897E        ja, 31, Syntax Error ==&gt;
+8936: AD 03 02  LDA <A HREF="RA810200.HTM">$0203</A>        Adresse hinter m-x Befehl holen
+8939: 85 40     STA <A HREF="RA8140.HTM">$40</A>
+893B: AD 04 02  LDA <A HREF="RA810200.HTM">$0204</A>
+893E: 85 41     STA <A HREF="RA8140.HTM">$41</A>
+8940: A0 00     LDY #$00
+8942: AD 02 02  LDA <A HREF="RA810200.HTM">$0202</A>        Zeichen hinter dem '-' pruefen:
+8945: C9 52     CMP #$52
+8947: F0 0B     BEQ $8954        M-R, ==&gt;
+8949: C9 57     CMP #$57
+894B: F0 36     BEQ $8983        M-W, ==&gt;
+894D: C9 45     CMP #$45
+894F: D0 2D     BNE $897E        31, Syntax Error
+
+Memory-Execute
+
+8951: 6C 40 00  JMP (<A HREF="RA8140.HTM">$0040</A>)
+
+Memory-Read
+
+Einsprung von $8947:
+
+8954: B1 40     LDA (<A HREF="RA8140.HTM">$40</A>),Y      1. Datenbyte holen und merken
+8956: 85 54     STA <A HREF="RA8154.HTM">$54</A>
+8958: A5 29     LDA <A HREF="RA8129.HTM">$29</A>          Laenge der Kommandozeile &lt; 6 ?
+895A: C9 06     CMP #$06         ('m-r',lo,hi)
+895C: 90 1A     BCC $8978        ja, ==&gt;
+895E: AE 05 02  LDX <A HREF="RA810200.HTM">$0205</A>        Anzahl der zu sendenden Bytes holen
+8961: CA        DEX              -1 (1. Byte ist bereits gelesen)
+8962: F0 14     BEQ $8978        = 0 ? ja, ==&gt;
+8964: 8A        TXA              Anzahl zu sendender Bytes +
+8965: 18        CLC
+8966: 65 40     ADC <A HREF="RA8140.HTM">$40</A>          Adresse des 1. Bytes
+8968: E6 40     INC <A HREF="RA8140.HTM">$40</A>          (1. Byte ist gelesen)
+896A: 8D 48 02  STA <A HREF="RA810242.HTM">$0248</A>        = Endadresse (Lo)
+896D: A5 40     LDA <A HREF="RA8140.HTM">$40</A>          Adresse des auszugebenden Speicherbereiches
+896F: 85 CF     STA <A HREF="RA81CF.HTM">$CF</A>          in den Fehlerkanal-Pufferzeiger kopieren
+8971: A5 41     LDA <A HREF="RA8140.HTM">$41</A>
+8973: 85 D0     STA <A HREF="RA81CF.HTM">$D0</A>
+8975: 4C 9F 93  JMP <A HREF="RO819370.HTM">$939F</A>        Byte zur Ausgabe bereitstellen
+
+Einsprung von $895C, $8962:
+
+8978: 20 27 90  JSR <A HREF="RO819027.HTM">$9027</A>        Kanal zum Lesen holen
+897B: 4C 96 93  JMP <A HREF="RO819370.HTM">$9396</A>        auf Fehlerpuffer zurueckschalten
+
+Einsprung von $8934, $894F, <A HREF="RO81876E.HTM">$877C</A>:
+
+897E: A9 31     LDA #$31         31, Syntax Error
+8980: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>
+
+Memory-Write
+
+Einsprung von $894B, $898C:
+
+8983: B9 06 02  LDA <A HREF="RA810200.HTM">$0206</A>,Y      'm-w',lo,hi,anz,d1,d2,..
+8986: 91 40     STA ($40),Y      (d1 liegt bei $0206)
+8988: C8        INY
+8989: CC 05 02  CPY <A HREF="RA810200.HTM">$0205</A>        (anz liegt bei $0205)
+898C: 90 F5     BCC $8983        alle Bytes kopieren
+898E: 60        RTS
+
+    <A HREF="RO81891E.HTM">Previous Page</A> / <A HREF="RO81898F.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

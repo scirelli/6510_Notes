@@ -1,0 +1,67 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Anzahl der benoetigten Blocks einer REL-Datei berechnen
+(neue Version: beruecksichtigt Super-Side-Sektoren)
+E: $58: Anzahl der gefuellten Gruppen
+   $44: Anzahl der gefuellten Side-Sektoren der letzten Gruppe
+   $43: Anzahl der Datenblocks im letzten Side-Sektor
+A: $5b-$5c: Anzahl der belegten Blocks
+
+Einsprung von <A HREF="RO81999F.HTM">$9A11</A>, <A HREF="RO81A2D6.HTM">$A35B</A>:
+
+9E97: 20 38 8D  JSR <A HREF="RO818D38.HTM">$8D38</A>        Rechenregister 1 loeschen
+9E9A: 20 C3 9E  JSR $9EC3        Rechenregister 2 loeschen
+
+9E9D: A4 58     LDY <A HREF="RA8158.HTM">$58</A>          Platzverbrauch der gefuellten Gruppen
+
+Einsprung von $9EA9:
+
+9E9F: 88        DEY              addieren
+9EA0: 30 0A     BMI $9EAC        $02d6 (726): Anzahl Blocks einer Gruppe:
+9EA2: A2 02     LDX #$02         720 Datenbloecke, 6 Side-Sektoren
+9EA4: A9 D6     LDA #$D6
+9EA6: 20 CC 9E  JSR $9ECC        addieren
+9EA9: 4C 9F 9E  JMP $9E9F
+
+Einsprung von $9EA0:
+
+9EAC: A4 44     LDY <A HREF="RA8140.HTM">$44</A>          Anzahl gefuellter Side-Sektoren
+
+Einsprung von $9EB8:
+
+9EAE: 88        DEY
+9EAF: 30 0A     BMI $9EBB
+9EB1: A2 00     LDX #$00         $0079 (121): 120 Datenbloecke +
+9EB3: A9 79     LDA #$79                        1 Side-Sektor
+9EB5: 20 CC 9E  JSR $9ECC        addieren
+9EB8: 4C AE 9E  JMP $9EAE
+
+Einsprung von $9EAF:
+
+9EBB: A5 43     LDA <A HREF="RA8140.HTM">$43</A>          Anzahl Datenbloecke im letzten Side-Sektor*2
+9EBD: 4A        LSR              /2
+9EBE: A2 00     LDX #$00
+9EC0: 4C CC 9E  JMP $9ECC        addieren
+
+Rechenregister 2 loeschen
+
+Einsprung von $9E9A:
+
+9EC3: A2 00     LDX #$00
+9EC5: 86 60     STX <A HREF="RA8160.HTM">$60</A>
+9EC7: 86 61     STX <A HREF="RA8160.HTM">$61</A>
+9EC9: 86 62     STX <A HREF="RA8160.HTM">$62</A>
+9ECB: 60        RTS
+
+Zahl in a/x zum Rechenregister 1 addieren
+
+Einsprung von $9EA6, $9EB5, $9EC0, <A HREF="RO81999F.HTM">$9A18</A>:
+
+9ECC: 86 61     STX <A HREF="RA8160.HTM">$61</A>
+9ECE: 85 60     STA <A HREF="RA8160.HTM">$60</A>
+9ED0: 4C 4C 8D  JMP <A HREF="RO818D4C.HTM">$8D4C</A>        Wert zu Register 1 addieren
+
+    <A HREF="RO819E7D.HTM">Previous Page</A> / <A HREF="RO819ED3.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

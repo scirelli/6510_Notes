@@ -1,0 +1,32 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+ATN-Modus testen ($ea59; bei der 1571: $ea59)
+
+Einsprung von <A HREF="RO81AAA8.HTM">$AB03</A>, <A HREF="RO81AC9D.HTM">$AC9D</A>, <A HREF="RO81AD5C.HTM">$AD6A</A>, <A HREF="RO81AD5C.HTM">$AD79</A>, <A HREF="RO81AD5C.HTM">$AD8C</A>, <A HREF="RO81AD5C.HTM">$AD96</A>, <A HREF="RO81AD5C.HTM">$ADA3</A>, <A HREF="RO81AD5C.HTM">$AE2A</A>, <A HREF="RO81AD5C.HTM">$AE39</A>,
+              <A HREF="RO81AE42.HTM">$AE49</A>, <A HREF="RO81AE42.HTM">$AE5F</A>, <A HREF="RO81AE42.HTM">$AE79</A>, <A HREF="RO81AE42.HTM">$AEA4</A>, <A HREF="RO81AFCA.HTM">$AFE3</A>, <A HREF="RO81BB74.HTM">$BBAE</A>, <A HREF="RO81BC01.HTM">$BC65</A>, <A HREF="RO81BF83.HTM">$BF83</A>, <A HREF="RO81C026.HTM">$C026</A>:
+
+AD15: A9 02     LDA #$02
+AD17: 24 76     BIT <A HREF="RA8176.HTM">$76</A>          ist ATN-Modus gesetzt ?
+AD19: F0 06     BEQ $AD21        nein, ==&gt;
+AD1B: AD 01 40  LDA <A HREF="CIA811.HTM">$4001</A>        ATN-Modus: ist ATN auch aktiv ?
+AD1E: 10 0C     BPL $AD2C        nein, (ATN-Modus beenden) ==&gt;
+
+Einsprung von $AD24:
+
+AD20: 60        RTS              ja, also weitermachen
+
+Einsprung von $AD19:
+
+AD21: AD 01 40  LDA <A HREF="CIA811.HTM">$4001</A>        Daten-Modus: ist ATN aktiv ?
+AD24: 10 FA     BPL $AD20        nein, also weitermachen ==&gt;
+AD26: 2C 0D 40  BIT <A HREF="CIA81D.HTM">$400D</A>        ATN-IRQ-Flag loeschen
+AD29: 4C 30 FF  JMP <A HREF="RO81FF00.HTM">$FF30</A>        ATN behandeln (ATN-Modus setzen) ==&gt;
+
+Einsprung von $AD1E:
+
+AD2C: 4C 5A AC  JMP <A HREF="RO81ABCF.HTM">$AC5A</A>        ATN-Modus beenden ==&gt;
+
+    <A HREF="RO81AD0C.HTM">Previous Page</A> / <A HREF="RO81AD2F.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

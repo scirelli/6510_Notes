@@ -1,0 +1,25 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D6D0/54992:   Transmit param to disk controller
+
+Jump from <A HREF="RO41D09B.HTM">$D09B</A>, <A HREF="RO41D0AF.HTM">$D0BA</A>, <A HREF="RO41D156.HTM">$D186</A>, <A HREF="RO41D19D.HTM">$D1BE</A>, <A HREF="RO41DCDA.HTM">$DCE2</A>, <A HREF="RO41DE73.HTM">$DE7F</A>, <A HREF="RO41E31C.HTM">$E3B9</A>, <A HREF="RO41E31C.HTM">$E3CB</A>:
+
+D6D0: 20 93 DF  JSR <A HREF="RO41DF93.HTM">$DF93</A>       ; get buffer number
+
+Jump from <A HREF="RO41C8C6.HTM">$C8D7</A>, <A HREF="RO41D00E.HTM">$D03A</A>, <A HREF="RO41D464.HTM">$D46D</A>, <A HREF="RO41DC46.HTM">$DC8F</A>, <A HREF="RO41DCDA.HTM">$DD2E</A>, <A HREF="RO41DF21.HTM">$DF3D</A>:
+
+D6D3: 0A        ASL
+D6D4: A8        TAY
+D6D5: A5 80     LDA <A HREF="RA4180.HTM">$80</A>         ; track number
+D6D7: 99 06 00  STA <A HREF="RA4106.HTM">$06</A>,Y       ; transmit
+D6DA: A5 81     LDA <A HREF="RA4181.HTM">$81</A>         ; sector number
+D6DC: 99 07 00  STA <A HREF="RA4106.HTM">$07</A>,Y       ; transmit
+D6DF: A5 7F     LDA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+D6E1: 0A        ASL             ; times 2
+D6E2: AA        TAX
+D6E3: 60        RTS
+
+    <A HREF="RO41D6A6.HTM">Previous Page</A> / <A HREF="RO41D6E4.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

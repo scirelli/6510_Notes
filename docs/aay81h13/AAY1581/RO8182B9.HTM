@@ -1,0 +1,54 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+alle angegebenen Dateien im Directory suchen ($c44f)
+A: Filetabellen $e5-$f8
+   Filebeginn   $0297-$02a1
+   $02a5: $ff: alle Files gefunden (kein Name enthaelt Wildcards)
+          $00: - nicht alle Files wurden gefunden, oder
+               - Files enthalten Wildcards (weitere Fundstellen sind moegl.)
+
+Einsprung von <A HREF="RO81876E.HTM">$87A2</A>, <A HREF="RO8188C5.HTM">$88D6</A>, <A HREF="RO81A956.HTM">$A974</A>, <A HREF="RO81B781.HTM">$B792</A>, <A HREF="RO81B8D2.HTM">$B91E</A>:
+
+82B9: 20 A2 82  JSR <A HREF="RO8182A2.HTM">$82A2</A>        Partition initialisieren
+
+Einsprung von $82C8:
+
+82BC: A9 00     LDA #$00         Flag fuer 'Suche nach belegten Eintraegen'
+82BE: 85 73     STA <A HREF="RA8173.HTM">$73</A>          setzen
+82C0: 20 24 84  JSR <A HREF="RO818424.HTM">$8424</A>        1. Dir-Eintrag holen
+82C3: D0 0B     BNE $82D0        gefunden ? ja, ==&gt;
+
+Einsprung von $82E3:
+
+82C5: CE A3 02  DEC <A HREF="RA8102A3.HTM">$02A3</A>        Anzahl der Laufwerke -1 = $ff
+82C8: 10 F2     BPL $82BC        (wird nie ausgefuehrt)
+82CA: 60        RTS
+
+Einsprung von $82DC:
+
+82CB: 20 89 84  JSR <A HREF="RO818424.HTM">$8489</A>        naechsten Dir-Eintrag holen
+82CE: F0 10     BEQ $82E0        keiner mehr da ? ja, ==&gt;
+
+Einsprung von $82C3, $82DE:
+
+82D0: 20 27 83  JSR <A HREF="RO818327.HTM">$8327</A>        Eintrag mit gesuchten Eintraegen vergleichen
+82D3: AD A5 02  LDA <A HREF="RA8102A5.HTM">$02A5</A>        noch nicht alle Dateien gefunden ?
+82D6: F0 01     BEQ $82D9        ja, ==&gt;
+82D8: 60        RTS
+
+Einsprung von $82D6:
+
+82D9: AD 6D 02  LDA <A HREF="RA81026D.HTM">$026D</A>        War der Eintrag ein gesuchter ?
+82DC: 30 ED     BMI $82CB        nein, ==&gt;
+82DE: 10 F0     BPL $82D0        ja, ==&gt;
+
+Einsprung von $82CE:
+
+82E0: AD A5 02  LDA <A HREF="RA8102A5.HTM">$02A5</A>        Sind alle Dateien gefunden ?
+82E3: F0 E0     BEQ $82C5        nein, (Ende) ==&gt;
+82E5: 60        RTS
+
+    <A HREF="RO8182A2.HTM">Previous Page</A> / <A HREF="RO8182E6.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

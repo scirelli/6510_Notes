@@ -1,0 +1,57 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F011/61457:   ?
+
+Jump from <A HREF="RO41EFCF.HTM">$EFCF</A>, <A HREF="RO41F11E.HTM">$F130</A>, <A HREF="RO41F1A9.HTM">$F1C4</A>, <A HREF="RO41F1A9.HTM">$F1DF</A>, <A HREF="RO41F1FA.HTM">$F1FA</A>:
+
+F011: A5 6F     LDA <A HREF="RA416F.HTM">$6F</A>
+F013: 48        PHA
+F014: A5 70     LDA <A HREF="RA416F.HTM">$70</A>
+F016: 48        PHA
+F017: A6 7F     LDX <A HREF="RA417F.HTM">$7F</A>         ; drive number
+F019: B5 FF     LDA <A HREF="RA41FF.HTM">$FF</A>,X
+F01B: F0 05     BEQ $F022       ; drive zero?
+F01D: A9 74     LDA #$74
+F01F: 20 48 E6  JSR <A HREF="RO41E645.HTM">$E648</A>       ; 'drive not ready'
+
+Jump from $F01B:
+
+F022: 20 0F F1  JSR <A HREF="RO41F10F.HTM">$F10F</A>       ; get buffer number for BAM
+F025: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>
+F027: 8A        TXA
+F028: 0A        ASL
+F029: 85 70     STA <A HREF="RA416F.HTM">$70</A>
+F02B: AA        TAX
+F02C: A5 80     LDA <A HREF="RA4180.HTM">$80</A>         ; track
+F02E: DD 9D 02  CMP <A HREF="RA41029D.HTM">$029D</A>,X
+F031: F0 0B     BEQ $F03E
+F033: E8        INX
+F034: 86 70     STX <A HREF="RA416F.HTM">$70</A>
+F036: DD 9D 02  CMP <A HREF="RA41029D.HTM">$029D</A>,X
+F039: F0 03     BEQ $F03E
+F03B: 20 5B F0  JSR <A HREF="RO41F05B.HTM">$F05B</A>
+
+Jump from $F031, $F039:
+
+F03E: A5 70     LDA <A HREF="RA416F.HTM">$70</A>
+F040: A6 7F     LDX <A HREF="RA417F.HTM">$7F</A>         ; drive number
+F042: 9D 9B 02  STA <A HREF="RA41029B.HTM">$029B</A>,X
+F045: 0A        ASL
+F046: 0A        ASL             ; times 4
+F047: 18        CLC
+F048: 69 A1     ADC #$A1
+F04A: 85 6D     STA <A HREF="RA416D.HTM">$6D</A>
+F04C: A9 02     LDA #$02
+F04E: 69 00     ADC #$00
+F050: 85 6E     STA <A HREF="RA416D.HTM">$6E</A>
+F052: A0 00     LDY #$00
+F054: 68        PLA
+F055: 85 70     STA <A HREF="RA416F.HTM">$70</A>
+F057: 68        PLA
+F058: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>
+F05A: 60        RTS
+
+    <A HREF="RO41F005.HTM">Previous Page</A> / <A HREF="RO41F05B.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

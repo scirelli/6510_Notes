@@ -1,0 +1,23 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Fehlermeldung ausgeben (bei der 1571: $91ad)
+E: x: Fehlernummer
+
+Einsprung von <A HREF="RO81B8D2.HTM">$B93E</A>:
+
+B9EC: 20 FB B9  JSR $B9FB        $02: 'File not found' ausgeben
+                                Fehlernummer aus x nach a
+B9EF: C9 02     CMP #$02         x = 2 !
+B9F1: F0 03     BEQ $B9F6        ==&gt;
+B9F3: A9 74     LDA #$74         74, Drive not ready
+B9F5: 2C         B $2C
+
+Einsprung von $B9F1:
+
+B9F6: A9 62     LDA #$62         62, File not found
+B9F8: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>        T&amp;S=0, CMDERR
+
+    <A HREF="RO81B9DF.HTM">Previous Page</A> / <A HREF="RO81B9FB.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,30 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DF21/57121:   Write side-sector
+
+DF21: 85 F9     STA <A HREF="RA41F9.HTM">$F9</A>         ; buffer number
+DF23: A9 90     LDA #$90        ; command code for writing
+
+Jump from <A HREF="RO41DF1B.HTM">$DF1F</A>:
+
+DF25: 48        PHA
+DF26: B5 EC     LDA <A HREF="RA41EC.HTM">$EC</A>,X
+DF28: 29 01     AND #$01        ; isolate drive number
+DF2A: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>
+DF2C: 68        PLA
+DF2D: 05 7F     ORA <A HREF="RA417F.HTM">$7F</A>         ; command code plus drive number
+DF2F: 8D 4D 02  STA <A HREF="RA41024D.HTM">$024D</A>       ; save
+DF32: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; track number
+DF34: 85 80     STA <A HREF="RA4180.HTM">$80</A>
+DF36: C8        INY
+DF37: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; sector number
+DF39: 85 81     STA <A HREF="RA4181.HTM">$81</A>
+DF3B: A5 F9     LDA <A HREF="RA41F9.HTM">$F9</A>         ; buffer number
+DF3D: 20 D3 D6  JSR <A HREF="RO41D6D0.HTM">$D6D3</A>       ; transmit parameter to disk controller
+DF40: A6 F9     LDX <A HREF="RA41F9.HTM">$F9</A>         ; buffer number
+DF42: 4C 93 D5  JMP <A HREF="RO41D58A.HTM">$D593</A>       ; transmit command to disk controller
+
+    <A HREF="RO41DF1B.HTM">Previous Page</A> / <A HREF="RO41DF45.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,143 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Reset-Routine ($eaa0)
+
+I/O initialisieren
+
+AF24: 78        SEI
+AF25: D8        CLD
+AF26: A9 FE     LDA #$FE         Port A (PA) und
+AF28: 8D 00 40  STA <A HREF="CIA810.HTM">$4000</A>
+AF2B: A9 65     LDA #$65         Datenrichtung A (DDRA)
+AF2D: 8D 02 40  STA <A HREF="CIA812.HTM">$4002</A>
+AF30: A9 D5     LDA #$D5
+AF32: 8D 01 40  STA <A HREF="CIA811.HTM">$4001</A>        PB setzen
+AF35: A9 3A     LDA #$3A
+AF37: 8D 03 40  STA <A HREF="CIA813.HTM">$4003</A>        DDRB
+AF3A: A9 00     LDA #$00         Timer A fuer FSM auf $0006 stellen
+AF3C: 8D 05 40  STA <A HREF="CIA815.HTM">$4005</A>        [3,5 us Takt, 2 Takte pro Bit, 8 Bits
+AF3F: A9 06     LDA #$06          = 56 us Uebertragungsdauer fuer 1 Byte
+AF41: 8D 04 40  STA <A HREF="CIA814.HTM">$4004</A>         = 2,9 s fuer 202 Blocks]
+AF44: A9 01     LDA #$01         Timer A starten
+AF46: 8D 0E 40  STA <A HREF="CIA81E.HTM">$400E</A>
+AF49: A9 9A     LDA #$9A         IRQ bei: b1: Unterlauf von Timer B;
+AF4B: 8D 0D 40  STA <A HREF="CIA81D.HTM">$400D</A>                 b3: SDR-voll/leer; b4: ATN-Signal
+Zero-Page testen
+
+AF4E: A0 00     LDY #$00
+AF50: A2 00     LDX #$00
+
+Einsprung von $AF56:
+
+AF52: 8A        TXA
+AF53: 95 00     STA <A HREF="RA8100.HTM">$00</A>,X        :0000  00 01 02 03 .. ..
+AF55: E8        INX              in entsprechende Z-Adressen schreiben
+AF56: D0 FA     BNE $AF52
+
+Einsprung von $AF6D:
+
+AF58: 8A        TXA
+AF59: D5 00     CMP <A HREF="RA8100.HTM">$00</A>,X        und pruefen
+AF5B: D0 95     BNE <A HREF="RO81AEF2.HTM">$AEF2</A>        ungleich, (RAM-Fehler) ==&gt;
+
+Einsprung von $AF60:
+
+AF5D: F6 00     INC <A HREF="RA8100.HTM">$00</A>,X        256 mal incrementieren
+AF5F: C8        INY
+AF60: D0 FB     BNE $AF5D
+AF62: D5 00     CMP <A HREF="RA8100.HTM">$00</A>,X        muss alten Wert ergeben
+AF64: D0 8C     BNE <A HREF="RO81AEF2.HTM">$AEF2</A>        ansonsten RAM-Fehler ==&gt;
+AF66: 94 00     STY <A HREF="RA8100.HTM">$00</A>,X        y=0 abspeichern
+AF68: B5 00     LDA <A HREF="RA8100.HTM">$00</A>,X        ist Speicherzelle wirklich 0 ?
+AF6A: D0 86     BNE <A HREF="RO81AEF2.HTM">$AEF2</A>        nein, (RAM-Fehler) ==&gt;
+AF6C: E8        INX              ganze Z-Page testen
+AF6D: D0 E9     BNE $AF58
+
+ROM testen
+
+AF6F: E6 40     INC <A HREF="RA8140.HTM">$40</A>          = 1
+AF71: A2 7F     LDX #$7F         Anfangen bei $8002
+AF73: 86 47     STX <A HREF="RA8146.HTM">$47</A>
+AF75: E8        INX              x=$80 (ROM-Laenge)
+AF76: A9 00     LDA #$00
+AF78: 85 46     STA <A HREF="RA8146.HTM">$46</A>
+AF7A: A0 02     LDY #$02
+AF7C: 18        CLC
+
+Einsprung von $AF85:
+
+AF7D: E6 47     INC <A HREF="RA8146.HTM">$47</A>
+
+Einsprung von $AF82:
+
+AF7F: 71 46     ADC (<A HREF="RA8146.HTM">$46</A>),Y      Alle Bytes des ROMs addieren
+AF81: C8        INY              (bei Uebertrag +1)
+AF82: D0 FB     BNE $AF7F
+AF84: CA        DEX
+AF85: D0 F6     BNE $AF7D
+AF87: 69 FF     ADC #$FF         +$ff
+AF89: 85 47     STA <A HREF="RA8146.HTM">$47</A>          sollte 0 ergeben
+AF8B: D0 00     BNE $AF8D        Fehler ignorieren
+
+<B>* Old ROM:
+AF8B: D0 3A     BNE $AFC7        zur Fehlerroutine
+</B>
+RAM mit Testwerten fuellen
+Page 1 mit $01,$02,$03, ...
+Page 2 mit $02,$03,$04, ...
+...
+
+AF8D: A9 01     LDA #$01         Bei $0100 anfangen
+AF8F: 85 47     STA <A HREF="RA8146.HTM">$47</A>
+AF91: E6 40     INC <A HREF="RA8140.HTM">$40</A>          = 2
+AF93: A2 1F     LDX #$1F         RAM-Groesse
+
+Einsprung von $AF9C, $AFA1:
+
+AF95: 98        TYA              Index
+AF96: 18        CLC
+AF97: 65 47     ADC <A HREF="RA8146.HTM">$47</A>          + PageNr
+AF99: 91 46     STA (<A HREF="RA8146.HTM">$46</A>),Y      abspeichern
+AF9B: C8        INY
+AF9C: D0 F7     BNE $AF95
+AF9E: E6 47     INC <A HREF="RA8146.HTM">$47</A>
+AFA0: CA        DEX
+AFA1: D0 F2     BNE $AF95
+RAM testen und loeschen
+
+AFA3: A2 1F     LDX #$1F         RAM-Groesse
+
+Einsprung von $AFBE:
+
+AFA5: C6 47     DEC <A HREF="RA8146.HTM">$47</A>          RAM rueckwaerts testen
+
+Einsprung von $AFBB:
+
+AFA7: 88        DEY              Anfangen mit $ff
+AFA8: 98        TYA              Index
+AFA9: 18        CLC
+AFAA: 65 47     ADC <A HREF="RA8146.HTM">$47</A>          + PageNr
+AFAC: D1 46     CMP (<A HREF="RA8146.HTM">$46</A>),Y      sollte abgespeichert sein
+AFAE: D0 17     BNE $AFC7        wenn nicht, (RAM-Fehler) ==&gt;
+AFB0: 49 FF     EOR #$FF         Bits negieren
+AFB2: 91 46     STA (<A HREF="RA8146.HTM">$46</A>),Y      und abspeichern
+AFB4: 51 46     EOR (<A HREF="RA8146.HTM">$46</A>),Y      Dies sollte 0 ergeben
+AFB6: 91 46     STA (<A HREF="RA8146.HTM">$46</A>),Y      RAM loeschen
+AFB8: D0 0D     BNE $AFC7        &lt;&gt;0, (RAM-Fehler) ==&gt;
+AFBA: 98        TYA
+AFBB: D0 EA     BNE $AFA7        naechstes Byte der Page testen, ==&gt;
+AFBD: CA        DEX
+AFBE: D0 E5     BNE $AFA5        naechste Page testen, ==&gt;
+
+AFC0: A9 80     LDA #$80         Autoboot einschalten
+AFC2: 8D FB 01  STA <A HREF="RA8101FB.HTM">$01FB</A>
+AFC5: D0 03     BNE <A HREF="RO81AFCA.HTM">$AFCA</A>
+
+Einsprung von $AF8B, $AFAE, $AFB8:
+
+AFC7: 4C F5 AE  JMP <A HREF="RO81AEF2.HTM">$AEF5</A>        RAM/ROM-Fehler ==&gt;
+
+    <A HREF="RO81AEF2.HTM">Previous Page</A> / <A HREF="RO81AFCA.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

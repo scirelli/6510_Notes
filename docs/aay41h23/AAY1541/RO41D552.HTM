@@ -1,0 +1,19 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D552/54610:   Get track and sector numbers for current job
+
+Jump from <A HREF="RO41D506.HTM">$D54A</A>, <A HREF="RO41D572.HTM">$D572</A>:
+
+D552: A5 F9     LDA <A HREF="RA41F9.HTM">$F9</A>         ; buffer number
+D554: 0A        ASL             ; *2
+D555: AA        TAX             ; as index
+D556: B5 06     LDA <A HREF="RA4106.HTM">$06</A>,X
+D558: 85 80     STA <A HREF="RA4180.HTM">$80</A>         ; track
+D55A: B5 07     LDA <A HREF="RA4106.HTM">$07</A>,X
+D55C: 85 81     STA <A HREF="RA4181.HTM">$81</A>         ; sector
+D55E: 60        RTS
+
+    <A HREF="RO41D506.HTM">Previous Page</A> / <A HREF="RO41D55F.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

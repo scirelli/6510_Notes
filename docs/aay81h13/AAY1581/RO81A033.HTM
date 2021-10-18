@@ -1,0 +1,67 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Empfangene Daten in Record schreiben ($e0ab)
+
+Einsprung von <A HREF="RO818E78.HTM">$8E8C</A>:
+
+A033: A9 A0     LDA #$A0         Record voll/nicht vorhanden ?
+A035: 20 E4 9C  JSR <A HREF="RO819CD3.HTM">$9CE4</A>        (b5,7 testen)
+A038: D0 27     BNE $A061        ja, ==&gt;
+
+Einsprung von $A078:
+
+A03A: A5 54     LDA <A HREF="RA8154.HTM">$54</A>          Datenbyte holen
+A03C: 20 FC 9F  JSR <A HREF="RO819FFC.HTM">$9FFC</A>        und in Record schreiben
+A03F: A5 51     LDA <A HREF="RA8151.HTM">$51</A>          EOI empfangen ?
+A041: F0 0D     BEQ $A050        ja, ==&gt;
+A043: 60        RTS
+
+Teil der Error-Routine (Record uebergelaufen &amp; EOI vom Computer empfangen)
+
+Einsprung von $A067:
+
+A044: A9 20     LDA #$20         b5=1: Ist das Flag: 'Record voll' gesetzt ?
+A046: 20 E4 9C  JSR <A HREF="RO819CD3.HTM">$9CE4</A>        [Deshalb sind wir ja hier !!!]
+A049: F0 05     BEQ $A050        nein, (wird nie ausgefuehrt) ==&gt;
+A04B: A9 51     LDA #$51         51, Overflow in Record
+A04D: 8D AB 02  STA <A HREF="RA8102AB.HTM">$02AB</A>        Fehlernummer merken
+
+Arbeit mit dem aktuellen Record beenden
+
+Einsprung von $A041, $A049:
+
+A050: 20 7B A0  JSR $A07B        Rest des Records mit $00 auffuellen
+A053: 20 E1 A0  JSR <A HREF="RO81A0E1.HTM">$A0E1</A>        naechsten Record lesen
+A056: AD AB 02  LDA <A HREF="RA8102AB.HTM">$02AB</A>        Ist ein Fehler aufgetreten ?
+A059: F0 03     BEQ $A05E        nein, ==&gt;
+A05B: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>        Fehler ausgeben
+
+Einsprung von $A059:
+
+A05E: 4C 62 A8  JMP <A HREF="RO81A862.HTM">$A862</A>        00, Ok,00,00
+
+Laut Dateistatus liegt ein Fehler vor
+
+Einsprung von $A038:
+
+A061: 29 80     AND #$80         Record nicht vorhanden ?
+A063: D0 05     BNE $A06A        ja, ==&gt;
+A065: A5 51     LDA <A HREF="RA8151.HTM">$51</A>          (Record ist voll ) EOI empfangen ?
+A067: F0 DB     BEQ $A044        ja, ==&gt;
+A069: 60        RTS              ueberzaelige Daten vergessen
+
+Einsprung von $A063:
+
+A06A: A5 54     LDA <A HREF="RA8154.HTM">$54</A>          Datenbyte zwischenspeichern
+A06C: 48        PHA
+A06D: 20 D6 A2  JSR <A HREF="RO81A2D6.HTM">$A2D6</A>        neuen Block mit Records an die Datei haengen
+A070: 68        PLA
+A071: 85 54     STA <A HREF="RA8154.HTM">$54</A>
+A073: A9 80     LDA #$80         b7=0: Record existiert
+A075: 20 DB 9C  JSR <A HREF="RO819CD3.HTM">$9CDB</A>        Status loeschen
+A078: 4C 3A A0  JMP $A03A        Byte in den neuen Record schreiben
+
+    <A HREF="RO819FFC.HTM">Previous Page</A> / <A HREF="RO81A07B.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

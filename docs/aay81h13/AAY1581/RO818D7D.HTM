@@ -1,0 +1,156 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Puffer wechseln im Zwei-Puffer-Betrieb ($cf1e)
+ggf. wird, wenn ein Puffer 'gestohlen' wurde, ein neuer Puffer gesucht
+und mit den benoetigten Daten gefuellt.
+
+Einsprung von <A HREF="RO818FEA.HTM">$8FF2</A>, <A HREF="RO818FEA.HTM">$8FFB</A>, <A HREF="RO81909B.HTM">$90AF</A>, <A HREF="RO81909B.HTM">$90DA</A>, <A HREF="RO81909B.HTM">$9101</A>, <A HREF="RO819112.HTM">$912D</A>, <A HREF="RO81999F.HTM">$99CB</A>, <A HREF="RO819A2A.HTM">$9A47</A>, <A HREF="RO819A2A.HTM">$9A6F</A>,
+              <A HREF="RO819FBF.HTM">$9FCA</A>, <A HREF="RO819FBF.HTM">$9FDD</A>, <A HREF="RO819FBF.HTM">$9FF2</A>, <A HREF="RO819FBF.HTM">$9FF8</A>, <A HREF="RO81A0FD.HTM">$A11E</A>, <A HREF="RO81A0FD.HTM">$A12B</A>, <A HREF="RO81A0FD.HTM">$A12E</A>, <A HREF="RO81A235.HTM">$A24C</A>, <A HREF="RO81A235.HTM">$A25B</A>,
+              <A HREF="RO81A235.HTM">$A261</A>, <A HREF="RO81A2D6.HTM">$A394</A>, <A HREF="RO81A2D6.HTM">$A3A6</A>, <A HREF="RO81A2D6.HTM">$A423</A>, <A HREF="RO81A459.HTM">$A45C</A>, <A HREF="RO81A459.HTM">$A4FA</A>, <A HREF="RO81A459.HTM">$A544</A>:
+
+8D7D: 20 68 8D  JSR <A HREF="RO818D59.HTM">$8D68</A>        Kanalnummer ans Tabellenende
+8D80: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+8D82: B5 D1     LDA <A HREF="RA81D1.HTM">$D1</A>,X        1. Puffer inaktiv ?
+8D84: 30 02     BMI $8D88        Ja, ==&gt;
+8D86: B5 D8     LDA <A HREF="RA81D8.HTM">$D8</A>,X        2. Puffer unbelegt ?
+
+Einsprung von $8D84:
+
+8D88: C9 FF     CMP #$FF         (bzw. 1. Puffer unbelegt ?)
+8D8A: F0 18     BEQ $8DA4        Ja, neuen Puffer suchen ==&gt;
+8D8C: B5 D1     LDA <A HREF="RA81D1.HTM">$D1</A>,X        Aktiven Puffer wechseln
+8D8E: 49 80     EOR #$80         dazu:
+8D90: 95 D1     STA <A HREF="RA81D1.HTM">$D1</A>,X        1. Puffer umschalten,
+8D92: 48        PHA
+8D93: B5 D8     LDA <A HREF="RA81D8.HTM">$D8</A>,X        2. Puffer umschalten
+8D95: 49 80     EOR #$80
+8D97: 95 D8     STA <A HREF="RA81D8.HTM">$D8</A>,X
+8D99: A8        TAY
+8D9A: 68        PLA              Aktiven Puffer nach A
+8D9B: 10 01     BPL $8D9E        1. Puffer aktiv, dann ==&gt;
+8D9D: 98        TYA              2. Puffer ist aktiv
+
+Einsprung von $8D9B:
+
+8D9E: 29 BF     AND #$BF
+8DA0: AA        TAX
+8DA1: 4C ED 94  JMP <A HREF="RO8194DE.HTM">$94ED</A>        Alten Job abwarten, Ende ==&gt;
+
+Ersatz fuer gestohlenen Puffer suchen
+
+Einsprung von $8D8A:
+
+8DA4: B5 D1     LDA <A HREF="RA81D1.HTM">$D1</A>,X        1. Puffer aktiv ?
+8DA6: 10 02     BPL $8DAA        ja, ==&gt;
+8DA8: B5 D8     LDA <A HREF="RA81D8.HTM">$D8</A>,X        [Das Ergebnis wurde bei der 1541 fuer die
+
+Einsprung von $8DA6:
+
+8DAA: 29 BF     AND #$BF          Drivenummerabfrage verwendet, die bei der
+8DAC: A8        TAY               1581 nicht mehr existiert.]
+
+8DAD: 20 04 92  JSR <A HREF="RO819204.HTM">$9204</A>        Puffer suchen
+8DB0: 10 05     BPL $8DB7        gefunden, dann ==&gt;
+8DB2: A9 70     LDA #$70         70, NO CHANNEL
+8DB4: 4C 7C 80  JMP <A HREF="RO81807C.HTM">$807C</A>
+
+Einsprung von $8DB0:
+
+8DB7: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          aktuelle Kanalnummer holen
+8DB9: 09 80     ORA #$80         neuen Puffer inaktiv setzen
+8DBB: B4 D1     LDY <A HREF="RA81D1.HTM">$D1</A>,X        Wenn 1. Puffer inaktiv, dann
+8DBD: 10 04     BPL $8DC3        1. Puffer neubesetzen
+8DBF: 95 D1     STA <A HREF="RA81D1.HTM">$D1</A>,X
+8DC1: 30 02     BMI $8DC5        immer ==&gt;
+
+Einsprung von $8DBD:
+
+8DC3: 95 D8     STA <A HREF="RA81D8.HTM">$D8</A>,X        ansonsten 2. Puffer neubesetzen
+
+Pufferinhalt wieder herstellen
+
+Einsprung von $8DC1:
+
+8DC5: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          aktuelle T&amp;S retten
+8DC7: 48        PHA
+8DC8: A5 4E     LDA <A HREF="RA814E.HTM">$4E</A>
+8DCA: 48        PHA
+
+8DCB: A9 01     LDA #$01         Sektornummer aus Puffer holen
+8DCD: 85 42     STA <A HREF="RA8140.HTM">$42</A>          (s. $9450)
+8DCF: B5 D1     LDA <A HREF="RA81D1.HTM">$D1</A>,X        aktiven Puffer holen
+8DD1: 10 02     BPL $8DD5
+8DD3: B5 D8     LDA <A HREF="RA81D8.HTM">$D8</A>,X
+
+Einsprung von $8DD1:
+
+8DD5: 29 BF     AND #$BF
+8DD7: A8        TAY
+8DD8: B9 F1 01  LDA <A HREF="RA8101F1.HTM">$01F1</A>,Y      Pufferadresse holen
+8DDB: 85 43     STA <A HREF="RA8140.HTM">$43</A>
+8DDD: A0 00     LDY #$00
+8DDF: B1 42     LDA (<A HREF="RA8140.HTM">$42</A>),Y      Byte holen
+8DE1: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>          als aktuelle Sektornummer merken
+8DE3: A9 00     LDA #$00         Tracknummer holen
+8DE5: 85 42     STA <A HREF="RA8140.HTM">$42</A>          [Vergleichen Sie diesen Absatz mit dem
+8DE7: B5 D1     LDA <A HREF="RA81D1.HTM">$D1</A>,X         davor. Hier hat doch irgend jemand ganz
+8DE9: 10 02     BPL $8DED         offensicht lich mit einer 'Suchen und
+8DEB: B5 D8     LDA <A HREF="RA81D8.HTM">$D8</A>,X         Ersetzen'-Funktion oder 'Macro'-Funkton
+
+Einsprung von $8DE9:
+
+8DED: 29 BF     AND #$BF          Unterprogramm-Aufrufe durch die ent-
+8DEF: A8        TAY               sprechenden Routinen ersetzt (um das DOS
+8DF0: B9 F1 01  LDA <A HREF="RA8101F1.HTM">$01F1</A>,Y       zu beschleunigen). Dabei haette hier ein
+8DF3: 85 43     STA <A HREF="RA8140.HTM">$43</A>           einfaches 'dec $42' gleiche Dienste tun
+8DF5: A0 00     LDY #$00          koennen.]
+8DF7: B1 42     LDA (<A HREF="RA8140.HTM">$42</A>),Y      Byte aus Puffer holen
+8DF9: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>          als aktuelle Tracknummer merken
+8DFB: F0 2A     BEQ $8E27        letzter Block ? ja, ==&gt;
+
+8DFD: 20 5F 90  JSR <A HREF="RO81905F.HTM">$905F</A>        Aktuellen Filetyp holen
+8E00: F0 0B     BEQ $8E0D        REL-File ? ja, ==&gt;
+8E02: 20 E9 9C  JSR $9CE9        Ist Jobcode = $90 (schreiben) ?
+                                [Ein geschriebener Puffer muss ja nicht mehr
+                                 eingelesen werden.]
+8E05: D0 06     BNE $8E0D        nein, ==&gt;
+8E07: 20 4D 8E  JSR <A HREF="RO818E4D.HTM">$8E4D</A>        Aktiven Puffer wechseln
+8E0A: 4C 1E 8E  JMP $8E1E
+
+Einsprung von $8E00, $8E05:
+
+8E0D: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          Aktiven Puffer wechseln
+8E0F: B5 D1     LDA <A HREF="RA81D1.HTM">$D1</A>,X
+8E11: 49 80     EOR #$80
+8E13: 95 D1     STA <A HREF="RA81D1.HTM">$D1</A>,X
+8E15: B5 D8     LDA <A HREF="RA81D8.HTM">$D8</A>,X
+8E17: 49 80     EOR #$80
+8E19: 95 D8     STA <A HREF="RA81D8.HTM">$D8</A>,X
+8E1B: 20 94 9D  JSR <A HREF="RO819D8E.HTM">$9D94</A>        Lesejob aufrufen
+
+Einsprung von $8E0A:
+
+8E1E: 68        PLA
+8E1F: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>          T&amp;S zurueckholen
+8E21: 68        PLA
+8E22: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>
+8E24: 4C 30 8E  JMP $8E30
+
+Einsprung von $8DFB:
+
+8E27: 68        PLA              T&amp;S zurueckholen
+8E28: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+8E2A: 68        PLA
+8E2B: 85 4D     STA <A HREF="RA814D.HTM">$4D</A>
+8E2D: 20 4D 8E  JSR <A HREF="RO818E4D.HTM">$8E4D</A>        aktiven Puffer wechseln
+
+Einsprung von $8E24:
+
+8E30: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        aktiven Puffer holen
+8E33: AA        TAX
+8E34: 4C ED 94  JMP <A HREF="RO8194DE.HTM">$94ED</A>        Jobausfuehrung abwarten
+
+    <A HREF="RO818D59.HTM">Previous Page</A> / <A HREF="RO818E37.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

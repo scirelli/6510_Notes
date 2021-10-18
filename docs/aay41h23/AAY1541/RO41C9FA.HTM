@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C9FA/51706:   ?
+
+Jump from <A HREF="RO41C8F0.HTM">$C976</A>, <A HREF="RO41C9A7.HTM">$C9BC</A>:
+
+C9FA: AE 79 02  LDX <A HREF="RA410279.HTM">$0279</A>
+C9FD: B5 E2     LDA <A HREF="RA41E2.HTM">$E2</A>,X       ; drive number
+C9FF: 29 01     AND #$01
+CA01: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>         ; save
+CA03: AD 85 FE  LDA <A HREF="RO41FE85.HTM">$FE85</A>       ; 18, directory track
+CA06: 85 80     STA <A HREF="RA4180.HTM">$80</A>         ; save
+CA08: B5 D8     LDA <A HREF="RA41D8.HTM">$D8</A>,X       ; directory sector
+CA0A: 85 81     STA <A HREF="RA4181.HTM">$81</A>
+CA0C: 20 75 D4  JSR <A HREF="RO41D475.HTM">$D475</A>       ; read block
+CA0F: AE 79 02  LDX <A HREF="RA410279.HTM">$0279</A>
+CA12: B5 DD     LDA <A HREF="RA41DD.HTM">$DD</A>,X       ; pointer in block
+CA14: 20 C8 D4  JSR <A HREF="RO41D4C8.HTM">$D4C8</A>       ; set buffer pointer
+CA17: AE 79 02  LDX <A HREF="RA410279.HTM">$0279</A>
+CA1A: B5 E7     LDA <A HREF="RA41E7.HTM">$E7</A>,X       ; file type
+CA1C: 29 07     AND #$07        ; isolate
+CA1E: 8D 4A 02  STA <A HREF="RA41024A.HTM">$024A</A>       ; and save
+CA21: A9 00     LDA #$00
+CA23: 8D 58 02  STA <A HREF="RA410258.HTM">$0258</A>
+CA26: 20 A0 D9  JSR <A HREF="RO41D9A0.HTM">$D9A0</A>       ; get parameters for rel-file
+CA29: A0 01     LDY #$01
+CA2B: 20 25 D1  JSR <A HREF="RO41D125.HTM">$D125</A>       ; get file type
+CA2E: F0 01     BEQ $CA31       ; rel-file?
+CA30: C8        INY
+
+Jump from $CA2E:
+
+CA31: 98        TYA
+CA32: 4C C8 D4  JMP <A HREF="RO41D4C8.HTM">$D4C8</A>       ; set buffer pointer
+
+    <A HREF="RO41C9D5.HTM">Previous Page</A> / <A HREF="RO41CA35.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

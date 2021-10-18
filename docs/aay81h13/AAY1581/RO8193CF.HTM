@@ -1,0 +1,21 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Datei auf internem Lesekanal oeffnen,
+Puffer belegen und 1. Block lesen ($d475)
+
+Einsprung von <A HREF="RO818424.HTM">$8439</A>, <A HREF="RO818424.HTM">$8480</A>, <A HREF="RO818688.HTM">$8716</A>, <A HREF="RO818841.HTM">$884D</A>, <A HREF="RO81B2C7.HTM">$B2CD</A>:
+
+93CF: A9 01     LDA #$01         &lt;-- sequentielle Datei
+
+Einsprung von <A HREF="RO81A956.HTM">$A991</A>:
+
+93D1: 8D 2D 02  STA <A HREF="RA81022D.HTM">$022D</A>        &lt;-- a: Filetyp
+93D4: A9 11     LDA #$11         SA 17: interne Lese-Adresse
+93D6: 85 52     STA <A HREF="RA8152.HTM">$52</A>
+93D8: 20 0D 9B  JSR <A HREF="RO819B0D.HTM">$9B0D</A>        Kanal suchen und 1. Block lesen
+93DB: A9 02     LDA #$02         Puffer-Zeiger auf 1. Datenbyte setzen
+93DD: 4C 22 94  JMP <A HREF="RO819422.HTM">$9422</A>
+    <A HREF="RO8193BD.HTM">Previous Page</A> / <A HREF="RO8193E0.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,24 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Kommandobyte in Controller schreiben
+
+Einsprung von <A HREF="RO81C3D6.HTM">$C3E9</A>, <A HREF="RO81C600.HTM">$C65D</A>, <A HREF="RO81C700.HTM">$C736</A>, <A HREF="RO81C800.HTM">$C836</A>, <A HREF="RO81C900.HTM">$C95E</A>, <A HREF="RO81CA00.HTM">$CA5E</A>, <A HREF="RO81CB0F.HTM">$CB12</A>, <A HREF="RO81CD00.HTM">$CD10</A>, <A HREF="RO81CD7B.HTM">$CD8D</A>,
+              <A HREF="RO81CD7B.HTM">$CD96</A>, <A HREF="RO81CE71.HTM">$CE89</A>:
+
+CBF4: EA        NOP
+CBF5: 8D 00 60  STA <A HREF="WD810.HTM">$6000</A>        Befehl ins Befehlsregister schreiben
+CBF8: A9 01     LDA #$01         b0: Busy-Flag
+
+Einsprung von $CBFD:
+
+CBFA: 2C 00 60  BIT <A HREF="WD810.HTM">$6000</A>
+CBFD: F0 FB     BEQ $CBFA        Warten, bis Controller 'busy' ist, ==&gt;
+CBFF: 4C 34 AD  JMP <A HREF="RO81AD2F.HTM">$AD34</A>        kurze Verzoegerung (14 us)
+
+CC02: FF  ....
+CCFF: ....  FF
+
+    <A HREF="RO81CBEC.HTM">Previous Page</A> / <A HREF="RO81CD00.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

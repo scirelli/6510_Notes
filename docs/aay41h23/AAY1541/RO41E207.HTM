@@ -1,0 +1,151 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $E207/57863:   Perform [P] - Position command
+
+E207: 20 B3 C2  JSR <A HREF="RO41C2B3.HTM">$C2B3</A>       ; verify lines
+E20A: AD 01 02  LDA <A HREF="RA410200.HTM">$0201</A>       ; secondary address
+E20D: 85 83     STA <A HREF="RA4183.HTM">$83</A>
+E20F: 20 EB D0  JSR <A HREF="RO41D0EB.HTM">$D0EB</A>       ; find channel number
+E212: 90 05     BCC $E219       ; found?
+E214: A9 70     LDA #$70
+E216: 20 C8 C1  JSR <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 70, 'no block'
+
+Jump from $E212:
+
+E219: A9 A0     LDA #$A0
+E21B: 20 9D DD  JSR <A HREF="RO41DD95.HTM">$DD9D</A>       ; erase bits 6 &amp; 7
+E21E: 20 25 D1  JSR <A HREF="RO41D125.HTM">$D125</A>       ; verify if 'REL'-file
+E221: F0 05     BEQ $E228       ; yes
+E223: A9 64     LDA #$64
+E225: 20 C8 C1  JSR <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 64, 'file type mismatch'
+
+Jump from $E221:
+
+E228: B5 EC     LDA <A HREF="RA41EC.HTM">$EC</A>,X
+E22A: 29 01     AND #$01
+E22C: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+E22E: AD 02 02  LDA <A HREF="RA410200.HTM">$0202</A>       ; record number lo
+E231: 95 B5     STA <A HREF="RA41B5.HTM">$B5</A>,X
+E233: AD 03 02  LDA <A HREF="RA410200.HTM">$0203</A>       ; record number hi
+E236: 95 BB     STA <A HREF="RA41BB.HTM">$BB</A>,X
+E238: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+E23A: A9 89     LDA #$89
+E23C: 95 F2     STA <A HREF="RA41F2.HTM">$F2</A>,X       ; READ and WRITE flag
+E23E: AD 04 02  LDA <A HREF="RA410200.HTM">$0204</A>       ; byte-pointer
+E241: F0 10     BEQ $E253       ; zero?
+E243: 38        SEC
+E244: E9 01     SBC #$01
+E246: F0 0B     BEQ $E253
+E248: D5 C7     CMP <A HREF="RA41C7.HTM">$C7</A>,X       ; compare with record length
+E24A: 90 07     BCC $E253
+E24C: A9 51     LDA #$51
+E24E: 8D 6C 02  STA <A HREF="RA41026C.HTM">$026C</A>       ; 51, 'overflow in record'
+E251: A9 00     LDA #$00
+
+Jump from $E241, $E246, $E24A:
+
+E253: 85 D4     STA <A HREF="RA41D4.HTM">$D4</A>
+E255: 20 0E CE  JSR <A HREF="RO41CE0E.HTM">$CE0E</A>       ; calculate pointer in rel-file
+E258: 20 F8 DE  JSR <A HREF="RO41DEF8.HTM">$DEF8</A>       ; and read appropriate side-sector
+E25B: 50 08     BVC $E265       ; does block exist?
+E25D: A9 80     LDA #$80
+E25F: 20 97 DD  JSR <A HREF="RO41DD95.HTM">$DD97</A>       ; set bit 7
+E262: 4C 5E E1  JMP <A HREF="RO41E120.HTM">$E15E</A>       ; and 50, 'record not present'
+
+Jump from $E25B:
+
+E265: 20 75 E2  JSR $E275
+E268: A9 80     LDA #$80
+E26A: 20 A6 DD  JSR <A HREF="RO41DDA6.HTM">$DDA6</A>       ; test bit 7
+E26D: F0 03     BEQ $E272       ; not set
+E26F: 4C 5E E1  JMP <A HREF="RO41E120.HTM">$E15E</A>       ; 50, 'record not present'
+
+Jump from $E26D:
+
+E272: 4C 94 C1  JMP <A HREF="RO41C194.HTM">$C194</A>       ; done
+
+Jump from $E265, <A HREF="RO41E31C.HTM">$E441</A>:
+
+E275: 20 9C E2  JSR $E29C
+E278: A5 D7     LDA <A HREF="RA41D7.HTM">$D7</A>         ; pointer in rel-file
+E27A: 20 C8 D4  JSR <A HREF="RO41D4C8.HTM">$D4C8</A>       ; set buffer pointer
+E27D: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+E27F: B5 C7     LDA <A HREF="RA41C7.HTM">$C7</A>,X       ; record length
+E281: 38        SEC
+E282: E5 D4     SBC <A HREF="RA41D4.HTM">$D4</A>         ; minus position
+E284: B0 03     BCS $E289       ; positive?
+E286: 4C 02 E2  JMP <A HREF="RO41E1CB.HTM">$E202</A>       ; 67, 'illegal track or sector'
+
+Jump from $E284:
+
+E289: 18        CLC
+E28A: 65 D7     ADC <A HREF="RA41D7.HTM">$D7</A>         ; add pointer in data block
+E28C: 90 03     BCC $E291       ; no overflow
+E28E: 69 01     ADC #$01        ; plus 2
+E290: 38        SEC
+
+Jump from $E28C:
+
+E291: 20 09 E0  JSR <A HREF="RO41DFD0.HTM">$E009</A>       ; set pointer
+E294: 4C 38 E1  JMP <A HREF="RO41E120.HTM">$E138</A>       ; get byte from buffer
+E297: A9 51     LDA #$51
+E299: 20 C8 C1  JSR <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 51, 'overflow in record'
+
+Jump from $E275, <A HREF="RO41CA35.HTM">$CA6C</A>, <A HREF="RO41E31C.HTM">$E322</A>:
+
+E29C: A5 94     LDA <A HREF="RA4194.HTM">$94</A>         ; buffer pointer lo
+E29E: 85 89     STA <A HREF="RA4186.HTM">$89</A>
+E2A0: A5 95     LDA <A HREF="RA4194.HTM">$95</A>         ; buffer pointer hi
+E2A2: 85 8A     STA <A HREF="RA4186.HTM">$8A</A>
+E2A4: 20 D0 E2  JSR $E2D0       ; compare track and sector
+E2A7: D0 01     BNE $E2AA       ; not equal?
+E2A9: 60        RTS
+
+Jump from $E2A7:
+
+E2AA: 20 F1 DD  JSR <A HREF="RO41DDF1.HTM">$DDF1</A>
+E2AD: 20 0C DE  JSR <A HREF="RO41DE0C.HTM">$DE0C</A>
+E2B0: A5 80     LDA <A HREF="RA4180.HTM">$80</A>         ; track
+E2B2: F0 0E     BEQ $E2C2       ; no block following?
+E2B4: 20 D3 E2  JSR $E2D3       ; compare track and sector number
+E2B7: D0 06     BNE $E2BF       ; not equal?
+E2B9: 20 1E CF  JSR <A HREF="RO41CF1E.HTM">$CF1E</A>       ; change buffer
+E2BC: 4C DA D2  JMP <A HREF="RO41D2DA.HTM">$D2DA</A>
+
+Jump from $E2B7:
+
+E2BF: 20 DA D2  JSR <A HREF="RO41D2DA.HTM">$D2DA</A>
+
+Jump from $E2B2:
+
+E2C2: A0 00     LDY #$00
+E2C4: B1 89     LDA (<A HREF="RA4186.HTM">$89</A>),Y     ; track
+E2C6: 85 80     STA <A HREF="RA4180.HTM">$80</A>
+E2C8: C8        INY
+E2C9: B1 89     LDA (<A HREF="RA4186.HTM">$89</A>),Y     ; and sector of the next block
+E2CB: 85 81     STA <A HREF="RA4181.HTM">$81</A>
+E2CD: 4C AF D0  JMP <A HREF="RO41D0AF.HTM">$D0AF</A>       ; read block
+
+Jump from $E2A4:
+
+E2D0: 20 3E DE  JSR <A HREF="RO41DE3B.HTM">$DE3E</A>
+
+Jump from $E2B4:
+
+E2D3: A0 00     LDY #$00
+E2D5: B1 89     LDA (<A HREF="RA4186.HTM">$89</A>),Y     ; track number
+E2D7: C5 80     CMP <A HREF="RA4180.HTM">$80</A>         ; compare
+E2D9: F0 01     BEQ $E2DC
+E2DB: 60        RTS
+
+Jump from $E2D9:
+
+E2DC: C8        INY
+E2DD: B1 89     LDA (<A HREF="RA4186.HTM">$89</A>),Y     ; sector number
+E2DF: C5 81     CMP <A HREF="RA4181.HTM">$81</A>         ; compare
+E2E1: 60        RTS
+
+    <A HREF="RO41E1CB.HTM">Previous Page</A> / <A HREF="RO41E2E2.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

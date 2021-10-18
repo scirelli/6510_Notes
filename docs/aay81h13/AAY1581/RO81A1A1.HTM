@@ -1,0 +1,67 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Position-Befehl ($e207)
+
+A1A1: 20 65 81  JSR <A HREF="RO818165.HTM">$8165</A>        Kommandotabellen initialisieren
+A1A4: AD 01 02  LDA <A HREF="RA810200.HTM">$0201</A>        SA aus Kommandozeile holen
+A1A7: 85 52     STA <A HREF="RA8152.HTM">$52</A>
+A1A9: 20 27 90  JSR <A HREF="RO819027.HTM">$9027</A>        Entsprechenden Kanal holen
+A1AC: 90 05     BCC $A1B3        Kanal O.k. ? ja, ==&gt;
+A1AE: A9 70     LDA #$70         70, No Channel
+A1B0: 20 7C 80  JSR <A HREF="RO81807C.HTM">$807C</A>
+
+Einsprung von $A1AC:
+
+A1B3: A9 A0     LDA #$A0         Record voll (b5) / nicht vorhanden (b7)
+A1B5: 20 DB 9C  JSR <A HREF="RO819CD3.HTM">$9CDB</A>        Bits im Dateistatus loeschen
+A1B8: 20 5F 90  JSR <A HREF="RO81905F.HTM">$905F</A>        Filetyp holen
+A1BB: F0 05     BEQ $A1C2        REL-Datei ? ja, ==&gt;
+A1BD: A9 64     LDA #$64         64 File type mismatch
+A1BF: 20 7C 80  JSR <A HREF="RO81807C.HTM">$807C</A>        ==&gt;
+
+Einsprung von $A1BB:
+
+A1C2: AD 02 02  LDA <A HREF="RA810200.HTM">$0202</A>        Recordnummer aus der Befehlszeile holen
+A1C5: 9D 49 02  STA <A HREF="RA810249.HTM">$0249</A>,X      und merken (Lo)
+A1C8: AD 03 02  LDA <A HREF="RA810200.HTM">$0203</A>        (Hi)
+A1CB: 9D 50 02  STA <A HREF="RA810250.HTM">$0250</A>,X
+A1CE: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+A1D0: A9 89     LDA #$89         b3=1: EOI-Flag loeschen
+A1D2: 9D 34 02  STA <A HREF="RA810234.HTM">$0234</A>,X      Kanalstatus setzen
+A1D5: AD 04 02  LDA <A HREF="RA810200.HTM">$0204</A>        Ist die Startposition im Record angegeben ?
+A1D8: F0 11     BEQ $A1EB        nein, ==&gt;
+A1DA: 38        SEC
+A1DB: E9 01     SBC #$01         Startposition = 1 (Anfang) ?
+A1DD: F0 0C     BEQ $A1EB        ja, ==&gt;
+A1DF: DD 5E 02  CMP <A HREF="RA81025E.HTM">$025E</A>,X      mit Recordlaenge vergleichen
+A1E2: 90 07     BCC $A1EB        Zeigt Zeiger hinter Recordende ?
+A1E4: A9 51     LDA #$51         ja, 51, Overflow in Record
+A1E6: 8D AB 02  STA <A HREF="RA8102AB.HTM">$02AB</A>        bereitstellen und einfach
+A1E9: A9 00     LDA #$00         von Record-Anfang an ausgeben
+
+Einsprung von $A1D8, $A1DD, $A1E2:
+
+A1EB: 85 68     STA <A HREF="RA8168.HTM">$68</A>          Positionszeiger setzen
+A1ED: 20 89 8C  JSR <A HREF="RO818C89.HTM">$8C89</A>        Position des Records berechnen
+A1F0: 20 32 9E  JSR <A HREF="RO819E32.HTM">$9E32</A>        Side-Sektor ggf. laden
+A1F3: 50 08     BVC $A1FD        existiert der Side-Sektor ? ja, ==&gt;
+A1F5: A9 80     LDA #$80         b7=1: 'Record existiert nicht'
+A1F7: 20 D5 9C  JSR <A HREF="RO819CD3.HTM">$9CD5</A>        Status setzen
+A1FA: 4C EC A0  JMP <A HREF="RO81A0EC.HTM">$A0EC</A>        50, Record not present
+
+Einsprung von $A1F3:
+
+A1FD: 20 0D A2  JSR <A HREF="RO81A20D.HTM">$A20D</A>        Datenblock einlesen
+A200: A9 80     LDA #$80         b7: existiert der Record ?
+A202: 20 E4 9C  JSR <A HREF="RO819CD3.HTM">$9CE4</A>        (Dateistatus testen)
+A205: F0 03     BEQ $A20A        ja, ==&gt;
+A207: 4C EC A0  JMP <A HREF="RO81A0EC.HTM">$A0EC</A>        50, Record not present
+
+Einsprung von $A205:
+
+A20A: 4C 4C 80  JMP <A HREF="RO81804C.HTM">$804C</A>        00, Ok,00,00
+
+    <A HREF="RO81A15C.HTM">Previous Page</A> / <A HREF="RO81A20D.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

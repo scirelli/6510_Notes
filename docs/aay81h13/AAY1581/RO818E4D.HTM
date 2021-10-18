@@ -1,0 +1,19 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Aktiven Puffer wechseln ($cf8c)
+
+Einsprung von <A HREF="RO818D7D.HTM">$8E07</A>, <A HREF="RO818D7D.HTM">$8E2D</A>:
+
+8E4D: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+8E4F: B5 D1     LDA <A HREF="RA81D1.HTM">$D1</A>,X        1. Puffer umschalten
+8E51: 49 80     EOR #$80
+8E53: 95 D1     STA <A HREF="RA81D1.HTM">$D1</A>,X
+8E55: B5 D8     LDA <A HREF="RA81D8.HTM">$D8</A>,X        2. Puffer umschalten
+8E57: 49 80     EOR #$80
+8E59: 95 D8     STA <A HREF="RA81D8.HTM">$D8</A>,X
+8E5B: 60        RTS
+
+    <A HREF="RO818E37.HTM">Previous Page</A> / <A HREF="RO818E5C.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

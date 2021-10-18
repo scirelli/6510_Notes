@@ -1,0 +1,29 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $CFF1/53233:   Write data byte in buffer
+
+Jump from <A HREF="RO41CD73.HTM">$CD87</A>, <A HREF="RO41CF9B.HTM">$CFD0</A>, <A HREF="RO41CF9B.HTM">$CFE5</A>, <A HREF="RO41D19D.HTM">$D19D</A>, <A HREF="RO41D19D.HTM">$D1B0</A>, <A HREF="RO41D19D.HTM">$D1B5</A>, <A HREF="RO41D48D.HTM">$D4A8</A>, <A HREF="RO41D48D.HTM">$D4AD</A>, <A HREF="RO41D48D.HTM">$D4BB</A>,
+          <A HREF="RO41D48D.HTM">$D4C0</A>, <A HREF="RO41D48D.HTM">$D4C5</A>, <A HREF="RO41D6E4.HTM">$D74D</A>, <A HREF="RO41D6E4.HTM">$D754</A>, <A HREF="RO41D6E4.HTM">$D75B</A>, <A HREF="RO41DB62.HTM">$DB73</A>, <A HREF="RO41DB62.HTM">$DB95</A>, <A HREF="RO41DB62.HTM">$DB99</A>, <A HREF="RO41EC9E.HTM">$ECBE</A>,
+          <A HREF="RO41EC9E.HTM">$ECC3</A>, <A HREF="RO41EC9E.HTM">$ECC8</A>, <A HREF="RO41EC9E.HTM">$ECCB</A>, <A HREF="RO41EC9E.HTM">$ECD1</A>, <A HREF="RO41EC9E.HTM">$ECD6</A>, <A HREF="RO41EC9E.HTM">$ECE7</A>, <A HREF="RO41EC9E.HTM">$ECEC</A>, <A HREF="RO41EC9E.HTM">$ECEF</A>, <A HREF="RO41EC9E.HTM">$ECFA</A>,
+          <A HREF="RO41EC9E.HTM">$ED00</A>, <A HREF="RO41EC9E.HTM">$ED08</A>, <A HREF="RO41ED23.HTM">$ED26</A>, <A HREF="RO41ED23.HTM">$ED2C</A>, <A HREF="RO41ED23.HTM">$ED3D</A>, <A HREF="RO41ED23.HTM">$ED40</A>, <A HREF="RO41ED23.HTM">$ED43</A>, <A HREF="RO41ED59.HTM">$ED5E</A>:
+
+CFF1: 48        PHA             ; save data byte
+CFF2: 20 93 DF  JSR <A HREF="RO41DF93.HTM">$DF93</A>       ; get buffer number
+CFF5: 10 06     BPL $CFFD       ; associated buffer?
+CFF7: 68        PLA
+CFF8: A9 61     LDA #$61
+CFFA: 4C C8 C1  JMP <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 61, 'file not open'
+
+Jump from $CFF5, <A HREF="RO41DD8D.HTM">$DD92</A>:
+
+CFFD: 0A        ASL             ; buffer number times 2
+CFFE: AA        TAX             ; as index
+CFFF: 68        PLA             ; data byte
+D000: 81 99     STA (<A HREF="RA4199.HTM">$99</A>,X)     ; write in buffer
+D002: F6 99     INC <A HREF="RA4199.HTM">$99</A>,X       ; increment buffer pointer
+D004: 60        RTS
+
+    <A HREF="RO41CF9B.HTM">Previous Page</A> / <A HREF="RO41D005.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

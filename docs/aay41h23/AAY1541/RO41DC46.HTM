@@ -1,0 +1,71 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DC46/56390:   Read block, allocate buffer
+
+Jump from <A HREF="RO41D475.HTM">$D47E</A>, <A HREF="RO41D7C7.HTM">$D7E4</A>, <A HREF="RO41D7F3.HTM">$D80B</A>, <A HREF="RO41D9A0.HTM">$D9D0</A>:
+
+DC46: A9 01     LDA #$01
+DC48: 20 E2 D1  JSR <A HREF="RO41D1E2.HTM">$D1E2</A>       ; find channel and buffer for read
+DC4B: 20 B6 DC  JSR <A HREF="RO41DCB6.HTM">$DCB6</A>       ; set pointer
+DC4E: AD 4A 02  LDA <A HREF="RA41024A.HTM">$024A</A>       ; file type
+DC51: 48        PHA             ; save
+DC52: 0A        ASL
+DC53: 05 7F     ORA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+DC55: 95 EC     STA <A HREF="RA41EC.HTM">$EC</A>,X
+DC57: 20 9B D0  JSR <A HREF="RO41D09B.HTM">$D09B</A>       ; read block in buffer
+DC5A: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+DC5C: A5 80     LDA <A HREF="RA4180.HTM">$80</A>         ; track
+DC5E: D0 05     BNE $DC65       ; following track?
+DC60: A5 81     LDA <A HREF="RA4181.HTM">$81</A>         ; sector
+DC62: 9D 44 02  STA <A HREF="RA410244.HTM">$0244</A>,X     ; as end pointer
+
+Jump from $DC5E:
+
+DC65: 68        PLA             ; file type
+DC66: C9 04     CMP #$04        ; rel-file?
+DC68: D0 3F     BNE $DCA9       ; no
+DC6A: A4 83     LDY <A HREF="RA4183.HTM">$83</A>         ; secondary address
+DC6C: B9 2B 02  LDA <A HREF="RA41022B.HTM">$022B</A>,Y     ; channel number
+DC6F: 09 40     ORA #$40
+DC71: 99 2B 02  STA <A HREF="RA41022B.HTM">$022B</A>,Y     ; set flag for READ and WRITE
+DC74: AD 58 02  LDA <A HREF="RA410258.HTM">$0258</A>       ; record length
+DC77: 95 C7     STA <A HREF="RA41C7.HTM">$C7</A>,X
+DC79: 20 8E D2  JSR <A HREF="RO41D28E.HTM">$D28E</A>       ; find buffer for side-sector
+DC7C: 10 03     BPL $DC81       ; found?
+DC7E: 4C 0F D2  JMP <A HREF="RO41D1E2.HTM">$D20F</A>       ; 70, 'no channel'
+
+Jump from $DC7C:
+
+DC81: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+DC83: 95 CD     STA <A HREF="RA41CD.HTM">$CD</A>,X
+DC85: AC 59 02  LDY <A HREF="RA410259.HTM">$0259</A>
+DC88: 84 80     STY <A HREF="RA4180.HTM">$80</A>         ; track for side-sector
+DC8A: AC 5A 02  LDY <A HREF="RA41025A.HTM">$025A</A>
+DC8D: 84 81     STY <A HREF="RA4181.HTM">$81</A>         ; sector for side-sector
+DC8F: 20 D3 D6  JSR <A HREF="RO41D6D0.HTM">$D6D3</A>       ; transmit parameters to disk controller
+DC92: 20 73 DE  JSR <A HREF="RO41DE73.HTM">$DE73</A>       ; read block
+DC95: 20 99 D5  JSR <A HREF="RO41D599.HTM">$D599</A>       ; and verify
+
+Jump from <A HREF="RO41DCDA.HTM">$DD8A</A>:
+
+DC98: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+DC9A: A9 02     LDA #$02
+DC9C: 95 C1     STA <A HREF="RA41C1.HTM">$C1</A>,X       ; pointer for writing
+DC9E: A9 00     LDA #$00
+DCA0: 20 C8 D4  JSR <A HREF="RO41D4C8.HTM">$D4C8</A>       ; buffer pointer to zero
+DCA3: 20 53 E1  JSR <A HREF="RO41E120.HTM">$E153</A>       ; find next record
+DCA6: 4C 3E DE  JMP <A HREF="RO41DE3B.HTM">$DE3E</A>       ; get track and sector number
+
+Jump from $DC68:
+
+DCA9: 20 56 D1  JSR <A HREF="RO41D156.HTM">$D156</A>       ; get byte from buffer
+DCAC: A6 82     LDX <A HREF="RA4182.HTM">$82</A>         ; channel number
+DCAE: 9D 3E 02  STA <A HREF="RA41022E.HTM">$023E</A>,X     ; byte in output register
+DCB1: A9 88     LDA #$88        ; set flag for READ
+DCB3: 95 F2     STA <A HREF="RA41F2.HTM">$F2</A>,X
+DCB5: 60        RTS
+
+    <A HREF="RO41DBA5.HTM">Previous Page</A> / <A HREF="RO41DCB6.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

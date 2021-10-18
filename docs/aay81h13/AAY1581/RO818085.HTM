@@ -1,0 +1,26 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Sucht Drivenummer in der Befehlszeile ($c1d1)
+Die Position wird in $0291 gespeichert (0: keine Drivenummer)
+E: y: Position, an der die Suche beginnen soll
+Die Routine schaltet die Drive-LED an
+
+Einsprung von <A HREF="RO818EC5.HTM">$8EC5</A>, <A HREF="RO819678.HTM">$96BB</A>, <A HREF="RO81B262.HTM">$B262</A>:
+
+8085: A2 00     LDX #$00         Flag fuer 'keine Drivenummer'
+8087: 8E 91 02  STX <A HREF="RA810291.HTM">$0291</A>
+808A: A9 3A     LDA #$3A         Kommandozeile nach ':' durchsuchen
+808C: 20 1C 81  JSR <A HREF="RO81811C.HTM">$811C</A>
+808F: F0 05     BEQ $8096        nicht gefunden, dann ==&gt;
+8091: 88        DEY
+8092: 88        DEY              Position der Drivenummer merken
+8093: 8C 91 02  STY <A HREF="RA810291.HTM">$0291</A>        (steht genau vor dem ':')
+
+Einsprung von $808F:
+
+8096: 4C 51 82  JMP <A HREF="RO818251.HTM">$8251</A>        LED einschalten
+
+    <A HREF="RO81807C.HTM">Previous Page</A> / <A HREF="RO818099.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

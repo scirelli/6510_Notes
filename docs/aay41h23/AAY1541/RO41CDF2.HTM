@@ -1,0 +1,25 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $CDF2/52722:   Check buffer number and open channel
+
+Jump from <A HREF="RO41CD36.HTM">$CD36</A>, <A HREF="RO41CD73.HTM">$CD73</A>, <A HREF="RO41CD97.HTM">$CD9A</A>:
+
+CDF2: 20 D2 CD  JSR <A HREF="RO41CDD2.HTM">$CDD2</A>       ; check buffer number and open channel
+
+Jump from <A HREF="RO41CCF5.HTM">$CCF5</A>, <A HREF="RO41CD03.HTM">$CD03</A>:
+
+CDF5: A6 D3     LDX <A HREF="RA41D3.HTM">$D3</A>         ; channel number
+CDF7: BD 85 02  LDA <A HREF="RA410285.HTM">$0285</A>,X     ; buffer address
+CDFA: 29 01     AND #$01
+CDFC: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+CDFE: BD 87 02  LDA <A HREF="RA410285.HTM">$0287</A>,X
+CE01: 85 81     STA <A HREF="RA4181.HTM">$81</A>         ; sector
+CE03: BD 86 02  LDA <A HREF="RA410285.HTM">$0286</A>,X
+CE06: 85 80     STA <A HREF="RA4180.HTM">$80</A>         ; track
+CE08: 20 5F D5  JSR <A HREF="RO41D55F.HTM">$D55F</A>       ; track and sector ok?
+CE0B: 4C 00 C1  JMP <A HREF="RO41C100.HTM">$C100</A>       ; turn LED on
+
+    <A HREF="RO41CDD2.HTM">Previous Page</A> / <A HREF="RO41CE0E.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

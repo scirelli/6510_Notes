@@ -1,0 +1,45 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Block-Allocate ($cd03)
+
+8B2F: 20 AE 84  JSR <A HREF="RO8184AE.HTM">$84AE</A>        Auf Diskettenwechsel testen
+8B32: 20 32 8C  JSR <A HREF="RO818C2F.HTM">$8C32</A>        Blockparameter holen
+8B35: A5 4E     LDA <A HREF="RA814E.HTM">$4E</A>          Sektornummer merken
+8B37: 48        PHA
+8B38: 20 46 B7  JSR <A HREF="RO81B746.HTM">$B746</A>        naechsten freien Block auf dem Track suchen
+8B3B: F0 0B     BEQ $8B48        kein Block frei, ==&gt;
+8B3D: 68        PLA              mit altem Sektor vergleichen
+8B3E: C5 4E     CMP <A HREF="RA814E.HTM">$4E</A>          Ist der freie Sektor der gewuenschte ?
+8B40: D0 19     BNE $8B5B        nein, ==&gt;
+8B42: 20 72 B5  JSR <A HREF="RO81B572.HTM">$B572</A>        Block belegen
+8B45: 4C 50 80  JMP <A HREF="RO81804C.HTM">$8050</A>        00, ok,00,00 ==&gt;
+
+Einsprung von $8B3B:
+
+8B48: 68        PLA
+
+Einsprung von $8B59:
+
+8B49: A9 00     LDA #$00         mit Sektor 0 beginnen
+8B4B: 85 4E     STA <A HREF="RA814E.HTM">$4E</A>
+8B4D: E6 4D     INC <A HREF="RA814D.HTM">$4D</A>          naechsten Track probieren
+8B4F: A5 4D     LDA <A HREF="RA814D.HTM">$4D</A>          ist maximale Tracknummer + 1 erreicht ?
+8B51: CD 2C 02  CMP <A HREF="RA81022C.HTM">$022C</A>
+8B54: B0 0A     BCS $8B60        ja, ==&gt;
+8B56: 20 46 B7  JSR <A HREF="RO81B746.HTM">$B746</A>        einen freien Block auf dem Track suchen
+8B59: F0 EE     BEQ $8B49        nicht gefunden, ==&gt;
+
+Einsprung von $8B40:
+
+8B5B: A9 65     LDA #$65         65, no Block,tt,ss
+8B5D: 20 3F FF  JSR <A HREF="RO81FF00.HTM">$FF3F</A>        CMDERR-Ende
+
+Einsprung von $8B54:
+
+8B60: A9 65     LDA #$65         65, no Block,00,00
+8B62: 20 7C 80  JSR <A HREF="RO81807C.HTM">$807C</A>        T&amp;S=0, Ende
+
+    <A HREF="RO818B23.HTM">Previous Page</A> / <A HREF="RO818B65.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

@@ -1,0 +1,18 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $DE0C/56844:   Get following track and sector numbers
+
+Jump from <A HREF="RO41E207.HTM">$E2AD</A>, <A HREF="RO41E31C.HTM">$E3D7</A>:
+
+DE0C: 20 2B DE  JSR <A HREF="RO41DE2B.HTM">$DE2B</A>       ; set buffer pointer
+DE0F: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; following track number
+DE11: 85 80     STA <A HREF="RA4180.HTM">$80</A>
+DE13: C8        INY
+DE14: B1 94     LDA (<A HREF="RA4194.HTM">$94</A>),Y     ; and get sector number
+DE16: 85 81     STA <A HREF="RA4181.HTM">$81</A>
+DE18: 60        RTS
+
+    <A HREF="RO41DDFD.HTM">Previous Page</A> / <A HREF="RO41DE19.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

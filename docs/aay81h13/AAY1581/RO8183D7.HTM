@@ -1,0 +1,38 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Prueft, ob alle Dateien gefunden worden sind ($c617)
+A: x: Nummer eines Dateinamens, der noch fehlt
+
+Einsprung von <A HREF="RO818327.HTM">$8330</A>, <A HREF="RO818327.HTM">$83CE</A>:
+
+83D7: A9 FF     LDA #$FF         Flag: 'Alle Dateien der Kommandozeile im
+83D9: 8D A5 02  STA <A HREF="RA8102A5.HTM">$02A5</A>        Directory gefunden'
+83DC: AD 2F 02  LDA <A HREF="RA81022F.HTM">$022F</A>        Anzahl Dateinamen in Zaehler laden
+83DF: 8D 30 02  STA <A HREF="RA810230.HTM">$0230</A>        alle Dateinamen testen
+
+Einsprung von $83F2, <A HREF="RO818327.HTM">$8336</A>:
+
+83E2: CE 30 02  DEC <A HREF="RA810230.HTM">$0230</A>        &lt;-- (naechsten Dateinamen pruefen)
+83E5: 10 01     BPL $83E8        gibt es noch Dateien, nach denen gesucht
+83E7: 60        RTS              werden muss? nein, ==&gt;
+
+Einsprung von $83E5:
+
+83E8: AE 30 02  LDX <A HREF="RA810230.HTM">$0230</A>        Nummer des zu pruefenden Namens
+83EB: B5 F4     LDA <A HREF="RA81F4.HTM">$F4</A>,X        Flags fuer Joker im Parameter
+83ED: 30 05     BMI $83F4        b7=1: Joker vorhanden ? ja, (Dateiname
+                                kann mehrfach gefunden werden) ==&gt;
+83EF: BD 97 02  LDA <A HREF="RA810297.HTM">$0297</A>,X      wurde Datei schon gefunden
+83F2: D0 EE     BNE $83E2        Ja, (Datei hat keinen Joker, also kann nur
+                                 ein passender Eintrag existieren) ==&gt;
+
+Einsprung von $83ED:
+
+83F4: A9 00     LDA #$00         Flag: 'Noch nicht alle Dateien gefunden'
+83F6: 8D A5 02  STA <A HREF="RA8102A5.HTM">$02A5</A>        merken
+83F9: 60        RTS
+
+    <A HREF="RO818327.HTM">Previous Page</A> / <A HREF="RO8183FA.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

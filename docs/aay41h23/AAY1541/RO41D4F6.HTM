@@ -1,0 +1,19 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D4F6/54518:   Get byte from buffer
+
+Jump from <A HREF="RO41C5AC.HTM">$C5D1</A>, <A HREF="RO41CF1E.HTM">$CF39</A>, <A HREF="RO41CF1E.HTM">$CF40</A>, <A HREF="RO41DFD0.HTM">$E00E</A>, <A HREF="RO41E31C.HTM">$E39F</A>:
+
+D4F6: 85 71     STA <A HREF="RA4171.HTM">$71</A>         ; pointer lo
+D4F8: 20 93 DF  JSR <A HREF="RO41DF93.HTM">$DF93</A>       ; get buffer number
+D4FB: AA        TAX
+D4FC: BD E0 FE  LDA <A HREF="RO41FEE0.HTM">$FEE0</A>,X     ; hi-byte buffer address
+D4FF: 85 72     STA <A HREF="RA4172.HTM">$72</A>         ; pointer hi
+D501: A0 00     LDY #$00
+D503: B1 71     LDA (<A HREF="RA4171.HTM">$71</A>),Y     ; get byte from buffer
+D505: 60        RTS
+
+    <A HREF="RO41D4E8.HTM">Previous Page</A> / <A HREF="RO41D506.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

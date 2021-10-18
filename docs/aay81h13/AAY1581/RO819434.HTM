@@ -1,0 +1,38 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+interne Schreib-/Lesekanaele freigeben ($d4da)
+
+Einsprung von <A HREF="RO81804C.HTM">$806E</A>, <A HREF="RO81995C.HTM">$9968</A>, <A HREF="RO81A7F1.HTM">$A7FE</A>:
+
+9434: A9 11     LDA #$11         Lesekanal der SA 17
+9436: 85 52     STA <A HREF="RA8152.HTM">$52</A>
+9438: 20 9E 91  JSR <A HREF="RO81919E.HTM">$919E</A>        freigeben
+943B: A9 12     LDA #$12         Schreibkanal der SA 18
+943D: 85 52     STA <A HREF="RA8152.HTM">$52</A>
+943F: 4C 9E 91  JMP <A HREF="RO81919E.HTM">$919E</A>        freigeben
+----------------------------------
+Pufferzeiger des aktiven Puffers holen ($d4e8)
+E: $50    : Kanalnummer
+A: $64-$65: Pufferzeiger
+   a      : Pufferzeiger Lo
+----------------------------------
+
+Einsprung von <A HREF="RO818424.HTM">$844F</A>, <A HREF="RO81854D.HTM">$8564</A>, <A HREF="RO818BAE.HTM">$8BB1</A>, <A HREF="RO818E78.HTM">$8E9D</A>, <A HREF="RO819138.HTM">$913A</A>, <A HREF="RO819370.HTM">$9370</A>, <A HREF="RO819A2A.HTM">$9A34</A>,
+              <A HREF="RO819A2A.HTM">$9A40</A>, <A HREF="RO819F4C.HTM">$9F69</A>, <A HREF="RO81A0FD.HTM">$A113</A>, <A HREF="RO81A0FD.HTM">$A13A</A>:
+
+9442: 20 11 9F  JSR <A HREF="RO819F11.HTM">$9F11</A>        Aktiven Puffer holen
+
+Einsprung von <A HREF="RO819E75.HTM">$9E7A</A>:
+
+9445: 0A        ASL              &lt;-- Zeiger des Puffers a holen
+9446: AA        TAX
+9447: B5 BC     LDA <A HREF="RA81BB.HTM">$BC</A>,X        Pufferzeiger nach $64-$65
+9449: 85 65     STA <A HREF="RA8164.HTM">$65</A>
+944B: B5 BB     LDA <A HREF="RA81BB.HTM">$BB</A>,X
+944D: 85 64     STA <A HREF="RA8164.HTM">$64</A>
+944F: 60        RTS
+
+    <A HREF="RO819422.HTM">Previous Page</A> / <A HREF="RO819450.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

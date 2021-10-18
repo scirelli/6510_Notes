@@ -1,0 +1,40 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $C194/49556:   Prepare error msg after executing command
+
+Jump from <A HREF="RO41C8F0.HTM">$C99E</A>, <A HREF="RO41C9A1.HTM">$C9A4</A>, <A HREF="RO41CA88.HTM">$CAC9</A>, <A HREF="RO41CB5C.HTM">$CB6F</A>, <A HREF="RO41CB84.HTM">$CC18</A>, <A HREF="RO41CCF5.HTM">$CCFB</A>, <A HREF="RO41CD03.HTM">$CD16</A>, <A HREF="RO41CD56.HTM">$CD5C</A>, <A HREF="RO41CD5F.HTM">$CD70</A>,
+          <A HREF="RO41CD73.HTM">$CD94</A>, <A HREF="RO41CD97.HTM">$CDA0</A>, <A HREF="RO41CDA3.HTM">$CDB7</A>, <A HREF="RO41CDBD.HTM">$CDCF</A>, <A HREF="RO41D005.HTM">$D00B</A>, <A HREF="RO41D7C7.HTM">$D7F0</A>, <A HREF="RO41D940.HTM">$D99D</A>, <A HREF="RO41DAC0.HTM">$DAE6</A>, <A HREF="RO41DAC0.HTM">$DAFC</A>,
+          <A HREF="RO41E207.HTM">$E272</A>, <A HREF="RO41ED84.HTM">$EDB0</A>, <A HREF="RO41EE0D.HTM">$EEB4</A>:
+
+C194: A9 00     LDA #$00
+C196: 8D F9 02  STA <A HREF="RA4102F9.HTM">$02F9</A>
+
+Jump from <A HREF="RO41D9E3.HTM">$DA06</A>:
+
+C199: AD 6C 02  LDA <A HREF="RA41026C.HTM">$026C</A>       ; flag set?
+C19C: D0 2A     BNE <A HREF="RO41C1C8.HTM">$C1C8</A>       ; yes, then set error message
+C19E: A0 00     LDY #$00
+C1A0: 98        TYA             ; error number 0
+C1A1: 84 80     STY <A HREF="RA4180.HTM">$80</A>         ; track number 0
+
+Jump from <A HREF="RO41C823.HTM">$C87A</A>:
+
+C1A3: 84 81     STY <A HREF="RA4181.HTM">$81</A>         ; sector number 0
+C1A5: 84 A3     STY <A HREF="RA41A3.HTM">$A3</A>
+C1A7: 20 C7 E6  JSR <A HREF="RO41E6C7.HTM">$E6C7</A>       ; prepare 'ok' message
+C1AA: 20 23 C1  JSR <A HREF="RO41C123.HTM">$C123</A>       ; erase error flag
+
+Jump from <A HREF="RO41DAC0.HTM">$DAE9</A>, <A HREF="RO41DAC0.HTM">$DAFF</A>:
+
+C1AD: A5 7F     LDA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+C1AF: 8D 8E 02  STA <A HREF="RA41028E.HTM">$028E</A>       ; save as last drive number
+C1B2: AA        TAX
+C1B3: A9 00     LDA #$00
+C1B5: 95 FF     STA <A HREF="RA41FF.HTM">$FF</A>,X
+C1B7: 20 BD C1  JSR <A HREF="RO41C1BD.HTM">$C1BD</A>       ; erase input buffer
+C1BA: 4C DA D4  JMP <A HREF="RO41D4DA.HTM">$D4DA</A>       ; close internal channel
+
+    <A HREF="RO41C146.HTM">Previous Page</A> / <A HREF="RO41C1BD.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

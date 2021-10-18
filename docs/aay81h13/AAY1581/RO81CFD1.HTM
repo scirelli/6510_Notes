@@ -1,0 +1,17 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Controller initialisieren
+
+Einsprung von <A HREF="RO81C163.HTM">$C367</A>, <A HREF="RO81CADC.HTM">$CADC</A>:
+
+CFD1: AD E4 01  LDA <A HREF="RA8101E4.HTM">$01E4</A>        Befehl $d0: 'Force Interrupt'
+CFD4: 8D 00 60  STA <A HREF="WD810.HTM">$6000</A>        als Controller-Initialisierung
+CFD7: 20 2F AD  JSR <A HREF="RO81AD2F.HTM">$AD2F</A>        120 us Warten
+CFDA: 20 2F AD  JSR <A HREF="RO81AD2F.HTM">$AD2F</A>        ...
+CFDD: 20 2F AD  JSR <A HREF="RO81AD2F.HTM">$AD2F</A>        ...
+CFE0: 4C EC CB  JMP <A HREF="RO81CBEC.HTM">$CBEC</A>        auf Controller-Ready warten
+
+    <A HREF="RO81CFC0.HTM">Previous Page</A> / <A HREF="RO81CFE3.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

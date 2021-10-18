@@ -1,0 +1,126 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $D5C6/54726:   Additional attempts for read errors
+
+Jump from <A HREF="RO41D599.HTM">$D5B8</A>:
+
+D5C6: 98        TYA
+D5C7: 48        PHA
+D5C8: A5 7F     LDA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+D5CA: 48        PHA
+D5CB: BD 5B 02  LDA <A HREF="RA41025B.HTM">$025B</A>,X
+D5CE: 29 01     AND #$01        ; drive number
+D5D0: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>
+D5D2: A8        TAY
+D5D3: B9 CA FE  LDA <A HREF="RO41FECA.HTM">$FECA</A>,Y     ; bit model for drive
+D5D6: 8D 6D 02  STA <A HREF="RA41026D.HTM">$026D</A>
+D5D9: 20 A6 D6  JSR <A HREF="RO41D6A6.HTM">$D6A6</A>       ; read attempt
+D5DC: C9 02     CMP #$02
+D5DE: B0 03     BCS $D5E3       ; not ok?
+D5E0: 4C 6D D6  JMP $D66D       ; done
+
+Jump from $D5DE:
+
+D5E3: BD 5B 02  LDA <A HREF="RA41025B.HTM">$025B</A>,X     ; command code
+D5E6: 29 F0     AND #$F0        ; isolate
+D5E8: 48        PHA
+D5E9: C9 90     CMP #$90        ; code for write
+D5EB: D0 07     BNE $D5F4       ; no
+D5ED: A5 7F     LDA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+D5EF: 09 B8     ORA #$B8
+D5F1: 9D 5B 02  STA <A HREF="RA41025B.HTM">$025B</A>,X
+
+Jump from $D5EB:
+
+D5F4: 24 6A     BIT <A HREF="RA416A.HTM">$6A</A>
+D5F6: 70 39     BVS $D631
+D5F8: A9 00     LDA #$00
+D5FA: 8D 99 02  STA <A HREF="RA410299.HTM">$0299</A>       ; counter for searches next to track
+D5FD: 8D 9A 02  STA <A HREF="RA41029A.HTM">$029A</A>
+
+Jump from $D623:
+
+D600: AC 99 02  LDY <A HREF="RA410299.HTM">$0299</A>       ; counter
+D603: AD 9A 02  LDA <A HREF="RA41029A.HTM">$029A</A>
+D606: 38        SEC
+D607: F9 DB FE  SBC <A HREF="RO41FEDB.HTM">$FEDB</A>,Y     ; constants for read attempts
+D60A: 8D 9A 02  STA <A HREF="RA41029A.HTM">$029A</A>
+D60D: B9 DB FE  LDA <A HREF="RO41FEDB.HTM">$FEDB</A>,Y
+D610: 20 76 D6  JSR <A HREF="RO41D676.HTM">$D676</A>       ; position head next to track
+D613: EE 99 02  INC <A HREF="RA410299.HTM">$0299</A>       ; increment counter
+D616: 20 A6 D6  JSR <A HREF="RO41D6A6.HTM">$D6A6</A>       ; read attempt
+D619: C9 02     CMP #$02        ; return message
+D61B: 90 08     BCC $D625       ; smaller than 2, ok?
+D61D: AC 99 02  LDY <A HREF="RA410299.HTM">$0299</A>       ; load counter
+D620: B9 DB FE  LDA <A HREF="RO41FEDB.HTM">$FEDB</A>,Y     ; get constants
+D623: D0 DB     BNE $D600       ; not yet zero (table end)?
+
+Jump from $D61B:
+
+D625: AD 9A 02  LDA <A HREF="RA41029A.HTM">$029A</A>
+D628: 20 76 D6  JSR <A HREF="RO41D676.HTM">$D676</A>       ; position head
+D62B: B5 00     LDA <A HREF="RA4100.HTM">$00</A>,X
+D62D: C9 02     CMP #$02        ; return message
+D62F: 90 2B     BCC $D65C       ; ok?
+
+Jump from $D5F6:
+
+D631: 24 6A     BIT <A HREF="RA416A.HTM">$6A</A>
+D633: 10 0F     BPL $D644
+
+Jump from $D65A:
+
+D635: 68        PLA             ; command code
+D636: C9 90     CMP #$90        ; for writing?
+D638: D0 05     BNE $D63F       ; no
+D63A: 05 7F     ORA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+D63C: 9D 5B 02  STA <A HREF="RA41025B.HTM">$025B</A>,X     ; command code in table
+
+Jump from $D638, $D66B, <A HREF="RO41D599.HTM">$D5BF</A>:
+
+D63F: B5 00     LDA <A HREF="RA4100.HTM">$00</A>,X       ; return message
+D641: 20 0A E6  JSR <A HREF="RO41E60A.HTM">$E60A</A>       ; set error message
+
+Jump from $D633:
+
+D644: 68        PLA
+D645: 2C 98 02  BIT <A HREF="RA410298.HTM">$0298</A>
+D648: 30 23     BMI $D66D
+D64A: 48        PHA
+D64B: A9 C0     LDA #$C0        ; command code for head positioning
+D64D: 05 7F     ORA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+D64F: 95 00     STA <A HREF="RA4100.HTM">$00</A>,X       ; in command register
+
+Jump from $D653:
+
+D651: B5 00     LDA <A HREF="RA4100.HTM">$00</A>,X
+D653: 30 FC     BMI $D651       ; wait for execution
+D655: 20 A6 D6  JSR <A HREF="RO41D6A6.HTM">$D6A6</A>       ; attempt command execution again
+D658: C9 02     CMP #$02        ; return message
+D65A: B0 D9     BCS $D635       ; incorrect?
+
+Jump from $D62F:
+
+D65C: 68        PLA
+D65D: C9 90     CMP #$90        ; command code for writing
+D65F: D0 0C     BNE $D66D       ; no
+D661: 05 7F     ORA <A HREF="RA417F.HTM">$7F</A>         ; drive number
+D663: 9D 5B 02  STA <A HREF="RA41025B.HTM">$025B</A>,X     ; in table
+D666: 20 A6 D6  JSR <A HREF="RO41D6A6.HTM">$D6A6</A>       ; attempt execution again
+D669: C9 02     CMP #$02        ; return message
+D66B: B0 D2     BCS $D63F       ; error?
+
+Jump from $D5E0, $D648, $D65F:
+
+D66D: 68        PLA
+D66E: 85 7F     STA <A HREF="RA417F.HTM">$7F</A>         ; get drive number back
+D670: 68        PLA
+D671: A8        TAY
+D672: B5 00     LDA <A HREF="RA4100.HTM">$00</A>,X       ; error code
+D674: 18        CLC             ; end-of-execution flag
+D675: 60        RTS
+
+    <A HREF="RO41D599.HTM">Previous Page</A> / <A HREF="RO41D676.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

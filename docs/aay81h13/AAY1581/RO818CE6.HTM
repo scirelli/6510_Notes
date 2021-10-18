@@ -1,0 +1,37 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+24*8-Bit-Multiplikationsroutine ($ce4e)
+Rechnung: Reg1 = Reg2 * a + ($68)
+
+8CE6: 85 40     STA <A HREF="RA8140.HTM">$40</A>          [Die Bits in $40 werden der Reihe nach
+
+Einsprung von $8CF4:
+
+8CE8: 46 40     LSR <A HREF="RA8140.HTM">$40</A>           getestet (Lo-Bit zuerst).
+8CEA: 90 03     BCC $8CEF         Ist das Bit gesetzt,
+8CEC: 20 4C 8D  JSR <A HREF="RO818D4C.HTM">$8D4C</A>         dann wird Reg2 zu Reg1 addiert.
+
+Einsprung von $8CEA:
+
+8CEF: 20 44 8D  JSR <A HREF="RO818D41.HTM">$8D44</A>         Danach wird Reg2 *2 genommen und der
+8CF2: A5 40     LDA <A HREF="RA8140.HTM">$40</A>           Vorgang wiederholt, bis kein 1-Bit mehr in
+8CF4: D0 F2     BNE $8CE8         $40 ist. Reg2 wird also fuer Bit1 *1, fuer
+                                 Bit2 *2, ... und fuer Bit7 *128 genommen
+                                 (entsprechend der Wertigkeit der Bits).]
+8CF6: A5 68     LDA <A HREF="RA8168.HTM">$68</A>          ($68) zu Reg1 addieren
+8CF8: 18        CLC              [In $68 steht normalerweise die aktuelle
+8CF9: 65 5B     ADC <A HREF="RA815B.HTM">$5B</A>           Position im Record]
+8CFB: 85 5B     STA <A HREF="RA815B.HTM">$5B</A>
+8CFD: 90 06     BCC $8D05        1. Uebertrag ? nein, ==&gt;
+8CFF: E6 5C     INC <A HREF="RA815B.HTM">$5C</A>
+8D01: D0 02     BNE $8D05        2. Uebertrag ? nein, ==&gt;
+8D03: E6 5D     INC <A HREF="RA815B.HTM">$5D</A>
+
+Einsprung von $8CFD, $8D01:
+
+8D05: 60        RTS
+
+    <A HREF="RO818CC1.HTM">Previous Page</A> / <A HREF="RO818D06.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

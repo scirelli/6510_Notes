@@ -1,0 +1,54 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $CC1B/52251:   Perform [B] - Block/Buffer command
+
+CC1B: A0 00     LDY #$00
+CC1D: A2 00     LDX #$00
+CC1F: A9 2D     LDA #$2D        ; '-'
+CC21: 20 68 C2  JSR <A HREF="RO41C268.HTM">$C268</A>       ; search for minus sign
+CC24: D0 0A     BNE $CC30       ; found?
+
+Jump from $CC40:
+
+CC26: A9 31     LDA #$31
+CC28: 4C C8 C1  JMP <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 31, 'syntax error'
+
+Jump from $CC31, <A HREF="RO41CC6F.HTM">$CC9F</A>:
+
+CC2B: A9 30     LDA #$30
+CC2D: 4C C8 C1  JMP <A HREF="RO41C1C8.HTM">$C1C8</A>       ; 30, 'syntax error'
+
+Jump from $CC24:
+
+CC30: 8A        TXA
+CC31: D0 F8     BNE $CC2B       ; comma, then error
+CC33: A2 05     LDX #$05
+CC35: B9 00 02  LDA <A HREF="RA410200.HTM">$0200</A>,Y     ; char from buffer
+
+Jump from $CC3E:
+
+CC38: DD 5D CC  CMP <A HREF="RO41CC5D.HTM">$CC5D</A>,X     ; compare with 'AFRWEP'
+CC3B: F0 05     BEQ $CC42       ; found?
+CC3D: CA        DEX
+CC3E: 10 F8     BPL $CC38       ; compare with all characters
+CC40: 30 E4     BMI $CC26       ; not found, error
+
+Jump from $CC3B:
+
+CC42: 8A        TXA
+CC43: 09 80     ORA #$80        ; command number, set bit 7
+CC45: 8D 2A 02  STA <A HREF="RA41022A.HTM">$022A</A>
+CC48: 20 6F CC  JSR <A HREF="RO41CC6F.HTM">$CC6F</A>       ; get parameters
+CC4B: AD 2A 02  LDA <A HREF="RA41022A.HTM">$022A</A>
+CC4E: 0A        ASL             ; number times 2
+CC4F: AA        TAX             ; as index
+CC50: BD 64 CC  LDA <A HREF="RO41CC63.HTM">$CC64</A>,X     ; address of command hi
+CC53: 85 70     STA <A HREF="RA416F.HTM">$70</A>
+CC55: BD 63 CC  LDA <A HREF="RO41CC63.HTM">$CC63</A>,X     ; address lo
+CC58: 85 6F     STA <A HREF="RA416F.HTM">$6F</A>
+CC5A: 6C 6F 00  JMP (<A HREF="RA416F.HTM">$006F</A>)     ; jump to command
+
+    <A HREF="RO41CB84.HTM">Previous Page</A> / <A HREF="RO41CC5D.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

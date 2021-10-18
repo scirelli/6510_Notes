@@ -1,0 +1,25 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+Kurze Zeit warten (bei der 1571: $a47e)
+
+Einsprung von <A HREF="RO81ABCF.HTM">$AC85</A>, <A HREF="RO81ABCF.HTM">$AC8B</A>, <A HREF="RO81AD5C.HTM">$AE0E</A>, <A HREF="RO81AD5C.HTM">$AE1D</A>, <A HREF="RO81C163.HTM">$C36F</A>, <A HREF="RO81CFD1.HTM">$CFD7</A>, <A HREF="RO81CFD1.HTM">$CFDA</A>, <A HREF="RO81CFD1.HTM">$CFDD</A>:
+
+AD2F: 8A        TXA              2 &lt;-- (40 us warten)
+AD30: A2 0C     LDX #$0C         2
+AD32: D0 03     BNE $AD37        3 =&gt; 7
+
+Einsprung von <A HREF="RO81AD5C.HTM">$AE05</A>, <A HREF="RO81AD5C.HTM">$AE14</A>, <A HREF="RO81C163.HTM">$C352</A>, <A HREF="RO81CBF4.HTM">$CBFF</A>:
+
+AD34: 8A        TXA              2 &lt;-- (16 us warten)
+AD35: A2 03     LDX #$03         2 =&gt; 4
+
+Einsprung von $AD32, $AD38:
+
+AD37: CA        DEX              2
+AD38: D0 FD     BNE $AD37        3 =&gt; 5 * x
+AD3A: AA        TAX              2
+AD3B: 60        RTS              12 (incl. JSR)
+    <A HREF="RO81AD15.HTM">Previous Page</A> / <A HREF="RO81AD3C.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

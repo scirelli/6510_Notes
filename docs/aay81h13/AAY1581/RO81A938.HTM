@@ -1,0 +1,25 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+JCBMBOOT: Autoboot-Programm aufrufen
+
+Einsprung von <A HREF="RO818EC5.HTM">$8ED6</A>, <A HREF="RO81AFCA.HTM">$AFDB</A>, <A HREF="RO81FF00.HTM">$FF57</A>:
+
+A938: 20 0F AA  JSR <A HREF="RO81AA0F.HTM">$AA0F</A>        ERROR-Vektoren merken
+                                und auf JCBMBOOTRTN setzen
+A93B: 08        PHP              keine Wirkung
+A93C: 58        CLI
+A93D: A0 11     LDY #$11         Komandozeilenlaenge auf 17 Bytes setzen
+A93F: 84 29     STY <A HREF="RA8129.HTM">$29</A>
+
+Einsprung von $A948:
+
+A941: B9 26 A9  LDA <A HREF="RO81A926.HTM">$A926</A>,Y      Filename in Komandozeile schreiben
+A944: 99 00 02  STA <A HREF="RA810200.HTM">$0200</A>,Y
+A947: 88        DEY
+A948: 10 F7     BPL $A941
+A94A: 30 0A     BMI <A HREF="RO81A956.HTM">$A956</A>        Utility-Loader aufrufen
+
+    <A HREF="RO81A926.HTM">Previous Page</A> / <A HREF="RO81A94C.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

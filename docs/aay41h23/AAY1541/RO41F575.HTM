@@ -1,0 +1,88 @@
+<HTML><HEAD><TITLE>All_About_Your_1541-Online-Help Version 0.23</TITLE></HEAD>
+<BODY><PRE>
+
+ $F575/62837:   Write data block to disk
+
+Jump from <A HREF="RO41F56E.HTM">$F570</A>:
+
+F575: 20 E9 F5  JSR <A HREF="RO41F5E9.HTM">$F5E9</A>       ; calculate parity for buffer
+F578: 85 3A     STA <A HREF="RA413A.HTM">$3A</A>         ; and save
+F57A: AD 00 1C  LDA <A HREF="VIA20.HTM">$1C00</A>       ; read port B
+F57D: 29 10     AND #$10        ; isolate bit for 'write protect'
+F57F: D0 05     BNE $F586       ; not set, ok
+F581: A9 08     LDA #$08
+F583: 4C 69 F9  JMP <A HREF="RO41F969.HTM">$F969</A>       ; 26, 'write protect'
+
+Jump from $F57F:
+
+F586: 20 8F F7  JSR <A HREF="RO41F78F.HTM">$F78F</A>
+F589: 20 10 F5  JSR <A HREF="RO41F510.HTM">$F510</A>       ; find block header
+F58C: A2 09     LDX #$09
+
+Jump from $F58E, $F592:
+
+F58E: 50 FE     BVC $F58E       ; byte ready?
+F590: B8        CLV
+F591: CA        DEX
+F592: D0 FA     BNE $F58E
+F594: A9 FF     LDA #$FF
+F596: 8D 03 1C  STA <A HREF="VIA23.HTM">$1C03</A>       ; port A (read/write head) to output
+F599: AD 0C 1C  LDA <A HREF="VIA2C.HTM">$1C0C</A>
+F59C: 29 1F     AND #$1F
+F59E: 09 C0     ORA #$C0        ; change PCR to output
+F5A0: 8D 0C 1C  STA <A HREF="VIA2C.HTM">$1C0C</A>
+F5A3: A9 FF     LDA #$FF
+F5A5: A2 05     LDX #$05
+F5A7: 8D 01 1C  STA <A HREF="VIA21.HTM">$1C01</A>       ; write $FF to disk 5 times
+F5AA: B8        CLV
+
+Jump from $F5AB, $F5AF:
+
+F5AB: 50 FE     BVC $F5AB       ; as SYNC characters
+F5AD: B8        CLV
+F5AE: CA        DEX
+F5AF: D0 FA     BNE $F5AB
+F5B1: A0 BB     LDY #$BB
+
+Jump from $F5BD:
+
+F5B3: B9 00 01  LDA <A HREF="RA410100.HTM">$0100</A>,Y     ; bytes $1BB to $1FF to disk
+
+Jump from $F5B6:
+
+F5B6: 50 FE     BVC $F5B6
+F5B8: B8        CLV
+F5B9: 8D 01 1C  STA <A HREF="VIA21.HTM">$1C01</A>
+F5BC: C8        INY
+F5BD: D0 F4     BNE $F5B3
+
+Jump from $F5C8:
+
+F5BF: B1 30     LDA (<A HREF="RA4130.HTM">$30</A>),Y     ; write data buffer (256 bytes)
+
+Jump from $F5C1:
+
+F5C1: 50 FE     BVC $F5C1
+F5C3: B8        CLV
+F5C4: 8D 01 1C  STA <A HREF="VIA21.HTM">$1C01</A>
+F5C7: C8        INY
+F5C8: D0 F5     BNE $F5BF
+
+Jump from $F5CA:
+
+F5CA: 50 FE     BVC $F5CA       ; byte ready?
+F5CC: AD 0C 1C  LDA <A HREF="VIA2C.HTM">$1C0C</A>
+F5CF: 09 E0     ORA #$E0        ; PCR to input again
+F5D1: 8D 0C 1C  STA <A HREF="VIA2C.HTM">$1C0C</A>
+F5D4: A9 00     LDA #$00
+F5D6: 8D 03 1C  STA <A HREF="VIA23.HTM">$1C03</A>       ; port A (read/write head) to input
+F5D9: 20 F2 F5  JSR <A HREF="RO41F5F2.HTM">$F5F2</A>
+F5DC: A4 3F     LDY <A HREF="RA413F.HTM">$3F</A>
+F5DE: B9 00 00  LDA <A HREF="RA4100.HTM">$00</A>,Y
+F5E1: 49 30     EOR #$30        ; convert command code 'write' to 'verify'
+F5E3: 99 00 00  STA <A HREF="RA4100.HTM">$00</A>,Y
+F5E6: 4C B1 F3  JMP <A HREF="RO41F3B1.HTM">$F3B1</A>
+
+    <A HREF="RO41F56E.HTM">Previous Page</A> / <A HREF="RO41F5E9.HTM">Next Page</A>
+
+</PRE></BODY></HTML>

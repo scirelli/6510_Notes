@@ -1,0 +1,58 @@
+<HTML><HEAD><TITLE>All_About_Your_1581-Online-Help Version 0.13</TITLE></HEAD>
+<BODY><PRE>
+
+letzten Dateiblock abspeichern ($db62)
+
+Einsprung von <A HREF="RO81999F.HTM">$99BC</A>:
+
+9A2A: A6 50     LDX <A HREF="RA8150.HTM">$50</A>          Kanalnummer holen
+9A2C: BD 49 02  LDA <A HREF="RA810249.HTM">$0249</A>,X      aktuelle Programmlaenge &gt; 0 ?
+9A2F: 1D 50 02  ORA <A HREF="RA810250.HTM">$0250</A>,X
+9A32: D0 0C     BNE $9A40        ja, ==&gt;
+9A34: 20 42 94  JSR <A HREF="RO819434.HTM">$9442</A>        aktuellen Pufferzeiger holen
+9A37: C9 02     CMP #$02         = Beginn des Datenbereichs (Block leer) ?
+9A39: D0 05     BNE $9A40        nein, ==&gt;
+
+[Die Datei ist absolut leer !!! Da die Mindest-Dateilaenge aber 1 Byte ist,
+ wird die Datei um ein CR 'erweitert'.]
+
+9A3B: A9 0D     LDA #$0D         ja: CR in Puffer schreiben
+9A3D: 20 B1 8E  JSR $8EB1        [Pufferzeiger = $03 !]
+
+Einsprung von $9A32, $9A39:
+
+9A40: 20 42 94  JSR <A HREF="RO819434.HTM">$9442</A>        Pufferzeiger holen
+9A43: C9 02     CMP #$02         Ist der Puffer noch leer ?
+9A45: D0 12     BNE $9A59        nein, ==&gt;
+
+[Der letzte Block wurde genau gefuellt. Deshalb muss der aktuelle Block
+ wieder von der Datei 'abgezogen' werden.]
+
+9A47: 20 7D 8D  JSR <A HREF="RO818D7D.HTM">$8D7D</A>        Puffer wechseln
+9A4A: A6 50     LDX <A HREF="RA8150.HTM">$50</A>
+9A4C: BD 49 02  LDA <A HREF="RA810249.HTM">$0249</A>,X      Dateilaenge -1
+9A4F: D0 03     BNE $9A54        [Eigentlich, so meint man, muesste der Block
+9A51: DE 50 02  DEC <A HREF="RA810250.HTM">$0250</A>,X       in der BAM auch freigegeben werden !?]
+
+Einsprung von $9A4F:
+
+9A54: DE 49 02  DEC <A HREF="RA810249.HTM">$0249</A>,X
+9A57: A9 00     LDA #$00         Pufferzeiger auf 256 setzen
+
+Einsprung von $9A45:
+
+9A59: 38        SEC              Pufferzeiger -1 (zeigt nun auf das letzte
+9A5A: E9 01     SBC #$01         Datenbyte)
+9A5C: 48        PHA              merken
+9A5D: A9 00     LDA #$00         Pufferzeiger auf die Blockverkettung setzen
+9A5F: 20 22 94  JSR <A HREF="RO819422.HTM">$9422</A>
+9A62: 20 B1 8E  JSR $8EB1        $00: letzter Dateiblock in Puffer schreiben
+9A65: 68        PLA              Blocklaenge
+9A66: 20 B1 8E  JSR <A HREF="RO818EB1.HTM">$8EB1</A>        in Puffer schreiben
+9A69: 20 02 90  JSR <A HREF="RO818FFE.HTM">$9002</A>        Block auf Diskette schreiben
+9A6C: 20 ED 94  JSR <A HREF="RO8194DE.HTM">$94ED</A>        Jobausfuehrung ueberwachen
+9A6F: 4C 7D 8D  JMP <A HREF="RO818D7D.HTM">$8D7D</A>        Puffer wechseln
+
+    <A HREF="RO81999F.HTM">Previous Page</A> / <A HREF="RO819A72.HTM">Next Page</A>
+
+</PRE></BODY></HTML>
