@@ -2,10 +2,24 @@
 
 ## Registers
 ###### ADDR/PC - Program counter. Tells the 6510 where to get the next instruction from.  
+This register points the address from which the next instruction byte (opcode or parameter) will be fetched.
+Unlike other registers, this one is 16 bits in length. The low and high 8-bit halves of the register are called PCL and PCH, respectively.
+
+The Program Counter may be read by pushing its value on the stack. This can be done either by jumping to a subroutine or by causing an interrupt.
+
 ###### AR, XR, YR - Contents of the three registers.  
-###### SP - Stack pointer. More on this later.  
+###### SP - Stack pointer
+The NMOS 65xx processors have 256 bytes of stack memory, ranging from $0100 to $01FF. The S register is a 8-bit
+offset to the stack page. In other words, whenever anything is being pushed on the stack, it will be stored to the address `$0100+S`.  
+<br>
+The Stack pointer can be read and written by transfering its value to or from the index register X (see below) with the TSX and TXS instructions.
+
 
 ### Status Register
+This 8-bit register stores the state of the processor. The bits in this register are called flags. Most of the flags have something to do with arithmetic operations.  
+<br>
+The P register can be read by pushing it on the stack (with PHP or by causing an interrupt). If you only need to read one flag, you can use the branch instructions.  Setting the flags is possible by pulling the P register from stack or by using the flag set or clear instructions.
+
 ```
 Bits:    7 6 5 4 3 2 1 0  
          | | | | | | | |  
@@ -15,11 +29,30 @@ Flag:    N V - B D I Z C
 ###### N - Negative flag
 The negative flag is set/clear depending on what the MSB was after an operation. So if the MSB was 1, the flag would be set. So LDA #$A0 would set the N flag, because $A0 has the MSB as 1.
 
+ This flag will be set after any arithmetic operations (when any of the registers A, X or Y is being loaded with a value). Generally, the N flag will be copied from the topmost bit of the register being loaded.
+ <br>
+Note that TXS (Transfer X to S) is not an arithmetic operation. Also note that the BIT instruction affects the Negative flag just like arithmetic operations.  Finally, the Negative flag behaves differently in Decimal operations (see description below).
+
 ###### V - Overflow flag
 The overflow flag is usable pretty much only for signed numbers. It is set if the result changed the sign from negative to positive, or positive to negative in the wrong way. It only applies to math, not incrementing or decrementing. So for example, if $7F had $1 added, it would have a result of $80: which is 127 to -128, so that's overflow and would set the overflow flag.
+Like the Negative flag, this flag is intended to be used with 8-bit signed integer numbers. The flag will be affected by addition and subtraction, the instructions PLP, CLV and BIT, and the hardware signal -SO. Note that there is no SEV instruction, even though the MOS engineers loved to use East European abbreviations, like DDR (Deutsche Demokratische Republik vs. Data Direction Register). (The Russian abbreviation for their former trade association COMECON is SEV.) The -SO (Set Overflow) signal is available on some processors, at least the 6502, to set the V flag. This enables response to an I/O activity in equal or less than three clock cycles when using a BVC instruction branching to itself ($50 $FE).
+<br>
+The CLV instruction clears the V flag, and the PLP and BIT instructions copy the flag value from the bit 6 of the topmost stack entry or from memory.
+<br>
+After a binary addition or subtraction, the V flag will be set on a sign overflow, cleared otherwise.  What is a sign overflow?  For instance, if you are trying to add 123 and 45 together, the result (168) does not fit in a 8-bit signed integer (upper limit 127 and lower limit -128). Similarly, adding -123 to -45 causes the overflow, just like subtracting -45 from 123 or 123 from -45 would do.
+<br>
+Like the N flag, the V flag will not be set as expected in the Decimal mode. Later in this document is a precise operation description.
+<br>
+A common misbelief is that the V flag could only be set by arithmetic operations, not cleared.
 
 ###### - - Unused bit
-###### B - Reached current position from a break
+###### B - Break flag, Reached current position from a break
+ This flag is used to distinguish software (BRK) interrupts from hardware interrupts (IRQ or NMI). The B flag is always set except when the P register is being pushed on stack when jumping to an interrupt routine to process only a hardware interrupt.
+<br>
+The official NMOS 65xx documentation claims that the BRK instruction could only cause a jump to the IRQ vector ($FFFE). However, if an NMI interrupt occurs while executing a BRK instruction, the processor will jump to the NMI vector ($FFFA), and the P register will be pushed on the stack with the B flag set.
+
+
+
 ###### D - Decimal mode
 ###### I - Interrupt disable flag
 ###### Z - Zero flag 
@@ -178,6 +211,21 @@ Rotate the carry into the high byte ...and so on.
 
 ###### NOP - No op
 
+###### PHP - Push Processor Status on Stack
+
+###### PHA - Push Accumulator on Stack
+The PHA instruction pushes the value in A to the address pointed to by the stack pointer, and then decrements the stack pointer.
+
+###### PLA - Pull Accumulator from Stack
+The PLA instruction increments the stack pointer, and then loads the value pointed to by the stack pointer to A.
+
+A stack overflow happens when the stack pointer rolls over. Don't push when SP is $00, or pull when SP is $FF.
+###### TSX - Transfer stack pointer to X
+###### TXS - Transfer X to stack pointer
+
+
+
+
 
 ## Monitor Commands
 A ADDR OPC OPER  
@@ -204,12 +252,12 @@ View the registers.
 ### Usable Memory
 
 ```
-┏━━━━━━━━━━━┯━━━━━━━━━┯━━━━━━━━━━━━┯━━┯━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━┯━━━━━━━━━━━┯━━━━━━━━━━━━━━┓
-┃ Zero Page │         │Cassette    │  │ Basic RAM   │               │ Empty RAM      │I/O        │              ┃
-┃           │         │Buffer      │  │             │               │                │           │              ┃
-┃ 255 bytes │         │191bytes    │  │             │               │                │           │              ┃
-┗━━━━━━━━━━━┷━━━━━━━━━┷━━━━━━━━━━━━┷━━┷━━━━━━━━━━━━━┷━━━━━━━━━━━━━━━┷━━━━━━━━━━━━━━━━┷━━━━━━━━━━━┷━━━━━━━━━━━━━━┛
-$0000  $00FF|$0100    |$033C  $03FB|  |$0800   $9FFF|$A000     $BFFF|$C000      $CFFF|$D000 $DFFF|$E000     $FFFF
+┏━━━━━━━━━━━┯━━━━━━━━━━━━━┯━━━━━━━━━━━━┯━━┯━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━┯━━━━━━━━━━━┯━━━━━━━━━━━━━━┓
+┃ Zero Page │Hardware     │Cassette    │  │ Basic RAM   │               │ Empty RAM      │I/O        │              ┃
+┃           │ Stack       │Buffer      │  │             │               │                │           │              ┃
+┃ 255 bytes │ 255 bytes   │191bytes    │  │             │               │                │           │              ┃
+┗━━━━━━━━━━━┷━━━━━━━━━━━━━┷━━━━━━━━━━━━┷━━┷━━━━━━━━━━━━━┷━━━━━━━━━━━━━━━┷━━━━━━━━━━━━━━━━┷━━━━━━━━━━━┷━━━━━━━━━━━━━━┛
+$0000  $00FF|$0100   $01FF|$033C  $03FB|  |$0800   $9FFF|$A000     $BFFF|$C000      $CFFF|$D000 $DFFF|$E000     $FFFF
 ```
 $033C-$03FB
 : The cassette buffer, $033C-$03FB ($BF = 192 bytes) is a good spot to put short example programs.  
@@ -294,6 +342,12 @@ $A000-$BFFF and $E000-$FFFF
 ## Glossary
 MSB
 : most significant bit
+
+NMI
+: Non-Maskable Interupt
+P register
+: status register
+
 Addressing Modes
 : 
 * Implied - No address.
@@ -352,7 +406,6 @@ Addressing Modes
     ```
     The CPU reads what address is at $F0+whatever is in X. If X was 0, it'd get $2000. If 2, it'd get $3000. If 4, it'd get $4000.
 * Relative - An offset locating an address, used in branches (see part 3).
-
 
 
 
