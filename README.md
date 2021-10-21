@@ -170,7 +170,8 @@ Compare Instruction Results
 * The N flag will be bit 7 of A, X, or Y - Memory
 The compare instructions serve only one purpose; they provide information that can be tested by a subsequent branch instruction. For example, to branch if the contents of a register are less than an immediate or memory value, you would follow the compare instruction with a Branch on Carry Clear (BCC) instruction, as shown by the following:
 <br>  
-Example: Comparing Memory to the Accumulator
+Example: Comparing Memory to the Accumulator  
+
 ```
         CMP  $20     ;Accumulator less than location $20?
         BCC  THERE
@@ -180,6 +181,7 @@ HERE                 ;No, continue execution here.
         .
 THERE                ;Execute this if Accumulator is less than location $20.
 ```
+
 ###### CPX ADDR - Compare X with  
 ###### CPY ADDR - Compare Y with  
 
@@ -287,7 +289,7 @@ View the registers.
 
 ## Tips
 * 63 cycles available to the C64 processor on each scan line, except for one which only provides 23 cycles.
-
+* The computer generates an interrupt every 1/60th a second (16.6666ms) from a timer on the computer (usually from the CIA chip or the screen for those of you who are curious).
 
 ### Usable Memory
 
@@ -468,9 +470,21 @@ MSB
 
 NMI
 : Non-Maskable Interupt
+
 P register
 : status register
 
+Interrupt
+:
+The computer will save all the registers, jump to a subroutine - perform the instructions there (usually updating time, scanning the keyboard etc...) and then recall all the registers and return to the user program.
+
+IRQ
+:
+An IRQ interrupt describes an interrupt that we can allow to be "turned on" and "turned off" - ie: we can temporarily disable it if we have to.
+
+NMI
+:
+A NMI interrupt describes an interrupt which we can _not_ temporarily disable -- we will not be using NMI interrupts in this program.
 
 ## References
 - http://6502.org/source/
