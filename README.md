@@ -159,7 +159,27 @@ Branches if N is set.
 ###### BVS branches if V is set
 
 
-###### CMP ADDR - Compare A with  
+###### CMP ADDR - Compare A with 
+Compare Instruction Results
+
+|Compare Result|N|Z|C|
+|--------------|-|-|-|
+|A, X, or Y < Memory|*|0|0|
+|A, X, or Y = Memory|0|1|1|
+|A, X, or Y > Memory|*|0|1|
+* The N flag will be bit 7 of A, X, or Y - Memory
+The compare instructions serve only one purpose; they provide information that can be tested by a subsequent branch instruction. For example, to branch if the contents of a register are less than an immediate or memory value, you would follow the compare instruction with a Branch on Carry Clear (BCC) instruction, as shown by the following:
+<br>  
+Example: Comparing Memory to the Accumulator
+```
+        CMP  $20     ;Accumulator less than location $20?
+        BCC  THERE
+HERE                 ;No, continue execution here.
+        .
+        .
+        .
+THERE                ;Execute this if Accumulator is less than location $20.
+```
 ###### CPX ADDR - Compare X with  
 ###### CPY ADDR - Compare Y with  
 
@@ -266,6 +286,8 @@ View the registers.
 **VICE Monitor located at $E5CD**  
 
 ## Tips
+* 63 cycles available to the C64 processor on each scan line, except for one which only provides 23 cycles.
+
 
 ### Usable Memory
 
@@ -452,6 +474,7 @@ P register
 
 ## References
 - http://6502.org/source/
+  - http://6502.org/tutorials/compare_instructions.html
 - https://codebase64.org/  
 - https://www.c64-wiki.com/wiki/Memory_Map
   - https://www.c64-wiki.com/wiki/Indirect-indexed_addressing
@@ -459,3 +482,7 @@ P register
 - [Commodore 64 standard KERNAL Functions](https://sta.c64.org/cbm64krnfunc.html)
 - [Screen Functions](https://sta.c64.org/cbm64scrfunc.html)
 - [Commodore 64 memory map](https://sta.c64.org/cbm64mem.html)
+- http://turbo.style64.org/docs/turbo-macro-pro-editor
+- https://www.cs.cmu.edu/~dsladic/vice/doc/html/vice_2.html
+- https://sta.c64.org/cbm64pet.html
+- https://www.pagetable.com/c64ref/kernal/
