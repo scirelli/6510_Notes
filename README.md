@@ -398,8 +398,861 @@ $A000-$BFFF and $E000-$FFFF
 |$EA24	| Set pointer at memory addresses $00F3-$00F4 to current line in Color RAM, according to pointer at memory addresses $00D1-$00D2 to current line in screen memory.<br><br>Input: –<br>Output: –<br>Used registers: –|
 
 
+## Table of Routines (again)
+<table>
+    <thead>
+    <tr>
+        <th></th>
+        <th></th>
+        <th colspan="4">Registers</th>
+        <th></th>
+        <th colspan="3">Group</th>
+    </tr>
+    <tr>
+        <th>Address</th>
+        <th>NAME</th>
+        <th>A</th>
+        <th>X</th>
+        <th>Y</th>
+        <th>F</th>
+        <th>Descritption</th>
+        <th>Video</th>
+        <th>System</th>
+        <th>Serial</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>FF81</td>
+            <td>CINT</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td></td>
+            <td>Setup VIC,screen values, 8563...</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FF84</td>
+            <td>IOINIT</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td></td>
+            <td>Initialize VIC,SID,8563,CIA for system</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FF87</td>
+            <td>RAMTAS</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td></td>
+            <td>Initialize ram.</td>
+            <td></td>
+            <td>✓</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FF8D</td>
+            <td>VECTOR</td>
+            <td>✓</td>
+            <td></td>
+            <td>✓</td>
+            <td></td>
+            <td> Reads or Writes to Kernal RAM Vectors </td>
+            <td></td>
+            <td>✓</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FF90</td>
+            <td>SETMSG</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> Sets Kernal Messages On/Off
+            <td></td>
+            <td>✓</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FF93</td>
+            <td>SECND</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> Sends secondary address after LISTN   </td>
+            <td></td>
+            <td>✓</td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FF96</td>
+            <td>TKSA</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> Sends secondary address after TALK    </td>
+            <td></td>
+            <td>✓</td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FF99</td>
+            <td>MEMTOP</td>
+            <td></td>
+            <td>✓</td>
+            <td>✓</td>
+            <td></td>
+            <td> Read or set the top of system RAM.    </td>
+            <td></td>
+            <td>✓</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FF9C</td>
+            <td>MEMBOT</td>
+            <td></td>
+            <td>✓</td>
+            <td>✓</td>
+            <td></td>
+            <td> Read or set the bottom of system RAM. </td>
+            <td></td>
+            <td>✓</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FF9F</td>
+            <td>KEY</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> Scans Keyboard                        </td>
+            <td></td>
+            <td>✓</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FFA2</td>
+            <td>SETMO</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> -- Unimplemented Subroutine in All -- </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FFA5</td>
+            <td>ACPTR</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> Grabs byte from current talker        </td>
+            <td></td>
+            <td>✓</td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFA8</td>
+            <td>CIOUT</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> Output byte to current listener       </td>
+            <td></td>
+            <td>✓</td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFAB</td>
+            <td>UNTLK</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> Commands device to stop talking       </td>
+            <td></td>
+            <td>✓</td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFAE</td>
+            <td>UNLSN</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> Commands device to stop listening     </td>
+            <td></td>
+            <td>✓</td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFB1</td>
+            <td>LISTN</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> Commands device to begin listening    </td>
+            <td></td>
+            <td>✓</td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFB4</td>
+            <td>TALK</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> Commands device to begin talking      </td>
+            <td></td>
+            <td>✓</td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFB7</td>
+            <td>READSS</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> Returns I/O s
+            <td></td>
+            <td></td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFBA</td>
+            <td>SETLFS</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> Sets logical #, device #, secondary # </td>
+            <td></td>
+            <td></td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFBD</td>
+            <td>SETNAM</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> Sets pointer to filename.</td>
+            <td></td>
+            <td></td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFC0</td>
+            <td>OPEN</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td> Opens up a logical file.</td>
+            <td></td>
+            <td></td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFC3</td>
+            <td>CLOSE</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td> Closes a logical file.</td>
+            <td></td>
+            <td></td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFC6</td>
+            <td>CHKIN</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td> Set input channel</td>
+            <td></td>
+            <td></td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFC9</td>
+            <td>CHKOUT</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td> Set output channel</td>
+            <td></td>
+            <td></td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFCC</td>
+            <td>CLRCH</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td> Restore default channels</td>
+            <td></td>
+            <td></td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFCF</td>
+            <td>BASIN</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td>✓</td>
+            <td>Input from channel</td>
+            <td></td>
+            <td></td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFD2</td>
+            <td>BSOUT</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td>✓</td>
+            <td>Output to channel (aka CHROUT)</td>
+            <td>✓</td>
+            <td></td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFD5</td>
+            <td>LOAD</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>Load data from file</td>
+            <td></td>
+            <td></td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFD8</td>
+            <td>SAVE</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td> Save data to file</td>
+            <td></td>
+            <td></td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFDB</td>
+            <td>SETTIM</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> Sets internal (TI$) clock</td>
+            <td></td>
+            <td>✓</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FFDE</td>
+            <td>RDTIM</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td></td>
+            <td> Reads internal (TI$) clock</td>
+            <td></td>
+            <td>✓</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FFE1</td>
+            <td>STOP</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td> Scans and check for STOP key</td>
+            <td></td>
+            <td>✓</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FFE4</td>
+            <td>GETIN</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td> Reads buffered data from file</td>
+            <td></td>
+            <td></td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFE7</td>
+            <td>CLALL</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td> Close all open files and channels</td>
+            <td></td>
+            <td></td>
+            <td>✓</td>
+        </tr>
+        <tr>
+            <td>FFEA</td>
+            <td>UDTIM</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td>Updates internal (TI$) clock</td>
+            <td></td>
+            <td>✓</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FFED</td>
+            <td>SCRORG</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td></td>
+            <td> Returns current window/screen size</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FFF0</td>
+            <td>PLOT</td>
+            <td></td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>Read or set cursor position</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FFF3</td>
+            <td>IOBASE</td>
+            <td></td>
+            <td>✓</td>
+            <td>✓</td>
+            <td></td>
+            <td>Read base of I/O block</td>
+            <td></td>
+            <td>✓</td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
 
-### Addressing Modes
+### The Routines Themselves
+
+#### Error handling
+For the routines in the KERNAL that return status codes (indicated by the `F` status in the chart) the *carry is set if there is an error*. Otherwise, the carry returned is clear.  
+If the carry is set, the error code is returned in the accumalator:  
+**NOTE**: Some of the I/O routines indicate the error code via the READST routine when setting the carry.          
+| .A |Meaning|                        
+|----|--------------------------|     
+| 0 | Stop Key pressed|               
+| 1 | Too Many Open Files|            
+| 2 | File Already Open|              
+| 3 | File Not Open|
+| 4 | File Not Found|
+| 5 | Device Not Present|
+| 6 | File Was Not Opened As Input|
+| 7 | File Was Not Opened As Output|
+| 8 | File Name Not Present|
+| 9 | Illegal Device Number|
+|41 | File Read Error|
+
+
+#### Device Numbers
+The following table lists the "standard" device numbers used by the C= Kernal.
+|Device # | Device Name                |
+|---------|----------------------------|
+|0     | Keyboard (standard input)  |
+|1     | Cassette                   |
+|2     | RS-232                     |
+|3     | Screen   (standard output) |
+|4 - 30| Serial Bus Devices         |
+|4-7| Printers        (typically)|
+|8-30| Disk Drives     (typically)|
+
+
+
+#### Routine Descriptions
+Listed below is a description of what each routine does, expected parameters.
+```
+Routine        : CINT
+ Kernal Address: $FF81
+ Description   : Setup VIC, screen values, (128: 8563)...
+ Registers In  : None.
+ Registers Out : None.
+ Memory Changed: Screen Editor Locations.
+
+Routine        : IOINIT
+ Kernal Address: $FF84
+ Description   : Initializes pertinant display and i/o devices
+ Registers In  : None.
+ Registers Out : .A, .X, .Y destroyed.
+ Memory Changed: CIA's, VIC, 8502 port
+ Note          : This routine automatically distinguishes a PAL system from a
+                 NTSC system and sets PALCNT accordingly for use in the 
+                 time routines.
+
+Routine        : RAMTAS
+ Kernal Address: $FF87
+ Description   : Clears Z-Page, Sets RS-232 buffers, top/bot Ram.
+ Registers In  : None.
+ Registers Out : .A, .X, .Y destroyed.
+ Memory Changed: Z-Page, Rs-232 buffers, top/bot Ram ptrs
+
+Routine        : VECTOR
+ Kernal Address: $FF8D
+ Description   : Copies / Stores KERNAL indirect RAM vectors.
+ Registers In  : .C = 0 (Set KERNAL Vectors) | .C = 1 (Duplicate KERNAL vectors)
+                 .XY = address of vectors    | .XY = address of user vectors
+ Registers Out : .A, .Y destroyed            | .A, .Y destroyed.
+ Memory Changed: KERNAL Vectors changed      | Vectors written to .XY
+ Note          : This routine is rarely used, usually the vectors are directly
+                 changed themselves. The vectors, in order, are :
+
+                 C128: IRQ,BRK,NMI,OPEN,CLOSE,CHKIN,CHKOUT,CLRCH,BASIN,BSOUT
+                       STOP,GETIN,CLALL,EXMON (monitor),LOAD,SAVE
+                 C64 : IRQ,BRK,NMI,OPEN,CLOSE,CHKIN,CHKOUT,CLRCH,BASIN,BSOUT
+                       STOP,GETIN,CLALL,USRCMD (not used),LOAD,SAVE
+
+Routine        : SETMSG
+ Kernal Address: $FF90
+ Description   : Set control of KERNAL control and error messages.
+ Registers In  : .A bit 7 = KERNAL Control Messages (1 = on)
+                    bit 6 = KERNAL Error   Messages (1 = on)
+ Registers Out : None.
+ Note          : KERNAL Control messages are those defined as Loading, Found etc
+                 ... KERNAL Error messages are I/O ERROR # messages which are
+                 listed as follows:
+
+Routine        : SECND
+ Kernal Address: $FF93
+ Description   : Sends secondary address to device after a LISTN
+ Registers In  : .A = secondary address
+ Registers Out : .A used.
+ Memory Changed: None.
+ Note          : Low level serial I/O - recommended use OPEN,CLOSE,CHROUT etc..
+
+Routine        : TKSA
+ Kernal Address: $FF96
+ Description   : Sends secondary address to device after TALK
+ Registers In  : .A = secondary address.
+ Registers Out : .A used.
+ Memory Changed: None.
+ Note          : Low level serial I/O - recommended use OPEN,CLOSE,CHROUT etc..
+
+Routine        : MEMTOP
+ Kernal Address: $FF99
+ Description   : Read or Set top of System Ram
+ Registers In  : .C = 1 (Read MemTop)     | .C = 0 (Set MemTop)
+                                          | .XY = top of memory
+ Registers Out : .XY = top of memory      | None.
+ Memory Changed: None.                    | Top of memory changed.
+ Note          : On the C=128, this routine refers to the top of BANK 0 RAM, not
+                 BANK 1 RAM.
+
+Routine        : MEMBOT
+ Kernal Address: $FF9C
+ Description   : Read or Set bottom of System Ram
+ Registers In  : .C = 1 (Read MemBot)     | .C = 0 (Set MemBot)
+                                          | .XY = bottom of memory.
+ Registers Out : .XY = bottom of memory   | None.
+ Memory Changed: None.                    | Bottom of Memory changed.
+ Note          : On the C=128, this routine refers to the bottom of BANK 0 RAM, 
+                 not, BANK 1 RAM.
+
+Routine        : KEY
+ Kernal Address: $FF9F
+ Description   : Scans Keyboard
+ Registers In  : None.
+ Registers Out : None.
+ Memory Changed: Relevant System Keyboard Values
+
+Routine        : SETMO
+ Kernal Address: $FFA2
+ Description   : This is a routine who's code never made it into any versions
+                 of the KERNAL on the C64, Vic-20 and C128.  Thus it is of no
+                 pratical use.
+
+Routine        : ACPTR
+ Kernal Address: $FFA5
+ Description   : Get byte from current talker.
+ Registers In  : None.
+ Registers Out : .A = data byte.
+ Memory Changed: None.
+ Note          : Low level serial I/O - recommended use OPEN,CLOSE,CHROUT etc..
+
+Routine        : CIOUT
+ Kernal Address: $FFA8
+ Description   : Output byte to current listener.
+ Registers In  : .A = byte.
+ Registers Out : .A used.
+ Memory Changed: None.
+ Note          : Low level serial I/O - recommended use OPEN,CLOSE,CHROUT etc..
+
+Routine        : UNTLK
+ Kernal Address: $FFAB
+ Description   : Commands current TALK device to stop TALKING.
+ Registers In  : None.
+ Registers Out : .A used.
+ Memory Changed: None.
+ Note          : Low level serial I/O - recommended use OPEN,CLOSE,CHROUT etc..
+
+Routine        : UNLSN
+ Kernal Address: $FFAE
+ Description   : Commands current listening device to stop listening.
+ Registers In  : None.
+ Registers Out : .A used.
+ Memory Changed: None.
+ Note          : Low level serial I/O - recommended use OPEN,CLOSE,CHROUT etc..
+
+Routine        : LISTN
+ Kernal Address: $FFB1
+ Description   : Commands device to begin listening.
+ Registers In  : .A = device #.
+ Registers Out : .A used.
+ Note          : Low level serial I/O - recommended use OPEN,CLOSE,CHROUT etc..
+
+Routine        : TALK
+ Kernal Address: $FFB4
+ Description   : Commands device to begin talking.
+ Registers In  : .A = device #.
+ Registers Out : .A used.
+ Memory Changed: None.
+ Note          : Low level serial I/O - recommended use OPEN,CLOSE,CHROUT etc..
+
+Routine        : READSS
+ Kernal Address: $FFB7
+ Description   : Return I/O status byte.
+ Registers In  : None.
+ Registers Out : .A = status byte. (see section on ERROR messages).
+ Memory Changed: None.
+
+Routine        : SETLFS
+ Kernal Address: $FFBA
+ Description   : Set logical file #, device #, secondary # for I/O.
+ Registers In  : .A = logical file #, .X = device #, .Y = secondary #
+ Registers Out : None.
+ Memory Changed: None.
+
+Routine        : SETNAM
+ Kernal Address: $FFBD
+ Description   : Sets pointer to filename in preperation for OPEN.
+ Registers In  : .A = string length, .XY = string address.
+ Registers Out : None.
+ Memory Changed: None.
+ Note          : To specify _no_ filename specify a length of 0.
+
+Routine        : OPEN
+ Kernal Address: $FFC0
+ Description   : Open up file that has been setup by SETNAM,SETLFS
+ Registers In  : None.
+ Registers Out : .A = error code, .X,.Y destroyed.
+                 .C = 1 if error.
+ Memory Changed: None.
+
+Routine        : CLOSE
+ Kernal Address: $FFC3
+ Description   : Close a logical file.
+ Registers In  : .A = logical file #.
+ Registers Out : .A = error code, .X,.Y destroyed.
+                 .C = 1 if error
+ Memory Changed: None.
+
+Routine        : CHKIN
+ Kernal Address: $FFC6
+ Description   : Sets input channel.
+ Registers In  : .X = logical file #.
+ Registers Out : .A = error code, .X,.Y destroyed.
+                 .C = 1 if error
+ Memory Changed: None.
+
+Routine        : CHKOUT
+ Kernal Address: $FFC9
+ Description   : Sets output channel.
+ Registers In  : .X = logical file #.
+ Registers Out : .A = error code, .X,.Y destroyed.
+                 .C = 1 if error
+ Memory Changed: None.
+
+Routine        : CLRCH
+ Kernal Address: $FFCC
+ Description   : Restore default input and output channels.
+ Registers In  : None.
+ Registers Out : .A, .X used.
+ Memory Changed: None.
+
+Routine        : BASIN
+ Kernal Address: $FFCF
+ Description   : Read character from current input channel.
+                 Cassette - Returned one character a time from cassette buffer.
+                 Rs-232   - Return one character at a time, waiting until 
+                            character is ready.
+                 Serial   - Returned one character at time, waiting if nessc.
+                 Screen   - Read from current cursor position.
+                 Keyboard - Read characters as a string, then return them 
+                            individually upon each call until all characters
+                            have been passed ($0d is the EOL).
+ Registers In  : None.
+ Registers Out : .A = character or error code, .C = 1 if error.
+ Memory Changed: None.
+
+Routine        : BSOUT aka CHROUT
+ Kernal Address: $FFD2
+ Description   : Output byte to current channel
+ Registers In  : .A = Byte
+ Registers Out : .C = 1 if ERROR (examine READST)
+ Memory Changed: Dependent upon current device.
+
+Routine        : LOAD
+ Kernal Address: $FFD5
+ Description   : Loads file into memory (setup via SETLFS,SETNAM)..
+ Registers In  : .A = 0 - Load, Non-0 = Verify
+                 .XY = load address (if secondary address = 0)
+ Registers Out : .A = error code .C = 1 if error.
+                 .XY = ending address 
+ Memory Changed: As per registers / data file.
+
+Routine        : SAVE
+ Kernal Address: $FFD8
+ Description   : Save section of memory to a file.
+ Registers In  : .A = Z-page ptr to start adress
+                 .XY = end address
+ Registers Out : .A = error code, .C = 1 if error.
+                 .XY = used.
+ Memory Changed: None.
+
+Routine        : SETTIM
+ Kernal Address: $FFDB
+ Description   : Set internal clock (TI$).
+ Registers In  : .AXY - Clock value in jiffies (1/60 secs).
+ Registers Out : None.
+ Memory Changed: Relevant system time locations set.
+
+Routine        : RDTIM
+ Kernal Address: $FFDE
+ Description   : Reads internal clock (TI$)
+ Registers In  : None.
+ Registers Out : .AXY - Clock value in jiffies (1/60 secs).
+                 A jiffy (be back in a jiffy) is a kernel unit of time. To understand jiffies, we need to introduce a new constant, HZ, which is the number of times jiffies is incremented in one second. Each increment is called a tick. In other words, HZ represents the size of a jiffy.
+ Memory Changed: None.
+
+Routine        : STOP
+ Kernal Address: FFE1
+ Description   : Scans STOP key.
+ Registers In  : None.
+ Registers Out : .A = last keyboard row, .X = destroyed (if stop key)
+ Memory Changed: None.
+ Note          : The last keyboard row is as follows:
+                 .A -> | 7   | 6   | 5   | 4   | 3   | 2   | 1  | 0
+                  KEY: |STOP |Q    |C=   |SPACE|2    |CTRL |<-  |1
+
+Routine       : GETIN
+ Kernal Address: $FFE4
+ Description   : Read buffered data from file.
+                 Keyboard - Read from keyboard buffer, else return null ($00).
+                 Rs-232   - Read from Rs-232 buffer, else null is returned.
+                 Serial   - See BASIN
+                 Cassette - See BASIN
+                 Screen   - See BASIN
+ Registers In  : None.
+ Registers Out : .A = character, .C = 1 if error.
+                 .XY = used.
+ Memory Changed: None.
+
+Routine       : CLALL
+ Kernal Address: $FFE7
+ Description   : Close all open files and channels.
+ Registers In  : None.
+ Registers Out : .AX used.
+ Memory Changed: None.
+ Note          : This routine does not _actually_ close the files, rather it
+                 removes their prescense from the file tables held in memory.
+                 It's recommended to use close to close files instead of using
+                 this routine.
+
+
+Routine        : UDTIME
+ Kernal Address: $FFEA
+ Description   : Update internal (TI$) clock by 1 jiffie (1/60 sec).
+ Registers In  : None.
+ Registers Out : .A,.X destroyed.
+ Memory Changed: Relevant system time locations changed.
+
+Routine        : SCRORG
+ Kernal Address: $FFED
+ Description   : Returns current window/screen size
+ Registers In  : None.
+ Registers Out : .X - Window Row Max
+                 .Y - Window Col Max
+                 .A - Screen Col Max (128 only, 64 unchanged)
+ Memory Changed: None
+
+Routine        : PLOT
+ Kernal Address: $FFF0
+ Description   : Read or set cursor position.
+ Registers In  : .C = 1 (Read)        |      .C = 0 (Set)
+                   None.              |        .X = Col
+                                      |        .Y = Row
+ Registers Out : .C = 1 (Read)        |      .C = 0 (Set) 
+                   .X = Current Col   |         None.
+                   .Y = Current Row   |
+ Memory Changed:  None                |      Screen Editor Locations.
+
+Routine        : IOBASE
+ Kernal Address: $FFF3
+ Description   : Returns base of I/O Block
+ Registers In  : None.
+ Registers Out : .XY = address of I/O block ($D000)
+ Memory Changed: Screen Editor Locations.
+```
+
+
+
+## Addressing Modes
 Note:  
 Indirect addressing modes do not handle page boundary crossing at all. When the parameter's low byte is $FF, the effective address wraps around and the CPU fetches high byte from $xx00 instead of $xx00+$0100. E.g. JMP ($01FF) fetches PCL from $01FF and PCH from $0100, and LDA ($FF),Y fetches the base address from $FF and $00.
 <br>  
@@ -485,6 +1338,11 @@ An IRQ interrupt describes an interrupt that we can allow to be "turned on" and 
 NMI
 :
 A NMI interrupt describes an interrupt which we can _not_ temporarily disable -- we will not be using NMI interrupts in this program.
+
+BA
+:
+Bus Available
+
 
 ## References
 - http://6502.org/source/
