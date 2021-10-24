@@ -1,0 +1,2 @@
+CHAR_CLR_SCREEN = $93
+CHAR_HOME       = $13
