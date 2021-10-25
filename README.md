@@ -1369,6 +1369,11 @@ CIA
 :
 Complex Interface Adapter
 
+BCD
+:
+Binary coded decimal.  In hex numbers over $99 are not valid. Only digits 0-9. This mode only effects ADC and SBC.
+
+
 ## References
 - http://6502.org/source/
   - http://6502.org/tutorials/compare_instructions.html
