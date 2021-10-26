@@ -1388,3 +1388,10 @@ Binary coded decimal.  In hex numbers over $99 are not valid. Only digits 0-9. T
 - https://www.cs.cmu.edu/~dsladic/vice/doc/html/vice_2.html
 - https://sta.c64.org/cbm64pet.html
 - https://www.pagetable.com/c64ref/kernal/
+- [Supermon+64](https://github.com/jblang/supermon64)
+  - https://www.youtube.com/watch?v=MEjnMt_3wkU
+    ```
+    LOAD"SUPERMON+64",8
+    LIST
+    RUN
+    ```

@@ -42,13 +42,15 @@ RASTER_LINE = 51
         LDA score
         ADC #$01
         STA score
+        BCC +
         LDA score+1
-        ADC #$00
+        ADC #$00                            ; Add 100's
         STA score+1
+        BCC +
         LDA score+2
-        ADC #$00
+        ADC #$00                            ; Thousands
         STA score+2
-        CLD                                 ; Clear decimal mode
++       CLD                                 ; Clear decimal mode
 
         JSR .display
         DEC ADDR_CUR_BORDER_COLOR           ; Change the border color back, ending the visual cue of frame time.
@@ -65,6 +67,7 @@ RASTER_LINE = 51
     PHA
     AND #$0F                                ; mask off high nibble
     JSR .plotDigit
+    DEY
 
     PLA
     LSR
@@ -72,6 +75,7 @@ RASTER_LINE = 51
     LSR
     LSR
     JSR .plotDigit
+    DEY
 
     INX
     CPX #$03
@@ -83,12 +87,11 @@ RASTER_LINE = 51
 ;       .A holds the digit to print
 ;       .Y is the index to the location on the screen to print the character. screen + .Y
 ; return: Nothing
-; Changes .A .Y .S
+; Changes .A .S
 .plotDigit:
     CLC
     ADC #CHAR_0
     STA ADDR_SCREEN, Y
-    DEY
     RTS
 
 
