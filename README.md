@@ -193,7 +193,27 @@ THERE                ;Execute this if Accumulator is less than location $20.
 ###### CPY ADDR - Compare Y with  
 
 ###### ORA - Logical OR to A
-ORA turns bits on.
+ORA turns bits on.  
+<br>  
+For each bit in the A register, ORA performs the following action:  
+|Original A Bit|Mask|Resulting A Bit|
+|0|0|0|
+|1|0|1|
+|0|1|1|
+|1|1|1|
+
+Examine the upper half of this table. When the mask is zero, the original bit in A is left unchanged. Examine the lower half. When the mask is one, the original bit is forced to "on". Hence, ORA can selectively turn bits on.  
+<br>  
+Example: Turn on bits 4, 5, and 6 in the following value: $C7  
+Original value:      11000111  
+Mask:           ORA  01110000  (hex 70)  
+                     --------  
+Result               11110111  
+                      xxx  
+Note that the bits marked have been forced to "on", while all other bits remain unchanged.  
+
+
+
 ###### AND - Logical AND to A
 AND turns bits off.
 For each bit in the A register, AND performs the following action:
@@ -212,7 +232,29 @@ Result               10000111
 Note that the bits marked have been forced to "off," while all other bits remain unchanged.  
 
 ###### EOR - Exclusive OR to A
-EOR flips bits over.
+EOR flips bits over.  
+<br>  
+For each bit in the A register, EOR performs the following action:  
+<br>  
+|Original A Bit|Mask|Resulting A Bit|
+|0|0|0|
+|1|0|1|
+|0|1|1|
+|1|1|0|
+<br>  
+Examine the upper half of this table. When the mask is zero, the original but in A is left unchanged. Examine the lower half. When the mask is one, the original bit is inverted; zero becomes one and one becomes zero. Hence, EOR can selectively fip bits over.  
+<br>  
+Example: Invert bits 4, 5, and 6 in the following value: $C7  
+<br>  
+Original value:      11000111  
+Mask:           EOR  01110000 (hex 70)  
+                     --------  
+Result:              10110111
+                      xxx  
+Note that the bits marked have been flipped to the opposite value, while all other bits remain unchanged.
+
+
+
 
 ###### ADC - Add with carry
 Make sure to CLC (clear carry) before any new addition. The carry bit is used to link different ADCs together for multi-byte addition
@@ -1520,6 +1562,9 @@ MiB
 Mebibyte (MiB), a multiple of the unit byte for digital information.  
 In December 1998, the IEC addressed such multiple usages and definitions by adopting the IUPAC's proposed prefixes (kibi, mebi, gibi, etc.) to unambiguously denote powers of 1024.[44] Thus one kibibyte (1 KiB),is 10241  bytes = 1024 bytes, one mebibyte (1 MiB) is 10242  bytes = 1048576 bytes, and so on.
 
+IA
+:
+Interface adaptors.
 
 ## References
 - http://6502.org/source/
