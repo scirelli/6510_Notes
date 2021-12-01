@@ -33,14 +33,14 @@ Bits:    7 6 5 4 3 2 1 0
 Flag:    N V - B D I Z C  
 ```
 ##### NV-BDIZC - Status register in binary.
-###### N - Negative flag
+###### N - Negative flag (negative, or high bit)
 The negative flag is set/clear depending on what the MSB was after an operation. So if the MSB was 1, the flag would be set. So LDA #$A0 would set the N flag, because $A0 has the MSB as 1.
 <br>  
 This flag will be set after any arithmetic operations (when any of the registers A, X or Y is being loaded with a value). Generally, the N flag will be copied from the topmost bit of the register being loaded.
 <br>  
 Note that TXS (Transfer X to S) is not an arithmetic operation. Also note that the BIT instruction affects the Negative flag just like arithmetic operations.  Finally, the Negative flag behaves differently in Decimal operations (see description below).
 
-###### V - Overflow flag
+###### V - Overflow flag (signed arithmetic overflow)
 The overflow flag is usable pretty much only for signed numbers. It is set if the result changed the sign from negative to positive, or positive to negative in the wrong way. It only applies to math, not incrementing or decrementing. So for example, if $7F had $1 added, it would have a result of $80: which is 127 to -128, so that's overflow and would set the overflow flag.
 <br>  
 Like the Negative flag, this flag is intended to be used with 8-bit signed integer numbers. The flag will be affected by addition and subtraction, the instructions PLP, CLV and BIT, and the hardware signal -SO. Note that there is no SEV instruction, even though the MOS engineers loved to use East European abbreviations, like DDR (Deutsche Demokratische Republik vs. Data Direction Register). (The Russian abbreviation for their former trade association COMECON is SEV.) The -SO (Set Overflow) signal is available on some processors, at least the 6502, to set the V flag. This enables response to an I/O activity in equal or less than three clock cycles when using a BVC instruction branching to itself ($50 $FE).
@@ -67,7 +67,7 @@ The Decimal mode has many oddities, and it operates differently on CMOS processo
 ###### I - Interrupt disable flag
 This flag can be used to prevent the processor from jumping to the IRQ handler vector ($FFFE) whenever the hardware line -IRQ is active. The flag will be automatically set after taking an interrupt, so that the processor would not keep jumping to the interrupt routine if the -IRQ signal remains low for several clock cycles.
 
-###### Z - Zero flag 
+###### Z - Zero flag (zero, or equal)
 This flag is set (1) if the result of a compare instruction was equal or the result of a previous instruction was zero, else it's clear (0). So if we did this:  
 ```
 LDX #$01
@@ -77,7 +77,7 @@ then DEX would make X zero, setting the zero flag. It will also be set if a load
 <br>  
 The flag will behave differently in Decimal operations.
 
-###### C - Carry flag.
+###### C - Carry flag (carry, or greater/equal)
 The carry flag is set if the result of a compare instruction was greater than or equal to, else it's clear. It also acts as a carry and borrow in addition and subtraction, and is important in multiplication and division.
 <br>  
 This flag is used in additions, subtractions, comparisons and bit rotations. In additions and subtractions, it acts as a 9th bit and lets you to chain operations to calculate with bigger than 8-bit numbers. When subtracting, the Carry flag is the negative of Borrow: if an overflow occurs, the flag will be clear, otherwise set. Comparisons are a special case of subtraction: they assume Carry flag set and Decimal flag clear, and do not store the result of the subtraction anywhere.
@@ -1510,7 +1510,8 @@ If both are occurring at 60 times per second, why not do the job of the system R
      Default Value: $00/0 (%00000000).
   ```
 
-
+### Multiply by Ten
+To multiply by ten, you first multiply by two; then multiply by two again. At this point, we have the original number times four. Now, add the original number, giving you the original number times five. Multiply by two one last time and you've got it.
 
 
 

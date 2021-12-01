@@ -29,19 +29,12 @@ SYS_GETIN       = $FFE4
     JSR SYS_GETIN
                 ; Numbers
     CMP #$30
-    BCC +       ; <
+    BCC .read   ; <
     CMP #$3A    ; One more than $39 (9)
-    BCS +       ; >=
+    BCS .read   ; >=
+    AND #$FE
     JSR SYS_CHROUT
     AND #$0F    ; Convert the key to binary digit.
-    JMP .read
-
-                ; Letters
-+   CMP #$41
-    BCC .read   ; <
-    CMP #$5B
-    BCS .read   ; >=
-    JSR SYS_CHROUT
     JMP .read
 
 .end:
