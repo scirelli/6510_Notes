@@ -1,3 +1,5 @@
+; ACME Syntax
+!cpu 6510
 ; Read number keys and add single digits, digits can total over 10, so 9+9 should print 18.
 CASSETTE_BUFFER = $033C ;828
 SYS_CHROUT      = $FFD2

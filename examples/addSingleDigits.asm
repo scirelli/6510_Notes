@@ -57,7 +57,7 @@ main:
 
 
 ;-------------------------
-; .readNumber
+; .readNumber: read number from keyboard
 ;   params:
 ;
 ;   return:

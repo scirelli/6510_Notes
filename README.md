@@ -261,7 +261,9 @@ Make sure to CLC (clear carry) before any new addition. The carry bit is used to
 
 
 ###### SBC - Subtract with carry
-The carry bit is used as a borrow for multi-byte subtraction. Need to set the carry (SEC) to prevent anything extra from being subtracted. 
+The carry bit is used as a borrow for multi-byte subtraction. Need to set the carry (SEC) to prevent anything extra from being subtracted.   
+If the numbers are unsigned, a clear C flag indicates overflow.  
+If the numbers are signed, a set V flag indicates overflow.
 
 ###### ASL - Arithmetic shift left
 It shifts bit 7 into carry, all other bits left, and 0 goes in bit 0. 
@@ -436,8 +438,297 @@ $A000-$BFFF and $E000-$FFFF
 |$FFF0	| PLOT. Save or restore cursor position.<br><br>Input: Carry: 0 = Restore from input, 1 = Save to output; X = Cursor column (if Carry = 0); Y = Cursor row (if Carry = 0).<br>Output: X = Cursor column (if Carry = 1); Y = Cursor row (if Carry = 1).<br>Used registers: X, Y.<br>Real address: $E50A.|
 |$FFF3	| IOBASE. Fetch CIA #1 base address.<br><br>Input: –<br>Output: X/Y = CIA #1 base address ($DC00).<br>Used registers: X, Y.<br>Real address: $E500.|
 
+### KERNAL Function Details
+#### SETLFS $FFBA
+Set up a logical file
+<br>  
+* Communication registers: A, X, Y
+* Preparatory routines: None
+* Error returns: None
+* Stack requirements: 2
+* Registers affected: None
+<br>  
+Description: This routine sets the logical file number, device address, and secondary address (command number) for other KERNAL routines.
+<br>  
+The logical file number is used by the system as a key to the file table created by the OPEN file routine. Device addresses can range from 0 to 31. The following codes are used by the Commodore 64 to stand for the CBM devices listed below:
+|ADDRESS|DEVICE|
+|-------|------|
+|0|Keyboard|
+|1|Datassette™|
+|2|RS-232C device|
+|3|CRT display|
+|4|Serial bus printer|
+|8|CBM serial bus disk drive|
+<br>  
+Device numbers 4 or greater automatically refer to devices on the serial bus.  
+<br>  
+A command to the device is sent as a secondary address on the serial bus after the device number is sent during the serial attention handshaking sequence. If no secondary address is to be sent, the Y index register should be set to 255.  
+How to Use:  
+<br>  
+* Load the accumulator with the logical file number.
+* Load the X index register with the device number.
+* Load the Y index register with the command.
+<br>  
+EXAMPLE:
+<br>  
+```
+  ;FOR LOGICAL FILE 32, DEVICE #4, AND NO COMMAND:
+  LDA #32
+  LDX #4
+  LDY #255
+  JSR SETLFS
+```
+
+#### SETNAM $FFDB
+Set file name  
+* Communication registers: A, X, Y
+* Preparatory routines:
+* Stack requirements: 2
+* Registers affected:
+Description: This routine is used to set up the file name for the OPEN, SAVE, or LOAD routines. The accumulator must be loaded with the length of the file name. The X and Y registers must be loaded with the address of the file name, in standard 6502 low-byte/high-byte format. The address can be any valid memory address in the system where a string of characters for the file name is stored. If no file name is desired, the accumulator must be set to 0, representing a zero file length. The X and Y registers can be set to any memory address in that case.  
+How to Use:
+<br>  
+* Load the accumulator with the length of the file name.
+* Load the X index register with the low order address of the file name.
+* Load the Y index register with the high order address.
+* Call this routine.
+<br>  
+EXAMPLE:
+```
+ LDA #NAME2-NAME     ;LOAD LENGTH OF FILE NAME
+ LDX #<NAME          ;LOAD ADDRESS OF FILE NAME
+ LDY #>NAME
+ JSR SETNAM
+```
+
+#### OPEN $FFC0
+Open a logical file
+* Communication registers: None
+* Preparatory routines: SETLFS, SETNAM
+* Error returns: 1,2,4,5,6,240, READST
+* Stack requirements: None
+* Registers affected: A, X, Y
+<br>  
+Description: This routine is used to OPEN a logical file. Once the logical file is set up, it can be used for input/output operations. Most of the I/O KERNAL routines call on this routine to create the logical files to operate on. No arguments need to be set up to use this routine, but both the SETLFS and SETNAM KERNAL routines must be called before using this routine.
+How to Use:  
+* Use the SETLFS routine.
+* Use the SETNAM routine.
+* Call this routine.
+<br>  
+EXAMPLE:
+<br>  
+This is an implementation of the BASIC statement: OPEN 15,8,15,"I/O"  
+```
+ LDA #NAME2-NAME    ;LENGTH OF FILE NAME FOR SETLFS
+ LDY #>NAME         ;ADDRESS OF FILE NAME
+ LDX #<NAME
+ JSR SETNAM
+ LDA #15
+ LDX #8
+ LDY #15
+ JSR SETLFS
+ JSR OPEN
+NAME .BYT 'I/O'
+NAME2
+```
+
+#### CLOSE $FFC3
+Close a logical file  
+* Communication registers: A
+* Preparatory routines: None
+* Error returns: 0,240 (See READST)
+* Stack requirements: 2+
+* Registers affected: A, X, Y
+<br>  
+Description: This routine is used to close a logical file after all I/O operations have been completed on that file. This routine is called after the accumulator is loaded with the logical file number to be closed (the same number used when the file was opened using the OPEN routine).  
+How to Use:
+* Load the accumulator with the number of the logical file to be closed.
+* Call this routine.
+<br>  
+EXAMPLE:
+```
+;CLOSE 15
+ LDA #15
+ JSR CLOSE
+ ```
 
 
+#### CHKIN $FFC6
+Open a channel for input  
+    * Communication registers: X
+    * Preparatory routines: (OPEN)
+    * Error returns: 0,3,5,6 (See READST)
+    * Stack requirements: None
+    * Registers affected: A, X
+Description: Any logical file that has already been opened by the KERNAL OPEN routine can be defined as an input channel by this routine. Naturally, the device on the channel must be an input device. Otherwise an error will occur, and the routine will abort.  
+<br>  
+If you are getting data from anywhere other than the keyboard, this routine must be called before using either the CHRIN or the GETIN KERNAL routines for data input. If you want to use the input from the keyboard, and no other input channels are opened, then the calls to this routine, and to the OPEN routine are not needed.
+<br>  
+When this routine is used with a device on the serial bus, it automatically sends the talk address (and the secondary address if one was specified by the OPEN routine) over the bus.
+How to Use:  
+* OPEN the logical file (if necessary; see description above).
+* Load the X register with number of the logical file to be used.
+* Call this routine (using a JSR command).
+<br>  
+EXAMPLE:
+```
+;PREPARE FOR INPUT FROM LOGICAL FILE 2
+LDX #2
+JSR CHKIN
+```
+
+#### CHKOUT $FFC9
+Open a channel for output
+* Communication registers: X
+* Preparatory routines: (OPEN)
+* Error returns: 0,3,5,7 (See READST)
+* Stack requirements: 4+
+* Registers affected: A, X
+<br>  
+Description: Any logical file number that has been created by the KERNAL routine OPEN can be defined as an output channel. Of course, the device you intend opening a channel to must be an output device. Otherwise an error will occur, and the routine will be aborted.
+<br>  
+This routine must be called before any data is sent to any output device unless you want to use the Commodore 64 screen as your output device. If screen output is desired, and there are no other output channels already defined, then calls to this routine, and to the OPEN routine are not needed.
+<br>  
+When used to open a channel to a device on the serial bus, this routine will automatically send the LISTEN address specified by the OPEN routine (and a secondary address if there was one).
+How to Use:
+REMEMBER: this routine is NOT NEEDED to send data to the screen.
+* Use the KERNAL OPEN routine to specify a logical file number, a LISTEN address, and a secondary address (if needed).
+* Load the X register with the logical file number used in the open statement.
+* Call this routine (by using the JSR instruction).
+<br>  
+EXAMPLE:  
+```
+LDX #3        ;DEFINE LOGICAL FILE 3 AS AN OUTPUT CHANNEL
+JSR CHKOUT
+```
+
+#### CLRCHN $FFCC
+Clear I/O channels
+* Communication registers: None
+* Preparatory routines: None
+* Error returns:
+* Stack requirements: 9
+* Registers affected: A, X
+<br>  
+Description: This routine is called to clear all open channels and restore the I/O channels to their original default values. It is usually called after opening other I/O channels (like a tape or disk drive) and using them for input/output operations. The default input device is 0 (keyboard). The default output device is 3 (the Commodore 64 screen).
+<br>  
+If one of the channels to be closed is to the serial port, an UNTALK signal is sent first to clear the input channel or an UNLISTEN is sent to clear the output channel. By not calling this routine (and leaving listener(s) active on the serial bus) several devices can receive the same data from the Commodore 64 at the same time. One way to take advantage of this would be to command the printer to TALK and the disk to LISTEN. This would allow direct printing of a disk file.
+<br>  
+This routine is automatically called when the KERNAL CLALL routine is executed.
+How to Use:  
+* Call this routine using the JSR instruction.
+
+EXAMPLE:
+```
+JSR CLRCHN
+```
+
+
+#### CHRIN $FFCF
+Get a character from the input channel
+* Communication registers: A
+* Preparatory routines: (OPEN, CHKIN)
+* Error returns: 0 (See READST)
+* Stack requirements: 7+
+* Registers affected: A, X
+Description: This routine gets a byte of data from a channel already set up as the input channel by the KERNAL routine CHKIN. If the CHKIN has NOT been used to define another input channel, then all your data is expected from the keyboard. The data byte is returned in the accumulator. The channel remains open after the call.
+<br>  
+Input from the keyboard is handled in a special way. First, the cursor is turned on, and blinks until a carriage return is typed on the keyboard. All characters on the line can be retrieved one at a time by calling this routine once for each character. When the carriage return is retrieved, the entire line has been processed. The next time this routine is called, the whole process begins again, i.e., by flashing the cursor.
+How to Use:
+FROM THE KEYBOARD
+1. Retrieve a byte of data by calling this routine.
+1. Store the data byte.
+1. Check if it is the last data byte (is it a CR?)
+1. If not, go to step 1.
+<br>  
+EXAMPLE:
+```
+     LDY $#00      ;PREPARE THE Y REGISTER TO STORE THE DATA
+RD   JSR CHRIN
+     STA DATA,Y    ;STORE THE YTH DATA BYTE IN THE YTH
+                   ;LOCATION IN THE DATA AREA.
+     INY
+     CMP #CR       ;IS IT A CARRIAGE RETURN?
+     BNE RD        ;NO, GET ANOTHER DATA BYTE
+```
+EXAMPLE:
+```
+JSR CHRIN
+STA DATA
+```
+FROM OTHER DEVICES
+1. Use the KERNAL OPEN and CHKIN routines.
+1. Call this routine (using a JSR instruction).
+1. Store the data.
+
+EXAMPLE:
+```
+JSR CHRIN
+STA DATA
+```
+
+#### CHROUT $FFD2
+* Communication registers: A
+* Preparatory routines: (CHKOUT,OPEN)
+* Error returns: 0 (See READST)
+* Stack requirements: 8+
+* Registers affected: A
+
+Description: This routine outputs a character to an already opened channel. Use the KERNAL OPEN and CHKOUT routines to set up the output channel before calling this routine, If this call is omitted, data is sent to the default output device (number 3, the screen). The data byte to be output is loaded into the accumulator, and this routine is called. The data is then sent to the specified output device. The channel is left open after the call.  
+NOTE: Care must be taken when using this routine to send data to a specific serial device since data will be sent to all open output channels on the bus. Unless this is desired, all open output channels on the serial bus other than the intended destination channel must be closed by a call to the KERNAL CLRCHN routine.  
+How to Use:
+* Use the CHKOUT KERNAL routine if needed, (see description above).
+* Load the data to be output into the accumulator.
+* Call this routine.
+
+EXAMPLE:
+```
+;DUPLICATE THE BASIC INSTRUCTION CMD 4,"A";
+LDX #4          ;LOGICAL FILE #4
+JSR CHKOUT      ;OPEN CHANNEL OUT
+LDA #'A
+JSR CHROUT      ;SEND CHARACTER
+```
+
+
+#### READST $FFB7
+Read status word
+* Communication registers: A
+* Preparatory routines: None
+* Error returns: None
+* Stack requirements: 2
+* Registers affected: A
+
+Description: This routine returns the current status of the I/O devices in the accumulator. The routine is usually called after new communication to an I/O device. The routine gives you information about device status, or errors that have occurred during the I/O operation.  
+<br>  
+The bits returned in the accumulator contain the following information: (see table below)  
+
+|ST Bit Position|ST Numeric Value|Cassette Read|Serial Bus R/W|Tape Verify + Load|
+|---------------|----------------|-------------|--------------|------------------|
+|0|1|time out write|
+|1|2|time out read|
+|2|4|short block|short block|
+|3|8|long block|long block|
+|4|16|unrecoverable read error|any mismatch|
+|5|32|checksum error|checksum error|
+|6|64|end of file|EOI line|
+|7|-128|end of tape|device not present|end of tape|
+How to Use:
+1. Call this routine.
+1. Decode the information in the A register as it refers to your program.
+<br>  
+EXAMPLE:
+```
+;CHECK FOR END OF FILE DURING READ
+     JSR READST
+     AND #64                       ;CHECK EOF BIT (EOF=END OF FILE)
+     BNE EOF                       ;BRANCH ON EOF
+```
+
+
+	
+
+	
 
 ## Commodore 64 Screen functions
 |Address|Function|
@@ -1320,6 +1611,68 @@ Routine        : IOBASE
 
 
 ## Addressing Modes
+The term *address mode* refers to the way in which the instruction obtains information. Depending on how you count them, there are up to 13 address modes used by the 650x microprocessor. They may be summarized as follows:
+1. No memory address: *implied*, *accumulator*.
+1. No address, but a value supplied: *immediate*.
+1. An address designated a single memory location: *absolute; zero-page*.
+1. An indexed address designating a range of 256 locations: *absolute, x*; *absolute, y*; *zero-page, x*; *zero-page*, y.
+1. A location in which the real (two-byte) jump address may be found: *indirect*.
+1. An offset value (e.g., forward 9, back 17) used for branch instructions: *relative*.
+1. Combination of indirect and indexed addresses, useful for reaching data anywhere in memory: *indirect*, *indexed*, *indirect*.
+<br>  
+### No Address: Implied Mode
+Instructions such as INX (increment X), BRK (break), and TAX (transfer A to Y) need no address; they make no memory reference and are complete in themselves. Such instructions occupy one byte of memory.
+### No Address: Accumulator Mode
+One byte instruction. Same characteristics as implied addressing, the whole instruction fits into one byte. The A register is implied.
+### Immediate Mode
+LDA #$34 does not reference a memory address. Instead, it designates a specific value. An instruction with immediate addressing takes up two bytes: one for the op code and the second for the immediate value.
+### Absolute Mode: A Single Address
+An instruction might specify any address within memory - from $0000 to $FFFF - and handle information from that address. Giving the full address is called absolute addressing.
+### Zeropage Mode
+A hexadecimal address such as $0381 is sixteen bits long and takes up two bytes of memory. We call the high byte (in this case $03), the "memory page" of the address. We might say that this address is in page 3 at position $81.
+<br>  
+Addresses such as $004C and $00F7 are in page zero; in fact, page zero consists of all addresses from $0000 to $00FF. Page-zero locations are vary popular and quite busy. There's an address mode specially designed to quickly get to these locations: zero-page addressing. We may think of it as a short address, and omit the first two digits. Instead of coding LDA $0090, we may write LDA $90, and the resulting code will occupy less space and run slightly faster.
+<br>  
+Zero-page locations are so popular that we'll have a hard time finding spare locatioons for our own programs. The few that are avaiable are for a special addressing mode, *indirect*, *indexed*.
+<br>  
+Useful zero-page addresses:  
+* $CB: key being pressed.
+### Absolute, Indexed Mode: A Range of 256 Addresses
+Give an absolute address, and then indicate that the contents of X or Y should be added to this address togive an *effective address*.
+<br>  
+Indexing is used only for data handling: it's available for such activities as load and store, but not for branch or jump. Many instructions give you a choice of X or Y as an index register; a few are limited to specifically to X or Y. Instructions that compare or store X and Y (CPX, CPY, STX, and STY) do not have absolute, indexed addressing; neither does the BIT instruction.
+<br>  
+An instruction using absolute, indexed addressing can reach up to 256 locations. Registers X and Y may hold values from 0 to 255, so that the effective address may range from the address given to 255, so that the effective address may range from the address given to 255 locations higher. Indexing always increases the address; there is no such thing as a negative index when used with an absolute address. The effective address is never lower than the instruction address.
+### Zero-Page, Indexed: All of Zero Page
+Zero-page, indexed addressing seems at first glance to be similar to the absolute, indexed mode. The address given has the selected index added to it. But there's a difference: in this case, the effective address can never leave zero page.
+<br>  
+This mode usually uses the X register; only two instructions, LDX and STX, use the Y register for zero-page, indexed addressing. In either case, the address "wraps around". As an example, if an instruction is coded `LDA $EA, X` and X register contains $50 at the time of execution, the effective address will be $0030. The total ($E0 + $50 or $130) will be trimmed back to zero page.
+<br>  
+Thus, any zero-page address can be indexed to reach any other place in zero page; the reach of 256 locations represents the whole of zero page. This creates a new possiblity: with zero-page, indexed addressing, we can achieve negative indexing. For this address mode only, we can index in a downward direction by using index register values such as $FF for -1, $FE for -2, and so on.
+### Branching: Relative Address Mode
+The assembler allowed us to enter actual addresses to which we want to branch. The assembler translates it to a different form - the relative address.
+<br>  
+Relative address means, "branch forward or backwards a certain number of bytes from this point." The relative address is one byte, making whole instruction two bytes long. **It's value is taken as a signed number**.
+<br>  
+A branch instruction with a relative address of $05 would mean, "if the branch is taken, skip the next 5 bytes." A branch instruction with a relative address of $F7 would mean, "if the branch is taken, back up 9 bytes from where you would otherwise be.". As a signed number, $F7 is equal to a value of -9.
+<br>  
+Calculate a branch by performing hexadecimal subtraction; the "target" address is subtracted from the PC address. If we have a branh at $0341 that should go to $033C, we would work as follows: $033C (the target) minus $0343 (the location following the branch instruction) wold give a result of $F9, or minus 7. Let the assembler do the math for you instead.
+<br>  
+The longest branches are: $7F, or 127 locations ahead; and $80, or 128 locations back.
+### Jumps in Indirect Mode: The ROM Link
+Jumps allow indirect addressing. JMP indirect is used for things like interrupts/interuppt vectors.
+### Indirect, Indexed: Data From Anywhere
+For indirect, indexed instructions the indirect address must be in zero-page - two bytes, organized low byte first. After the indirect address is obtained, it will be indexed with the Y register to form the final effective address.
+<br>  
+### Indexed, Indirect: A Rarity
+It uses the X register rather than the Y, and is coded as in the following example: `LDA ($C0, X)`. In this case indexing takes place first. The contents of X are added to the indirect address (in this case, $C0) to make an effective indirect address.
+### The Great Zero-Page Hunt
+There are only a few on the C64 (4)  
+$00FC to $00FF  
+<br>  
+You can also copy working parts of zero-page to some other part of memory. Put them back after you're done. Be careful not to use values used by interrupt routines.
+<br>  
+<br>  
 Note:  
 Indirect addressing modes do not handle page boundary crossing at all. When the parameter's low byte is $FF, the effective address wraps around and the CPU fetches high byte from $xx00 instead of $xx00+$0100. E.g. JMP ($01FF) fetches PCL from $01FF and PCH from $0100, and LDA ($FF),Y fetches the base address from $FF and $00.
 <br>  
@@ -1513,8 +1866,55 @@ If both are occurring at 60 times per second, why not do the job of the system R
 ### Multiply by Ten
 To multiply by ten, you first multiply by two; then multiply by two again. At this point, we have the original number times four. Now, add the original number, giving you the original number times five. Multiply by two one last time and you've got it.
 
+### Processor ports
+0) RAM doesn't depend on anything. RAM is RAM, it can hold whatever you want to put in it.
 
+1) I/O doesn't depend on anything either. So I/O can be mapped in all by itself. You can think of this as Demo mode, or Game mode. Demo and Game coders don't give a crap about BASIC or the KERNAL, they want to have as much memory available for their own routines and data as possible. But, of course, they need I/O, because they need to produce graphics, play music, get input from the keyboard and joysticks, and transfer data to and from disk.
 
+2) The KERNAL, on the other hand, needs I/O. The KERNAL's interrupt service routine scans the keyboard, but it needs CIA 1 to do that. It implements the IEC routines and the RS232 routines, but it needs CIA 2 to do any of that. Very bad things would happen if the KERNAL were patched in while I/O was not.
+
+3) Finally, BASIC is a high-level front end to the routines found in the KERNAL. BASIC, therefore, depends heavily on the KERNAL. Not the other way around though, the KERNAL can happily be used without BASIC (the default mode for C64 OS is KERNAL and I/O on, but BASIC off.)
+
+So you have a perfect dependence hierarchy. BASIC → KERNAL → I/O → RAM. This is not so obvious in the table from the Advanced ML book, because the table lays out the columns according to where these regions fall in memory, rather than how they depend on one another. Then it throws in the Character ROM which adds another layer of confusion. It is WAY simpler than it looks.
+|Dependence|Level|Binary Value|I/O Region|KERNAL Region|BASIC Region|
+|----------|-----|------------|----------|-------------|------------|
+|0|00|RAM|RAM|RAM|
+|1|01|I/O|RAM|RAM|
+|2|10|I/O|KERNAL|RAM|
+|3|11|I/O|KERNAL|BASIC|
+<br>  
+Now THIS table makes perfect sense. The binary value of the 2 bits is just the "dependency level" and each time you increase a level, it patches in the next thing in the dependency hierarchy. It's very straightforward. But, it gets even better. Because those 2 bits are the lowest 2 bits of the Processor Port, you can simply INC or DEC the address ($0001, which is in zero page so you can use ZP addressing mode with just $01.)
+<br>  
+The A, X and Y registers are not involved in the INC and DEC operations, making them very convenient to use. Suppose some code is being run from behind the KERNAL ROM, this is where C64 OS Utilities run. C64 OS puts the C64 into "ALL RAM" mode before jumping into a Utility's code. But let's say the Utility wants to change the border color. It must patch in I/O, the next dependency level. It can simply do this:
+```
+INC $01
+STA vic+$20
+DEC $01
+```
+None of the registers get disturbed, none of the higher bits in the Processor Port need to be worried about. It simply patches in I/O, writes a byte to the VIC chip, and patches I/O back out to return to a known consistent state.
+<br>  
+Let's say you're in an Application's main code. Application code runs from main memory (low memory.) And while Application code is running the mode is KERNAL and I/O patched in (level 2.) So let's say your code needs to call some routine in BASIC, super easy:
+```
+INC $01
+JSR memplus ;A floating point math routine in BASIC ROM.
+DEC $01
+```
+<br>  
+The INC $01 brings in BASIC, you call a BASIC routine, the DEC $01 cleanly brings us back to the known consistent state again.
+<br>  
+Or, let's say I'm in a C64 OS KERNAL routine, the default state, like that for Applications, is KERNAL and I/O patched in (level 2.) But let's say the routine needs to put something into the RAM beneath I/O. We've got to go down two levels of dependency. How hard can that be?
+```
+DEC $01 ;Patch out KERNAL
+DEC $01 ;Patch out I/O
+
+STA $D000 ;Write to RAM under I/O
+
+INC $01 ;Patch in I/O
+INC $01 ;Patch in KERNAL
+```
+<br>  
+It's unbelievably easy. It is so much more straightforward than the books make it sound. 
+<br>  
 
 
 ## Glossary
@@ -1590,3 +1990,4 @@ Interface adaptors.
     ```
 - https://commodore.software/
 - [Compute_s_Programming_the_Commodore_64_The_Definitive_Guide](https://archive.org/details/Compute_s_Programming_the_Commodore_64_The_Definitive_Guide)
+- http://www.c64os.com/post/6510procport Processor ports explained

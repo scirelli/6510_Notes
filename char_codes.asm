@@ -4,6 +4,6 @@ CHAR_0          = $30
 CHAR_PLUS       = $2B
 CHAR_EQUAL      = $3D
 CHAR_STOP       = $03
-
+CHAR_RETURN     = $0D
 CHAR_0          = $30
 CHAR_1          = $31
