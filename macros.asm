@@ -24,6 +24,8 @@
 ;	offsets to the frame pointer.
 ;------------------------------------------------------------
 !macro m_allocateStack .fp, .count {
+	LDX $#01
+	STX .fp + 1
 	TSX
 	STX .fp
 	TXA
@@ -40,4 +42,34 @@
 ;------------------------------------------------------------
 !macro m_NOT .v {
 	EOR #$FF
+}
+
+;------------------------------------------------------------
+; RAM Patching: Turning on and off RAM sections
+;------------------------------------------------------------
+!macro m_patchOutBasic {
+	DEC $01
+}
+!macro m_patchInBasic {
+	INC $01
+}
+
+!macro m_patchOutKernal {
+	DEC $01
+	DEC $01
+}
+!macro m_patchInKernal {
+	INC $01
+	INC $01
+}
+
+!macro m_patchOutIO {
+	DEC $01
+	DEC $01
+	DEC $01
+}
+!macro m_patchInIO {
+	INC $01
+	INC $01
+	INC $01
 }

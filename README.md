@@ -1917,6 +1917,19 @@ It's unbelievably easy. It is so much more straightforward than the books make i
 <br>  
 
 
+### Load labels into VICE Monitor
+Load your compiled program into memory in VICE.  
+Open the VICE monitor (not the emulated machine’s monitor). On my Mac, the shortcut is CMD-OPT-M.  
+Type in 'll "/path_to_the_prg_directory/labels.l"'. This tells VICE to load your labels file. You only need to do this once a VICE session, or after each compile if you are making changes. (I save this in a comment at the top of my source file, for easy retrieval).  
+Looking at your source code in Relaunch64, decide where you want to put a break point. For example, let's say we have a label "startUp" at the beginning of the program, and one named "_findNextPanel".  
+Type "break .labelname", where "labelname" matches a label name defined in your labels file. In our example above, we would type "break .startUp" and "break .getView:_findNextPanel". VICE will insert breakpoints based on the label names you provided.  
+Review the breakpoints by typing "break".  
+
+
+
+
+There are ~29,780.5 CPU cycles per frame on an NTSC NES.
+
 ## Glossary
 MSB
 : most significant bit
@@ -1991,3 +2004,10 @@ Interface adaptors.
 - https://commodore.software/
 - [Compute_s_Programming_the_Commodore_64_The_Definitive_Guide](https://archive.org/details/Compute_s_Programming_the_Commodore_64_The_Definitive_Guide)
 - http://www.c64os.com/post/6510procport Processor ports explained
+- [Patching RAM in and Out](http://www.c64os.com/post/6510procport)
+- [Maths](https://codebase64.org/doku.php?id=base:more_hexadecimal_to_decimal_conversion)
+- Bit about loading labels into vice. [load_labels](https://www.vintageisthenewold.com/debugging-6502-assembly-doesnt-have-to-be-awful-retrochallenge-2018-04-update-9)
+- [cc1541](https://bitbucket.org/PTV_Claus/cc1541/src/master/) Create disk images
+- [Sweet 16](http://www.6502.org/source/interpreters/sweet16.htm) 16 bit extension for 6502
+- [File formats](https://ist.uwaterloo.ca/~schepers/formats.html)
+- [BASIC Load data from disk](https://retrogamecoders.com/c64-write-load-data/)

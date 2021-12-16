@@ -1,4 +1,11 @@
 ;Load a file from disk
+; Create disk image
+; cc1541 -f t -T SEQ -w ./t.txt t.d64
+; BASIC to read it into a variable and print it.
+; 10 OPEN 1, 8, 8, "T, SEQ, R"
+; 20 INPUT#1,A$
+; 30 CLOSE 1
+; 40 PRINT A$
 
 CASSETTE_BUFFER = $033C ;828
 SYS_CHRIN   = $FFCF ; Get a character from the input channel
