@@ -10,4 +10,4 @@ CLRCHN = $FFCC ; Clear I/O channels
 CHRIN  = $FFCF ; Get a character from the input channel
 CHROUT = $FFD2 ; Output a character
 READST = $FFB7 ; Read status word
-
+SETMSG = $FF90 ; Turn on Kernal printing of messages.

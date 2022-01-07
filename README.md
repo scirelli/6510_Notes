@@ -1619,15 +1619,20 @@ The term *address mode* refers to the way in which the instruction obtains infor
 1. A location in which the real (two-byte) jump address may be found: *indirect*.
 1. An offset value (e.g., forward 9, back 17) used for branch instructions: *relative*.
 1. Combination of indirect and indexed addresses, useful for reaching data anywhere in memory: *indirect*, *indexed*, *indirect*.
-<br>  
-### No Address: Implied Mode
+
+
+### No Address: Implied Mode  
 Instructions such as INX (increment X), BRK (break), and TAX (transfer A to Y) need no address; they make no memory reference and are complete in themselves. Such instructions occupy one byte of memory.
+
 ### No Address: Accumulator Mode
 One byte instruction. Same characteristics as implied addressing, the whole instruction fits into one byte. The A register is implied.
+
 ### Immediate Mode
 LDA #$34 does not reference a memory address. Instead, it designates a specific value. An instruction with immediate addressing takes up two bytes: one for the op code and the second for the immediate value.
+
 ### Absolute Mode: A Single Address
 An instruction might specify any address within memory - from $0000 to $FFFF - and handle information from that address. Giving the full address is called absolute addressing.
+
 ### Zeropage Mode
 A hexadecimal address such as $0381 is sixteen bits long and takes up two bytes of memory. We call the high byte (in this case $03), the "memory page" of the address. We might say that this address is in page 3 at position $81.
 <br>  
@@ -1637,18 +1642,21 @@ Zero-page locations are so popular that we'll have a hard time finding spare loc
 <br>  
 Useful zero-page addresses:  
 * $CB: key being pressed.
+
 ### Absolute, Indexed Mode: A Range of 256 Addresses
 Give an absolute address, and then indicate that the contents of X or Y should be added to this address togive an *effective address*.
 <br>  
 Indexing is used only for data handling: it's available for such activities as load and store, but not for branch or jump. Many instructions give you a choice of X or Y as an index register; a few are limited to specifically to X or Y. Instructions that compare or store X and Y (CPX, CPY, STX, and STY) do not have absolute, indexed addressing; neither does the BIT instruction.
 <br>  
 An instruction using absolute, indexed addressing can reach up to 256 locations. Registers X and Y may hold values from 0 to 255, so that the effective address may range from the address given to 255, so that the effective address may range from the address given to 255 locations higher. Indexing always increases the address; there is no such thing as a negative index when used with an absolute address. The effective address is never lower than the instruction address.
+
 ### Zero-Page, Indexed: All of Zero Page
 Zero-page, indexed addressing seems at first glance to be similar to the absolute, indexed mode. The address given has the selected index added to it. But there's a difference: in this case, the effective address can never leave zero page.
 <br>  
 This mode usually uses the X register; only two instructions, LDX and STX, use the Y register for zero-page, indexed addressing. In either case, the address "wraps around". As an example, if an instruction is coded `LDA $EA, X` and X register contains $50 at the time of execution, the effective address will be $0030. The total ($E0 + $50 or $130) will be trimmed back to zero page.
 <br>  
 Thus, any zero-page address can be indexed to reach any other place in zero page; the reach of 256 locations represents the whole of zero page. This creates a new possiblity: with zero-page, indexed addressing, we can achieve negative indexing. For this address mode only, we can index in a downward direction by using index register values such as $FF for -1, $FE for -2, and so on.
+
 ### Branching: Relative Address Mode
 The assembler allowed us to enter actual addresses to which we want to branch. The assembler translates it to a different form - the relative address.
 <br>  
@@ -1659,13 +1667,17 @@ A branch instruction with a relative address of $05 would mean, "if the branch i
 Calculate a branch by performing hexadecimal subtraction; the "target" address is subtracted from the PC address. If we have a branh at $0341 that should go to $033C, we would work as follows: $033C (the target) minus $0343 (the location following the branch instruction) wold give a result of $F9, or minus 7. Let the assembler do the math for you instead.
 <br>  
 The longest branches are: $7F, or 127 locations ahead; and $80, or 128 locations back.
+
 ### Jumps in Indirect Mode: The ROM Link
 Jumps allow indirect addressing. JMP indirect is used for things like interrupts/interuppt vectors.
+
 ### Indirect, Indexed: Data From Anywhere
 For indirect, indexed instructions the indirect address must be in zero-page - two bytes, organized low byte first. After the indirect address is obtained, it will be indexed with the Y register to form the final effective address.
 <br>  
+
 ### Indexed, Indirect: A Rarity
 It uses the X register rather than the Y, and is coded as in the following example: `LDA ($C0, X)`. In this case indexing takes place first. The contents of X are added to the indirect address (in this case, $C0) to make an effective indirect address.
+
 ### The Great Zero-Page Hunt
 There are only a few on the C64 (4)  
 $00FC to $00FF  
@@ -1876,33 +1888,40 @@ To multiply by ten, you first multiply by two; then multiply by two again. At th
 3) Finally, BASIC is a high-level front end to the routines found in the KERNAL. BASIC, therefore, depends heavily on the KERNAL. Not the other way around though, the KERNAL can happily be used without BASIC (the default mode for C64 OS is KERNAL and I/O on, but BASIC off.)
 
 So you have a perfect dependence hierarchy. BASIC → KERNAL → I/O → RAM. This is not so obvious in the table from the Advanced ML book, because the table lays out the columns according to where these regions fall in memory, rather than how they depend on one another. Then it throws in the Character ROM which adds another layer of confusion. It is WAY simpler than it looks.
+
 |Dependence|Level|Binary Value|I/O Region|KERNAL Region|BASIC Region|
 |----------|-----|------------|----------|-------------|------------|
 |0|00|RAM|RAM|RAM|
 |1|01|I/O|RAM|RAM|
 |2|10|I/O|KERNAL|RAM|
 |3|11|I/O|KERNAL|BASIC|
+
 <br>  
 Now THIS table makes perfect sense. The binary value of the 2 bits is just the "dependency level" and each time you increase a level, it patches in the next thing in the dependency hierarchy. It's very straightforward. But, it gets even better. Because those 2 bits are the lowest 2 bits of the Processor Port, you can simply INC or DEC the address ($0001, which is in zero page so you can use ZP addressing mode with just $01.)
 <br>  
-The A, X and Y registers are not involved in the INC and DEC operations, making them very convenient to use. Suppose some code is being run from behind the KERNAL ROM, this is where C64 OS Utilities run. C64 OS puts the C64 into "ALL RAM" mode before jumping into a Utility's code. But let's say the Utility wants to change the border color. It must patch in I/O, the next dependency level. It can simply do this:
+The A, X and Y registers are not involved in the INC and DEC operations, making them very convenient to use. Suppose some code is being run from behind the KERNAL ROM, this is where C64 OS Utilities run. C64 OS puts the C64 into "ALL RAM" mode before jumping into a Utility's code. But let's say the Utility wants to change the border color. It must patch in I/O, the next dependency level. It can simply do this:  
+
 ```
 INC $01
 STA vic+$20
 DEC $01
 ```
+
 None of the registers get disturbed, none of the higher bits in the Processor Port need to be worried about. It simply patches in I/O, writes a byte to the VIC chip, and patches I/O back out to return to a known consistent state.
 <br>  
 Let's say you're in an Application's main code. Application code runs from main memory (low memory.) And while Application code is running the mode is KERNAL and I/O patched in (level 2.) So let's say your code needs to call some routine in BASIC, super easy:
+
 ```
 INC $01
 JSR memplus ;A floating point math routine in BASIC ROM.
 DEC $01
 ```
+
 <br>  
 The INC $01 brings in BASIC, you call a BASIC routine, the DEC $01 cleanly brings us back to the known consistent state again.
 <br>  
 Or, let's say I'm in a C64 OS KERNAL routine, the default state, like that for Applications, is KERNAL and I/O patched in (level 2.) But let's say the routine needs to put something into the RAM beneath I/O. We've got to go down two levels of dependency. How hard can that be?
+
 ```
 DEC $01 ;Patch out KERNAL
 DEC $01 ;Patch out I/O
@@ -1912,6 +1931,7 @@ STA $D000 ;Write to RAM under I/O
 INC $01 ;Patch in I/O
 INC $01 ;Patch in KERNAL
 ```
+
 <br>  
 It's unbelievably easy. It is so much more straightforward than the books make it sound. 
 <br>  
@@ -2011,3 +2031,14 @@ Interface adaptors.
 - [Sweet 16](http://www.6502.org/source/interpreters/sweet16.htm) 16 bit extension for 6502
 - [File formats](https://ist.uwaterloo.ca/~schepers/formats.html)
 - [BASIC Load data from disk](https://retrogamecoders.com/c64-write-load-data/)
+
+
+
+
+Example print alternate chars to screen in BASIC.
+```
+5 print chr$(14)chr$(8)
+10 print"Press any key to Continue"
+20 geta$:ifa$=""thengoto20
+30 print chr$(142)chr$(9)
+```
