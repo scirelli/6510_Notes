@@ -196,6 +196,7 @@ THERE                ;Execute this if Accumulator is less than location $20.
 ORA turns bits on.  
 <br>  
 For each bit in the A register, ORA performs the following action:  
+
 |Original A Bit|Mask|Resulting A Bit|
 |0|0|0|
 |1|0|1|
@@ -217,12 +218,14 @@ Note that the bits marked have been forced to "on", while all other bits remain 
 ###### AND - Logical AND to A
 AND turns bits off.
 For each bit in the A register, AND performs the following action:
+
 |Original A Bit|Mask|Resulting A Bit|
 |---|---|---|
 |0|0|0|
 |1|0|0|
 |0|1|0|
 |1|1|1|
+
 Examine the upper half of this table. When the mask is zero, the original bit in A is changed to zero. Examine the lower half. When the mask is one, the original bit is left unchanged. Hence, AND can selectively turn bits off.  
 Original value:      11000111  
 Mask:          AND   10001111  (hex 8F)  
@@ -236,21 +239,30 @@ EOR flips bits over.
 <br>  
 For each bit in the A register, EOR performs the following action:  
 <br>  
+
 |Original A Bit|Mask|Resulting A Bit|
 |0|0|0|
 |1|0|1|
 |0|1|1|
 |1|1|0|
+
 <br>  
+
 Examine the upper half of this table. When the mask is zero, the original but in A is left unchanged. Examine the lower half. When the mask is one, the original bit is inverted; zero becomes one and one becomes zero. Hence, EOR can selectively fip bits over.  
+
 <br>  
+
 Example: Invert bits 4, 5, and 6 in the following value: $C7  
 <br>  
+
 Original value:      11000111  
 Mask:           EOR  01110000 (hex 70)  
                      --------  
 Result:              10110111
                       xxx  
+
+<br>  
+
 Note that the bits marked have been flipped to the opposite value, while all other bits remain unchanged.
 
 
