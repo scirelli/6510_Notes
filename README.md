@@ -1962,6 +1962,12 @@ Review the breakpoints by typing "break".
 
 There are ~29,780.5 CPU cycles per frame on an NTSC NES.
 
+
+
+You can always turn a bit off by using the formula BYTEVALUE AND (255-BITVALUE)
+To switch all of the bits, you can EOR a number by 255: 10011010 = 154 EOR 11111111 = 255 = 01100101 = 101 Notice that this produces the complement of the original number (256 minus the number). Anytime you wish to flip a bit from 0 to 1, or 1 to 0, you can EOR it with the value of that bit.
+
+
 ## Glossary
 MSB
 : most significant bit
@@ -2043,6 +2049,8 @@ Interface adaptors.
 - [Sweet 16](http://www.6502.org/source/interpreters/sweet16.htm) 16 bit extension for 6502
 - [File formats](https://ist.uwaterloo.ca/~schepers/formats.html)
 - [BASIC Load data from disk](https://retrogamecoders.com/c64-write-load-data/)
+- [VIC-20_and_Commodore_64_Tool_Kit_Kernal](https://archive.org/details/COMPUTEs_VIC-20_and_Commodore_64_Tool_Kit_Kernal_1985_COMPUTE_Publications_a)
+- [ACME Assembler](https://sourceforge.net/p/acme-crossass/code-0/6/tree/trunk/docs/QuickRef.txt#l90)
 
 
 
