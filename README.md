@@ -1951,12 +1951,27 @@ It's unbelievably easy. It is so much more straightforward than the books make i
 
 ### Load labels into VICE Monitor
 Load your compiled program into memory in VICE.  
-Open the VICE monitor (not the emulated machine’s monitor). On my Mac, the shortcut is CMD-OPT-M.  
-Type in 'll "/path_to_the_prg_directory/labels.l"'. This tells VICE to load your labels file. You only need to do this once a VICE session, or after each compile if you are making changes. (I save this in a comment at the top of my source file, for easy retrieval).  
+Open the VICE monitor (not the emulated machine’s monitor). On my Mac, the shortcut is `CMD-OPT-M`.  
+Type in 
+```
+ll "/path_to_the_prg_directory/labels.l"
+```
+This tells VICE to load your labels file. You only need to do this once a VICE session, or after each compile if you are making changes. (I save this in a comment at the top of my source file, for easy retrieval).  
 Looking at your source code in Relaunch64, decide where you want to put a break point. For example, let's say we have a label "startUp" at the beginning of the program, and one named "_findNextPanel".  
 Type "break .labelname", where "labelname" matches a label name defined in your labels file. In our example above, we would type "break .startUp" and "break .getView:_findNextPanel". VICE will insert breakpoints based on the label names you provided.  
 Review the breakpoints by typing "break".  
 
+
+### Debugging Cheatsheet
+- VSCode open command menu `cmd+shift+P` then run
+- Open monitor `cmd+opt+M`
+- SYS 49152
+- Load labels
+  ```
+  ll "/path/to/labels/file.label"
+  ; Or
+  load_labels "/path/to/labels/file.label"
+  ```
 
 
 
